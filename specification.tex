@@ -1,0 +1,115 @@
+\documentclass[11pt]{report}
+\usepackage{verbatim}
+\usepackage{hyperref}
+\usepackage{titlesec}
+\usepackage{graphicx}
+\usepackage{inputenc}
+\usepackage{csquotes}
+\usepackage{booktabs}
+\usepackage{scrextend}
+\usepackage{tcolorbox}
+\usepackage{fancyvrb}
+\usepackage{titlesec}
+\addtokomafont{labelinglabel}{\textbf}
+\usepackage[papersize={8.5in,11in},centering,tmargin=1in]{geometry}
+\usepackage[T1]{fontenc}
+
+\usepackage{draftwatermark}
+\SetWatermarkText{DRAFT}
+\SetWatermarkScale{1}
+
+% font
+\usepackage{nimbusserif}
+\usepackage[scaled]{beramono}
+
+\usepackage{contour}
+\usepackage{ulem}
+
+\renewcommand{\thefootnote}{\fnsymbol{footnote}}
+
+% \under for nice underlines via https://alexwlchan.net/2017/10/latex-underlines/
+\renewcommand{\ULdepth}{1.8pt}
+\contourlength{0.8pt}
+\newcommand{\under}[1]{%
+  \uline{\phantom{#1}}%
+  \llap{\contour{white}{#1}}%
+}
+
+\newenvironment{inlinenote}
+{ \vspace{2mm}\textbf{Note}\begin{tcolorbox}[sharp corners] }
+{ \end{tcolorbox} }
+
+\newcommand{\code}[1]{\mbox{\under{\small\texttt{#1}}}}
+\newcommand{\term}[1]{\mbox{\textbf{#1}}}
+
+\renewcommand\UrlFont{\color{blue}\rmfamily\itshape}
+
+\titleformat{\chapter}{\normalfont\huge}{\thechapter}{20pt}{\centering\huge}
+\titlespacing*{\chapter}{0pt}{0pt}{20pt}
+\let\cleardoublepage=\clearpage
+
+\DefineVerbatimEnvironment{codesample}{Verbatim}{%
+	fontsize=\fontsize{9}{12},
+	xleftmargin=-0.175in,
+}
+
+\setlength{\parindent}{0em}
+\setlength{\parskip}{0.5em}
+
+\newcounter{specctr}
+\newcounter{specsubctr}
+\newcounter{specsubsubctr}
+\newcommand{\specitem}{
+	\par
+	\setlength{\leftskip}{0in}
+	\hangindent=0.25in
+	\setcounter{specsubctr}{0}
+	\stepcounter{specctr}
+	\label{spec:\thechapter.\thespecctr}
+	\textbf{\thechapter.\thespecctr:}
+}
+\newcommand{\specsubitem}{
+	\par
+	\setlength{\leftskip}{0in}
+	\hangindent=0.25in
+	\setlength{\leftskip}{0.25in}
+	\setcounter{specsubsubctr}{0}
+	\stepcounter{specsubctr}
+	\label{spec:\thechapter.\thespecctr.\thespecsubctr}
+	\thechapter.\thespecctr.\thespecsubctr:
+}
+\newcommand{\specsubsubitem}{
+	\par
+	\setlength{\leftskip}{0in}
+	\hangindent=0.25in
+	\setlength{\leftskip}{0.5in}
+	\stepcounter{specsubsubctr}
+	\thechapter.\thespecctr.\thespecsubctr.\Alph{specsubctr}:
+}
+\newcommand{\specchapter}[1]{
+\setcounter{specctr}{0}
+\setcounter{specsubctr}{0}
+\setcounter{specsubsubctr}{0}
+\chapter{#1}
+\label{ch:#1}
+}
+
+\newcommand{\example}[1]{\textit{EXAMPLE: #1}}
+\newcommand{\informative}[1]{\textit{#1}}
+
+\newcommand{\chref}[1]{\guillemotleft\ref{ch:#1}: #1\guillemotright}
+\newcommand{\appxref}[1]{\guillemotleft Appendix \ref{ap:#1}: #1\guillemotright}
+
+
+\begin{document}
+
+\include{abstract}
+
+\tableofcontents
+
+\include{introduction}
+\include{scope}
+\include{terms}
+\include{conformance}
+
+\end{document}

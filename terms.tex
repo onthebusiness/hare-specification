@@ -1,0 +1,16 @@
+\specchapter{Terms and definitions}
+
+\newcommand{\specterm}[1]{\specitem \term{#1}:}
+
+\specterm{alignment} a specific multiple of an octet-aligned storage address at
+which some data is required to be stored
+
+\specsubitem
+\example{An object with an alignment of 8 may be stored at addresses 8, 16, 32,
+and so on; but not at address 4.}
+
+\specterm{padding} unused octets added to the storage of some data in order to
+meet a required alignment
+
+\specterm{size} the number of octets required to represent some data, including
+padding
