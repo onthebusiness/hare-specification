@@ -111,14 +111,17 @@ the freestanding environment.
 \specsubsection{The hosted environment}
 
 \specsubsubitem
-In the hosted environment, the program entry point shall be a function named
-\code{main}. It shall have no parameters and no result type.
+In the hosted environment, the program entry point shall be an exported
+function named \code{main} in the global namespace. It shall have no parameters
+and no result type.
 
 \informative{The signature of a conformant entry point follows:}
 
 \begin{codesample}
 export fn main void;
 \end{codesample}
+
+\informative{The program shall provide this function in the global namespace.}
 
 \specsection{Diagnostics}
 
