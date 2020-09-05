@@ -37,8 +37,9 @@ module may be used repeatedly without repeating the translation step.
 \specsection{Translation steps}
 
 \specsubitem
-The list of source files constituting the translation unit are identified. The
-following two steps are repeated for each source file before moving on.
+The list of source files constituting the translation unit are identified. Steps
+\subitemref{Translation steps}{2} and \subitemref{Translation steps}{3} are
+repeated for each source file.
 
 \specsubitem
 Lexical analysis is conducted on the source file, translating it into a stream
@@ -50,9 +51,12 @@ abstract syntax tree (AST). The organizational model of this syntax tree shall
 be consistent with the grammar defined by \chref{Grammar}.
 
 \specsubitem
-Logical analysis is conducted on the AST. In this step, the implementation
+Logical analysis is conducted on the ASTs. In this step, the implementation
 verifies that the constraints imposed on the program. The result of this step is
 a \textit{verified program module}.
+
+\informative{In this step, a module composed of several source files is
+consolidated into a single verified program module.}
 
 \specsubitem
 The verified program module is combined with any external modules into a single
