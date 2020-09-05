@@ -97,6 +97,29 @@ finalization functions in an unspecified order, then terminate.
 
 Forward references: \secref{Initialization functions}, \secref{Finalization functions}
 
+\specsubsection{The freestanding environment}
+
+\specsubsubitem
+The freestanding environment (in which there is no operating system providing
+common program facilities) is not required to be supported by the
+implementation.
+
+\specsubsubitem
+The function signature of the program entry point function is not defined in
+the freestanding environment.
+
+\specsubsection{The hosted environment}
+
+\specsubsubitem
+In the hosted environment, the program entry point shall be a function named
+\code{main}. It shall have no parameters and no result type.
+
+\informative{The signature of a conformant entry point follows:}
+
+\begin{codesample}
+export fn main void;
+\end{codesample}
+
 \specsection{Diagnostics}
 
 \specsubitem

@@ -50,7 +50,7 @@
 
 \DefineVerbatimEnvironment{codesample}{Verbatim}{%
 	fontsize=\fontsize{9}{12},
-	xleftmargin=-0.175in,
+	xleftmargin=0.5in,
 }
 
 \setlength{\parindent}{0em}
@@ -84,7 +84,7 @@
 	\hangindent=0.25in
 	\setlength{\leftskip}{0.5in}
 	\stepcounter{specsubsubctr}
-	\thechapter.\thespecctr.\thespecsubctr.\Alph{specsubsubctr}:
+	\thechapter.\thespecctr.\thespecsubctr.\thespecsubsubctr:
 }
 \newcommand{\specchapter}[1]{
 \setcounter{specctr}{0}
@@ -102,7 +102,7 @@
 \label{sec:#1}
 }
 \newcommand{\specsubsection}[1]{
-\setcounter{subsections}{\value{specsubctr}}
+\setcounter{subsection}{\value{specsubctr}}
 \stepcounter{specsubctr}
 \setcounter{specsubsubctr}{0}
 \subsection{#1}
