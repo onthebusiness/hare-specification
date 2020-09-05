@@ -43,20 +43,25 @@ repeated for each source file.
 
 \specsubitem
 Lexical analysis is conducted on the source file, translating it into a stream
-of \textit{tokens} (see \chref{Lexical tokens}).
+of \textit{tokens}.
+
+Forward references: \chref{Lexical analysis}
 
 \specsubitem
-Grammatical analysis is conducted on the token stream, mapping the tokens to an
-abstract syntax tree (AST). The organizational model of this syntax tree shall
-be consistent with the grammar defined by \chref{Grammar}.
+Syntax analysis is conducted on the token stream, mapping the tokens to an
+abstract syntax tree (AST). The Hare grammar shall define the relationships
+between tokens necessary to produce a valid AST.
+
+Forward references: \chref{Grammar}
 
 \specsubitem
 Logical analysis is conducted on the ASTs. In this step, the implementation
 verifies that the constraints imposed on the program. The result of this step is
 a \textit{verified program module}.
 
-\informative{In this step, a module composed of several source files is
-consolidated into a single verified program module.}
+\informative{In this step, colloquially referred to as the "check" step, a
+module composed of several source files is consolidated into a single verified
+program module.}
 
 \specsubitem
 Once the verified program module is obtained in the translation phase, the
