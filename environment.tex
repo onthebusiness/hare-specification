@@ -86,7 +86,7 @@ Two execution environments are defined: \textit{hosted} and
 During \textit{program startup}, the execution environment shall initialize all
 global declarations to their initial values, call all initialization functions
 in an unspecified order, then transfer control to the program \textit{entry
-point}. The manner of this initialization is implementation defined.
+point}. The manner of this initialization is implementation-defined.
 
 % TODO: Should the order of initialization functions be defined by the
 % dependency relationship between modules?
@@ -100,8 +100,8 @@ Forward references: \secref{Initialization functions}, \secref{Finalization func
 \specsubsection{The freestanding environment}
 
 \specsubsubitem
-The function signature of the program entry point function is implementation
-defined in the freestanding environment.
+The name and signature of the program entry point function is undefined in the
+freestanding environment.
 
 \specsubsection{The hosted environment}
 
