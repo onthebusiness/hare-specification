@@ -10,6 +10,8 @@
 \usepackage{tcolorbox}
 \usepackage{fancyvrb}
 \usepackage{titlesec}
+\usepackage{xcolor}
+\usepackage{framed}
 \addtokomafont{labelinglabel}{\textbf}
 \usepackage[papersize={8.5in,11in},centering,tmargin=1in]{geometry}
 \usepackage[T1]{fontenc}
@@ -53,7 +55,7 @@
 	xleftmargin=0.5in,
 }
 
-\setlength{\parindent}{0em}
+\setlength{\parindent}{0pt}
 \setlength{\parskip}{0.5em}
 
 \newcounter{specctr}
@@ -61,31 +63,23 @@
 \newcounter{specsubsubctr}
 \newcommand{\specitem}{
 	\par
-	\setlength{\leftskip}{0in}
-	\hangindent=0.25in
+	\setlength{\leftskip}{0pt}
 	\setcounter{specsubctr}{0}
 	\stepcounter{specctr}
 	\label{spec:\thechapter.\thespecctr}
-	\textbf{\thechapter.\thespecctr:}
-}
+	\makebox[0pt][r]{\thechapter.\thespecctr\hspace{0.5cm}}}
 \newcommand{\specsubitem}{
 	\par
-	\setlength{\leftskip}{0in}
-	\hangindent=0.25in
-	\setlength{\leftskip}{0.25in}
 	\setcounter{specsubsubctr}{0}
 	\stepcounter{specsubctr}
 	\label{spec:\thechapter.\thespecctr.\thespecsubctr}
-	\thechapter.\thespecctr.\thespecsubctr:
-}
+	\setlength{\leftskip}{0.5in}
+	\makebox[0pt][r]{\thechapter.\thespecctr.\thespecsubctr\hspace{0.5cm}}}
 \newcommand{\specsubsubitem}{
 	\par
-	\setlength{\leftskip}{0in}
-	\hangindent=0.25in
-	\setlength{\leftskip}{0.5in}
+	\setlength{\leftskip}{1in}
 	\stepcounter{specsubsubctr}
-	\thechapter.\thespecctr.\thespecsubctr.\thespecsubsubctr:
-}
+	\makebox[0pt][r]{\thechapter.\thespecctr.\thespecsubctr.\thespecsubsubctr\hspace{0.5cm}}}
 \newcommand{\specchapter}[1]{
 \setcounter{specctr}{0}
 \setcounter{specsubctr}{0}
@@ -117,7 +111,6 @@
 \newcommand{\itemref}[2]{\guillemotleft\ref{ch:#1}.#2: #1\guillemotright}
 \newcommand{\subitemref}[2]{\guillemotleft\ref{sec:#1}.#2\guillemotright}
 \newcommand{\appxref}[1]{\guillemotleft Appendix \ref{ap:#1}: #1\guillemotright}
-
 
 \begin{document}
 
