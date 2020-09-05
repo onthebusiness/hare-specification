@@ -61,3 +61,43 @@ consolidated into a single verified program module.}
 \specsubitem
 The verified program module is combined with any external modules into a single
 program image which is suitable for interpretation by the execution environment.
+
+\specsection{Execution environment}
+
+\specsubitem
+Two execution environments are defined: \textit{hosted} and
+\textit{freestanding}.
+
+\specsubitem
+During \textit{program startup}, the execution environment shall initialize all
+global declarations to their initial values, call all initialization functions
+in an unspecified order, then transfer control to the program \textit{entry
+point}. The manner of this initialization is implementation defined.
+
+% TODO: Should the order of initialization functions be defined by the
+% dependency relationship between modules?
+
+\specsubitem
+During \textit{program teardown}, the execution environment shall call all
+finalization functions in an unspecified order, then terminate.
+
+\specsection{Diagnostics}
+
+\specsubitem
+If the constraints are found to be invalid during the translation phase, the
+implementation shall display an error indicating which constraint was
+invalidated, and indicate that the translation has failed in whatever manner is
+semantically appropriate.
+
+\informative{On a Unix system, the semantically appropriate indication of
+failure is to exit with a non-zero status code.}
+
+\specsubitem
+In the translation environment, if the implementation is able to determine that
+multiple constraints are invalid, it may display several diagnostic messages.
+
+\specsubitem
+If the constraints are found to be invalid during the execution phase, a hosted
+implementation shall abort the execution phase, display a diagnostic message,
+and indicate that the execution has failed in whatever manner is semantically
+appropriate.

@@ -39,7 +39,7 @@
 { \vspace{2mm}\textbf{Note}\begin{tcolorbox}[sharp corners] }
 { \end{tcolorbox} }
 
-\newcommand{\code}[1]{\mbox{\under{\small\texttt{#1}}}}
+\newcommand{\code}[1]{\mbox{\small\texttt{#1}}}
 \newcommand{\term}[1]{\mbox{\textbf{#1}}}
 
 \renewcommand\UrlFont{\color{blue}\rmfamily\itshape}
@@ -113,8 +113,9 @@
 \newcommand{\informative}[1]{\textit{#1}}
 
 \newcommand{\chref}[1]{\guillemotleft\ref{ch:#1}: #1\guillemotright}
+\newcommand{\secref}[1]{\guillemotleft\ref{sec:#1}: #1\guillemotright}
 \newcommand{\itemref}[2]{\guillemotleft\ref{ch:#1}.#2: #1\guillemotright}
-\newcommand{\subitemref}[2]{\ref{sec:#1}.#2}
+\newcommand{\subitemref}[2]{\guillemotleft\ref{sec:#1}.#2\guillemotright}
 \newcommand{\appxref}[1]{\guillemotleft Appendix \ref{ap:#1}: #1\guillemotright}
 
 
