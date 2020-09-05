@@ -59,8 +59,18 @@ a \textit{verified program module}.
 consolidated into a single verified program module.}
 
 \specsubitem
-The verified program module is combined with any external modules into a single
-program image which is suitable for interpretation by the execution environment.
+Once the verified program module is obtained in the translation phase, the
+remainder of the translation phase shall be completed with no further
+diagnostic messages, except in the case where external factors from the
+execution environment prevent successful completion.
+
+\example{Memory exhaustion or lack of disk space are situations which may cause
+a failure in the remainder of the translation process.}
+
+\specsubitem
+The verified program module is combined with any applicable external modules and
+translated into a single program image which is suitable for interpretation by
+the execution environment.
 
 \specsection{Execution environment}
 
