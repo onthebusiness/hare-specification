@@ -1,0 +1,59 @@
+\specchapter{Program environment}
+% TODO: Forward references
+
+\specitem
+The implementation translates source files and executes programs in two phases,
+respectively referred to as the \textit{translation phase} and the
+\textit{execution phase}. The context in which these phases occur is referred
+to as the \textit{translation environment} and the \textit{execution
+environment}.
+
+\specsection{Translation environment}
+
+\specsubitem
+A Hare program consists of one or more \textit{source files} which are provided
+to the translation phase. A source file is UTF-8 text.
+
+\specsubitem
+Each \textit{source file} is a member of exactly one \textit{module}, and the
+collective source files for a module from a \textit{translation unit}. Each
+module may define its own private types, data, procedure, and so on, for the
+purpose of accomplish its tasks. It may also \textit{export} these types for
+other modules to use.
+
+\specsubitem
+A Hare program may be translated incrementally, rather than all at one time.
+However, the composite source files of a single translation unit must be
+compiled together. Once compiled, an opaque representation of their
+\textit{exported interface} (the sum of their exported types, data, and
+procedures) provides sufficient information to translate other units which
+require the module. The translated modules can be composed into the final
+program at the last step.
+
+\specsubitem
+If the source files for a translation unit are not changed, the translated
+module may be used repeatedly without repeating the translation step.
+
+\specsection{Translation steps}
+
+\specsubitem
+The list of source files constituting the translation unit are identified. The
+following two steps are repeated for each source file before moving on.
+
+\specsubitem
+Lexical analysis is conducted on the source file, translating it into a stream
+of \textit{tokens} (see \chref{Lexical tokens}).
+
+\specsubitem
+Grammatical analysis is conducted on the token stream, mapping the tokens to an
+abstract syntax tree (AST). The organizational model of this syntax tree shall
+be consistent with the grammar defined by \chref{Grammar}.
+
+\specsubitem
+Logical analysis is conducted on the AST. In this step, the implementation
+verifies that the constraints imposed on the program. The result of this step is
+a \textit{verified program module}.
+
+\specsubitem
+The verified program module is combined with any external modules into a single
+program image which is suitable for interpretation by the execution environment.
