@@ -1,0 +1,21 @@
+image: archlinux
+packages:
+- rsync
+- texlive-bin
+- texlive-fontsextra
+- texlive-latexextra
+secrets:
+- 160a72cf-34d6-47b7-928b-c13b42b4d4f6
+sources:
+- https://git.sr.ht/~sircmpwn/hare-specification
+artifacts:
+- hare-specification/specification.pdf
+tasks:
+- build: |
+    cd hare-specification
+    make
+    make # for the ToC
+- upload: |
+    cd hare-specification
+    echo "StrictHostKeyChecking=no" >> ~/.ssh/config
+    rsync -rP specification.pdf deploy@drewdevault.com:/var/www/harelang.org/
