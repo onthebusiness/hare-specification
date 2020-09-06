@@ -41,7 +41,7 @@
 { \vspace{2mm}\textbf{Note}\begin{tcolorbox}[sharp corners] }
 { \end{tcolorbox} }
 
-\newcommand{\code}[1]{\mbox{\small\texttt{#1}}}
+\newcommand{\code}[1]{\mbox{\normalfont\small\texttt{#1}}}
 \newcommand{\term}[1]{\mbox{\textbf{#1}}}
 
 \renewcommand\UrlFont{\color{blue}\rmfamily\itshape}
@@ -112,21 +112,22 @@
 \newcommand{\subitemref}[2]{\guillemotleft\ref{sec:#1}.#2\guillemotright}
 \newcommand{\appxref}[1]{\guillemotleft Appendix \ref{ap:#1}: #1\guillemotright}
 
+\newcommand{\nonterminal}[1]{\under{#1}}
+\newcommand{\terminal}[1]{\textbf{\code{#1}}}
+\newcommand{\optional}[1]{#1\textsubscript{\textit{opt}}}
+
 \newenvironment{grammar}
 {
+\renewcommand{\nonterminal}[1]{\textit{##1}}
+\newcommand{\nonterminaldef}[1]{
+	\textit{##1} :\\
+	\hangindent=1cm
+}
 \hfill\begin{minipage}{\dimexpr\textwidth-1cm}
 }
 {
 \end{minipage}
 }
-
-\newcommand{\nonterminal}[1]{\textit{#1}}
-\newcommand{\nonterminaldef}[1]{
-	\textit{#1}:\\
-	\hangindent=1cm
-}
-\newcommand{\terminal}[1]{\textbf{\code{#1}}}
-\newcommand{\optional}[1]{#1\textsubscript{\textit{opt}}}
 
 \begin{document}
 
