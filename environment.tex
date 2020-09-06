@@ -118,6 +118,26 @@ export fn main void;
 
 \informative{The program shall provide this function in the global namespace.}
 
+\specsubsection{Program execution}
+
+\specsubsubitem
+The evaluation of an expression may have \textit{side-effects} in addition to
+computing a value. Calling a function or modifying an object is considered a
+side-effect.
+
+\specsubsubitem
+If the implementation is able to determine that the evaluation of part of an
+expression is not necessary to compute the correct value and cause the same
+side-effects to occur, it may rewrite or re-order the expressions or
+sub-expressions to produce the same results more optimally.
+
+\informative{The interpretation of this constraint shall be conservative.
+Implementations should prefer to be predictable over being fast. Programs which
+require greater performance shall prefer to hand-optimize their source code for
+this purpose.}
+
+Forward references: \chref{Expressions}
+
 \specsection{Diagnostics}
 
 \specsubitem
