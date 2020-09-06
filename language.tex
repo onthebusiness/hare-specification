@@ -1,0 +1,30 @@
+\specchapter{Language}
+
+\specsection{Notation}
+
+\specsubitem
+The notation used in this specification indicates non-terminals with
+\nonterminal{italic type}, terminals with \terminal{bold type}, and optional
+symbols use "opt" in subscript. The following example denotes an optional
+\nonterminal{expression} enclosed in literal braces:
+
+\begin{grammar}
+\terminal{\{} \optional{\nonterminal{expression}} \terminal{\}}
+\end{grammar}
+
+\specsubitem
+When there are multiple options for a single non-terminal, they will either be
+printed on successive lines, or the preceeding authoritative text shall use the
+key phrase "one of".
+
+\specsubitem
+A non-terminal is defined with its name, a colon (':'), and the options;
+indented and shown with one option per line. For example,
+\nonterminal{switch-cases} is defined like so:
+
+\begin{grammar}
+\nonterminaldef{switch-cases}
+\nonterminal{switch-case}\\
+\nonterminal{switch-case} \terminal{,}\\
+\nonterminal{switch-case} \terminal{,} \nonterminal{switch-cases}
+\end{grammar}

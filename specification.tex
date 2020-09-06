@@ -112,6 +112,22 @@
 \newcommand{\subitemref}[2]{\guillemotleft\ref{sec:#1}.#2\guillemotright}
 \newcommand{\appxref}[1]{\guillemotleft Appendix \ref{ap:#1}: #1\guillemotright}
 
+\newenvironment{grammar}
+{
+\hfill\begin{minipage}{\dimexpr\textwidth-1cm}
+}
+{
+\end{minipage}
+}
+
+\newcommand{\nonterminal}[1]{\textit{#1}}
+\newcommand{\nonterminaldef}[1]{
+	\textit{#1}:\\
+	\hangindent=1cm
+}
+\newcommand{\terminal}[1]{\textbf{\code{#1}}}
+\newcommand{\optional}[1]{#1\textsubscript{\textit{opt}}}
+
 \begin{document}
 
 \include{abstract}
@@ -123,5 +139,6 @@
 \include{terms}
 \include{conformance}
 \include{environment}
+\include{language}
 
 \end{document}
