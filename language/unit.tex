@@ -7,8 +7,7 @@ by \secref{Translation steps}. Each source file is a \nonterminal{sub-unit}.
 
 \begin{grammar}
 \nonterminaldef{sub-unit}
-	\nonterminal{declarations}\\
-	\nonterminal{imports} \nonterminal{declarations}\\
+	\optional{\nonterminal{imports}} \nonterminal{declarations}\\
 
 \nonterminaldef{imports}
 	\nonterminal{use-statement}\\
@@ -20,8 +19,7 @@ by \secref{Translation steps}. Each source file is a \nonterminal{sub-unit}.
 	\terminal{use} \nonterminal{identifier} \terminal{::} \terminal{\{} \nonterminal{name-list} \terminal{\}} \terminal{;}\\
 
 \nonterminaldef{name-list}
-	\nonterminal{name}\\
-	\nonterminal{name} \terminal{,}\\
+	\nonterminal{name} \optional{\terminal{,}}\\
 	\nonterminal{name} \terminal{,} \nonterminal{name-list}\\
 \end{grammar}
 
