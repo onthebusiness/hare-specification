@@ -63,3 +63,9 @@ of the target namespace, to become visible in their un-qualified form to this
 in the same conditions as the previous example, the fully-qualified identifier
 \code{bar::baz::bat} may be referred to by its unqualified name \code{bat} in
 the scope of this \nonterminal{sub-unit}.}
+
+\specsubsubitem
+The imports of a \nonterminal{sub-unit} are not visible to other
+\nonterminal{sub-unit}s in the same translation unit. However, identifiers
+\textit{declared} in this \nonterminal{sub-unit} are visible those
+\nonterminal{sub-unit}s.
