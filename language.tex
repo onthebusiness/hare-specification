@@ -1,31 +1,5 @@
 \specchapter{Language}
 
-\specsection{Concepts}
-
-\specsubsection{Identifiers}
-
-\specsubsubitem
-An \textit{identifier} is a user-defined name which denotes a module, object,
-function, type alias, struct or union member, or enumeration member.
-
-\specsubsubitem
-An identifier is only meaningful within a specific \textit{scope} of the
-program. The scope is defined by the region of the AST in which the identifier
-is applicable; it may be the entire program, a translation unit, a function, or
-an \nonterminal{expression-list}.
-
-\specsubsubitem
-An identifier is either \textit{fully-qualified} or \textit{unqualified}.
-Unqualified identifiers require the context of their enclosing scope to be
-interpreted unambiguously. Fully-qualified identifiers are used for
-\textit{exported} identifiers, and include the namespace in which they reside.
-The double-colon terminal \terminal{::} is used to deliniate the namespace
-portions of a fully-qualified identifier, ordered from least to most specific.
-
-\example{The fully-qualified identifier \code{sys::start::start\_ha} qualifies
-the un-qualified identifier \code{start\_ha} by placing it in the start
-namespace, which is itself in the sys namespace.}
-
 \specsection{Notation}
 
 \informative{A summary of the language syntax is given in \appxref{Language
@@ -58,3 +32,29 @@ indented and shown with one option per line. For example,
 \nonterminal{switch-case} \terminal{,}\\
 \nonterminal{switch-case} \terminal{,} \nonterminal{switch-cases}
 \end{grammar}
+
+\specsection{Concepts}
+
+\specsubsection{Identifiers}
+
+\specsubsubitem
+An \textit{identifier} is a user-defined name which denotes a module, object,
+function, type alias, struct or union member, or enumeration member.
+
+\specsubsubitem
+An identifier is only meaningful within a specific \textit{scope} of the
+program. The scope is defined by the region of the AST in which the identifier
+is applicable; it may be the entire program, a translation unit, a function, or
+an \nonterminal{expression-list}.
+
+\specsubsubitem
+An identifier is either \textit{fully-qualified} or \textit{unqualified}.
+Unqualified identifiers require the context of their enclosing scope to be
+interpreted unambiguously. Fully-qualified identifiers are used for
+\textit{exported} identifiers, and include the namespace in which they reside.
+The double-colon terminal \terminal{::} is used to deliniate the namespace
+portions of a fully-qualified identifier, ordered from least to most specific.
+
+\example{The fully-qualified identifier \code{sys::start::start\_ha} qualifies
+the un-qualified identifier \code{start\_ha} by placing it in the start
+namespace, which is itself in the sys namespace.}
