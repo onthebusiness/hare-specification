@@ -1,0 +1,51 @@
+\specsection{Types}
+
+\begin{grammar}
+\nonterminaldef{type} \\
+	\nonterminal{scalar-type} \\
+	\nonterminal{struct-union-type} \\
+	\nonterminal{tagged-union-type} \\
+	\nonterminal{slice-array-type} \\
+	\nonterminal{enum-type} \\
+	\nonterminal{function-type} \\
+	\nonterminal{pointer-type} \\
+	\nonterminal{alias-type} \\
+	\terminal{const} \nonterminal{type} \\
+\end{grammar}
+
+\specsubitem
+A type defines the storage and semantics of a value. The attributes common to
+all types are its \textit{size}, in octets; \textit{alignment}; and its
+\textit{constant} or \textit{mutable} nature.
+
+\specsubitem
+The \terminal{const} terminal, when used in a type specifier, enables the
+constant flag and prohibits write operations on any value of that type. Types
+without this attribute are considered mutable by default.
+
+\specsubsection{Scalar types}
+
+\begin{grammar}
+\nonterminaldef{scalar-type} \\
+	\nonterminal{integer-type} \\
+	\nonterminal{floating-type} \\
+	\terminal{bool} \\
+	\terminal{null} \\
+	\terminal{void} \\
+\end{grammar}
+
+\specsubsubitem
+A scalar type, also called a \textit{built-in} or \textit{primitive} type,
+stores one value at a specific, pre-defined precision. Scalar types are the
+most basic unit in the Hare type system.
+
+\informative{This is in contrast to \subsecref{Aggregate types}, which may store
+multiple values.}
+
+\specsubsection{Integer types}
+
+\specsubsection{Floating point types}
+
+\specsubsection{Other primitive types}
+
+\specsubsection{Aggregate types}
