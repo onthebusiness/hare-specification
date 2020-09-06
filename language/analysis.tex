@@ -13,12 +13,12 @@ analysis phase processes a UTF-8 source file to produce a stream of tokens by
 matching the terminals with the input text.
 
 \specsubitem
-Tokens may be separated by \textit{white-space}, which is defined as the
-Unicode codepoints \code{U+0009} (horizontal tabulation), \code{U+000A} (line
-feed), and \code{U+0020} (space). Any number of whitespace characters may be
-inserted between tokens, either to disamgibuate between subsequent tokens, or
-for aethetic purposes. This whitespace is discarded during the lexical analysis
-phase.
+Tokens may be separated by \textit{white-space} characters, which is defined as
+the Unicode code-points \code{U+0009} (horizontal tabulation), \code{U+000A}
+(line feed), and \code{U+0020} (space). Any number of whitespace characters may
+be inserted between tokens, either to disambiguate from subsequent tokens, or
+for aesthetic purposes. This whitespace is discarded during the lexical
+analysis phase.
 
 % TODO: Define the U+XXXX syntax
 
@@ -29,8 +29,8 @@ characters are considered part of the \nonterminal{string-literal} token and
 any whitespace therein is not discarded.}
 
 \specsubitem
-The lexical analysis process consumes Unicode codepoints from the source file
+The lexical analysis process consumes Unicode characters from the source file
 input until it is exhausted, performing the following steps in order. At each
-step, it shall consume and discard white-space codepoints until a
-non-white-space codepoint is found, then consume the longest sequence of
-codepoitns which constitutes a token and emitting it to the token stream.
+step, it shall consume and discard white-space characters until a
+non-white-space characters is found, then consume the longest sequence of
+characters which constitutes a token and emitting it to the token stream.
