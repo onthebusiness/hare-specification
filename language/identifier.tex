@@ -1,10 +1,34 @@
 \specsubsection{Identifiers}
 
 \begin{grammar}
-\nonterminaldef{identifier}
+\nonterminaldef{identifier}\\
 \nonterminal{name}\\
-\nonterminal{name} \terminal{::} \nonterminal{identifier}
-% TODO: Define name
+\nonterminal{name} \terminal{::} \nonterminal{identifier}\\
+
+\nonterminaldef{name}\\
+\nonterminal{nondigit}\\
+\nonterminal{name} \nonterminal{alnum}\\
+
+\nonterminaldef{nondigit} one of:\\
+\terminal{a} \terminal{b} \terminal{c} \terminal{d} \terminal{e} \terminal{f}
+\terminal{g} \terminal{h} \terminal{i} \terminal{j} \terminal{k} \terminal{l}
+\terminal{m} \terminal{n} \terminal{o} \terminal{p} \terminal{q} \terminal{r}
+\terminal{s} \terminal{t} \terminal{u} \terminal{v} \terminal{w} \terminal{x}
+\terminal{y} \terminal{z}\\
+\terminal{A} \terminal{B} \terminal{C} \terminal{D} \terminal{E} \terminal{F}
+\terminal{G} \terminal{H} \terminal{I} \terminal{J} \terminal{K} \terminal{L}
+\terminal{M} \terminal{N} \terminal{O} \terminal{P} \terminal{Q} \terminal{R}
+\terminal{S} \terminal{T} \terminal{U} \terminal{V} \terminal{W} \terminal{X}
+\terminal{Y} \terminal{Z}\\
+\terminal{\_}\\
+
+\nonterminaldef{digit} one of:\\
+\terminal{0} \terminal{1} \terminal{2} \terminal{3} \terminal{4} \terminal{5}
+\terminal{6} \terminal{7} \terminal{8} \terminal{9}\\
+
+\nonterminaldef{alnum}\\
+\nonterminal{digit}
+\nonterminal{nondigit}
 \end{grammar}
 
 % TODO: The role of the namespace part could be described better

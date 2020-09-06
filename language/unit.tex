@@ -6,19 +6,19 @@ A unit, or translation unit, is composed of several source files as described
 by \secref{Translation steps}. Each source file is a \nonterminal{sub-unit}.
 
 \begin{grammar}
-\nonterminaldef{sub-unit}
+\nonterminaldef{sub-unit}\\
 	\optional{\nonterminal{imports}} \nonterminal{declarations}\\
 
-\nonterminaldef{imports}
+\nonterminaldef{imports}\\
 	\nonterminal{use-statement}\\
 	\nonterminal{use-statement} \nonterminal{imports}\\
 
-\nonterminaldef{use-statement}
+\nonterminaldef{use-statement}\\
 	\terminal{use} \nonterminal{identifier} \terminal{;}\\
 	\terminal{use} \nonterminal{name} \terminal{=} \nonterminal{identifier} \terminal{;}\\
 	\terminal{use} \nonterminal{identifier} \terminal{::} \terminal{\{} \nonterminal{name-list} \terminal{\}} \terminal{;}\\
 
-\nonterminaldef{name-list}
+\nonterminaldef{name-list}\\
 	\nonterminal{name} \optional{\terminal{,}}\\
 	\nonterminal{name} \terminal{,} \nonterminal{name-list}\\
 \end{grammar}
