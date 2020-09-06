@@ -69,7 +69,7 @@ Signed integer types shall be represented in two's compliment form; the
 most-significant bit is the sign bit.
 
 \specsubitem
-The endianness of integer types shall be implementation-defined.
+The endianness (byte order) of integer types shall be implementation-defined.
 
 \specsubitem
 The precision of \nonterminal{i16}, \nonterminal{i32}, \nonterminal{i64},
@@ -90,6 +90,8 @@ unsigned and shall be able to store the maximum length of an array type.
 The precision of \nonterminal{uintptr} is implementation-defined. It shall be
 able to represent the value of any \nonterminal{pointer-type} as an integer.
 The signedness of this type is undefined.
+
+\informative{The following table is informative.}
 
 \begin{tabular}{r | l l l}
 Type & Size in bits & Minimum value & Maximum value \\
