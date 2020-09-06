@@ -83,11 +83,12 @@ Of those, types prefixed with a "u" are unsigned, and those prefixed with an
 The precision of \nonterminal{int} and \nonterminal{uint} are
 implementation-defined. \nonterminal{int} shall be signed, and
 \nonterminal{uint} shall be unsigned. Both types shall be at least 32-bits in
-precision.
+precision. The precision in bits shall be a power of two.
 
 \specsubitem
 The precision of \nonterminal{size} is implementation-defined. It shall be
 unsigned and shall be able to represent the maximum length of an array type.
+The precision in bits shall be a power of two.
 
 \specsubitem
 The precision of \nonterminal{uintptr} is implementation-defined. It shall be
