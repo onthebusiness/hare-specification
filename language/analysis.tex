@@ -34,3 +34,9 @@ input until it is exhausted, performing the following steps in order. At each
 step, it shall consume and discard white-space characters until a
 non-white-space characters is found, then consume the longest sequence of
 characters which constitutes a token and emitting it to the token stream.
+
+\specsubitem
+The terminal sequence \terminal{//} is used to mark a comment. When the lexical
+analyzer encounters this terminal sequence, it shall discard it and all
+subsequent characters until a line feed \code{U+000A} is encountered, then
+resume normal processing.
