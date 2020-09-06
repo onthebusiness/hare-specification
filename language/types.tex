@@ -104,8 +104,8 @@ Type & Size in bits & Minimum value & Maximum value \\
 \nonterminal{u16} & 16 & 0 & 65535 \\
 \nonterminal{u32} & 32 & 0 & 4294967295 \\
 \nonterminal{u64} & 64 & 0 & 18446744073709551615 \\
-\nonterminal{int} & $\ast$ & $\leq-2147483648$ & $\geq2147483647$ \\
-\nonterminal{uint} & $\ast$ & 0 & $\geq4294967295$ \\
+\nonterminal{int} & $\ge32$ & $\leq-2147483648$ & $\geq2147483647$ \\
+\nonterminal{uint} & $\ge32$ & 0 & $\geq4294967295$ \\
 \nonterminal{size} & $\ast$ & $\ast$ & $\ast$ \\
 \nonterminal{uintptr} & $\ast$ & $+$ & $+$ \\
 \end{tabular}
