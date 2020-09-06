@@ -130,6 +130,11 @@
 one of:
 \fontdimen2\font=0.75em
 }
+\newcommand{\norm}[1]{
+\fontdimen2\font=\origiwspc
+##1
+\fontdimen2\font=0.75em
+}
 \hfill\begin{minipage}{\dimexpr\textwidth-1cm}
 \newdimen\origiwspc
 \origiwspc=\fontdimen2\font

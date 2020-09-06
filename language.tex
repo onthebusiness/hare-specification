@@ -33,6 +33,17 @@ indented and shown with one option per line. For example,
 \nonterminal{switch-case} \terminal{,} \nonterminal{switch-cases}
 \end{grammar}
 
+\specsubitem
+Additionally, text may appear in the notation without italics or bold font; it
+appears in the same style as the authoratative text. Such examples are used to
+describe how a particular terminal sequence is matched when enumerating all of
+the possibilities is not practical.
+
+\begin{grammar}
+\nonterminaldef{string-char} \\
+	\norm{Any character other than \terminal{\textbackslash} or \terminal{"}.}
+\end{grammar}
+
 \input{language/analysis.tex}
 \input{language/keywords.tex}
 \input{language/identifier.tex}
