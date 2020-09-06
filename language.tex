@@ -28,9 +28,8 @@ indented and shown with one option per line. For example,
 
 \begin{grammar}
 \nonterminaldef{switch-cases}\\
-\nonterminal{switch-case}\\
-\nonterminal{switch-case} \terminal{,}\\
-\nonterminal{switch-case} \terminal{,} \nonterminal{switch-cases}
+	\nonterminal{switch-case} \optional{\terminal{,}}\\
+	\nonterminal{switch-case} \terminal{,} \nonterminal{switch-cases}
 \end{grammar}
 
 \specsubitem
