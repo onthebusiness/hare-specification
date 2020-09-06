@@ -1,0 +1,44 @@
+\specsubsection{Identifiers}
+
+\begin{grammar}
+\nonterminaldef{identifier}
+\nonterminal{name}\\
+\nonterminal{name} \terminal{::} \nonterminal{identifier}
+\end{grammar}
+
+\specsubsubitem
+An \textit{identifier} is a user-defined name which denotes a module, object,
+function, type alias, struct or union member, or enumeration member.
+
+\specsubsubitem
+An identifier is only meaningful within a specific \textit{scope} of the
+program. The scope is defined by the region of the AST in which the identifier
+is applicable; it may be the program, a translation unit, a function, or an
+\nonterminal{expression-list}. The identifier is considered \textit{visible}
+within the region that defines its scope.
+
+\specsubsubitem
+A translation unit is assigned a unique \textit{namespace} within the program.
+These namespaces may be nested recursively; that is to say that a translation
+unit may have a \textit{parent} which is another translation unit. One
+translation unit may be assigned to the \textit{root namespace}, which has no
+name.
+
+\specsubsubitem
+Identifiers declared within a translation unit scope are assigned the namespace
+of the translation unit. The double-colon terminal \terminal{::} is used to
+denote the namespace of an identifier, ordered from most to least specific.
+
+\specsubsubitem
+An identifier is either \textit{fully-qualified} or \textit{unqualified}.
+Unqualified identifiers require the context of their enclosing scope to be
+interpreted unambiguously. Fully-qualified identifiers are used for
+\textit{exported} identifiers, and include the namespace in which they reside.
+
+\example{The fully-qualified identifier \code{sys::start::start\_ha} qualifies
+the un-qualified identifier \code{start\_ha} with the start namespace, which is
+itself a member of the sys namespace.}
+
+\specsubsubitem
+An identifier without the namespace qualification may be fully-qualified
+regardless, if it exists in the root namespace.
