@@ -122,12 +122,21 @@
 {
 \renewcommand{\nonterminal}[1]{\textit{##1}}
 \newcommand{\nonterminaldef}[1]{
-	\textit{##1} :
+	\textit{##1}:
 	\hangindent=1cm
 }
+\newcommand{\oneof}{
+\fontdimen2\font=\origiwspc
+one of:
+\fontdimen2\font=0.75em
+}
 \hfill\begin{minipage}{\dimexpr\textwidth-1cm}
+\newdimen\origiwspc
+\origiwspc=\fontdimen2\font
+\fontdimen2\font=0.75em
 }
 {
+\fontdimen2\font=\origiwspc
 \end{minipage}
 }
 

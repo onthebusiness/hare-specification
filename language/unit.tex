@@ -1,7 +1,6 @@
-\newpage
-\specsubsection{Units}
+\specsection{Units}
 
-\specsubsubitem
+\specsubitem
 A unit, or translation unit, is composed of several source files as described
 by \secref{Translation steps}. Each source file is a \nonterminal{sub-unit}.
 
@@ -23,23 +22,23 @@ by \secref{Translation steps}. Each source file is a \nonterminal{sub-unit}.
 	\nonterminal{name} \terminal{,} \nonterminal{name-list}\\
 \end{grammar}
 
-\specsubsubitem
+\specsubitem
 Each \nonterminal{sub-unit} must have at least one \nonterminal{declaration},
 and may have \nonterminal{imports}.
 
-\specsubsubitem
+\specsubitem
 An \nonterminal{import} shall declare a dependency between this translation
 unit and another module of the namespace specified by the
 \nonterminal{use-statement} \nonterminal{identifier}. This shall cause the named
 module to be linked into the final program image as described by
 \secref{Translation steps}.
 
-\specsubsubitem
+\specsubitem
 The first form of the \nonterminal{use-statement} shall cause the identifiers
 declared by the target module to become visible to this \nonterminal{sub-unit}
 in their fully-qualified form.
 
-\specsubsubitem
+\specsubitem
 The second form of the \nonterminal{use-statement} shall cause the identifiers
 declared by the target module to become visible to this \nonterminal{sub-unit}
 in a rewritten form, with the fully-qualified namespace of the identifiers
@@ -51,7 +50,7 @@ the namespace \code{bar::baz} will be visible under the namespace \code{foo}.
 For example, if the fully-qualified identifier \code{bar::baz::bat} exists, this
 \nonterminal{sub-unit} may refer to it as \code{foo::bat}.}
 
-\specsubsubitem
+\specsubitem
 The third form of the \nonterminal{use-statement} shall cause only the
 identifiers listed in the \nonterminal{name-list}, qualified in the context
 of the target namespace, to become visible in their un-qualified form to this
@@ -62,7 +61,7 @@ in the same conditions as the previous example, the fully-qualified identifier
 \code{bar::baz::bat} may be referred to by its unqualified name \code{bat} in
 the scope of this \nonterminal{sub-unit}.}
 
-\specsubsubitem
+\specsubitem
 The imports of a \nonterminal{sub-unit} are not visible to other
 \nonterminal{sub-unit}s in the same translation unit. However, identifiers
 \textit{declared} in this \nonterminal{sub-unit} are visible those

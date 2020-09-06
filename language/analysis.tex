@@ -1,0 +1,35 @@
+\specsection{Lexical analysis}
+
+\begin{grammar}
+% TODO: There are other token non-terminals not represented here yet
+\nonterminaldef{token}\\
+	\nonterminal{keyword} \\
+	\nonterminal{name}
+\end{grammar}
+
+\specsubitem
+A token is the smallest unit of meaning in the Hare grammar. The lexical
+analysis phase processes a UTF-8 source file to produce a stream of tokens by
+matching the terminals with the input text.
+
+\specsubitem
+Tokens may be separated by \textit{white-space}, which is defined as the
+Unicode codepoints \code{U+0009}, \code{U+000A}, and \code{U+0020}. Any number
+of whitespace characters may be inserted between tokens, either to disamgibuate
+between subsequent tokens, or for aethetic purposes. This whitespace is
+discarded during the lexical analysis phase.
+
+% TODO: Define the U+XXXX syntax
+
+\informative{Within a single token, white-space is meaningful. For example, the
+\nonterminal{string-literal} token is defined by two quotation marks
+\terminal{"} enclosing any number of literal characters. The enclosed
+characters are considered part of the \nonterminal{string-literal} token and
+any whitespace therein is not discarded.}
+
+\specsubitem
+The lexical analysis process consumes Unicode codepoints from the source file
+input until it is exhausted, performing the following steps in order. At each
+step, it shall consume and discard white-space codepoints until a
+non-white-space codepoint is found, then consume the longest sequence of
+codepoitns which constitutes a token and emitting it to the token stream.

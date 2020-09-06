@@ -1,4 +1,4 @@
-\specsubsection{Identifiers}
+\specsection{Identifiers}
 
 \begin{grammar}
 \nonterminaldef{identifier}\\
@@ -9,20 +9,22 @@
 \nonterminal{nondigit}\\
 \nonterminal{name} \nonterminal{alnum}\\
 
-\nonterminaldef{nondigit} one of:\\
+\nonterminaldef{nondigit}\oneof \\
 \terminal{a} \terminal{b} \terminal{c} \terminal{d} \terminal{e} \terminal{f}
 \terminal{g} \terminal{h} \terminal{i} \terminal{j} \terminal{k} \terminal{l}
-\terminal{m} \terminal{n} \terminal{o} \terminal{p} \terminal{q} \terminal{r}
+\terminal{m} \\
+\terminal{n} \terminal{o} \terminal{p} \terminal{q} \terminal{r}
 \terminal{s} \terminal{t} \terminal{u} \terminal{v} \terminal{w} \terminal{x}
-\terminal{y} \terminal{z}\\
+\terminal{y} \terminal{z} \\
 \terminal{A} \terminal{B} \terminal{C} \terminal{D} \terminal{E} \terminal{F}
 \terminal{G} \terminal{H} \terminal{I} \terminal{J} \terminal{K} \terminal{L}
-\terminal{M} \terminal{N} \terminal{O} \terminal{P} \terminal{Q} \terminal{R}
+\terminal{M} \\
+\terminal{N} \terminal{O} \terminal{P} \terminal{Q} \terminal{R}
 \terminal{S} \terminal{T} \terminal{U} \terminal{V} \terminal{W} \terminal{X}
-\terminal{Y} \terminal{Z}\\
+\terminal{Y} \terminal{Z} \\
 \terminal{\_}\\
 
-\nonterminaldef{digit} one of:\\
+\nonterminaldef{digit}\oneof \\
 \terminal{0} \terminal{1} \terminal{2} \terminal{3} \terminal{4} \terminal{5}
 \terminal{6} \terminal{7} \terminal{8} \terminal{9}\\
 
@@ -33,30 +35,30 @@
 
 % TODO: The role of the namespace part could be described better
 
-\specsubsubitem
+\specsubitem
 An \textit{identifier} is a user-defined name which denotes a module, object,
 function, type alias, struct or union member, or enumeration member.
 
-\specsubsubitem
+\specsubitem
 An identifier is only meaningful within a specific \textit{scope} of the
 program. The scope is defined by the region of the AST in which the identifier
 is applicable; it may be the program, a translation unit, a sub-unit, a
 function, or an \nonterminal{expression-list}. The identifier is considered
 \textit{visible} within the region that defines its scope.
 
-\specsubsubitem
+\specsubitem
 A translation unit is assigned a unique \textit{namespace} within the program.
 These namespaces may be nested recursively; that is to say that a translation
 unit may have a \textit{parent} which is another translation unit. One
 translation unit may be assigned to the \textit{root namespace}, which has no
 name.
 
-\specsubsubitem
+\specsubitem
 Identifiers declared within a translation unit scope are assigned the namespace
 of the translation unit. The double-colon terminal \terminal{::} is used to
 denote the namespace of an identifier, ordered from most to least specific.
 
-\specsubsubitem
+\specsubitem
 An identifier is either \textit{fully-qualified} or \textit{unqualified}.
 Unqualified identifiers require the context of their enclosing scope to be
 interpreted unambiguously. Fully-qualified identifiers are used for
@@ -66,6 +68,6 @@ interpreted unambiguously. Fully-qualified identifiers are used for
 the un-qualified identifier \code{start\_ha} with the start namespace, which is
 itself a member of the sys namespace.}
 
-\specsubsubitem
+\specsubitem
 An identifier without the namespace qualification may be fully-qualified
 regardless, if it exists in the root namespace.
