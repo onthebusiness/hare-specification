@@ -159,7 +159,7 @@ The alignment of float types shall be equal to their size in octets.
 
 \specsubsubitem
 Enum types, or \textit{enumerated types}, are a subset of integer types which
-allows the user to name specific values.
+allows the user to assign a name to specific values.
 
 \specsubsubitem
 If \nonterminal{integer-type} is specified, the underlying storage of the enum
@@ -174,7 +174,9 @@ underlying integer type.
 If the \nonterminal{enum-value} does not specify a
 \nonterminal{simple-expression}, the value assigned to that \nonterminal{name}
 is equal to the last value assigned to a member of this enum type plus one. If
-no such previous value exists, the value is assigned as zero.
+no such previous value exists, the value is assigned as zero. If the implicitly
+assigned value exceeds the precision of the underlying type, a diagnostic
+message shall be printed and translation shall fail.
 
 \specsubsubitem
 If \nonterminal{simple-expression} is specified, it must use only features
