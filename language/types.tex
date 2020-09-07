@@ -173,17 +173,24 @@ underlying integer type.
 \specsubsubitem
 If the \nonterminal{enum-value} does not specify a
 \nonterminal{simple-expression}, the value assigned to that \nonterminal{name}
-is equal to the last value assigned to a member of this enum type plus one. If
-no such previous value exists, the value is assigned as zero. If the implicitly
-assigned value exceeds the precision of the underlying type, a diagnostic
-message shall be printed and translation shall fail.
+is equal to the last value assigned to an \nonterminal{enum-value} of this enum
+type plus one. If no such previous value exists, the zero is assigned.
 
 \specsubsubitem
-If \nonterminal{simple-expression} is specified, it must use only features
-included in the \subsecref{Translation compatible expression subset}. It shall
-be evaluated in the translation environment and the resulting value shall be
-assigned to that \nonterminal{enum-value}. The result type must be assignable to
-the enum type's underlying integer type (ref \subsecref{Assignment expressions}).
+An implicitly assigned value shall not exceed the precision of the underlying
+integer type; if it were to, a diagnostic message shall be shown instead per
+\secref{Diagnostics}.
+
+\specsubsubitem
+\nonterminal{simple-expression}, if specified, shall be evaluated in the
+translation environment and the resulting value shall be assigned to the
+corresponding \nonterminal{enum-value}. The result type must be assignable to
+the enum type's underlying integer type (ref \subsecref{Assignment
+expressions}).
+
+\specsubsubitem
+\nonterminal{simple-expression} shall be limited to the
+\subsecref{Translation compatible expression subset}.
 
 \specsubsection{Pointer types}
 
