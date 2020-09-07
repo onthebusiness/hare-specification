@@ -59,41 +59,44 @@ either scalar or aggregate.
 	\terminal{uintptr}
 \end{grammar}
 
-\specsubitem
+\specsubsubitem
 Integer types represent an integer value at a specific precision. These values
 are either \textit{signed} or \textit{unsigned}; which respectively
 \textbf{are} and \textbf{are not} able to represent negative integers. Zero is
 not negative.
 
-\specsubitem
+\specsubsubitem
 Signed integer types shall be represented in two's compliment form; the
 most-significant bit is the sign bit.
 
-\specsubitem
+\specsubsubitem
 The endianness (byte order) of integer types shall be implementation-defined.
 
-\specsubitem
+\specsubsubitem
 The precision of \nonterminal{i16}, \nonterminal{i32}, \nonterminal{i64},
 \nonterminal{u8}, \nonterminal{u16}, \nonterminal{u32}, and \nonterminal{u64}
 are specified by the numeric suffix, which represents their precision in bits.
 Of those, types prefixed with \terminal{u} are unsigned, and those prefixed
 with \terminal{i} are signed.
 
-\specsubitem
+\specsubsubitem
 The precision of \nonterminal{int} and \nonterminal{uint} are
 implementation-defined. \nonterminal{int} shall be signed, and
 \nonterminal{uint} shall be unsigned. Both types shall be at least 32-bits in
 precision. The precision in bits shall be a power of two.
 
-\specsubitem
+\specsubsubitem
 The precision of \nonterminal{size} is implementation-defined. It shall be
 unsigned and shall be able to represent the maximum length of an array type.
 The precision in bits shall be a power of two.
 
-\specsubitem
+\specsubsubitem
 The precision of \nonterminal{uintptr} is implementation-defined. It shall be
 able to represent the value of any \nonterminal{pointer-type} as an integer.
 The signedness of this type is undefined.
+
+\specsubsubitem
+The alignment of integer types shall be equal to their size in octets.
 
 \informative{The following table is informative.}
 
@@ -120,7 +123,65 @@ $+$ undefined
 
 \specsubsection{Floating point types}
 
+\begin{grammar}
+\nonterminaldef{floating-type} \\
+	\terminal{f32} \\
+	\terminal{f64} \\
+\end{grammar}
+
+\specsubsubitem
+Floating-point types shall represent real numbers, i.e. numbers with both an
+integer and fractional part.
+
+\specsubsubitem
+The implementation shall represent floating-point types as IEEE 754-compatible
+floating-point numbers. \terminal{f32} shall be stored in the binary32 format,
+and \terminal{f64} shall use the binary64 format.
+
+\specsubsubitem
+The alignment of float types shall be equal to their size in octets.
+
 \specsubsection{Enum types}
+
+\begin{grammar}
+\nonterminaldef{enum-type} \\
+	\terminal{enum} \terminal{\{} \nonterminal{enum-values} \terminal{\}} \\
+	\terminal{enum} \nonterminal{integer-type} \terminal{\{} \nonterminal{enum-values} \terminal{\}} \\
+
+\nonterminaldef{enum-values} \\
+	\nonterminal{enum-value} \optional{\terminal{,}} \\
+	\nonterminal{enum-value} \terminal{,} \nonterminal{enum-values} \\
+
+\nonterminaldef{enum-value} \\
+	\nonterminal{name} \\
+	\nonterminal{name} \terminal{=} \nonterminal{simple-expression} \\
+\end{grammar}
+
+\specsubsubitem
+Enum types, or \textit{enumerated types}, are a subset of integer types which
+allows the user to name specific values.
+
+\specsubsubitem
+If \nonterminal{integer-type} is specified, the underlying storage of the enum
+type is defined by the integer type specified. Otherwise, the underlying storage
+is \terminal{int}.
+
+\specsubsubitem
+The size and alignment of an enum type is equivalent to those attributes of the
+underlying integer type.
+
+\specsubsubitem
+If the \nonterminal{enum-value} does not specify a
+\nonterminal{simple-expression}, the value assigned to that \nonterminal{name}
+is equal to the last value assigned to a member of this enum type plus one. If
+no such previous value exists, the value is assigned as zero.
+
+\specsubsubitem
+If \nonterminal{simple-expression} is specified, it must use only features
+included in the \subsecref{Translation compatible expression subset}. It shall
+be evaluated in the translation environment and the resulting value shall be
+assigned to that \nonterminal{enum-value}. The result type must be assignable to
+the enum type's underlying integer type (ref \subsecref{Assignment expressions}).
 
 \specsubsection{Pointer types}
 
