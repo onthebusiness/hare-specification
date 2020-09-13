@@ -324,10 +324,51 @@ from any type, except for itself.
 
 \specsubsection{Struct and union types}
 
+\begin{grammar}
+\nonterminaldef{struct-union-type} \\
+	\terminal{struct} \terminal{\{} \nonterminal{struct-fields} \terminal{\}} \\
+	\terminal{union} \terminal{\{} \nonterminal{struct-fields} \terminal{\}} \\
+
+\nonterminaldef{struct-fields} \\
+	\nonterminal{struct-field} \optional{\terminal{,}} \\
+	\nonterminal{struct-field} \terminal{,} \nonterminal{struct-fields} \\
+
+\nonterminaldef{struct-field} \\
+	\nonterminal{name} \terminal{:} \nonterminal{type} \\
+	\nonterminal{struct-union-type} \\
+	\nonterminal{identifier} \\
+\end{grammar}
+
 \specsubsection{Tagged union types}
+
+\begin{grammar}
+\nonterminaldef{tagged-union-type} \\
+	\terminal{(} \nonterminal{tagged-types} \terminal{)} \\
+
+\nonterminaldef{tagged-types} \\
+	\nonterminal{type} \terminal{|} \nonterminal{type} \\
+	\nonterminal{type} \terminal{|} \nonterminal{tagged-types} \\
+\end{grammar}
 
 \specsubsection{Slice and array types}
 
+\begin{grammar}
+\nonterminaldef{slice-array-type} \\
+	\terminal{[} \terminal{]} \nonterminal{type} \\
+	\terminal{[} \nonterminal{simple-expression} \terminal{]} \nonterminal{type} \\
+	\terminal{[} \terminal{*} \terminal{]} \nonterminal{type} \\
+\end{grammar}
+
 \specsubsection{Function types}
 
+\begin{grammar}
+\nonterminaldef{function-type} \\
+	\terminal{fn} \nonterminal{prototype} \\
+\end{grammar}
+
 \specsubsection{Type aliases}
+
+\begin{grammar}
+\nonterminaldef{alias-type} \\
+	\nonterminal{identifier} \\
+\end{grammar}
