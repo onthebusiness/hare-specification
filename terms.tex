@@ -8,7 +8,7 @@ immediately proceeds to the program teardown step
 \subitemref{Execution environment}{3}.
 
 \specterm{alignment} a specific multiple of an octet-aligned storage address at
-which some data is required to be stored
+which some data is required to be stored.
 
 \example{An object with an alignment of 8 may be stored at addresses 8, 16, 32,
 and so on; but not at address 4.}
@@ -19,10 +19,10 @@ and so on; but not at address 4.}
 document, but which the implementation is required to define.
 
 \specterm{padding} unused octets added to the storage of some data in order to
-meet a required alignment
+meet a required alignment. The value of these octets is undefined.
 
 \specterm{size} the number of octets required to represent some data, including
-padding
+padding.
 
 % TODO: So far this only makes sense in a couple of situations and we may want
 % to get rid of it:

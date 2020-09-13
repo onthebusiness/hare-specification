@@ -353,8 +353,8 @@ each.
 For a struct type, the \textit{offset} of each field is equal to the minimum
 \textit{aligned} offset which would meet the alignment requirements of the
 field's type. The implementation shall add \textit{padding} to meet the
-alignment requirements of struct fields, and the value of this padding shall be
-undefined. For a union type, the offset of all members is zero.
+alignment requirements of struct fields. For a union type, the offset of all
+members is zero.
 
 \specsubsubitem
 A union type's size is the maximum size among its fields. A struct type's size
@@ -380,6 +380,39 @@ Struct and union types cannot be cast to other type other than themselves.
 	\nonterminal{type} \terminal{|} \nonterminal{type} \\
 	\nonterminal{type} \terminal{|} \nonterminal{tagged-types} \\
 \end{grammar}
+
+\specsubsubitem
+A tagged union stores a value of \textbf{one} of its constituent types, as well
+as a \textit{tag} which indicates which of the constituent types is selected.
+The constituent types is defined by \nonterminal{tagged-types}.
+
+\specsubsubitem
+The representation of a tagged union shall be an \terminal{int}, followed by
+sufficient space to store any of the possible constituent types. Padding shall
+be inserted between the tag and the value area if necessary to meet the maximum
+alignment among the tagged union members.
+
+\specsubsubitem
+The tag shall represent the index within the \nonterminal{tagged-types} which
+definds the type for which the storage area value is to be interpreted as.
+
+\specsubsubitem
+The alignment of a tagged union type shall be the alignment of the
+\terminal{int} type or the maximum alignment of the constituent types, whichever
+is greater.
+
+\specsubsubitem
+The size of a tagged union type shall be maximum size of its constituent types,
+plus the size of the \terminal{int} type, plus any padding added per
+\subsubitemref{Tagged union types}{2}.
+
+\specsubsubitem
+If a member type among \nonterminal{tagged-types} is a tagged union type, it
+shall be reduced such that nested tagged union type is replaced with its
+constitent types in the parent union.
+
+\informative{The types \code{(int | (uint | (bool | void)))} and
+\code{(int | uint | bool | void)} are equivalent.}
 
 \specsubsection{Slice and array types}
 
