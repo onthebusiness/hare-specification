@@ -48,6 +48,51 @@ most basic unit in the Hare type system. Other types are referred to as
 \textit{aggregate types}, with the exception of alias types, which may be
 either scalar or aggregate.
 
+\specsubitem
+The \textit{type class} of a type is defined for scalar types as the terminal
+which reprents it, for example \terminal{i32}.
+
+\specsubitem
+An \textit{order} is defined between types. For types of different type classes,
+the order is ascending order based on the type storage value, which is defined
+by this table:
+
+\begin{tabular}{r | l r | l}
+Type class & Sort order & Type class & Sort order \\
+\hline
+\terminal{u8} & 1 &
+\terminal{u16} & 2 \\
+\terminal{u32} & 3 &
+\terminal{u64} & 4 \\
+\terminal{i8} & 5 &
+\terminal{i16} & 6 \\
+\terminal{i32} & 7 &
+\terminal{i64} & 8 \\
+\terminal{int} & 9 &
+\terminal{uint} & 10 \\
+\terminal{uintptr} & 11 &
+\terminal{size} & 12 \\
+\terminal{f32} & 13 &
+\terminal{f64} & 14 \\
+\terminal{bool} & 15 &
+\terminal{char} & 16 \\
+\terminal{null} & 17 &
+\terminal{str} & 18 \\
+\terminal{void} & 19 &
+\nonterminal{pointer-type} & 20 \\
+\nonterminal{enum-type} & 21 &
+array type & 22 \\
+slice type & 23 &
+struct type & 24 \\
+union type & 25 &
+\nonterminal{tagged-union-type} & 26 \\
+\nonterminal{function-type} & 27 &
+\nonterminal{alias-type} & 28 \\
+\end{tabular}
+
+Aggregate types define additional criteria for sorting between different types
+of the same type class.
+
 \specsubsection{Integer types}
 
 \begin{grammar}
@@ -64,13 +109,14 @@ either scalar or aggregate.
 	\terminal{uint}
 	\terminal{size}
 	\terminal{uintptr}
+	\terminal{char}
 \end{grammar}
 
 \specsubsubitem
 Integer types represent an integer value at a specific precision. These values
 are either \textit{signed} or \textit{unsigned}; which respectively
 \textbf{are} and \textbf{are not} able to represent negative integers. Zero is
-not negative.
+not negative. Integer types are considered \textit{numeric types}.
 
 \specsubsubitem
 Signed integer types shall be represented in two's compliment form; the
@@ -101,6 +147,11 @@ The precision in bits shall be a power of two.
 The precision of \nonterminal{uintptr} is implementation-defined. It shall be
 able to represent the value of any \nonterminal{pointer-type} as an integer.
 It shall be unsigned.
+
+\specsubsubitem
+The \terminal{char} type is equivalent to the \terminal{u8} type. However, there
+are limitations on its use, see \subsecref{Arithmetic expressions}
+\& \subsecref{Access expressions}.
 
 \specsubsubitem
 The alignment of integer types shall be equal to their size in octets.
@@ -165,7 +216,8 @@ $+$ undefined
 
 \specsubsubitem
 Floating-point types shall represent real numbers, i.e. numbers with both an
-integer and fractional part.
+integer and fractional part. Floating point types are considered \textit{numeric
+types}.
 
 \specsubsubitem
 The implementation shall represent floating-point types as IEEE 754-compatible
@@ -238,6 +290,24 @@ expressions}).
 \nonterminal{simple-expression} shall be limited to the
 \subsecref{Translation compatible expression subset}.
 
+\specsubsubitem
+The sort order of an enum type shall be determined by the following measures:
+
+\begin{subsubenumerate}
+\item
+The sort order of the type class of the underlying storage of each type.
+\item
+The number of \nonterminal{enum-values}; the type with fewer values is
+ordinally first.
+\item
+The value of each \nonterminal{enum-value} is compared between each enum type.
+If the value of type $A$ is less than the value of type $B$, type $A$ is
+ordinally first.
+\end{subsubenumerate}
+
+If the enum types are equivalent in each of these respects, the types are
+equivalent.
+
 % TODO: Assignment & cast rules
 
 \specsubsection{Pointer types}
@@ -274,6 +344,11 @@ types with different secondary types shall not be assigned to each other.
 \specsubsubitem
 Non-nullable pointer types may be assigned to nullable pointer types, but not
 vice-versa.
+
+\specsubsubitem
+The sort order of pointer types is equal to the sorting order of their secondary
+type. Between a nullable and non-nullable pointer type with the same secondary
+type, the nullable type is ordinally first.
 
 \specsubsection{Other primitive types}
 
@@ -342,7 +417,10 @@ from any type, except for itself.
 \specsubsubitem
 The \textit{struct type} and \textit{union type} are \textit{aggregate types}.
 A struct type stores multiple values, each with its own type; a union type
-stores one value which may be one of several types.
+stores one value which may be one of several types. A type defined with the
+\terminal{struct} terminal is a struct type and uses the struct type class; if
+the \terminal{union} terminal is used the type is a union type with the union
+type class.
 
 \specsubsubitem
 The \nonterminal{struct-fields} list denotes, in order, the subvalues which are
@@ -370,6 +448,14 @@ same \nonterminal{struct-fields}.}
 \specsubsubitem
 Struct and union types cannot be cast to other type other than themselves.
 
+\specsubsubitem
+The sort order between struct or union types is defined by comparing the fields
+of each type in order. If one type has fewer fields than another, it is
+ordinally first. Otherwise, if the $N$th field of type $A$ is ordinally lesser
+than the $N$th field of type $B$, type $A$ is ordinally lesser than type $B$.
+This is repeated for each field until an ordering is established, then the
+remaining fields are not considered.
+
 \specsubsection{Tagged union types}
 
 \begin{grammar}
@@ -393,8 +479,12 @@ be inserted between the tag and the value area if necessary to meet the maximum
 alignment among the tagged union members.
 
 \specsubsubitem
-The tag shall represent the index within the \nonterminal{tagged-types} which
-definds the type for which the storage area value is to be interpreted as.
+The tag value shall be assigned from the sort order of the constituent types,
+starting from $0$.
+
+\informative{For example, in the type \code{(bool | int | uint)}, the sorted
+list of constituent types would be \terminal{int}, \terminal{uint},
+\terminal{bool}; which would be respectively assigned tags 0, 1, and 2.}
 
 \specsubsubitem
 The alignment of a tagged union type shall be the alignment of the
@@ -413,6 +503,16 @@ constitent types in the parent union.
 
 \informative{The types \code{(int | (uint | (bool | void)))} and
 \code{(int | uint | bool | void)} are equivalent.}
+
+\specsubsubitem
+The sort order of a tagged union type is defined by which of the types has fewer
+constituent types; the one with fewer is ordinally first. If the two types have
+the same number of constituent types, the constituents are sorted and compared
+in order; the first constituent type pair which are not equivalent establishes
+the order between the two tagged union types.
+
+\informative{It follows that the types \code{(int | uint)} and \code{(uint | int)}
+are equivalent.}
 
 \specsubsection{Slice and array types}
 
