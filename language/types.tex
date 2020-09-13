@@ -339,6 +339,37 @@ from any type, except for itself.
 	\nonterminal{identifier} \\
 \end{grammar}
 
+\specsubsubitem
+The \textit{struct type} and \textit{union type} are \textit{aggregate types}.
+A struct type stores multiple values, each with its own type; a union type
+stores one value which may be one of several types.
+
+\specsubsubitem
+The \nonterminal{struct-fields} list denotes, in order, the subvalues which are
+represented by a struct or union, and optionally assigns a \nonterminal{name} to
+each.
+
+\specsubsubitem
+For a struct type, the \textit{offset} of each field is equal to the minimum
+\textit{aligned} offset which would meet the alignment requirements of the
+field's type. The implementation shall add \textit{padding} to meet the
+alignment requirements of struct fields, and the value of this padding shall be
+undefined. For a union type, the offset of all members is zero.
+
+\specsubsubitem
+A union type's size is the maximum size among its fields. A struct type's size
+is the sum of the sizes of its fields plus any necessary padding.
+
+\specsubsubitem
+Struct and union types are assignable from values of the same struct or union
+type.
+
+\informative{Struct and union types are distinct types even if they have the
+same \nonterminal{struct-fields}.}
+
+\specsubsubitem
+Struct and union types cannot be cast to other type other than themselves.
+
 \specsubsection{Tagged union types}
 
 \begin{grammar}
