@@ -93,7 +93,7 @@ The precision in bits shall be a power of two.
 \specsubsubitem
 The precision of \nonterminal{uintptr} is implementation-defined. It shall be
 able to represent the value of any \nonterminal{pointer-type} as an integer.
-The signedness of this type is undefined.
+It shall be unsigned.
 
 \specsubsubitem
 The alignment of integer types shall be equal to their size in octets.
@@ -193,6 +193,31 @@ expressions}).
 \subsecref{Translation compatible expression subset}.
 
 \specsubsection{Pointer types}
+
+\begin{grammar}
+\nonterminaldef{pointer-type} \\
+	\terminal{*} \nonterminal{type} \\
+	\terminal{nullable} \terminal{*} \nonterminal{type} \\
+\end{grammar}
+
+\specsubsubitem
+A pointer type is an indirect reference to an object of a secondary type. The
+notation of a pointer type is a \terminal{*} prefix before the secondary type.
+
+\specsubsubitem
+A normal pointer type shall \textbf{always} refers to a valid secondary object.
+A pointer type prefixed with \terminal{nullable} is considered a
+\textit{nullable pointer type}, and shall refer to either valid secondary object
+or to a special value called \textit{null}.
+
+\specsubsubitem
+The representation of a pointer type shall be implementation-defined, but shall
+meet the following constraints:
+
+\begin{subsubitemize}
+\item It shall have a well-defined length and alignment
+\item It shall be castable \textit{to} and \textit{from} a \terminal{uintptr} type.
+\end{subsubitemize}
 
 \specsubsection{Other primitive types}
 
