@@ -53,45 +53,7 @@ The \textit{type class} of a type is defined for scalar types as the terminal
 which reprents it, for example \terminal{i32}.
 
 \specsubitem
-An \textit{order} is defined between types. For types of different type classes,
-the order is ascending order based on the type storage value, which is defined
-by this table:
-
-\begin{tabular}{r | l r | l}
-Type class & Sort order & Type class & Sort order \\
-\hline
-\terminal{u8} & 1 &
-\terminal{u16} & 2 \\
-\terminal{u32} & 3 &
-\terminal{u64} & 4 \\
-\terminal{i8} & 5 &
-\terminal{i16} & 6 \\
-\terminal{i32} & 7 &
-\terminal{i64} & 8 \\
-\terminal{int} & 9 &
-\terminal{uint} & 10 \\
-\terminal{uintptr} & 11 &
-\terminal{size} & 12 \\
-\terminal{f32} & 13 &
-\terminal{f64} & 14 \\
-\terminal{bool} & 15 &
-\terminal{char} & 16 \\
-\terminal{null} & 17 &
-\terminal{str} & 18 \\
-\terminal{void} & 19 &
-\nonterminal{pointer-type} & 20 \\
-\nonterminal{enum-type} & 21 &
-array type & 22 \\
-slice type & 23 &
-struct type & 24 \\
-union type & 25 &
-\nonterminal{tagged-union-type} & 26 \\
-\nonterminal{function-type} & 27 &
-\nonterminal{alias-type} & 28 \\
-\end{tabular}
-
-Aggregate types define additional criteria for sorting between different types
-of the same type class.
+The implementation shall define a \textit{sort order} between types.
 
 \specsubsection{Integer types}
 
@@ -291,22 +253,16 @@ expressions}).
 \subsecref{Translation compatible expression subset}.
 
 \specsubsubitem
-The sort order of an enum type shall be determined by the following measures:
+Two enum types shall be considered equivalent if all of these conditions are
+met:
 
-\begin{subsubenumerate}
+\begin{subsubitemize}
 \item
-The sort order of the type class of the underlying storage of each type.
+The underlying storage type is the same.
 \item
-The number of \nonterminal{enum-values}; the type with fewer values is
-ordinally first.
-\item
-The value of each \nonterminal{enum-value} is compared between each enum type.
-If the value of type $A$ is less than the value of type $B$, type $A$ is
-ordinally first.
-\end{subsubenumerate}
-
-If the enum types are equivalent in each of these respects, the types are
-equivalent.
+The set of assigned values and the names assigned to those values is the same,
+regardless of their order.
+\end{subsubitemize}
 
 % TODO: Assignment & cast rules
 
@@ -344,11 +300,6 @@ types with different secondary types shall not be assigned to each other.
 \specsubsubitem
 Non-nullable pointer types may be assigned to nullable pointer types, but not
 vice-versa.
-
-\specsubsubitem
-The sort order of pointer types is equal to the sorting order of their secondary
-type. Between a nullable and non-nullable pointer type with the same secondary
-type, the nullable type is ordinally first.
 
 \specsubsection{Other primitive types}
 
@@ -449,12 +400,10 @@ same \nonterminal{struct-fields}.}
 Struct and union types cannot be cast to other type other than themselves.
 
 \specsubsubitem
-The sort order between struct or union types is defined by comparing the fields
-of each type in order. If one type has fewer fields than another, it is
-ordinally first. Otherwise, if the $N$th field of type $A$ is ordinally lesser
-than the $N$th field of type $B$, type $A$ is ordinally lesser than type $B$.
-This is repeated for each field until an ordering is established, then the
-remaining fields are not considered.
+A struct type shall be equivalent to another struct type if their fields, in
+order, are of equivalent types and names. A union type shall be equal to another
+union type if the set field types \& names are identical between them,
+without respect to their order.
 
 \specsubsection{Tagged union types}
 
@@ -479,12 +428,11 @@ be inserted between the tag and the value area if necessary to meet the maximum
 alignment among the tagged union members.
 
 \specsubsubitem
-The tag value shall be assigned from the sort order of the constituent types,
-starting from $0$.
+The tag value shall be assigned from $0$ based on the sort order of the
+constituent types, per \subitemref{Types}{7}.
 
-\informative{For example, in the type \code{(bool | int | uint)}, the sorted
-list of constituent types would be \terminal{int}, \terminal{uint},
-\terminal{bool}; which would be respectively assigned tags 0, 1, and 2.}
+\informative{It follows that the types \code{(A | B)} and \code{(B | A)}
+are equivalent.}
 
 \specsubsubitem
 The alignment of a tagged union type shall be the alignment of the
@@ -501,18 +449,8 @@ If a member type among \nonterminal{tagged-types} is a tagged union type, it
 shall be reduced such that nested tagged union type is replaced with its
 constitent types in the parent union.
 
-\informative{The types \code{(int | (uint | (bool | void)))} and
-\code{(int | uint | bool | void)} are equivalent.}
-
-\specsubsubitem
-The sort order of a tagged union type is defined by which of the types has fewer
-constituent types; the one with fewer is ordinally first. If the two types have
-the same number of constituent types, the constituents are sorted and compared
-in order; the first constituent type pair which are not equivalent establishes
-the order between the two tagged union types.
-
-\informative{It follows that the types \code{(int | uint)} and \code{(uint | int)}
-are equivalent.}
+\informative{The types \code{(A | (B | (C | D)))} and
+\code{(A | B | C | D)} are equivalent.}
 
 \specsubsection{Slice and array types}
 
