@@ -16,7 +16,6 @@
 	\nonterminal{enum-type} \\
 	\nonterminal{pointer-type} \\
 	\terminal{bool} \\
-	\terminal{null} \\
 	\terminal{void} \\
 \end{grammar}
 
@@ -28,6 +27,14 @@ all types are its \textit{size}, in octets; \textit{alignment}; and its
 \specsubitem
 Some types have an undefined size. This includes \nonterminal{function-type},
 and some cases of \nonterminal{slice-array-type}.
+
+\specsubitem
+Other traits of a type include its \textit{assignability rules} and
+\textit{casting rules}. The assignability rules refer to the constraints under
+which a value of one type may be assigned to or from a value of another type,
+causing an implicit conversion per \subsecref{Assignment}. The casting rules
+refer to the constraints under which a value of one type may be converted to
+another type using the explicit process of \subsecref{Casting}.
 
 \specsubitem
 The \terminal{const} terminal, when used in a type specifier, enables the
@@ -98,6 +105,33 @@ It shall be unsigned.
 \specsubsubitem
 The alignment of integer types shall be equal to their size in octets.
 
+\specsubsubitem
+An integer type is assignable to another integer type if the signedness of the
+types are equivalent and if the precision of the target type is greater than the
+source type.
+
+\informative{In other words, integer types are assignable if the assignment
+would not cause a loss of precision.}
+
+\specsubsubitem
+The \terminal{uintptr} type is not assignable to any type other than itself.
+
+\specsubsubitem
+The \terminal{uintptr} type may be cast to and from a
+\nonterminal{pointer-type}.
+
+\specsubsubitem
+All integer types are mutually castable. If a cast would incur a precision loss,
+the value is truncated towards the least significant bit.
+
+\specsubsubitem
+When casting a signed type to another signed type, the sign bit shall be
+preserved.
+
+\specsubsubitem
+When casting a signed type to an unsigned type or vice-versa, the sign bit shall
+be interpreted as the most-significant bit of the unsigned type.
+
 \informative{The following table is informative.}
 
 \begin{tabular}{r | l l l}
@@ -140,6 +174,18 @@ and \terminal{f64} shall use the binary64 format.
 
 \specsubsubitem
 The alignment of float types shall be equal to their size in octets.
+
+\specsubsubitem
+Floating point types are not mutually assignable.
+
+\specsubsubitem
+Floating point types may be cast to each other. If this conversion would cause a
+loss of precision, the value is truncated towards zero.
+
+\specsubsubitem
+Floating point types may be cast to integer types. The fractional part of the
+value is discarded and the integer part is truncated towards the
+least-significant bit.
 
 \specsubsection{Enum types}
 
@@ -192,6 +238,8 @@ expressions}).
 \nonterminal{simple-expression} shall be limited to the
 \subsecref{Translation compatible expression subset}.
 
+% TODO: Assignment & cast rules
+
 \specsubsection{Pointer types}
 
 \begin{grammar}
@@ -219,7 +267,60 @@ meet the following constraints:
 \item It shall be castable \textit{to} and \textit{from} a \terminal{uintptr} type.
 \end{subsubitemize}
 
+\specsubsubitem
+Pointer types with the same secondary type are mutually assignable. Pointer
+types with different secondary types shall not be assigned to each other.
+
+\specsubsubitem
+Non-nullable pointer types may be assigned to nullable pointer types, but not
+vice-versa.
+
 \specsubsection{Other primitive types}
+
+\textbf{The bool type}
+
+\specsubsubitem
+The \terminal{bool} type represents a boolean value, which may have one of two
+states: true or false.
+
+\specsubsubitem
+The boolean type representation shall be equivalent to the \terminal{uint} type.
+Any non-zero value shall be interpreted as true, and zero shall be intepreted as
+false.
+
+\specsubsubitem
+The boolean type follows the same casting rules as the \terminal{uint} type. It
+is only assignable to itself.
+
+\textbf{The null type}
+
+\specsubsubitem
+The \terminal{null} type shall have the same representation as a pointer and can
+only store a specific, implementation-defined value (the \textit{null} value).
+
+\specsubsubitem
+There is no grammar for defining a value of type null, or a sub-type of null. It
+is for internal use only, as the type of the \terminal{null} constant.
+
+\specsubsubitem
+The \terminal{null} type may not be assigned to. Nullable \subsecref{Pointer
+types} may be assigned from the \terminal{null} type, causing them to assume
+their null value.
+
+\specsubsubitem
+The null type may be cast to any nullable pointer type \subsecref{Pointer
+types}, resulting in a value of the desired nullable pointer type of the null
+value.
+
+\textbf{The void type}
+
+\specsubsubitem
+The \terminal{void} type represents a non-existent value, and shall have no
+storage.
+
+\specsubsubitem
+The \terminal{void} type may not be assigned to or from any type, nor cast to or
+from any type, except for itself.
 
 \specsubsection{Struct and union types}
 
