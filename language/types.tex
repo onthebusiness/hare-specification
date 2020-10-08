@@ -461,6 +461,63 @@ constitent types in the parent union.
 	\terminal{[} \terminal{*} \terminal{]} \nonterminal{type} \\
 \end{grammar}
 
+\specsubsubitem
+An \textit{array type} stores one or more items of a uniform secondary type.
+The number of items stored in an array type is an attribute of the array type
+and is specified during the translation phase.
+
+\specsubsubitem
+The \nonterminal{simple-expression} representation is used for array types of a
+determinate length, that is, with a determinate number of items. Such arrays are
+\textit{bounded}. The \nonterminal{simple-expression} must evaluate to a
+positive integer value, and shall be limited to the \subsecref{Translation
+compatible expression subset}.
+
+\specsubsubitem
+An array type may be \textit{unbounded}, in which case the number of items is
+not known. The \terminal{*} representation indicates an array of this type.
+
+\specsubsubitem
+The representation of an \textit{array type} shall be the items concatenated one
+after another, such that the offset of the \textit{N}th item is determined by
+the equation $N \times S$, where \textit{S} is the size of the secondary type.
+
+\specsubsubitem
+A \textit{slice type} stores a pointer to an unbounded array type, with a given
+\textit{capacity}, \textit{length}, and \textit{item size}, which respectively
+refer to the number of items that the unbounded array \textbf{may} store without
+re-allocation, the number of items which are \textbf{currently valid}, and the
+size of the underlying type. The representation with no lexical elements between
+\terminal{[} and \terminal{]} indicates a slice type.
+
+\specsubsubitem
+The representation of a slice type shall be equivalent to the following struct
+type:
+
+\begin{codesample}
+struct {
+	capacity: size,
+	length: size,
+	item_size: size,
+	data: *[*]type,
+}
+\end{codesample}
+
+The \textit{data} field is a pointer to an unbounded array of the secondary
+type.
+
+\specsubsubitem
+The alignment of an array type shall be equivalent to the alignment of the
+underlying type. The alignment of a slice type shall be equivalent to the
+alignment of the \terminal{size} type or \subsecref{Pointer types}, whichever is
+greater.
+
+\specsubsubitem
+The size of a bounded array type shall be equal to $N \times S$, where N is the
+number of items and S is the size of the underlying type. The size of an
+unbounded array is undefined. The size of a slice type shall be equal to the
+size of the struct type defined by \subsubitemref{Slice and array types}{6}.
+
 \specsubsection{Function types}
 
 \begin{grammar}
