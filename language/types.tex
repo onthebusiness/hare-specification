@@ -524,7 +524,61 @@ size of the struct type defined by \subsubitemref{Slice and array types}{6}.
 \begin{grammar}
 \nonterminaldef{function-type} \\
 	\terminal{fn} \nonterminal{prototype} \\
+
+\nonterminaldef{prototype} \\
+	\nonterminal{type} \\
+	\terminal{(} \nonterminal{parameter-list} \terminal{)} \nonterminal{type} \\
+
+\nonterminaldef{parameter-list} \\
+	\nonterminal{parameter-binding} \optional{\terminal{,}} \\
+	\nonterminal{parameter-list} \terminal{,} \nonterminal{parameter-binding} \\
+	\nonterminal{parameter-list} \terminal{,} \terminal{...} \\
+
+\nonterminaldef{parameter-binding} \\
+	\nonterminal{name} \terminal{:} \nonterminal{type} \\
+	\nonterminal{name} \terminal{:} \nonterminal{type} \terminal{...} \\
+	\nonterminal{type} \\
 \end{grammar}
+
+\specsubsubitem
+Function types represent a procedure which may be completed in the
+\secref{Execution environment} to obtain a result and possibly cause side
+effects (see \subsubitemref{Program execution}{1}).
+
+\specsubsubitem
+The attributes of a function type are its \textit{result type} and
+\textit{input parameters}. A function type must have one result type (which may
+be \terminal{void}), and zero or more parameters.
+
+\specsubsubitem
+Terminating a \nonterminal{parameter-list} with \terminal{...} indicates that
+this function type utilizes \textit{C-style variadism}. Terminating the final
+\nonterminal{parameter} of the parameter list with \terminal{...} indicates
+that the parameter uses \textit{Hare-style variadism}. The variadism of a
+function type affects the calling semantics for that function.
+
+\begin{codesample}
+// C-style variadism:
+fn(x: int, y: int, ...)
+
+// Hare-style variadism:
+fn(x: int, y: int, z: int...)
+\end{codesample}
+
+Forward references: \subsecref{Call expressions}
+
+\specsubsubitem
+The type of a parameter which uses Hare-style variadism shall be a
+\terminal{const} slice of the specified type.
+
+\informative{Therefore, in the case of \code{fn(x: int...)}, the type of x
+shall be \code{const []int}.}
+
+\specsubsubitem
+The size, alignment, and storage semantics of function types is undefined. All
+function types shall be \terminal{const}, without regard to the use of
+\terminal{const} in the type description. Function types shall not be cast to
+or from any other type.
 
 \specsubsection{Type aliases}
 
