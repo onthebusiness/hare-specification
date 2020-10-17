@@ -531,12 +531,11 @@ size of the struct type defined by \subsubitemref{Slice and array types}{6}.
 
 \nonterminaldef{parameter-list} \\
 	\nonterminal{parameter-binding} \optional{\terminal{,}} \\
-	\nonterminal{parameter-list} \terminal{,} \nonterminal{parameter-binding} \\
+	\nonterminal{parameter-list} \terminal{,} \nonterminal{parameter-binding} \optional{\terminal{...}} \\
 	\nonterminal{parameter-list} \terminal{,} \terminal{...} \\
 
 \nonterminaldef{parameter-binding} \\
 	\nonterminal{name} \terminal{:} \nonterminal{type} \\
-	\nonterminal{name} \terminal{:} \nonterminal{type} \terminal{...} \\
 	\nonterminal{type} \\
 \end{grammar}
 
@@ -573,6 +572,9 @@ The type of a parameter which uses Hare-style variadism shall be a
 
 \informative{Therefore, in the case of \code{fn(x: int...)}, the type of x
 shall be \code{const []int}.}
+
+\specsubsubitem
+Only the last parameter of the prototype may be variadic.
 
 \specsubsubitem
 The size, alignment, and storage semantics of function types is undefined. All
