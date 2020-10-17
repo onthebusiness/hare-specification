@@ -77,6 +77,7 @@
 	\stepcounter{specsubsubctr}
 	\makebox[0pt][r]{\thechapter.\thespecctr.\thespecsubctr.\thespecsubsubctr\hspace{0.5cm}}}
 \newcommand{\specchapter}[1]{
+\par
 \setcounter{specctr}{0}
 \setcounter{specsubctr}{0}
 \setcounter{specsubsubctr}{0}
@@ -84,6 +85,7 @@
 \label{ch:#1}
 }
 \newcommand{\specsection}[1]{
+\par
 \setcounter{section}{\value{specctr}}
 \stepcounter{specctr}
 \setcounter{specsubctr}{0}
@@ -93,6 +95,7 @@
 \label{sec:#1}
 }
 \newcommand{\specsubsection}[1]{
+\par
 \setcounter{subsection}{\value{specsubctr}}
 \stepcounter{specsubctr}
 \setcounter{specsubsubctr}{0}

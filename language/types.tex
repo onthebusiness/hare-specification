@@ -588,3 +588,19 @@ or from any other type.
 \nonterminaldef{alias-type} \\
 	\nonterminal{identifier} \\
 \end{grammar}
+
+\specsubsubitem
+A type alias assigns an \nonterminal{identifier} a unique type which is an
+alias for another type.
+
+\informative{The grammar for an \nonterminal{alias-type} does not specify the
+underlying type. The underlying type is specified at the time it is declared,
+see \secref{Declarations}.}
+
+\specsubsubitem
+A type alias shall have the same storage, alignment, size, and semantics as its
+underlying type.
+
+\specsubsubitem
+Each type alias (uniquely identified by its \nonterminal{identifier}) shall be
+a unique type, even if it shares its underlying type with another type alias.
