@@ -21,6 +21,142 @@ non-terminating.
 
 \specsubsection{Constants}
 
+\begin{grammar}
+\nonterminaldef{constant} \\
+	\nonterminal{integer-constant} \\
+	\nonterminal{floating-constant} \\
+	\nonterminal{string-constant} \\
+	\terminal{true} \\
+	\terminal{false} \\
+	\terminal{null} \\
+	\terminal{void} \\
+\end{grammar}
+
+\specsubitem
+Constants (also known as literals) shall describe a specific value of an
+unambiguous type. The result of the expression is the constant value.
+
+\specsubitem
+The keywords \terminal{true} and \terminal{false} respectively represent
+constants of the \terminal{bool} type.
+
+\specsubitem
+The \terminal{null} keyword represents the \terminal{null} value of the
+\terminal{null} type.
+
+\specsubitem
+The \terminal{void} keyword represents the \terminal{void} value of the
+\terminal{void} type.
+
+\pagebreak
+\textbf{Integer constants}
+
+\begin{grammar}
+\nonterminaldef{integer-constant} \\
+	\terminal{0x} \nonterminal{hex-digits} \optional{\nonterminal{integer-suffix}} \\
+	\terminal{0o} \nonterminal{octal-digits} \optional{\nonterminal{integer-suffix}} \\
+	\terminal{0b} \nonterminal{binary-digits} \optional{\nonterminal{integer-suffix}} \\
+	\nonterminal{decimal-digits} \optional{\nonterminal{integer-suffix}} \\
+
+\nonterminaldef{hex-digits} \\
+	\nonterminal{hex-digit} \optional{\nonterminal{hex-digits}} \\
+
+\nonterminaldef{hex-digit} \oneof \\
+	\terminal{0}
+	\terminal{1}
+	\terminal{2}
+	\terminal{3}
+	\terminal{4}
+	\terminal{5}
+	\terminal{6}
+	\terminal{7}
+	\terminal{8}
+	\terminal{9}
+	\terminal{A}
+	\terminal{B}
+	\terminal{C}
+	\terminal{D}
+	\terminal{E}
+	\terminal{F}
+	\terminal{a}
+	\terminal{b}
+	\terminal{c}
+	\terminal{d}
+	\terminal{e}
+	\terminal{f} \\
+
+\nonterminaldef{decimal-digits} \\
+	\nonterminal{decimal-digit} \optional{\nonterminal{decimal-digits}} \\
+
+\nonterminaldef{decimal-digit} \oneof \\
+	\terminal{0}
+	\terminal{1}
+	\terminal{2}
+	\terminal{3}
+	\terminal{4}
+	\terminal{5}
+	\terminal{6}
+	\terminal{7}
+	\terminal{8}
+	\terminal{9} \\
+
+\nonterminaldef{octal-digits} \\
+	\nonterminal{octal-digit} \optional{\nonterminal{octal-digits}} \\
+
+\nonterminaldef{octal-digit} \oneof \\
+	\terminal{0}
+	\terminal{1}
+	\terminal{2}
+	\terminal{3}
+	\terminal{4}
+	\terminal{5}
+	\terminal{6}
+	\terminal{7} \\
+
+\nonterminaldef{binary-digits} \\
+	\nonterminal{binary-digit} \optional{\nonterminal{binary-digits}} \\
+
+\nonterminaldef{binary-digit} \oneof \\
+	\terminal{0}
+	\terminal{1} \\
+
+\nonterminaldef{integer-suffix} \oneof \\
+	\terminal{i}
+	\terminal{u}
+	\terminal{z}
+	\terminal{i8}
+	\terminal{i16}
+	\terminal{i32}
+	\terminal{i64}
+	\terminal{u8}
+	\terminal{u16}
+	\terminal{u32}
+	\terminal{u64} \\
+\end{grammar}
+
+% TODO: Scientific notation
+% TODO: Consider using magic precision numeric constants which assume their
+% type from context
+
+Integer constants represent an integer value at a specific precision.
+
+\specsubitem
+If the \nonterminal{integer-suffix} is not provided, the type shall be
+\terminal{int}.  Otherwise, the type is specified by the suffix. Suffixes
+\terminal{i}, \terminal{u},  and \terminal{z} shall respectively refer to the
+\terminal{int}, \terminal{uint}, and \terminal{size} types; the remainder shall
+refer to the type named by the suffix.
+
+\specsubitem
+If the number provided is not within the limits of the precision of the
+constant type, a diagnostic message shall be printed and the translation phase
+shall fail.
+
+\specsubitem
+The prefixes \terminal{0x}, \terminal{0o}, and \terminal{0b} shall respectively
+cause the number to be interpreted with a hexadecimal, octal, or binary base.
+If no prefix is used, the number shall be interpreted with a decimal base.
+
 \specsubsection{Slice literals}
 
 \specsubsection{Struct literals}
