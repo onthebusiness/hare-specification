@@ -221,6 +221,24 @@ Escape sequence & Unicode codepoint & Escape sequence & Unicode codepoint \\
 \terminal{\textbackslash"} & \code{U+0022} \\
 \end{tabular}
 
+\specsubsection{String constants}
+
+\begin{grammar}
+\nonterminaldef{string-constant} \\
+	\terminal{"} \nonterminal{string-chars} \terminal{"} \\
+
+\nonterminaldef{string-chars} \\
+	\nonterminal{string-char} \optional{\nonterminal{string-chars}} \\
+
+\nonterminaldef{string-char} \\
+	\norm{Any character other than \terminal{\textbackslash} or \terminal{"}} \\
+	\nonterminal{escape-sequence} \\
+\end{grammar}
+
+\specsubitem
+A \nonterminal{string-char} shall be represented in the same manner as a
+\nonterminal{rune}.
+
 \specsubsection{Slice literals}
 
 \specsubsection{Struct literals}
