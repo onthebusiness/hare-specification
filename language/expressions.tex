@@ -25,6 +25,7 @@ non-terminating.
 \nonterminaldef{constant} \\
 	\nonterminal{integer-constant} \\
 	\nonterminal{floating-constant} \\
+	\nonterminal{rune-constant} \\
 	\nonterminal{string-constant} \\
 	\terminal{true} \\
 	\terminal{false} \\
@@ -52,7 +53,7 @@ The \terminal{null} keyword represents the \terminal{null} value of the
 The \terminal{void} keyword represents the \terminal{void} value of the
 \terminal{void} type.
 
-\inlineheading{Integer constants}
+\specsubsection{Integer constants}
 
 \begin{grammar}
 \nonterminaldef{integer-constant} \\
@@ -159,6 +160,66 @@ shall fail.
 The prefixes \terminal{0x}, \terminal{0o}, and \terminal{0b} shall respectively
 cause the number to be interpreted with a hexadecimal, octal, or binary base.
 If no prefix is used, the number shall be interpreted with a decimal base.
+
+\specsubsection{Rune constants}
+\begin{grammar}
+\nonterminaldef{rune-constant} \\
+	\terminal{'} \nonterminal{rune} \terminal{'} \\
+
+\nonterminaldef{rune} \\
+	\norm{Any character other than \terminal{\textbackslash} or \terminal{'}} \\
+	\nonterminal{escape-sequence} \\
+
+\nonterminaldef{escape-sequence} \\
+	\nonterminal{named-escape} \\
+	\terminal{\textbackslash{}x} \nonterminal{hex-digit} \nonterminal{hex-digit} \\
+	\terminal{\textbackslash{}u} \nonterminal{hex-digit} \nonterminal{hex-digit} \nonterminal{hex-digit} \nonterminal{hex-digit} \\
+
+\nonterminaldef{named-escape} \oneof \\
+	\terminal{\textbackslash0}
+	\terminal{\textbackslash{}a}
+	\terminal{\textbackslash{}b}
+	\terminal{\textbackslash{}f}
+	\terminal{\textbackslash{}n}
+	\terminal{\textbackslash{}r}
+	\terminal{\textbackslash{}t}
+	\terminal{\textbackslash{}v}
+	\terminal{\textbackslash\textbackslash}
+	\terminal{\textbackslash'}
+	\terminal{\textbackslash"} \\
+\end{grammar}
+
+% TODO: Describe representation of rune types
+
+\specsubitem
+If the \nonterminal{rune-constant} is not an \nonterminal{escape-sequence}, the
+value of the rune shall be the Unicode codepoint representing
+\nonterminal{rune}.
+
+\specsubitem
+A \nonterminal{rune-constant} beginning with \terminal{\textbackslash{}x} or
+\terminal{\textbackslash{}u} shall interpet its value as a Unicode codepoint
+specified in its hexadecimal representation by \nonterminal{hex-digit}s.
+
+\specsubitem
+A \nonterminal{rune-constant} containing a \nonterminal{named-escape} shall have
+a value based on the following chart:
+
+\begin{tabular}{r | l | r | l}
+Escape sequence & Unicode codepoint & Escape sequence & Unicode codepoint \\
+\hline
+\terminal{\textbackslash0} & \code{U+0000} &
+\terminal{\textbackslash{}a} & \code{U+0007} \\
+\terminal{\textbackslash{}b} & \code{U+0008} &
+\terminal{\textbackslash{}f} & \code{U+000C} \\
+\terminal{\textbackslash{}n} & \code{U+000A} &
+\terminal{\textbackslash{}r} & \code{U+000D} \\
+\terminal{\textbackslash{}t} & \code{U+0009} &
+\terminal{\textbackslash{}v} & \code{U+000B} \\
+\terminal{\textbackslash\textbackslash} & \code{U+005C} &
+\terminal{\textbackslash'} & \code{U+002C} \\
+\terminal{\textbackslash"} & \code{U+0022} \\
+\end{tabular}
 
 \specsubsection{Slice literals}
 
