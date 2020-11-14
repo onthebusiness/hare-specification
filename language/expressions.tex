@@ -53,6 +53,51 @@ The \terminal{null} keyword represents the \terminal{null} value of the
 The \terminal{void} keyword represents the \terminal{void} value of the
 \terminal{void} type.
 
+\specsubsection{Floating constants}
+
+\begin{grammar}
+\nonterminaldef{floating-constant} \\
+	\nonterminal{decimal-digits} \terminal{.} \nonterminal{decimal-digits} \optional{\nonterminal{exponent}} \optional{\nonterminal{floating-suffix}} \\
+	\nonterminal{decimal-digits} \optional{\nonterminal{exponent}} \nonterminal{floating-suffix} \\
+
+\nonterminaldef{floating-suffix} \oneof \\
+	\terminal{f32}
+	\terminal{f64} \\
+
+\nonterminaldef{decimal-digits} \\
+	\nonterminal{decimal-digit} \optional{\nonterminal{decimal-digits}} \\
+
+\nonterminaldef{decimal-digit} \oneof \\
+	\terminal{0}
+	\terminal{1}
+	\terminal{2}
+	\terminal{3}
+	\terminal{4}
+	\terminal{5}
+	\terminal{6}
+	\terminal{7}
+	\terminal{8}
+	\terminal{9} \\
+
+\nonterminaldef{exponent} \\
+	\terminal{e} \nonterminal{decimal-digits} \\
+\end{grammar}
+
+% TODO: consider using magic precision numeric constants which assume
+% their type from context
+
+Floating constants represent an IEEE 754-compatible floating-point
+number in either the binary32 or binary64 format.
+
+\specsubitem
+If the \nonterminal{floating-suffix} is not provided, the type shall be
+\terminal{f64}. Otherwise, the type shall refer to the type named by the suffix.
+
+\specsubitem
+If the \nonterminal{exponent} is provided, the value of the
+constant shall be multiplied by 10 to the power of
+\nonterminal{decimal-digits}.
+
 \specsubsection{Integer constants}
 
 \begin{grammar}
@@ -88,21 +133,6 @@ The \terminal{void} keyword represents the \terminal{void} value of the
 	\terminal{d}
 	\terminal{e}
 	\terminal{f} \\
-
-\nonterminaldef{decimal-digits} \\
-	\nonterminal{decimal-digit} \optional{\nonterminal{decimal-digits}} \\
-
-\nonterminaldef{decimal-digit} \oneof \\
-	\terminal{0}
-	\terminal{1}
-	\terminal{2}
-	\terminal{3}
-	\terminal{4}
-	\terminal{5}
-	\terminal{6}
-	\terminal{7}
-	\terminal{8}
-	\terminal{9} \\
 
 \nonterminaldef{octal-digits} \\
 	\nonterminal{octal-digit} \optional{\nonterminal{octal-digits}} \\
