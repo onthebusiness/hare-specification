@@ -105,7 +105,8 @@ constant shall be multiplied by 10 to the power of
 	\terminal{0x} \nonterminal{hex-digits} \optional{\nonterminal{integer-suffix}} \\
 	\terminal{0o} \nonterminal{octal-digits} \optional{\nonterminal{integer-suffix}} \\
 	\terminal{0b} \nonterminal{binary-digits} \optional{\nonterminal{integer-suffix}} \\
-	\nonterminal{decimal-digits} \optional{\nonterminal{integer-suffix}} \\
+	\nonterminal{decimal-digits} \optional{\nonterminal{exponent}}
+		\optional{\nonterminal{integer-suffix}} \\
 
 \nonterminaldef{hex-digits} \\
 	\nonterminal{hex-digit} \optional{\nonterminal{hex-digits}} \\
@@ -168,7 +169,6 @@ constant shall be multiplied by 10 to the power of
 	\terminal{u64} \\
 \end{grammar}
 
-% TODO: Scientific notation
 % TODO: Consider using magic precision numeric constants which assume their
 % type from context
 
@@ -190,6 +190,10 @@ shall fail.
 The prefixes \terminal{0x}, \terminal{0o}, and \terminal{0b} shall respectively
 cause the number to be interpreted with a hexadecimal, octal, or binary base.
 If no prefix is used, the number shall be interpreted with a decimal base.
+
+\specsubitem
+If the \nonterminal{exponent} is provided, the value of the
+integer shall be multiplied by 10 to the power of \nonterminal{decimal-digits}.
 
 \specsubsection{Rune constants}
 \begin{grammar}
