@@ -395,6 +395,11 @@ An array type may be \textit{unbounded}, in which case the number of items is
 not known. The \terminal{*} representation indicates an array of this type.
 
 \specsubsubitem
+An array type may be \textit{expandible}. This state is not represented in the
+type grammar, and is only used in specific situations. Array types are presumed
+to be non-expandible unless otherwise specified.
+
+\specsubsubitem
 The representation of an \textit{array type} shall be the items concatenated one
 after another, such that the offset of the \textit{N}th item is determined by
 the equation $N \times S$, where \textit{S} is the size of the secondary type.

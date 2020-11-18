@@ -273,7 +273,34 @@ Escape sequence & Unicode codepoint & Escape sequence & Unicode codepoint \\
 A \nonterminal{string-char} shall be represented in the same manner as a
 \nonterminal{rune}.
 
-\specsubsection{Slice literals}
+\specsubsection{Array literals}
+
+\begin{grammar}
+\nonterminaldef{array-literal} \\
+	\terminal{[} \nonterminal{array-members} \terminal{]} \\
+
+\nonterminaldef{array-members} \\
+	\nonterminal{simple-expression} \optional{\terminal{,}} \\
+	\nonterminal{simple-expression} \terminal{...} \optional{\terminal{,}} \\
+	\nonterminal{simple-expression} \terminal{,} \nonterminal{array-members} \\
+\end{grammar}
+
+% TODO: Specify meaning of simple & complex expressions
+
+\specsubsubitem
+An \nonterminal{array-literal} expression produces a value of an array type.
+The type of each \nonterminal{simple-expression} shall be uniform and shall
+determine the member type of the array value, and the length of the array type
+shall be defined by the number of members.
+
+\specsubsubitem
+The execution environment shall evaluate the \nonterminal{array-members},
+ordered such that any side-effects of evaluating the arguments occur in the
+order that the members are listed, such that the \textit{N}th member provides
+the value for the \textit{N}th array member.
+
+\specsubsubitem
+If the \terminal{...} form is used, the result's array type shall be expandible.
 
 \specsubsection{Struct literals}
 
@@ -340,6 +367,8 @@ type with a non-zero size, but are otherwise unconstrained.
 \specsubsection{Struct field access}
 
 \specsubsection{Slice member access}
+
+\specsubsection{Slice subset}
 
 \specsubsection{Built-in functions}
 
