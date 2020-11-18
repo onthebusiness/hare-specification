@@ -447,12 +447,13 @@ size of the struct type defined by \subsubitemref{Slice and array types}{6}.
 
 \nonterminaldef{parameter-list} \\
 	\nonterminal{parameter-binding} \optional{\terminal{,}} \\
-	\nonterminal{parameter-list} \terminal{,} \nonterminal{parameter-binding} \optional{\terminal{...}} \\
+	\nonterminal{parameter-binding} \terminal{,} \nonterminal{parameter-list} \\
 	\nonterminal{parameter-list} \terminal{,} \terminal{...} \\
 
 \nonterminaldef{parameter-binding} \\
 	\nonterminal{name} \terminal{:} \nonterminal{type} \\
 	\nonterminal{type} \\
+	\nonterminal{parameter-binding} \terminal{...} \\
 \end{grammar}
 
 \specsubsubitem
