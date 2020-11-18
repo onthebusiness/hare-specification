@@ -473,6 +473,12 @@ this function type utilizes \textit{C-style variadism}. Terminating the final
 that the parameter uses \textit{Hare-style variadism}. The variadism of a
 function type affects the calling semantics for that function.
 
+\specsubsubitem
+The implementation is not required to support C-style variadism. If the
+implementation does not support C-style variadism, it must print a diagnostic
+message and abort the translation environment for programs which attempt to
+utilize it.
+
 \begin{codesample}
 // C-style variadism:
 fn(x: int, y: int, ...)

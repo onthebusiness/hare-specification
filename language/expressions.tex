@@ -283,6 +283,60 @@ A \nonterminal{string-char} shall be represented in the same manner as a
 
 \specsubsection{Calls}
 
+\begin{grammar}
+\nonterminaldef{call-expression} \\
+	\nonterminal{postfix-expression} \terminal{(} \optional{\nonterminal{argument-list}} \terminal{)} \\
+
+\nonterminaldef{argument-list} \\
+	\nonterminal{argument} \optional{\terminal{,}} \\
+	\nonterminal{argument} \terminal{,} \nonterminal{argument-list} \\
+
+\nonterminaldef{argument} \\
+	\optional{\terminal{...}} \nonterminal{complex-expression} \\
+\end{grammar}
+
+\specsubsubitem
+A \nonterminal{call-expression} shall invoke a function in the execution
+environment and its result shall be a value of the type specified by the
+\nonterminal{postfix-expression}'s function result type. This evaluation shall
+include any necessary side-effects per \subsubitemref{Program execution}{1}.
+
+\specsubsubitem
+The \nonterminal{argument-list} shall be a list of expressions whose types
+shall be assignable to the types of the function's parameters, in the order
+that they are declared in the function type.
+
+\specsubsubitem
+The execution environment shall evaluate the \nonterminal{argument-list},
+ordered such that any side-effects of evaluating the arguments occur in the
+order that the arguments are listed, to obtain the parameter values required to
+invoke the function.
+
+\specsubsubitem
+The specific means by which the invoked function assumes control of the
+execution environment, and by which the arguments are provided to it, is
+implementation-defined.
+
+\informative{This is generally provided by the target's ABI specification.}
+
+\specsubsubitem
+If the invoked function uses Hare-style variadism, the
+\nonterminal{argument-list} shall provide zero or more arguments for the final
+parameter, all of which must be assignable to the type of the variadic
+parameter.
+
+\specsubsubitem
+If an argument uses the optional \terminal{...} terminal, it must occupy the
+position of a variadic parameter and have a slice or array type. Only the final
+argument shall use the \terminal{...} terminal, and if present, no other
+variadic arguments shall be provied. The implementation shall interpret this
+value as the list of variadic arguments.
+
+\specsubsubitem
+If the invoked function uses C-style variadism, the function may provide zero
+or more arguments following the final parameter. These arguments shall be of a
+type with a non-zero size, but are otherwise unconstrained.
+
 \specsubsection{Struct field access}
 
 \specsubsection{Slice member access}
