@@ -16,8 +16,8 @@
 	\nonterminal{floating-type} \\
 	\nonterminal{enum-type} \\
 	\nonterminal{pointer-type} \\
-	\nonterminal{rune-type} \\
 	\terminal{bool} \\
+	\terminal{rune} \\
 	\terminal{void} \\
 \end{grammar}
 
@@ -239,8 +239,6 @@ or to a special value called \textit{null}.
 \specsubsubitem
 The representation of a pointer type shall be implementation-defined, but it
 shall have an implementation-defined length and alignment.
-
-\specsubsection{Rune types}
 
 \specsubsection{Other primitive types}
 
@@ -532,5 +530,11 @@ underlying type.
 \specsubsubitem
 Each type alias (uniquely identified by its \nonterminal{identifier}) shall be
 a unique type, even if it shares its underlying type with another type alias.
+
+\specsubsection{Rune types}
+
+\specsubsubitem
+The \terminal{rune} type represents a Unicode codepoint, encoded as a
+\nonterminal{u32}.
 
 \specsubsection{String types}
