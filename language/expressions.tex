@@ -315,11 +315,9 @@ If the \terminal{...} form is used, the result's array type shall be expandible.
 	\nonterminal{postfix-expression} \terminal{(} \optional{\nonterminal{argument-list}} \terminal{)} \\
 
 \nonterminaldef{argument-list} \\
-	\nonterminal{argument} \optional{\terminal{,}} \\
-	\nonterminal{argument} \terminal{,} \nonterminal{argument-list} \\
-
-\nonterminaldef{argument} \\
-	\optional{\terminal{...}} \nonterminal{complex-expression} \\
+	\nonterminal{complex-expression} \optional{\terminal{,}} \\
+	\terminal{...} \nonterminal{complex-expression} \optional{\terminal{,}} \\
+	\nonterminal{complex-expression} \terminal{,} \nonterminal{argument-list} \\
 \end{grammar}
 
 \specsubsubitem
@@ -340,29 +338,27 @@ order that the arguments are listed, to obtain the parameter values required to
 invoke the function.
 
 \specsubsubitem
-The specific means by which the invoked function assumes control of the
-execution environment, and by which the arguments are provided to it, is
-implementation-defined.
-
-\informative{This is generally provided by the target's ABI specification.}
-
-\specsubsubitem
 If the invoked function uses Hare-style variadism, the
-\nonterminal{argument-list} shall provide zero or more arguments for the final
-parameter, all of which must be assignable to the type of the variadic
-parameter.
+\nonterminal{argument-list} shall provide zero or more arguments following the
+last non-variadic parameter, all of which must be assignable to the type of the
+variadic parameter.
 
 \specsubsubitem
-If an argument uses the optional \terminal{...} terminal, it must occupy the
-position of a variadic parameter and have a slice or array type. Only the final
-argument shall use the \terminal{...} terminal, and if present, no other
-variadic arguments shall be provied. The implementation shall interpret this
-value as the list of variadic arguments.
+If the final argument uses the \terminal{...} form, it must occupy the position of a
+variadic parameter and be of a slice or array type. The implementation shall
+interpret this value as the list of variadic parameters.
 
 \specsubsubitem
 If the invoked function uses C-style variadism, the function may provide zero
 or more arguments following the final parameter. These arguments shall be of a
 type with a non-zero size, but are otherwise unconstrained.
+
+\specsubsubitem
+The specific means by which the invoked function assumes control of the
+execution environment, and by which the arguments are provided to it, is
+implementation-defined.
+
+\informative{This is generally provided by the target's ABI specification.}
 
 \specsubsection{Struct field access}
 
