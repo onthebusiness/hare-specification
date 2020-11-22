@@ -300,6 +300,55 @@ If the \terminal{...} form is used, the result's array type shall be expandable.
 
 \specsubsection{Struct literals}
 
+\begin{grammar}
+\nonterminaldef{struct-literal} \\
+	\terminal{struct} \terminal{\{} \nonterminal{field-values} \terminal{\}} \\
+	\nonterminal{identifier} \terminal{\{} \nonterminal{field-values} \optional{\nonterminal{struct-zeroizer}} \terminal{\}} \\
+
+\nonterminaldef{struct-zeroizer} \\
+	\terminal{0} \terminal{...} \\
+
+\nonterminaldef{field-values} \\
+	\nonterminal{field-value} \optional{\terminal{,}} \\
+	\nonterminal{field-value} \terminal{,} \nonterminal{field-values} \\
+
+\nonterminaldef{field-value} \\
+	\nonterminal{identifier} \terminal{=} \nonterminal{simple-initializer} \\
+	\nonterminal{identifier} \terminal{:} \nonterminal{type} \terminal{=} \nonterminal{initializer} \\
+	\nonterminal{struct-literal} \\
+\end{grammar}
+% TODO: Define initializer and simple-initializer
+
+\specsubsubitem
+A \nonterminal{struct-literal} produces a value of a struct type. The first
+form is the \textit{plain form}, and the second form is the \textit{named form}.
+
+\specsubsubitem
+If the plain form is given, the result type shall be a struct type defined by
+the \nonterminal{field-value}s, in order, with their identifiers and types
+explicitly specified. The first form of \nonterminal{field-value} shall not be
+used in such a struct.
+
+\specsubsubitem
+If the named form is given, the \nonterminal{identifier} shall identify a type
+alias (see \subsecref{Type aliases}) which refers to a struct type. The result
+type shall be this alias type.
+
+\specsubsubitem
+If the \nonterminal{struct-zeroizer} is not present, \nonterminal{field-values}
+shall be \textit{exhaustive}, and include every field of the result type
+exactly once. Otherwise, a diagnostic message shall be printed and the
+translation phase shall abort.
+
+\specsubsubitem
+If the \nonterminal{struct-zeroizer} is present, any fields of the result type
+which are not included in \nonterminal{field-values} shall be initialized to
+their default values.
+
+\specsubsubitem
+If the \nonterminal{struct-literal} form of the \nonterminal{field-value} is
+given, its fields shall be interpreted as fields of the parent struct.
+
 \specsubsection{Immediate expressions}
 
 \specsubsection{Postfix expressions}

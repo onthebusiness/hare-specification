@@ -321,6 +321,13 @@ represented by a struct or union, and optionally assigns a \nonterminal{name} to
 each. Each \nonterminal{name} shall be unique.
 
 \specsubsubitem
+If the \nonterminal{struct-union-type} form of \nonterminal{struct-field} is
+given, it shall specify a struct type. The \nonterminal{struct-fields} of the
+parent struct shall interpret the fields of this struct type as its own fields,
+and apply all necessary constraints, such as those regarding the uniqueness of
+field names.
+
+\specsubsubitem
 For a struct type, the \textit{offset} of each field is equal to the minimum
 \textit{aligned} offset which would meet the alignment requirements of the
 field's type. The implementation shall add \textit{padding} to meet the
