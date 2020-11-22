@@ -23,12 +23,17 @@
 
 \specsubitem
 A type defines the storage and semantics of a value. The attributes common to
-all types are its \textit{size}, in octets; \textit{alignment}; and its
-\textit{constant} or \textit{mutable} nature.
+all types are its \textit{size}, in octets; \textit{alignment}; its
+\textit{constant} or \textit{mutable} nature; and its \textit{default value}.
 
 \specsubitem
 Some types have an undefined size. This includes \nonterminal{function-type},
 and some cases of \nonterminal{slice-array-type}.
+
+\specsubitem
+Some types have an undefined default value. If the default value of such a type
+would be used, the implementation shall instead print a diagnostic message and
+abort the translation phase.
 
 \specsubitem
 The \terminal{const} terminal, when used in a type specifier, enables the
@@ -112,6 +117,9 @@ are limitations on its use, see \subsecref{Arithmetic expressions}
 \specsubsubitem
 The alignment of integer types shall be equal to their size in octets.
 
+\specsubsubitem
+The default value of an integer type shall be zero.
+
 \informative{The following table is informative.}
 
 \begin{tabular}{r | l l l}
@@ -155,6 +163,9 @@ and \terminal{f64} shall use the binary64 format.
 
 \specsubsubitem
 The alignment of float types shall be equal to their size in octets.
+
+\specsubsubitem
+The default value of a float type shall be zero.
 
 \specsubsection{Enum types}
 
@@ -218,6 +229,9 @@ The set of assigned values and the names assigned to those values is the same,
 regardless of their order.
 \end{subsubitemize}
 
+\specsubsubitem
+The default value of an enum type is undefined.
+
 \specsubsection{Pointer types}
 
 \begin{grammar}
@@ -240,6 +254,10 @@ or to a special value called \textit{null}.
 The representation of a pointer type shall be implementation-defined, but it
 shall have an implementation-defined length and alignment.
 
+\specsubsubitem
+The default value of a nullable pointer type is null. The default value of a
+non-nullable pointer type is undefined.
+
 \specsubsection{Other primitive types}
 
 \textbf{The bool type}
@@ -252,6 +270,9 @@ states: true or false.
 The boolean type representation shall be equivalent to the \terminal{uint} type.
 Any non-zero value shall be interpreted as true, and zero shall be intepreted as
 false.
+
+\specsubsubitem
+The default value of a boolean type is false.
 
 \textbf{The null type}
 
@@ -319,6 +340,11 @@ order, are of equivalent types and names. A union type shall be equal to another
 union type if the set field types \& names are identical between them,
 without respect to their order.
 
+\specsubsubitem
+The default value of a struct shall be defined to be the default values of its
+constituent types, if defined. If the constituent defaults are not defined, the
+default value of the struct type is not defined.
+
 \specsubsection{Tagged union types}
 
 \begin{grammar}
@@ -367,6 +393,9 @@ constitent types in the parent union.
 \informative{The types \code{(A | (B | (C | D)))} and
 \code{(A | B | C | D)} are equivalent.}
 
+\specsubsubitem
+The default value of a tagged union type is undefined.
+
 \specsubsection{Slice and array types}
 
 \begin{grammar}
@@ -406,9 +435,9 @@ the equation $N \times S$, where \textit{S} is the size of the secondary type.
 A \textit{slice type} stores a pointer to an unbounded array type, with a given
 \textit{capacity}, \textit{length}, and \textit{item size}, which respectively
 refer to the number of items that the unbounded array \textbf{may} store without
-re-allocation, the number of items which are \textbf{currently valid}, and the
-size of the underlying type. The representation with no lexical elements between
-\terminal{[} and \terminal{]} indicates a slice type.
+re-allocation, and the number of items which are \textbf{currently valid}. The
+representation with no lexical elements between \terminal{[} and \terminal{]}
+indicates a slice type.
 
 \specsubsubitem
 The representation of a slice type shall be equivalent to the following struct
@@ -418,8 +447,7 @@ type:
 struct {
 	capacity: size,
 	length: size,
-	item_size: size,
-	data: *[*]type,
+	data: nullable *[*]type,
 }
 \end{codesample}
 
@@ -437,6 +465,15 @@ The size of a bounded array type shall be equal to $N \times S$, where N is the
 number of items and S is the size of the underlying type. The size of an
 unbounded array is undefined. The size of a slice type shall be equal to the
 size of the struct type defined by \subsubitemref{Slice and array types}{6}.
+
+\specsubsubitem
+The default value of an array type shall be equal to all of its members set to
+the default value of the underlying type. If the default value of the
+underlying type is undefined, the default value of the array type is undefined.
+
+\specsubsubitem
+The default value of a slice type shall set its capacity and length fields to
+zero, and the data field set to null.
 
 \specsubsection{Function types}
 
@@ -504,9 +541,9 @@ shall be \code{const []int}.}
 Only the last parameter of the prototype may be variadic.
 
 \specsubsubitem
-The size, alignment, and storage semantics of function types is undefined. All
-function types shall be \terminal{const}, without regard to the use of
-\terminal{const} in the type description.
+The size, alignment, default value, and storage semantics of function types is
+undefined. All function types shall be \terminal{const}, without regard to the
+use of \terminal{const} in the type description.
 
 \specsubsection{Type aliases}
 
@@ -524,8 +561,8 @@ underlying type. The underlying type is specified at the time it is declared,
 see \secref{Declarations}.}
 
 \specsubsubitem
-A type alias shall have the same storage, alignment, size, and semantics as its
-underlying type.
+A type alias shall have the same storage, alignment, size, default value, and
+semantics as its underlying type.
 
 \specsubsubitem
 Each type alias (uniquely identified by its \nonterminal{identifier}) shall be
@@ -537,4 +574,8 @@ a unique type, even if it shares its underlying type with another type alias.
 The \terminal{rune} type represents a Unicode codepoint, encoded as a
 \nonterminal{u32}.
 
+% TODO
+
 \specsubsection{String types}
+
+% TODO
