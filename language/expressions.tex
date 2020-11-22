@@ -444,21 +444,68 @@ implementation-defined.
 \nonterminaldef{assertion-expression} \\
 	\terminal{assert} \terminal{(} \nonterminal{simple-expression} \terminal{)} \\
 	\terminal{assert} \terminal{(} \nonterminal{simple-expression} \terminal{,} \nonterminal{string-constant} \terminal{)} \\
-	\terminal{static} \nonterminal{assertion-expression} \\
+	\terminal{static} \terminal{assert} \terminal{(} \nonterminal{simple-expression} \terminal{)} \\
+	\terminal{static} \terminal{assert} \terminal{(} \nonterminal{simple-expression} \terminal{,} \nonterminal{string-constant} \terminal{)} \\
 \end{grammar}
 
 Forward references: \subsecref{Simple, complex, and compound expressions}
+
+\specsubsubitem
+An \nonterminal{assertion-expression} is used to validate an assumption by the
+programmer by \textit{asserting} its truth. The result type of a
+\nonterminal{assertion-expression} is \terminal{void}.
+
+\specsubsubitem
+\nonterminal{simple-expression} shall be an expression of type
+\nonterminal{bool}.
+
+\specsubsubitem
+In the first two forms, this expression shall be evaluated
+in the execution environment, and if false, a diagnostic message shall be
+printed and the execution phase aborted. The programmer may provide the
+\nonterminal{string-constant} to be included in the diagnostic message.
+
+\specsubsubitem
+In the \terminal{static} form, \nonterminal{simple-expression} shall be limited
+to the \subsecref{Translation compatible expression subset}, shall be evaluated
+in the translation environment, and is otherwise equivalent to the other forms.
 
 \specsubsection{Measurements}
 
 \begin{grammar}
-\nonterminaldef{measurement-expression}
+\nonterminaldef{measurement-expression} \\
 	\nonterminal{size-expression} \\
 	\nonterminal{length-expression} \\
 	\nonterminal{offset-expression} \\
+
+\nonterminaldef{size-expression} \\
+	\terminal{size} \terminal{(} \nonterminal{type} \terminal{)} \\
+
+\nonterminaldef{length-expression} \\
+	\terminal{len} \terminal{(} \nonterminal{identifier} \terminal{)} \\
+
+\nonterminaldef{offset-expression} \\
+	\terminal{offset} \terminal{(} \nonterminal{field-access-expression} \terminal{)} \\
 \end{grammar}
 
-Forward references: \subsecref{Simple, complex, and compound expressions}
+Forward references: \subsecref{Field access}
+
+\specsubsubitem
+A \nonterminal{measurement-expression} is used to measure objects. The result
+type is \terminal{size}.
+
+\specsubsubitem
+The \terminal{size} expression shall evaluate to the \textit{size} of the
+specified \nonterminal{type}.
+
+\specsubsubitem
+The \terminal{len} expression shall evaluate to the \textit{length} of the array
+or slice object referred to by \nonterminal{identifier}.
+
+\specsubsubitem
+The \terminal{offset} expression shall determine the struct field which would be
+accessed by \nonterminal{field-access-expression} and evaluate to its
+\textit{offset}.
 
 \specsubsection{Field access}
 
