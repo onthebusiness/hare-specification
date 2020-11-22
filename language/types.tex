@@ -490,11 +490,11 @@ zero, and the data field set to null.
 
 \nonterminaldef{prototype} \\
 	\nonterminal{type} \\
-	\terminal{(} \nonterminal{parameter-list} \terminal{)} \nonterminal{type} \\
+	\terminal{(} \nonterminal{parameter-list} \optional{\terminal{,}} \terminal{)} \nonterminal{type} \\
 
 \nonterminaldef{parameter-list} \\
-	\nonterminal{parameter-binding} \optional{\terminal{,}} \\
-	\nonterminal{parameter-binding} \terminal{,} \nonterminal{parameter-list} \\
+	\nonterminal{parameter-binding} \\
+	\nonterminal{parameter-list} \terminal{,} \nonterminal{parameter-binding} \\
 	\nonterminal{parameter-list} \terminal{,} \terminal{...} \\
 
 \nonterminaldef{parameter-binding} \\

@@ -302,15 +302,13 @@ If the \terminal{...} form is used, the result's array type shall be expandable.
 
 \begin{grammar}
 \nonterminaldef{struct-literal} \\
-	\terminal{struct} \terminal{\{} \nonterminal{field-values} \terminal{\}} \\
-	\nonterminal{identifier} \terminal{\{} \nonterminal{field-values} \optional{\nonterminal{struct-zeroizer}} \terminal{\}} \\
-
-\nonterminaldef{struct-zeroizer} \\
-	\terminal{0} \terminal{...} \\
+	\terminal{struct} \terminal{\{} \nonterminal{field-values} \optional{\terminal{,}} \terminal{\}} \\
+	\nonterminal{identifier} \terminal{\{} \nonterminal{field-values} \optional{\terminal{,}} \terminal{\}} \\
 
 \nonterminaldef{field-values} \\
-	\nonterminal{field-value} \optional{\terminal{,}} \\
-	\nonterminal{field-value} \terminal{,} \nonterminal{field-values} \\
+	\nonterminal{field-value} \\
+	\nonterminal{field-values} \terminal{,} \nonterminal{field-value} \\
+	\nonterminal{field-values} \terminal{,} \terminal{...} \\
 
 \nonterminaldef{field-value} \\
 	\nonterminal{identifier} \terminal{=} \nonterminal{simple-initializer} \\
@@ -335,15 +333,15 @@ alias (see \subsecref{Type aliases}) which refers to a struct type. The result
 type shall be this alias type.
 
 \specsubsubitem
-If the \nonterminal{struct-zeroizer} is not present, \nonterminal{field-values}
-shall be \textit{exhaustive}, and include every field of the result type
-exactly once. Otherwise, a diagnostic message shall be printed and the
-translation phase shall abort.
+If the third form of \nonterminal{field-values} is not given,
+\nonterminal{field-values} shall be \textit{exhaustive}, and include every
+field of the result type exactly once. Otherwise, a diagnostic message shall be
+printed and the translation phase shall abort.
 
 \specsubsubitem
-If the \nonterminal{struct-zeroizer} is present, any fields of the result type
-which are not included in \nonterminal{field-values} shall be initialized to
-their default values.
+If the third form of \nonterminal{field-values} is given, any fields of the
+result type which are not included in \nonterminal{field-values} shall be
+initialized to their default values.
 
 \specsubsubitem
 If the \nonterminal{struct-literal} form of the \nonterminal{field-value} is
