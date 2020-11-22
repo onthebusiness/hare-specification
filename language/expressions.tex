@@ -281,7 +281,7 @@ Escape sequence & Unicode codepoint & Escape sequence & Unicode codepoint \\
 	\nonterminal{simple-expression} \terminal{,} \nonterminal{array-members} \\
 \end{grammar}
 
-% TODO: Specify meaning of simple & complex expressions
+Forward references: \subsecref{Simple, complex, and compound expressions}
 
 \specsubsubitem
 An \nonterminal{array-literal} expression produces a value of an array type.
@@ -355,9 +355,34 @@ given, its fields shall be interpreted as fields of the parent struct.
 \code{struct \{ a: int = 10, b: int = 20 \}} \\
 \code{struct \{ a: int = 10, struct \{ b: int = 20 \} \}}}
 
-\specsubsection{Immediate expressions}
+\specsubsection{Plain expressions}
 
-\specsubsection{Postfix expressions}
+\begin{grammar}
+\nonterminaldef{plain-expression} \\
+	\nonterminal{identifier} \\
+	\nonterminal{constant} \\
+	\nonterminal{array-literal} \\
+	\nonterminal{struct-literal} \\
+
+\nonterminaldef{nested-expression} \\
+	\nonterminal{plain-expression} \\
+	\terminal{(} \nonterminal{complex-expression} \terminal{)} \\
+\end{grammar}
+
+Forward references: \subsecref{Simple, complex, and compound expressions}
+
+\specsubsubitem
+\nonterminal{plain-expression} is an expression class which represents its
+result value "plainly". In the case of constants and literals, the value is
+represented by the result of those expressions. In the case of an
+\nonterminal{identifier}, the expression produces the value of the identified
+object.
+
+\specsubsubitem
+\nonterminal{nested-expression} is an expression class provided to allow the
+programmer to overcome constraints placed on the valid range of expression
+types in certain parts of the grammar, and to overcome undesirable
+associativity between operators.
 
 \specsubsection{Calls}
 
@@ -370,6 +395,8 @@ given, its fields shall be interpreted as fields of the parent struct.
 	\terminal{...} \nonterminal{complex-expression} \optional{\terminal{,}} \\
 	\nonterminal{complex-expression} \terminal{,} \nonterminal{argument-list} \\
 \end{grammar}
+
+Forward references: \subsecref{Simple, complex, and compound expressions}
 
 \specsubsubitem
 A \nonterminal{call-expression} shall invoke a function in the execution
@@ -411,13 +438,50 @@ implementation-defined.
 
 \informative{This is generally provided by the target's ABI specification.}
 
-\specsubsection{Struct field access}
+\specsubsection{Assertions}
 
-\specsubsection{Slice member access}
+\begin{grammar}
+\nonterminaldef{assertion-expression} \\
+	\terminal{assert} \terminal{(} \nonterminal{simple-expression} \terminal{)} \\
+	\terminal{assert} \terminal{(} \nonterminal{simple-expression} \terminal{,} \nonterminal{string-constant} \terminal{)} \\
+	\terminal{static} \nonterminal{assertion-expression} \\
+\end{grammar}
 
-\specsubsection{Slice subset}
+Forward references: \subsecref{Simple, complex, and compound expressions}
 
-\specsubsection{Built-in functions}
+\specsubsection{Measurements}
+
+\begin{grammar}
+\nonterminaldef{measurement-expression}
+	\nonterminal{size-expression} \\
+	\nonterminal{length-expression} \\
+	\nonterminal{offset-expression} \\
+\end{grammar}
+
+Forward references: \subsecref{Simple, complex, and compound expressions}
+
+\specsubsection{Field access}
+
+\specsubsection{Indexing}
+
+\specsubsection{Slicing}
+
+\specsubsection{Postfix expressions}
+
+\begin{grammar}
+\nonterminaldef{postfix-expression} \\
+	\nonterminal{nested-expression} \\
+	\nonterminal{assertion-expression} \\
+	\nonterminal{call-expression} \\
+	\nonterminal{field-access-expression} \\
+	\nonterminal{indexing-expression} \\
+	\nonterminal{measurement-expression} \\
+	\nonterminal{slicing-expression} \\
+\end{grammar}
+
+\specsubsubitem
+\nonterminal{postfix-expression} is an expression class for expressions whose
+operators use postfix notation.
 
 \specsubsection{Unary arithmetic}
 
@@ -439,16 +503,6 @@ implementation-defined.
 
 \specsubsection{Scope expressions}
 
-\specsubsection{Assignment}
-
-\specsubsection{Variable binding}
-
-\specsubsection{Expression lists}
-
-\specsubsection{Compound expressions}
-
-\specsubsection{Branching expressions}
-
 \specsubsection{If expressions}
 
 \specsubsection{For loops}
@@ -458,3 +512,13 @@ implementation-defined.
 \specsubsection{Match expressions}
 
 \specsubsection{Switch expressions}
+
+\specsubsection{Branching expressions}
+
+\specsubsection{Assignment}
+
+\specsubsection{Variable binding}
+
+\specsubsection{Expression lists}
+
+\specsubsection{Simple, complex, and compound expressions}
