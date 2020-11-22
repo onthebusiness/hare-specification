@@ -325,7 +325,15 @@ If the \nonterminal{struct-union-type} form of \nonterminal{struct-field} is
 given, it shall specify a struct type. The \nonterminal{struct-fields} of the
 parent struct shall interpret the fields of this struct type as its own fields,
 and apply all necessary constraints, such as those regarding the uniqueness of
-field names.
+field names. The \nonterminal{identifier} form shall be interpreted in the same
+manner if the identifier refers to a type alias of a struct type, otherwise a
+diagnostic message shall be printed and the translation phase shall abort.
+
+Forward references: \subsecref{Type aliases}
+
+\informative{The following types are equivalent: \\
+\code{struct \{ a: int, b: int \}} \\
+\code{struct \{ a: int, struct \{ b: int \} \}}}
 
 \specsubsubitem
 For a struct type, the \textit{offset} of each field is equal to the minimum

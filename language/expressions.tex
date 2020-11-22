@@ -303,12 +303,16 @@ If the \terminal{...} form is used, the result's array type shall be expandable.
 \begin{grammar}
 \nonterminaldef{struct-literal} \\
 	\terminal{struct} \terminal{\{} \nonterminal{field-values} \optional{\terminal{,}} \terminal{\}} \\
-	\nonterminal{identifier} \terminal{\{} \nonterminal{field-values} \optional{\terminal{,}} \terminal{\}} \\
+	\nonterminal{identifier} \terminal{\{} \nonterminal{struct-initializer} \optional{\terminal{,}} \terminal{\}} \\
+
+\nonterminaldef{struct-initializer} \\
+	\nonterminal{field-values} \\
+	\nonterminal{field-values} \terminal{,} \terminal{...} \\
+	\terminal{...} \\
 
 \nonterminaldef{field-values} \\
 	\nonterminal{field-value} \\
 	\nonterminal{field-values} \terminal{,} \nonterminal{field-value} \\
-	\nonterminal{field-values} \terminal{,} \terminal{...} \\
 
 \nonterminaldef{field-value} \\
 	\nonterminal{identifier} \terminal{=} \nonterminal{simple-initializer} \\
@@ -333,19 +337,23 @@ alias (see \subsecref{Type aliases}) which refers to a struct type. The result
 type shall be this alias type.
 
 \specsubsubitem
-If the third form of \nonterminal{field-values} is not given,
-\nonterminal{field-values} shall be \textit{exhaustive}, and include every
-field of the result type exactly once. Otherwise, a diagnostic message shall be
-printed and the translation phase shall abort.
+If \terminal{...} is not given, \nonterminal{field-values} shall be
+\textit{exhaustive}, and include every field of the result type exactly once.
+Otherwise, a diagnostic message shall be printed and the translation phase
+shall abort.
 
 \specsubsubitem
-If the third form of \nonterminal{field-values} is given, any fields of the
-result type which are not included in \nonterminal{field-values} shall be
-initialized to their default values.
+If \terminal{...} is given, any fields of the result type which are not
+included in \nonterminal{field-values} shall be initialized to their default
+values.
 
 \specsubsubitem
 If the \nonterminal{struct-literal} form of the \nonterminal{field-value} is
 given, its fields shall be interpreted as fields of the parent struct.
+
+\informative{The following values are equivalent: \\
+\code{struct \{ a: int = 10, b: int = 20 \}} \\
+\code{struct \{ a: int = 10, struct \{ b: int = 20 \} \}}}
 
 \specsubsection{Immediate expressions}
 
