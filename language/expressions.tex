@@ -605,6 +605,67 @@ operators use postfix notation.
 
 \specsubsection{Unary arithmetic}
 
+\begin{grammar}
+\nonterminaldef{unary-expression} \\
+	\nonterminal{postfix-expression} \\
+	\nonterminal{unary-operator} \nonterminal{unary-expression} \\
+
+\nonterminaldef{unary-operator} \oneof \\
+	\terminal{+}
+	\terminal{-}
+	\terminal{\textasciitilde}
+	\terminal{!}
+	\terminal{*}
+	\terminal{\&}
+\end{grammar}
+
+% TODO: Consider removing unary +
+
+\specsubsubitem
+A unary expression applies a \nonterminal{unary-operator} to a single value.
+
+\specsubsubitem
+The \terminal{+} and \terminal{-} operators shall respectively perform unary
+positive and unary negation operations. The result type shall be equivalent to
+the type of \nonterminal{unary-expression}, which shall be of a signed numeric
+type.
+
+\specsubsubitem
+The \terminal{\textasciitilde} operator shall perform a binary NOT operation,
+inverting each bit of the value. Its result type shall be equivalent to the
+type of \nonterminal{unary-expression}, which shall be of an unsigned integer
+type.
+
+\specsubsubitem
+The \terminal{!} operator shall perform a logical NOT operation. The result
+type, and the type of \nonterminal{unary-expression}, shall both be
+\terminal{bool}. If the \nonterminal{unary-expression} is \terminal{true}, the
+result shall be \terminal{false}, and vice-versa.
+
+\specsubsubitem
+The \terminal{*} operator shall dereference a pointer, and return the object it
+references.  The type of \nonterminal{unary-expression} shall be a pointer
+type, and the result type shall be the pointer's secondary type. The pointer
+type shall not be \textit{nullable}.
+
+\specsubsubitem
+The \terminal{\&} operator shall take the address of an object. The result type
+shall be a pointer whose secondary type is the type of
+\nonterminal{unary-expression}.
+
+\informative{The following table is informative.}
+
+\begin{tabular}{r | l }
+Operator & Meaning \\
+\hline
+\terminal{+} & Positive \\
+\terminal{-} & Negation \\
+\terminal{\textasciitilde} & Binary NOT \\
+\terminal{!} & Logical NOT \\
+\terminal{*} & Dereference pointer \\
+\terminal{\&} & Take address \\
+\end{tabular}
+
 \specsubsection{Casts and type assertions}
 
 \specsubsection{Multiplicative arithmetic}
