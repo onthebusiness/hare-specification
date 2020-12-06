@@ -511,7 +511,46 @@ accessed by \nonterminal{field-access-expression} and evaluate to its
 
 \specsubsection{Indexing}
 
+\begin{grammar}
+\nonterminaldef{indexing-expression} \\
+	\nonterminal{postfix-expression} \terminal{[} \nonterminal{simple-expression} \terminal{]} \\
+\end{grammar}
+
+\specsubsubitem
+An \nonterminal{indexing-expression} shall access a specific value of a slice
+or array type. The \nonterminal{postfix-expression} shall have a result type of
+slice or array, and the \nonterminal{simple-expression} shall have a result
+type which is assignable to \nonterminal{size}.
+
+\specsubsubitem
+The result type of an \nonterminal{indexing-expression} is the secondary type
+of the slice or array type given by the \nonterminal{postfix-expression} result
+type.
+
+\specsubsubitem
+The execution environment shall compute the result of
+\nonterminal{simple-expression} to obtain $N$ for selecting the \textit{N} per
+the algorithm given in \subsecref{Slice and array types}.
+
+\specsubsubitem
+The execution environment shall perform a \textit{bounds test} on the value of
+$N$ to ensure it falls within the acceptable range for the given slice or array
+type. It shall test that $N < Z$, where $Z$ is the length of the bounded array
+type, or the \code{length} field of the slice, whichever is appropriate.  For
+unbounded array types, the bounds test shall not occur. If the bounds test
+fails, a diagnostic message shall be printed and the execution environment
+shall abort.
+
+The implementation may perform a bounds test in the translation environment if
+is able, print a diagnostic message, and abort the translation environment if
+it fails.
+
 \specsubsection{Slicing}
+
+\begin{grammar}
+\nonterminaldef{slicing-expression} \\
+	\nonterminal{postfix-expression} \terminal{[} \optional{\nonterminal{simple-expression}} \terminal{..} \optional{\nonterminal{simple-expression}} \terminal{]} \\
+\end{grammar}
 
 \specsubsection{Postfix expressions}
 
