@@ -511,6 +511,29 @@ accessed by \nonterminal{field-access-expression} and compute its
 
 \specsubsection{Field access}
 
+\begin{grammar}
+\nonterminaldef{field-access-expression} \\
+	\nonterminal{postfix-expression} \terminal{.} \nonterminal{name} \\
+\end{grammar}
+
+\specsubitem
+A \nonterminal{field-access-expression} is used to access fields of
+\subsecref{Struct and union types}. The result type of the
+\nonterminal{postfix-expression} shall be a struct type or a union type.
+
+\specsubitem
+If the \nonterminal{postfix-expression}'s result type is a union type, the
+result of the \nonterminal{field-access-expression} shall be the union's storage
+area interpreted as the type of the field named by \nonterminal{name}, and the
+result type of the expression shall be the type of the named field.
+
+\specsubitem
+If the \nonterminal{postfix-expression}'s result type is a struct type,
+the result of the \nonterminal{field-access-expression} shall be the value
+stored in the \nonterminal{name} field of the result of the
+\nonterminal{postfix-expression}, and the result type of the expression shall be
+the type of the named field.
+
 \specsubsection{Indexing}
 
 \begin{grammar}
