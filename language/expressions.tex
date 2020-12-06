@@ -701,7 +701,7 @@ Operator & Meaning \\
 
 \specsubsubitem
 A cast expression interrogates or converts the type of an object. The first
-form sets the precedence. The second and third forms (\terminal{:} and
+form illustrates the precedence. The second and third forms (\terminal{:} and
 \terminal{as}) have a result type specified by the \nonterminal{type}; and the
 fourth form (\terminal{is}) has a result type of \terminal{bool}.
 
@@ -775,6 +775,31 @@ type is \terminal{bool}, and shall be \terminal{true} if the selected tag of
 otherwise.
 
 \specsubsection{Multiplicative arithmetic}
+
+\begin{grammar}
+\nonterminaldef{multiplicative-expression} \\
+	\nonterminal{cast-expression} \\
+	\nonterminal{multiplicative-expression} \terminal{*} \nonterminal{cast-expression} \\
+	\nonterminal{multiplicative-expression} \terminal{/} \nonterminal{cast-expression} \\
+	\nonterminal{multiplicative-expression} \terminal{\%} \nonterminal{cast-expression} \\
+\end{grammar}
+
+\specsubsubitem
+A \nonterminal{multiplicative-expression} multiplies (\terminal{*}), divides
+(\terminal{/}), or obtains the remainder between (\terminal{\%}) two
+expressions. The first form illustrates the precedence. The types of the
+operands, and the result type, are determined per the \subsecref{Type promotion}
+rules.
+
+\specsubsubitem
+A modulus (\terminal{\%}) operation shall be performed with operands of integer
+types only.
+
+\specsubsubitem
+If an operation would cause the result to overflow the result type, it is
+truncated towards the least significant bits in the case of integer types, and
+towards zero in the case of float types. Integer divisions which would produce
+a fractional part are floored.
 
 \specsubsection{Additive arithmetic}
 
