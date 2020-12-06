@@ -691,6 +691,89 @@ Operator & Meaning \\
 
 \specsubsection{Casts and type assertions}
 
+\begin{grammar}
+\nonterminaldef{cast-expression} \\
+	\nonterminal{unary-expression} \\
+	\nonterminal{cast-expression} \terminal{:} \nonterminal{type} \\
+	\nonterminal{cast-expression} \terminal{as} \nonterminal{type} \\
+	\nonterminal{cast-expression} \terminal{is} \nonterminal{type} \\
+\end{grammar}
+
+\specsubsubitem
+A cast expression interrogates or converts the type of an object. The first
+form sets the precedence. The second and third forms (\terminal{:} and
+\terminal{as}) have a result type specified by the \nonterminal{type}; and the
+fourth form (\terminal{is}) has a result type of \terminal{bool}.
+
+\specsubsubitem
+The second form is a \textit{type cast}, and is only valid for a combination of
+\textit{source types} and \textit{destination types} which are specified by the
+following table:
+
+\begin{tabular}{r | l}
+Source type & Casts to \\
+\hline
+Floating types & Any numeric type \\
+Integer types & Any numeric type or enum type, or \terminal{uintptr} \\
+\terminal{bool}, \terminal{null}, \terminal{void} & Cannot be cast \\
+\terminal{char} & \terminal{u8} \\
+\terminal{uintptr} & Any pointer type or any integer type \\
+Any pointer type & Any pointer type or \terminal{uintptr} \\
+Enum types & Any enum type or numeric type \\
+Struct \& union types & Cannot be cast \\
+Tagged unions & See notes \\
+Type alias & Any type the underlying type could cast to \\
+\end{tabular}
+
+Tagged union types are mutually castable with any type which is found among its
+members, including the otherwise non-castable types of \terminal{bool} and
+\terminal{void}.
+
+A type which may be cast to another type is considered \textit{castable} to
+that type.
+
+\specsubsubitem
+When an integer type is cast to an integer of less precision, it shall be
+truncated towards the least significant bit.
+
+\specsubsubitem
+When a signed type is cast to a unsigned type, the sign bit shall be copied to
+the most significant bit of the unsigned type, and vice versa.
+
+\specsubsubitem
+When a floating type is cast to an integer, the resulting value shall be equal
+to $I = \lfloor F \rfloor$, where F is the source value. If the destination type
+has insufficient precision to represent $I$, it shall be truncated towards the
+least significant bit.
+
+\specsubsubitem
+When casting an integer to a floating point type, if the destination type
+lacks the precision to represent the value, it shall be truncated towards zero.
+
+\specsubsubitem
+Casting a pointer type to \nonterminal{uintptr}, and then back to the pointer
+type, shall yield the same pointer.
+
+\informative{However, casting \nonterminal{uintptr} to any other integer type
+and back again may truncate towards the least significant bit and is not
+guaranteed to yield the same pointer.}
+
+\specsubsubitem
+The third form is a \textit{type assertion}. In this form,
+\nonterminal{cast-expression} shall be of a tagged union type, and
+\nonterminal{type} shall be a constituent type of that tagged union. The
+\nonterminal{cast-expression} shall be computed, and if the tag does not match
+\nonterminal{type}, a diagnostic message shall be printed and the execution
+environment shall abort. Otherwise, the result type is \nonterminal{type}.
+
+\specsubsubitem
+The fourth form is a \textit{type test}. In this form,
+\nonterminal{cast-expression} shall be of a tagged union type, and
+\nonterminal{type} shall be a constituent type of that tagged union. The result
+type is \terminal{bool}, and shall be \terminal{true} if the selected tag of
+\nonterminal{cast-expression} is \nonterminal{type}, or \terminal{false}
+otherwise.
+
 \specsubsection{Multiplicative arithmetic}
 
 \specsubsection{Additive arithmetic}
