@@ -554,6 +554,38 @@ it fails.
 	\nonterminal{postfix-expression} \terminal{[} \optional{\nonterminal{simple-expression}} \terminal{..} \optional{\nonterminal{simple-expression}} \terminal{]} \\
 \end{grammar}
 
+\specsubsubitem
+A \nonterminal{slicing-expression} shall have a result type of
+\nonterminal{slice}, which is computed a subset of a slice or array object.
+\nonterminal{postfix-expression} shall be of a slice or array type, and the
+optional \nonterminal{simple-expression}s shall be assignable to
+\nonterminal{size}.
+
+\specsubsubitem
+The first \nonterminal{simple-expression} shall compute value $L$, and the
+second shall compute $H$. If absent, $L = 0$ and $H = \code{length}$, where
+\code{length} shall be equal to the length of a bounded array type or the
+length of a slice type, represented in either case by the result of
+\nonterminal{postfix-expression}. If $H$ is not specified, and
+\nonterminal{postfix-expression} is of an unbounded array type, the translation
+environment shall abort.
+
+\specsubsubitem
+The resulting slice value shall have its \code{data} field set from, in the case
+of an array type, the address of the array; or in the case of a slice type, the
+\code{data} value of the underlying type; plus $L \times S$, where $S$ is the
+size of the slice or array's secondary type.
+
+\specsubsubitem
+The resulting slice value shall have its \code{length} and \code{capacity}
+fields set to $H - L$.
+
+\specsubsubitem
+The secondary type of the resulting slice type shall be equivalent to the
+secondary type of the slice or array type given by
+\nonterminal{postfix-expression}. The resulting slice type shall inherit the
+\nonterminal{const} attribute from this type.
+
 \specsubsection{Postfix expressions}
 
 \begin{grammar}
