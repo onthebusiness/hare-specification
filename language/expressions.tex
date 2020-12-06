@@ -492,19 +492,21 @@ Forward references: \subsecref{Field access}
 
 \specsubsubitem
 A \nonterminal{measurement-expression} is used to measure objects. The result
-type is \terminal{size}.
+type shall be \terminal{size}.
 
 \specsubsubitem
-The \terminal{size} expression shall evaluate to the \textit{size} of the
-specified \nonterminal{type}.
+The \terminal{size} expression shall compute the \textit{size} of the specified
+\nonterminal{type}.
 
 \specsubsubitem
-The \terminal{len} expression shall evaluate to the \textit{length} of the array
-or slice object referred to by \nonterminal{identifier}.
+The \terminal{len} expression shall compute the \textit{length} of a bounded
+array, or the \code{length} field of a slice object, referred to by
+\nonterminal{identifier}. If an unbounded array object is given, the
+translation environment shall print a diagnostic message and abort.
 
 \specsubsubitem
 The \terminal{offset} expression shall determine the struct field which would be
-accessed by \nonterminal{field-access-expression} and evaluate to its
+accessed by \nonterminal{field-access-expression} and compute its
 \textit{offset}.
 
 \specsubsection{Field access}
