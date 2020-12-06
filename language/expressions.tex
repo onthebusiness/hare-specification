@@ -792,6 +792,10 @@ operands, and the result type, are determined per the \subsecref{Type promotion}
 rules.
 
 \specsubsubitem
+In the case of division or modulus, the first term is the dividend, and the
+second term is the divisor.
+
+\specsubsubitem
 A modulus (\terminal{\%}) operation shall be performed with operands of integer
 types only.
 
@@ -802,6 +806,29 @@ towards zero in the case of float types. Integer divisions which would produce
 a fractional part are floored.
 
 \specsubsection{Additive arithmetic}
+
+\begin{grammar}
+\nonterminaldef{additive-expression} \\
+	\nonterminal{multiplicative-expression} \\
+	\nonterminal{additive-expression} \terminal{+} \nonterminal{multiplicative-expression} \\
+	\nonterminal{additive-expression} \terminal{-} \nonterminal{multiplicative-expression} \\
+\end{grammar}
+
+\specsubsubitem
+An \nonterminal{additive-expression} adds (\terminal{+}) two operands, or
+subtracts (\terminal{-}) one from another. The first form illustrates the
+precedence. The types of the operands, and the result type, are determined per
+the \subsecref{Type promotion} rules.
+
+\specsubsubitem
+In the case of subtraction, the first term is the minuend, and the second term
+is the subtrahend.
+
+\specsubsubitem
+If an operation would cause the result to overflow or underflow the result
+type, it is truncated towards the least significant bits in the case of integer
+types, and towards zero in the case of float types. In the case of signed
+types, this truncation will cause the sign bit to change.
 
 \specsubsection{Bit shifting arithmetic}
 
