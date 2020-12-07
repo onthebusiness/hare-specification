@@ -527,21 +527,22 @@ struct {
 
 \begin{grammar}
 \nonterminaldef{function-type} \\
-	\terminal{fn} \nonterminal{prototype} \\
+	\optional{\nonterminal{fntype-attr}} \terminal{fn} \nonterminal{prototype} \\
 
 \nonterminaldef{prototype} \\
 	\nonterminal{type} \\
-	\terminal{(} \nonterminal{parameter-list} \optional{\terminal{,}} \terminal{)} \nonterminal{type} \\
+	\terminal{(} \nonterminal{parameter-list} \optional{\nonterminal{variadism}} \optional{\terminal{,}} \terminal{)} \nonterminal{type} \\
+
+\nonterminaldef{fntype-attr} \\
+	\terminal{@noreturn} \\
 
 \nonterminaldef{parameter-list} \\
-	\nonterminal{parameter-binding} \\
-	\nonterminal{parameter-list} \terminal{,} \nonterminal{parameter-binding} \\
-	\nonterminal{parameter-list} \terminal{,} \terminal{...} \\
+	\nonterminal{identifier} \terminal{:} \nonterminal{type} \\
+	\nonterminal{identifier} \terminal{:} \nonterminal{type} \terminal{,} \nonterminal{parameter-list} \\
 
-\nonterminaldef{parameter-binding} \\
-	\nonterminal{name} \terminal{:} \nonterminal{type} \\
-	\nonterminal{type} \\
-	\nonterminal{parameter-binding} \terminal{...} \\
+\nonterminaldef{variadism} \\
+	\terminal{...} \\
+	\terminal{,} \terminal{...} \\
 \end{grammar}
 
 \specsubsubitem
@@ -550,17 +551,21 @@ Function types represent a procedure which may be completed in the
 effects (see \subsubitemref{Program execution}{1}).
 
 \specsubsubitem
+If the \terminal{@noreturn} form of \nonterminal{fntype-attr} is specified in
+the \nonterminal{function-parameters}, the \nonterminal{type} shall be
+\terminal{void} and the specified function shall not return to its caller.
+
+\specsubsubitem
 The attributes of a function type are its \textit{result type} and
 \textit{input parameters}. A function type must have one result type (which may
 be \terminal{void}), and zero or more parameters. Each \nonterminal{name} shall
 be unique.
 
 \specsubsubitem
-Terminating a \nonterminal{parameter-list} with \terminal{...} indicates that
-this function type utilizes \textit{C-style variadism}. Terminating the final
-\nonterminal{parameter} of the parameter list with \terminal{...} indicates
-that the parameter uses \textit{Hare-style variadism}. The variadism of a
-function type affects the calling semantics for that function.
+If the first form of \terminal{variadism} is usesd, the final parameter of the
+function type uses \textit{Hare-style variadism}. If the second form is used,
+the function uses \textit{C-style variadism}. The variadism of a function type
+affects the calling semantics for that function.
 
 \specsubsubitem
 The implementation is not required to support C-style variadism. If the
@@ -584,9 +589,6 @@ The type of a parameter which uses Hare-style variadism shall be a
 
 \informative{Therefore, in the case of \code{fn(x: int...)}, the type of x
 shall be \code{const []int}.}
-
-\specsubsubitem
-Only the last parameter of the prototype may be variadic.
 
 \specsubsubitem
 The size, alignment, default value, and storage semantics of function types is
