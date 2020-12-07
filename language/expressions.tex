@@ -417,6 +417,10 @@ environment and its result shall be a value of the type specified by the
 include any necessary side-effects per \subsubitemref{Program execution}{1}.
 
 \specsubsubitem
+The \nonterminal{postfix-expression} shall have a function type which does not
+have the \terminal{@init}, \terminal{@fini}, or \terminal{@test} attributes set.
+
+\specsubsubitem
 The \nonterminal{argument-list} shall be a list of expressions whose types
 shall be assignable to the types of the function's parameters, in the order
 that they are declared in the function type.
