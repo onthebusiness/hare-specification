@@ -462,6 +462,7 @@ implementation-defined.
 	\terminal{assert} \terminal{(} \nonterminal{simple-expression} \terminal{,} \nonterminal{string-constant} \terminal{)} \\
 	\terminal{static} \terminal{assert} \terminal{(} \nonterminal{simple-expression} \terminal{)} \\
 	\terminal{static} \terminal{assert} \terminal{(} \nonterminal{simple-expression} \terminal{,} \nonterminal{string-constant} \terminal{)} \\
+	\terminal{abort} \terminal{(} \terminal{)} \\
 \end{grammar}
 
 Forward references: \subsecref{Simple, complex, and compound expressions}
@@ -485,6 +486,10 @@ printed and the execution phase aborted. The programmer may provide the
 In the \terminal{static} form, \nonterminal{simple-expression} shall be limited
 to the \subsecref{Translation compatible expression subset}, shall be evaluated
 in the translation environment, and is otherwise equivalent to the other forms.
+
+\specsubsubitem
+The \terminal{abort} form shall cause the execution environment to print a
+diagnostic message and abort. An abort is a terminating expression.
 
 \specsubsection{Measurements}
 
