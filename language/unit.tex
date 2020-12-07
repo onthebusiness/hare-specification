@@ -1,8 +1,139 @@
-\specsection{Units}
+\specsection{Declarations}
+
+% TODO: split grammars across pagebreaks
+\newpage
+\begin{grammar}
+\nonterminaldef{declarations} \\
+	\optional{\terminal{export}} \nonterminal{declaration} \terminal{;} \\
+	\optional{\terminal{export}} \nonterminal{declaration} \terminal{;} \nonterminal{declarations} \\
+
+\nonterminaldef{declaration} \\
+	\nonterminal{global-declaration} \\
+	\nonterminal{constant-declaration} \\
+	\nonterminal{type-declaration} \\
+	\nonterminal{function-declaration} \\
+\end{grammar}
+
+A \nonterminal{declaration} specifies the interpretation and attributes of a set
+of \nonterminal{identifier}s.
 
 \specsubitem
-A unit, or translation unit, is composed of several source files as described
-by \secref{Translation steps}. Each source file is a \nonterminal{sub-unit}.
+The \nonterminal{identifier}s shall be visible anywhere within the current
+translation unit. If the \terminal{export} keyword is used, the
+\nonterminal{identifier}s shall be part of the unit's exported interface.
+
+\specsubsection{Global declarations}
+
+\begin{grammar}
+\nonterminaldef{global-declaration} \\
+	\terminal{let} \nonterminal{global-bindings} \\
+	\terminal{const} \nonterminal{global-bindings} \\
+
+\nonterminaldef{global-bindings} \\
+	\nonterminal{global-binding} \optional{\terminal{,}} \\
+	\nonterminal{global-bindings} \terminal{,} \nonterminal{constant-binding} \\
+
+\nonterminaldef{global-binding} \\
+	\optional{\nonterminal{decl-attr}} \nonterminal{identifier} \terminal{:} \nonterminal{type} \terminal{=} \nonterminal{simple-expression} \\
+
+\nonterminaldef{decl-attr} \\
+	\terminal{@symbol} \terminal{(} \nonterminal{string-constant} \terminal{)}
+\end{grammar}
+
+\specsubsubitem
+In a \nonterminal{global-declaration}, sufficient space shall be reserved for
+each \nonterminal{identifier} in the \nonterminal{global-bindings} to store
+the \nonterminal{type} associated with it. That storage shall be initialized to
+the value of the \nonterminal{simple-expression} and shall have alignment
+greater than or equal to the necessary alignment for the \nonterminal{type}. In
+the \terminal{const} form, the \nonterminal{type}s shall have the constant flag
+enabled by default.
+
+\specsubsubitem
+A \nonterminal{global-binding}'s \nonterminal{simple-expression} shall be
+limited to the \secref{Translation compatible expression subset}, and shall be
+evaluated in the translation environment. The type of the value of the
+\nonterminal{simple-expression} shall assignable to \nonterminal{type}.
+
+\specsubsubitem
+If the \terminal{@symbol} form of \nonterminal{decl-attr} is specified, the
+\nonterminal{global-binding}'s \terminal{identifier}'s symbol shall be overriden
+with the value of the \nonterminal{string-constant}.
+
+\specsubsection{Constant declarations}
+
+\begin{grammar}
+\nonterminaldef{constant-declaration} \\
+	\terminal{def} \nonterminal{constant-bindings} \\
+
+\nonterminaldef{constant-bindings} \\
+	\nonterminal{constant-binding} \optional{\terminal{,}} \\
+	\nonterminal{constant-bindings} \terminal{,} \nonterminal{constant-binding} \\
+
+\nonterminaldef{constant-binding} \\
+	\nonterminal{identifier} \terminal{:} \nonterminal{type} \terminal{=} \nonterminal{simple-expression} \\
+\end{grammar}
+
+\specsubsubitem
+In a \nonterminal{constant-declaration}, the \nonterminal{identifier}s in the
+\nonterminal{constant-binding} shall be available to the translation
+environment. No storage shall be allocated for them in the execution
+environment, and they shall not be addressable. References to them shall be
+equivalent to references to the \nonterminal{simple-expression} associated with
+them, with a cast to \nonterminal{type} inserted.
+
+\specsubsubitem
+A \nonterminal{constant-binding}'s \nonterminal{simple-expression} shall be
+limited to the \secref{Translation compatible expression subset}, and shall be
+evaluated in the translation environment. The type of the value of the
+\nonterminal{simple-expression} shall assignable to \nonterminal{type}.
+
+\specsubsection{Type declarations}
+
+\begin{grammar}
+\nonterminaldef{type-declaration} \\
+	\terminal{def} \nonterminal{type-bindings} \\
+
+\nonterminaldef{type-bindings} \\
+	\nonterminal{identifier} \terminal{=} \nonterminal{type} \optional{\terminal{,}} \\
+	\nonterminal{identifier} \terminal{=} \nonterminal{type} \terminal{,} \nonterminal{type-bindings} \\
+\end{grammar}
+
+\specsubsubitem
+In a \nonterminal{type-declaration}, the \nonterminal{identifier}s shall declare
+type aliases. In a \nonterminal{type-binding}, the underlying type for the
+\nonterminal{identifier} shall be the \nonterminal{type}.
+
+\specsubsection{Function declarations}
+
+\begin{grammar}
+\nonterminaldef{function-declaration} \\
+	\optional{\nonterminal{fndec-attrs}} \terminal{fn}
+		\nonterminal{identifier} \nonterminal{prototype} \terminal{=}
+		\nonterminal{complex-expression} \\
+
+\nonterminaldef{fndec-attrs} \\
+	\nonterminal{fndec-attr} \\
+	\nonterminal{fndec-attr} \nonterminal{fndec-attrs} \\
+
+\nonterminaldef{fndec-attr} \\
+	\terminal{@fini} \\
+	\terminal{@init} \\
+	\terminal{@test} \\
+	\nonterminal{fntype-attr} \\
+	\nonterminal{decl-attr} \\
+\end{grammar}
+
+% TODO: @test
+
+\specsubsubitem
+The \terminal{@fini} form of \nonterminal{fndec-attr} shall cause the
+function to be a finalization function. \terminal{@init} shall cause it to be an
+initialization function.
+
+References: \secref{Initialization functions}, \secref{Finalization functions}
+
+\specsection{Units}
 
 \begin{grammar}
 \nonterminaldef{sub-unit}\\
@@ -23,8 +154,8 @@ by \secref{Translation steps}. Each source file is a \nonterminal{sub-unit}.
 \end{grammar}
 
 \specsubitem
-Each \nonterminal{sub-unit} must have at least one \nonterminal{declaration},
-and may have \nonterminal{imports}.
+A unit, or translation unit, is composed of several source files as described
+by \secref{Translation steps}. Each source file is a \nonterminal{sub-unit}.
 
 \specsubitem
 An \nonterminal{import} shall declare a dependency between this translation
