@@ -29,8 +29,15 @@
 \terminal{6} \terminal{7} \terminal{8} \terminal{9}\\
 
 \nonterminaldef{alnum}\\
-\nonterminal{digit}
-\nonterminal{nondigit}
+\nonterminal{digit} \\
+\nonterminal{nondigit} \\
+
+\nonterminaldef{symbol} \\
+	\nonterminal{nondigit} \\
+	\terminal{.} \\
+	\nonterminal{symbol} \nonterminal{alnum} \\
+	\nonterminal{symbol} \terminal{\$} \\
+	\nonterminal{symbol} \terminal{.} \\
 \end{grammar}
 
 % TODO: The role of the namespace part could be described better
@@ -73,7 +80,8 @@ An identifier without the namespace qualification may be fully-qualified
 regardless, if it exists in the root namespace.
 
 \specsubitem
-Each identifier shall have an associated \textit{symbol}. The symbol for a
+Each identifier shall have an associated \nonterminal{symbol}. The symbol for a
 \nonterminal{name} shall be itself, and the symbol for a \nonterminal{name}
 within a namespace shall be the symbol for the namespace, followed by a '.',
-followed by the \nonterminal{name}.
+followed by the \nonterminal{name}. The implementation may define the maximum
+length of a \nonterminal{symbol}.
