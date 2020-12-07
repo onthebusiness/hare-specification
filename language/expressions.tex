@@ -223,19 +223,17 @@ integer shall be multiplied by 10 to the power of \nonterminal{decimal-digits}.
 	\terminal{\textbackslash"} \\
 \end{grammar}
 
-% TODO: Describe representation of rune types
-
-\specsubitem
+\specsubsubitem
 If the \nonterminal{rune-constant} is not an \nonterminal{escape-sequence}, the
 value of the rune shall be the Unicode codepoint representing
 \nonterminal{rune}.
 
-\specsubitem
+\specsubsubitem
 A \nonterminal{rune-constant} beginning with \terminal{\textbackslash{}x} or
 \terminal{\textbackslash{}u} shall interpet its value as a Unicode codepoint
 specified in its hexadecimal representation by \nonterminal{hex-digit}s.
 
-\specsubitem
+\specsubsubitem
 A \nonterminal{rune-constant} containing a \nonterminal{named-escape} shall have
 a value based on the following chart:
 
@@ -268,6 +266,20 @@ Escape sequence & Unicode codepoint & Escape sequence & Unicode codepoint \\
 	\norm{Any character other than \terminal{\textbackslash} or \terminal{"}} \\
 	\nonterminal{escape-sequence} \\
 \end{grammar}
+
+\specsubsubitem
+A \nonterminal{string-constant} expression shall have a result type of
+\terminal{const} \terminal{str}.
+
+\specsubsubitem
+The string's \textit{data} field shall refer to a UTF-8 encoded sequence of
+Unicode codepoints, ascertained by encoding the sequence of
+\nonterminal{string-char}s given in order, after interpreting escape codes per
+\subsubitemref{Rune constants}{17}.
+
+\specsubsubitem
+The \textit{length} and \textit{capacity} fields shall be set to the length in
+octets of the encoded UTF-8 data.
 
 \specsubsection{Array literals}
 
@@ -717,6 +729,7 @@ Floating types & Any numeric type \\
 Integer types & Any numeric type or enum type, or \terminal{uintptr} \\
 \terminal{bool}, \terminal{null}, \terminal{void} & Cannot be cast \\
 \terminal{char} & \terminal{u8} \\
+\terminal{str} & \terminal{*} \terminal{char} \\
 \terminal{uintptr} & Any pointer type or any integer type \\
 Any pointer type & Any pointer type or \terminal{uintptr} \\
 Enum types & Any enum type or numeric type \\
@@ -757,6 +770,11 @@ type, shall yield the same pointer.
 \informative{However, casting \nonterminal{uintptr} to any other integer type
 and back again may truncate towards the least significant bit and is not
 guaranteed to yield the same pointer.}
+
+\specsubsubitem
+Casting a \terminal{str} to \terminal{*} \terminal{char} is a special case; it
+is equivalent to casting the string's \textit{data} field to \terminal{*}
+\terminal{char}.
 
 \specsubsubitem
 The third form is a \textit{type assertion}. In this form,

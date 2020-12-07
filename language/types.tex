@@ -2,6 +2,10 @@
 
 \begin{grammar}
 \nonterminaldef{type} \\
+	\nonterminal{storage-class} \\
+	\terminal{const} \nonterminal{storage-class} \\
+
+\nonterminaldef{storage-class} \\
 	\nonterminal{scalar-type} \\
 	\nonterminal{struct-union-type} \\
 	\nonterminal{tagged-union-type} \\
@@ -16,8 +20,8 @@
 	\nonterminal{floating-type} \\
 	\nonterminal{enum-type} \\
 	\nonterminal{pointer-type} \\
-	\terminal{bool} \\
 	\terminal{rune} \\
+	\terminal{bool} \\
 	\terminal{void} \\
 \end{grammar}
 
@@ -166,6 +170,12 @@ The alignment of float types shall be equal to their size in octets.
 
 \specsubsubitem
 The default value of a float type shall be zero.
+
+\specsubsection{Rune types}
+
+\specsubsubitem
+The \terminal{rune} type represents a Unicode codepoint, encoded as a
+\nonterminal{u32}.
 
 \specsubsection{Enum types}
 
@@ -490,6 +500,30 @@ underlying type is undefined, the default value of the array type is undefined.
 The default value of a slice type shall have the capacity and length fields set
 to zero and the data field set to null.
 
+\specsubsection{String types}
+
+\begin{grammar}
+\nonterminaldef{string-type} \\
+	\terminal{str} \\
+\end{grammar}
+
+\specsubsubitem
+A string stores a reference to a sequence of Unicode codepoints, encoded as
+UTF-8, along with its \textit{length} and \textit{capacity}. The length and
+capacity are measured in octets, rather than codepoints.
+
+\specsubsubitem
+The representation of the string type shall be equivalent to the following
+struct type:
+
+\begin{codesample}
+struct {
+	data: *[*]const u8,
+	length: size,
+	capacity: size,
+}
+\end{codesample}
+
 \specsubsection{Function types}
 
 \begin{grammar}
@@ -582,15 +616,3 @@ semantics as its underlying type.
 \specsubsubitem
 Each type alias (uniquely identified by its \nonterminal{identifier}) shall be
 a unique type, even if it shares its underlying type with another type alias.
-
-\specsubsection{Rune types}
-
-\specsubsubitem
-The \terminal{rune} type represents a Unicode codepoint, encoded as a
-\nonterminal{u32}.
-
-% TODO
-
-\specsubsection{String types}
-
-% TODO
