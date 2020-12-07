@@ -71,3 +71,9 @@ itself a member of the sys namespace.}
 \specsubitem
 An identifier without the namespace qualification may be fully-qualified
 regardless, if it exists in the root namespace.
+
+\specsubitem
+Each identifier shall have an associated \textit{symbol}. The symbol for a
+\nonterminal{name} shall be itself, and the symbol for a \nonterminal{name}
+within a namespace shall be the symbol for the namespace, followed by a '.',
+followed by the \nonterminal{name}.
