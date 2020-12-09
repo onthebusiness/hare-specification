@@ -920,4 +920,19 @@ be zero.
 
 \specsubsection{Expression lists}
 
+\begin{grammar}
+\nonterminaldef{expression-list} \\
+	\terminal{\{} \nonterminal{expressions} \terminal{\}} \\
+
+\nonterminaldef{expressions} \\
+	\nonterminal{complex-expression} \terminal{;} \\
+	\nonterminal{complex-expression} \terminal{;} \nonterminal{expressions} \\
+\end{grammar}
+
+\specsubsubitem
+A \nonterminal{expression-list} evaluates any number of
+\nonterminal{complex-expression}s in sequence. The result of the
+\nonterminal{expression-list} shall be the result of the final
+\nonterminal{complex-expression}.
+
 \specsubsection{Simple, complex, and compound expressions}
