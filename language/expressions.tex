@@ -859,6 +859,39 @@ types, this truncation will cause the sign bit to change.
 
 \specsubsection{Bit shifting arithmetic}
 
+\begin{grammar}
+\nonterminaldef{shift-expression} \\
+	\nonterminal{additive-expression} \\
+	\nonterminal{shift-expression} \terminal{\textless{}\textless{}} \nonterminal{additive-expression} \\
+	\nonterminal{shift-expression} \terminal{\textgreater{}\textgreater{}} \nonterminal{additive-expression} \\
+\end{grammar}
+
+\specsubsubitem
+A \nonterminal{shift-expression} performs a bitwise left-shift
+(\terminal{\textless{}\textless{}}) or right-shift (\terminal{\textgreater{}\textgreater{}}). The first
+form illustrates the precedence. The result type shall be the type of the first
+operand. Both operands shall be of unsigned integer types.
+
+\specsubsubitem
+\code{\nonterminal{shift-expression} \terminal{\textless{}\textless{}} $N$} shall shift
+each bit towards the most significant bit $N$ places, and set the least
+significant $N$ bits to zero. The $N$ most significant bits shall be silently
+discarded. If $N$ is greater than the size in bits of the type, the result shall
+be zero.
+
+\informative{This operation is equivalent to multiplying
+\nonterminal{shift-expression} by $2^N$}
+
+\specsubsubitem
+\code{\nonterminal{shift-expression} \terminal{\textgreater{}\textgreater{}} $N$} shall shift
+each bit towards the least significant bit $N$ places, and set the most
+significant $N$ bits to zero. The $N$ least significant bits shall be silently
+discarded. If $N$ is greater than the size in bits of the type, the result shall
+be zero.
+
+\informative{This operation is equivalent to dividing
+\nonterminal{shift-expression} by $2^N$}
+
 \specsubsection{Relational arithmetic}
 
 \specsubsection{Equality}
