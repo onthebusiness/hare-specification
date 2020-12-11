@@ -904,6 +904,16 @@ be zero.
 
 \specsubsection{If expressions}
 
+\begin{grammar}
+\nonterminaldef{if-expression} \\
+	\terminal{if} \nonterminal{conditional-branch} \\
+	\terminal{if} \nonterminal{conditional-branch} \terminal{else} \nonterminal{conditional-branch} \\
+	\terminal{if} \nonterminal{conditional-branch} \terminal{else} \nonterminal{if-expression} \\
+
+\nonterminaldef{conditional-branch} \\
+	\terminal{(} \nonterminal{complex-expression} \terminal{)} \nonterminal{compound-expression} \\
+\end{grammar}
+
 \specsubsection{For loops}
 
 \specsubsection{While loops}
@@ -911,8 +921,6 @@ be zero.
 \specsubsection{Match expressions}
 
 \specsubsection{Switch expressions}
-
-\specsubsection{Branching expressions}
 
 \specsubsection{Assignment}
 
