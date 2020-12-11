@@ -952,4 +952,29 @@ A \nonterminal{expression-list} evaluates any number of
 	\terminal{return} \optional{\nonterminal{complex-expression}} \\
 \end{grammar}
 
-\specsubsection{Simple, complex, and compound expressions}
+\specsubsection{High-level expression classes}
+
+\begin{grammar}
+\nonterminaldef{simple-expression} \\
+	\nonterminal{logical-or-expression} \\
+
+\nonterminaldef{complex-expression} \\
+	\nonterminal{simple-expression} \\
+	\nonterminal{if-expression} \\
+	\nonterminal{for-expression} \\
+	\nonterminal{while-expression} \\
+	\nonterminal{match-expression} \\
+	\nonterminal{switch-expression} \\
+
+\nonterminaldef{scope-expression} \\
+	\nonterminal{binding} \\
+	\nonterminal{complex-expression} \\
+	\nonterminal{allocation-expression} \\
+	\nonterminal{assignment-expression} \\
+
+\nonterminaldef{compound-expression} \\
+	\nonterminal{simple-expression} \\
+	\terminal{\{} \nonterminal{expression-list} \terminal{\}} \\
+	\terminal{\{} \nonterminal{control-statement} \terminal{;} \terminal{\}} \\
+	\terminal{\{} \nonterminal{expression-list} \terminal{;} \nonterminal{control-statement} \terminal{;} \terminal{\}} \\
+\end{grammar}
