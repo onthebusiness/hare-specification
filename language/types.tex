@@ -530,18 +530,22 @@ struct {
 	\optional{\nonterminal{fntype-attr}} \terminal{fn} \nonterminal{prototype} \\
 
 \nonterminaldef{prototype} \\
-	\terminal{(} \nonterminal{parameter-list} \optional{\nonterminal{variadism}} \optional{\terminal{,}} \terminal{)} \nonterminal{type} \\
+	\terminal{(} \optional{\nonterminal{parameter-list}} \terminal{)} \nonterminal{type} \\
 
 \nonterminaldef{fntype-attr} \\
 	\terminal{@noreturn} \\
 
 \nonterminaldef{parameter-list} \\
-	\nonterminal{name} \terminal{:} \nonterminal{type} \\
-	\nonterminal{name} \terminal{:} \nonterminal{type} \terminal{,} \nonterminal{parameter-list} \\
+	\nonterminal{parameters} \optional{\terminal{,}} \\
+	\nonterminal{parameters} \terminal{...} \optional{\terminal{,}} \\
+	\nonterminal{parameters} \terminal{,} \terminal{...} \optional{\terminal{,}} \\
 
-\nonterminaldef{variadism} \\
-	\terminal{...} \\
-	\terminal{,} \terminal{...} \\
+\nonterminaldef{parameters} \\
+	\nonterminal{parameter} \\
+	\nonterminal{parameter-list} \terminal{,} \nonterminal{parameter} \\
+
+\nonterminaldef{parameter} \\
+	\nonterminal{name} \terminal{:} \nonterminal{type} \\
 \end{grammar}
 
 \specsubsubitem
@@ -561,26 +565,26 @@ be \terminal{void}), and zero or more parameters. Each \nonterminal{name} shall
 be unique.
 
 \specsubsubitem
-If the first form of \nonterminal{variadism} is usesd, the final parameter of the
-function type uses \textit{Hare-style variadism}. If the second form is used,
-the function uses \textit{C-style variadism}. The variadism of a function type
-affects the calling semantics for that function.
+If the second form of \nonterminal{parameters} is usesd, the final parameter of
+the function type uses \textit{Hare-style variadism}. If the third form is
+used, the function uses \textit{C-style variadism}. The variadism of a function
+type affects the calling semantics for that function.
+
+\begin{codesample}
+// Hare-style variadism:
+fn(x: int, y: int, z: int...)
+
+// C-style variadism:
+fn(x: int, y: int, ...)
+\end{codesample}
+
+Forward references: \subsecref{Call expressions}
 
 \specsubsubitem
 The implementation is not required to support C-style variadism. If the
 implementation does not support C-style variadism, it must print a diagnostic
 message and abort the translation environment for programs which attempt to
 utilize it.
-
-\begin{codesample}
-// C-style variadism:
-fn(x: int, y: int, ...)
-
-// Hare-style variadism:
-fn(x: int, y: int, z: int...)
-\end{codesample}
-
-Forward references: \subsecref{Call expressions}
 
 \specsubsubitem
 The type of a parameter which uses Hare-style variadism shall be a
