@@ -17,7 +17,8 @@ All expressions have a defined \textit{result type}. It may be \terminal{void}.
 Some expressions \textit{terminate}. The semantics of terminating expressions
 vary between different expression types, and will be detailed as appropriate.
 If unspecified, expressions described by this expression are presumed to be
-non-terminating.
+non-terminating. Expression classes inherit their termination qualities from the
+more specific sub-expressions which they classify.
 
 \specsubsection{Constants}
 
@@ -453,6 +454,10 @@ execution environment, and by which the arguments are provided to it, is
 implementation-defined.
 
 \informative{This is generally provided by the target's ABI specification.}
+
+\specsubsubitem
+If the function type which is called has the \terminal{@noreturn} attribute,
+the call expression is considered to terminate.
 
 \specsubsection{Assertions}
 
@@ -947,6 +952,12 @@ branch are uniform, the result type of the expression as a whole shall be of
 that type. If the types are not uniform, the result type shall be a tagged
 union of the set of possible result types. The result value shall be selected
 from the result of the branch which is executed.
+
+\specsubsubitem
+If any of the branch expressions terminate, that branch is not considered for
+the purpose of determining the result type. If all branches terminate, the
+result type is \terminal{void} and the if statement itself is considered
+terminal.
 
 \specsubsection{For loops}
 
