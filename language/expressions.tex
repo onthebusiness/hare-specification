@@ -962,6 +962,30 @@ from the result of the branch which is executed.
 \nonterminaldef{label}\exactly \\
 	\terminal{:} \nonterminal{name} \\
 \end{grammar}
+% XXX: We may want to narrow the afterthought's expression class
+
+\specsubsubitem
+A \nonterminal{for-loop} executes its \nonterminal{compound-expression} zero or
+more times, so long as a condition is true. Its result type is \terminal{void}.
+If the \nonterminal{label} is present, the expression is \textit{labelled}.
+
+\specsubsubitem
+In the first form, \nonterminal{for-predicate} specifies the \textit{condition}
+with its \nonterminal{complex-expression}. In the second form, the first
+expression is the condition, and the second expression is the
+\textit{afterthought}. In the third form, the \nonterminal{binding} is the
+\textit{binding}, and the two expressions are respectively the condition and
+afterthought. The result type of the condition shall be \terminal{bool}.
+
+\specsubsubitem
+The implementation shall establish a new scope for the
+\nonterminal{compound-expression}, then, if present, it shall evaluate the
+\nonterminal{binding} in this scope. The implementation shall then evaluate the
+condition. If it is \terminal{true}, the \nonterminal{compound-expression}
+shall be evaluated and all of its side-effects shall occur; this process is an
+\textit{iteration}. When the iteration is complete, the implementation shall
+evaluate the afterthought, if present, and then repeat the process, until the
+condition evaluates to \terminal{false}.
 
 \specsubsection{Match expressions}
 
