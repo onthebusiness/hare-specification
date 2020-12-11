@@ -978,3 +978,30 @@ A \nonterminal{expression-list} evaluates any number of
 	\terminal{\{} \nonterminal{control-statement} \terminal{;} \terminal{\}} \\
 	\terminal{\{} \nonterminal{expression-list} \terminal{;} \nonterminal{control-statement} \terminal{;} \terminal{\}} \\
 \end{grammar}
+
+\specsubsubitem
+\nonterminal{simple-expression}, \nonterminal{complex-expression},
+\nonterminal{scope-expression}, and \nonterminal{compound-expression} are
+high-level expression classes which are used to classify the kinds of
+expressions which are available in specific situations.
+
+\informative{
+\nonterminal{simple-expression} and \nonterminal{complex-expression} are
+available in most circumstances. A simple expression can encapsulate a
+complex-expression via \nonterminal{nested-expression} should the programmer
+consider themselves wiser than the language designer, but generally speaking a
+simple-expression will not branch or alter control flow.
+}
+
+\informative{
+\nonterminal{scope-expression} is available in context where new objects may
+be defined (\nonterminal{binding}, \nonterminal{allocation-expression}) and
+mutated (\nonterminal{assignment-expression}).
+}
+
+\informative{
+\nonterminal{compound-expression} is used for lists of expressions evaluated in
+sequence, and expands the classification to include
+\nonterminal{control-statements}, which are used to influence the flow of
+expression evaluation within the sequence.
+}
