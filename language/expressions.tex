@@ -933,14 +933,14 @@ be zero.
 	\terminal{\{} \nonterminal{expressions} \terminal{\}} \\
 
 \nonterminaldef{expressions} \\
-	\nonterminal{complex-expression} \terminal{;} \\
-	\nonterminal{complex-expression} \terminal{;} \nonterminal{expressions} \\
+	\nonterminal{scope-expression} \terminal{;} \\
+	\nonterminal{scope-expression} \terminal{;} \nonterminal{expressions} \\
 \end{grammar}
 
 \specsubsubitem
 A \nonterminal{expression-list} evaluates any number of
-\nonterminal{complex-expression}s in sequence. The result of the
+\nonterminal{scope-expression}s in sequence. The result of the
 \nonterminal{expression-list} shall be the result of the final
-\nonterminal{complex-expression}.
+\nonterminal{scope-expression}.
 
 \specsubsection{Simple, complex, and compound expressions}
