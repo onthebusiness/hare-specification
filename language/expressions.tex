@@ -992,8 +992,8 @@ A \nonterminal{expression-list} evaluates any number of
 
 \begin{grammar}
 \nonterminaldef{control-statement} \\
-	\terminal{break} \\
-	\terminal{continue} \\
+	\terminal{break} \optional{\nonterminal{label}} \\
+	\terminal{continue} \optional{\nonterminal{label}} \\
 	\terminal{return} \optional{\nonterminal{complex-expression}} \\
 \end{grammar}
 
