@@ -907,12 +907,46 @@ be zero.
 \begin{grammar}
 \nonterminaldef{if-expression} \\
 	\terminal{if} \nonterminal{conditional-branch} \\
-	\terminal{if} \nonterminal{conditional-branch} \terminal{else} \nonterminal{conditional-branch} \\
 	\terminal{if} \nonterminal{conditional-branch} \terminal{else} \nonterminal{if-expression} \\
+	\terminal{if} \nonterminal{conditional-branch} \terminal{else} \nonterminal{compound-expression} \\
 
 \nonterminaldef{conditional-branch} \\
 	\terminal{(} \nonterminal{complex-expression} \terminal{)} \nonterminal{compound-expression} \\
 \end{grammar}
+
+\specsubsubitem
+An \nonterminal{if-expression} chooses which, if any, expression to evaluate
+based on a logical criteria. In all forms, the result type of
+\nonterminal{complex-expression} shall be \terminal{bool}.
+
+\specsubsubitem
+When executing a \nonterminal{conditional-branch}, the implementation shall
+evaluate the \\ \nonterminal{complex-expression} (the \textit{condition}), and
+if \terminal{true}, the implementation shall execute the corresponding
+\nonterminal{compound-expression} (the \textit{branch}), ensuring that all
+side-effects occur. If the condition is \terminal{false}, the branch shall not
+be executed and shall not cause side-effects.
+
+\specsubsubitem
+In the second form, the first \nonterminal{conditional-branch} shall be
+executed. If it was \terminal{false}, the second-order
+\nonterminal{if-expression} shall be executed; otherwise not. In the latter
+case, any side-effects of the second condition or branch shall not occur.
+
+\specsubsubitem
+In the third form, the \nonterminal{conditional-branch} shall be executed. If
+it was \terminal{false}, the \nonterminal{compound-expression} shall be
+executed, and all of its side-effects shall occur.
+
+\specsubsubitem
+In the first form, the result type is \terminal{void}. In the second form, the
+result type is \terminal{void} unless the third form is present in the
+$N^{th}$-order sub-expression for any value of $N$. In this case, and in the
+case of the third form used in the first order, if the result types of each
+branch are uniform, the result type of the expression as a whole shall be of
+that type. If the types are not uniform, the result type shall be a tagged
+union of the set of possible result types. The result value shall be selected
+from the result of the branch which is executed.
 
 \specsubsection{For loops}
 
