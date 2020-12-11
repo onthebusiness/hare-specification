@@ -950,7 +950,18 @@ from the result of the branch which is executed.
 
 \specsubsection{For loops}
 
-\specsubsection{While loops}
+\begin{grammar}
+\nonterminaldef{for-loop} \\
+	\optional{\nonterminal{label}} \terminal{for} \terminal{(} \nonterminal{for-predicate} \terminal{)} \nonterminal{compound-expression} \\
+
+\nonterminaldef{for-predicate} \\
+	\nonterminal{complex-expression} \\
+	\nonterminal{complex-expression} \terminal{;} \nonterminal{scope-expression} \\
+	\nonterminal{binding} \terminal{;} \nonterminal{complex-expression} \terminal{;} \nonterminal{scope-expression} \\
+
+\nonterminaldef{label} \\
+	\terminal{:} \nonterminal{name} \\
+\end{grammar}
 
 \specsubsection{Match expressions}
 
@@ -995,7 +1006,7 @@ A \nonterminal{expression-list} evaluates any number of
 \nonterminaldef{complex-expression} \\
 	\nonterminal{simple-expression} \\
 	\nonterminal{if-expression} \\
-	\nonterminal{for-expression} \\
+	\nonterminal{for-loop} \\
 	\nonterminal{while-expression} \\
 	\nonterminal{match-expression} \\
 	\nonterminal{switch-expression} \\
