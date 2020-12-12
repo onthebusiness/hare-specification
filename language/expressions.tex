@@ -899,6 +899,42 @@ be zero.
 
 \specsubsection{Relational arithmetic}
 
+\begin{grammar}
+\nonterminaldef{relational-expression} \\
+	\nonterminal{shift-expression} \\
+	\nonterminal{relational-expression} \terminal{<} \nonterminal{shift-expression} \\
+	\nonterminal{relational-expression} \terminal{>} \nonterminal{shift-expression} \\
+	\nonterminal{relational-expression} \terminal{<=} \nonterminal{shift-expression} \\
+	\nonterminal{relational-expression} \terminal{>=} \nonterminal{shift-expression} \\
+\end{grammar}
+
+\specsubsubitem
+A \nonterminal{relational-expression} determines which operand is lesser than
+(\terminal{<}), greater than (\terminal{>}), less than or equal to
+(\terminal{<=}), or greater than or equal to (\terminal{>=}) the other. The
+types of both operands shall both be numeric, and shall be subject to the
+\subsecref{Type promotion} rules. The result type shall be \terminal{bool}.
+
+\specsubsubitem
+The result of the \terminal{<} operator shall be \terminal{true} if the first
+operand is mathematically less than the second operand and \terminal{false}
+otherwise.
+
+\specsubsubitem
+The result of the \terminal{>} operator shall be \terminal{true} if the first
+operand is mathematically greater than the second operand and \terminal{false}
+otherwise.
+
+\specsubsubitem
+The result of the \terminal{<=} operator shall be \terminal{true} if the
+first operand is mathematically less than or equal to second operand
+and \terminal{false} otherwise.
+
+\specsubsubitem
+The result of the \terminal{>=} operator shall be \terminal{true} if the first
+operand is mathematically greater than or equal to second operand
+and \terminal{false} otherwise.
+
 \specsubsection{Equality}
 
 \specsubsection{Bitwise arithmetic}
