@@ -124,6 +124,7 @@ type aliases. In a \nonterminal{type-binding}, the underlying type for the
 \end{grammar}
 
 % TODO: @test
+% TODO: Prototypes
 
 \specsubsubitem
 The \terminal{@fini} form of \nonterminal{fndec-attr} shall cause the
@@ -132,6 +133,14 @@ initialization function. If multiple \nonterminal{fndec-attr}s of the same type
 are specified, the last one shall override all previous ones.
 
 References: \secref{Initialization functions}, \secref{Finalization functions}
+
+\specsubsubitem
+If \terminal{@noreturn} is not specified by the prototype, the function's
+expression shall terminate.
+
+\specsubsubitem
+If \terminal{@init}, \terminal{@fini}, or \terminal{@test} are given, the
+result type shall be \terminal{void}.
 
 \specsection{Units}
 
