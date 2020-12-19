@@ -139,8 +139,9 @@ The result type of the expression shall be assignable to the prototype's result
 type.
 
 \specsubsubitem
-If \terminal{@noreturn} is not specified by the prototype, the function's
-expression shall terminate.
+If \terminal{@noreturn} is not specified by the prototype and the expression
+type is \nonterminal{expression-list}, the function's expression shall
+terminate.
 
 \specsubsubitem
 If \terminal{@init}, \terminal{@fini}, or \terminal{@test} are given, the
