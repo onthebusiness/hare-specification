@@ -1096,13 +1096,16 @@ shall be used to specify which \nonterminal{for-loop} the statement shall
 influence, and shall match a labelled for loop which is an ancestor of the
 statement. If the label is not specified, the control statement shall refer to
 the most immediate anscestor of the control statement which is a
-\nonterminal{for-loop}.
+\nonterminal{for-loop}. If no qualifying loop can be identified, a diagnostic
+message shall be shown and the translation phase shall abort.
 
 \specsubsubitem
 The third form shall terminate the function the expression is a descendant of.
 If the function's result type is not \terminal{void}, the
 \nonterminal{complex-expression} shall be provided, and shall be assignable to
-the function's result type. It shall provide the result for the function.
+the function's result type. It shall provide the result for the function. If
+the function's result type is void, the \nonterminal{complex-expression} shall
+not be present.
 
 \specsubsubitem
 In any of these cases, the implementation shall ensure that side-effects do not
