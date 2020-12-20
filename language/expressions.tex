@@ -1060,6 +1060,10 @@ A \nonterminal{expression-list} evaluates any number of
 \nonterminal{scope-expression}.
 
 \specsubsubitem
+The expressions shall be evaluated such that the side-effects of each all occur
+in the order that each expression appears.
+
+\specsubsubitem
 If any of the \nonterminal{scope-expression}s terminate, the
 \nonterminal{expression-list} is considered to terminate.
 
