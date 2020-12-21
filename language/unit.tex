@@ -202,7 +202,11 @@ in the same conditions as the previous example, the fully-qualified identifier
 the scope of this \nonterminal{sub-unit}.}
 
 \specsubitem
-The imports of a \nonterminal{sub-unit} are not visible to other
-\nonterminal{sub-unit}s in the same translation unit. However, identifiers
-\textit{declared} in this \nonterminal{sub-unit} are visible in those
-\nonterminal{sub-unit}s.
+The translation unit shall establish a top-level scope into which all
+unit-local declarations are inserted. Each sub-unit shall establish another
+scope whose parent scope is the top-level unit scope, and in this sub-unit
+scope, each of the imports used by that sub-unit shall be made available.
+
+\informative{
+In other words, declarations made in a sub-unit are visible to other members of
+that unit, but imports in a sub-unit are not visible to other sub-units.}
