@@ -1040,9 +1040,23 @@ condition evaluates to \terminal{false}.
 
 \specsubsection{Switch expressions}
 
-\specsubsection{Assignment}
-
 \specsubsection{Variable binding}
+
+\begin{grammar}
+\nonterminaldef{binding-list} \\
+	\terminal{let} \nonterminal{bindings} \\
+	\terminal{const} \nonterminal{bindings} \\
+
+\nonterminaldef{bindings} \\
+	\nonterminal{binding} \optional{\terminal{,}} \\
+	\nonterminal{binding} \terminal{,} \nonterminal{bindings} \\
+
+\nonterminaldef{binding} \\
+	\nonterminal{name} \terminal{=} \nonterminal{simple-expression} \\
+	\nonterminal{name} \terminal{:} \nonterminal{type} \terminal{=} \nonterminal{complex-expression} \\
+\end{grammar}
+
+\specsubsection{Assignment}
 
 \specsubsection{Expression lists}
 
@@ -1132,7 +1146,7 @@ influence.
 	\nonterminal{switch-expression} \\
 
 \nonterminaldef{scope-expression} \\
-	\nonterminal{binding} \\
+	\nonterminal{binding-list} \\
 	\nonterminal{complex-expression} \\
 	\nonterminal{allocation-expression} \\
 	\nonterminal{assignment-expression} \\
