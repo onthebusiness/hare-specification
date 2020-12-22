@@ -919,19 +919,41 @@ be zero.
 The implementation shall ensure that any side-effects of the first term shall
 occur before side-effects of the second term.
 
-\specsubsection{Relational arithmetic}
+\specsubsection{Bitwise arithmetic}
 
 \begin{grammar}
-\nonterminaldef{relational-expression} \\
+\nonterminaldef{and-expression} \\
 	\nonterminal{shift-expression} \\
-	\nonterminal{relational-expression} \terminal{<} \nonterminal{shift-expression} \\
-	\nonterminal{relational-expression} \terminal{>} \nonterminal{shift-expression} \\
-	\nonterminal{relational-expression} \terminal{<=} \nonterminal{shift-expression} \\
-	\nonterminal{relational-expression} \terminal{>=} \nonterminal{shift-expression} \\
+	\nonterminal{and-expression} \terminal{\&} \nonterminal{shift-expression} \\
+
+\nonterminaldef{exclusive-or-expression} \\
+	\nonterminal{and-expression} \\
+	\nonterminal{exclusive-or-expression} \terminal{\^} \nonterminal{and-expression} \\
+
+\nonterminaldef{inclusive-or-expression} \\
+	\nonterminal{exclusive-or-expression} \\
+	\nonterminal{inclusive-or-expression} \terminal{|} \nonterminal{exclusive-or-expression} \\
 \end{grammar}
 
 \specsubsubitem
-A \nonterminal{relational-expression} determines which operand is lesser than
+The implementation shall ensure that any side-effects of the first term shall
+occur before side-effects of the second term.
+
+\specsubsection{Logical comparisons}
+
+\begin{grammar}
+\nonterminaldef{comparision-expression} \\
+	\nonterminal{inclusive-or-expression} \\
+	\nonterminal{comparision-expression} \terminal{<} \nonterminal{inclusive-or-expression} \\
+	\nonterminal{comparision-expression} \terminal{>} \nonterminal{inclusive-or-expression} \\
+	\nonterminal{comparision-expression} \terminal{<=} \nonterminal{inclusive-or-expression} \\
+	\nonterminal{comparision-expression} \terminal{>=} \nonterminal{inclusive-or-expression} \\
+	\nonterminal{comparision-expression} \terminal{==} \nonterminal{inclusive-or-expression} \\
+	\nonterminal{comparision-expression} \terminal{!=} \nonterminal{inclusive-or-expression} \\
+\end{grammar}
+
+\specsubsubitem
+A \nonterminal{comparison-expression} determines which operand is lesser than
 (\terminal{<}), greater than (\terminal{>}), less than or equal to
 (\terminal{<=}), or greater than or equal to (\terminal{>=}) the other. The
 types of both operands shall both be numeric, and shall be subject to the
@@ -958,37 +980,17 @@ operand is mathematically greater than or equal to second operand
 and \terminal{false} otherwise.
 
 \specsubsubitem
-The implementation shall ensure that any side-effects of the first term shall
-occur before side-effects of the second term.
-
-\specsubsection{Equality}
-
-\begin{grammar}
-\nonterminaldef{equality-expression} \\
-	\nonterminal{relational-expression} \\
-	\nonterminal{equality-expression} \terminal{==} \nonterminal{relational-expression} \\
-	\nonterminal{equality-expression} \terminal{!=} \nonterminal{relational-expression} \\
-\end{grammar}
+If the types of the \terminal{==} or \terminal{!=} operators are numeric, they
+shall be subject to type promotion. Otherwise, each operand must be of the same
+type.
 
 \specsubsubitem
-The implementation shall ensure that any side-effects of the first term shall
-occur before side-effects of the second term.
+The result of the \terminal{==} operator shall be \terminal{true} if the first
+operand is equal to second operand in value, and \terminal{false} otherwise.
 
-\specsubsection{Bitwise arithmetic}
-
-\begin{grammar}
-\nonterminaldef{and-expression} \\
-	\nonterminal{equality-expression} \\
-	\nonterminal{and-expression} \terminal{\&} \nonterminal{equality-expression} \\
-
-\nonterminaldef{exclusive-or-expression} \\
-	\nonterminal{and-expression} \\
-	\nonterminal{exclusive-or-expression} \terminal{\^} \nonterminal{and-expression} \\
-
-\nonterminaldef{inclusive-or-expression} \\
-	\nonterminal{exclusive-or-expression} \\
-	\nonterminal{inclusive-or-expression} \terminal{|} \nonterminal{exclusive-or-expression} \\
-\end{grammar}
+\specsubsubitem
+The result of the \terminal{!=} operator shall be \terminal{true} if the first
+operand is not equal to second operand in value, and \terminal{false} otherwise.
 
 \specsubsubitem
 The implementation shall ensure that any side-effects of the first term shall
@@ -998,17 +1000,40 @@ occur before side-effects of the second term.
 
 \begin{grammar}
 \nonterminaldef{logical-and-expression} \\
-	\nonterminal{inclusive-or-expression} \\
-	\nonterminal{logical-and-expression} \terminal{\&\&} \nonterminal{inclusive-or-expression} \\
+	\nonterminal{comparision-expression} \\
+	\nonterminal{logical-and-expression} \terminal{\&\&} \nonterminal{comparison-expression} \\
+
+\nonterminaldef{logical-xor-expression} \\
+	\nonterminal{logical-and-expression} \\
+	\nonterminal{logical-xor-expression} \terminal{\textasciicircum\textasciicircum} \nonterminal{logical-and-expression} \\
 
 \nonterminaldef{logical-or-expression} \\
-	\nonterminal{logical-and-expression} \\
-	\nonterminal{logical-or-expression} \terminal{||} \nonterminal{logical-and-expression} \\
+	\nonterminal{logical-xor-expression} \\
+	\nonterminal{logical-or-expression} \terminal{||} \nonterminal{logical-xor-expression} \\
 \end{grammar}
 
 \specsubsubitem
-The implementation shall ensure that any side-effects of the first term shall
-occur before side-effects of the second term.
+For all cases of logical arithmetic, both terms shall be of the \terminal{bool}
+type, and the result type shall be \terminal{bool}.
+
+\specsubsubitem
+\terminal{\&\&} shall compute a logical and operation, and shall be
+\terminal{true} if both terms are \terminal{true}, and false otherwise.
+
+\specsubsubitem
+\terminal{\textasciicircum\textasciicircum} shall be a logical exclusive or
+operation, and shall be \terminal{true} if the terms are not equal to each
+other, and \terminal{false} otherwise.
+
+\specsubsubitem
+\terminal{||} shall be a logical or operation, and shall be \terminal{true} if
+either term is \terminal{true}, and \terminal{false} otherwise.
+
+\specsubsubitem
+If the first term of \nonterminal{logical-and-expression} is \terminal{false},
+or the first term of \nonterminal{logical-or-expression} is \terminal{true},
+the implementation shall ensure that the side-effects of the second term do not
+occur.
 
 \specsubsection{If expressions}
 
