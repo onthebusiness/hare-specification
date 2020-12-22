@@ -1072,6 +1072,7 @@ condition evaluates to \terminal{false}.
 \nonterminaldef{binding-list} \\
 	\terminal{let} \nonterminal{bindings} \\
 	\terminal{const} \nonterminal{bindings} \\
+	\terminal{static} \terminal{let} \nonterminal{bindings} \\
 
 \nonterminaldef{bindings} \\
 	\nonterminal{binding} \optional{\terminal{,}} \\
@@ -1098,6 +1099,13 @@ second form, the type shall be as indicated, and the result type of the
 \specsubsubitem
 If the \terminal{const} form is used, the type of each binding shall be
 modified to include the \terminal{const} flag.
+
+\specsubsubitem
+If the \terminal{static} form is used, the variables shall be allocated
+\textit{statically}, such that they are only initialized once and their
+previous value, accounting for any later mutations, is preserved each time
+the binding expression is encountered, including across repeated or recursive
+calls to the enclosing function.
 
 \specsubsection{Assignment}
 
