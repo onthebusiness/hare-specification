@@ -542,18 +542,23 @@ accessed by \nonterminal{field-access-expression} and compute its
 	\nonterminal{postfix-expression} \terminal{.} \nonterminal{name} \\
 \end{grammar}
 
-\specsubitem
+\specsubsubitem
 A \nonterminal{field-access-expression} is used to access fields of
 \subsecref{Struct and union types}. The result type of the
 \nonterminal{postfix-expression} shall be a struct type or a union type.
 
-\specsubitem
+\specsubsubitem
 If the \nonterminal{postfix-expression}'s result type is a union type, the
 result of the \nonterminal{field-access-expression} shall be the union's storage
 area interpreted as the type of the field named by \nonterminal{name}, and the
 result type of the expression shall be the type of the named field.
 
-\specsubitem
+\specsubsubitem
+If the type of the struct object in the first term has the \terminal{const}
+flag, the result type shall also have the \terminal{const} flag set, regardless
+of the flag's value on the type of the named field.
+
+\specsubsubitem
 If the \nonterminal{postfix-expression}'s result type is a struct type,
 the result of the \nonterminal{field-access-expression} shall be the value
 stored in the \nonterminal{name} field of the result of the
@@ -577,6 +582,11 @@ type which is assignable to \nonterminal{size}.
 The result type of an \nonterminal{indexing-expression} is the secondary type
 of the slice or array type given by the \nonterminal{postfix-expression} result
 type.
+
+\specsubsubitem
+If the type of the array or slice object in the first term has the
+\terminal{const} flag, the result type shall also have the \terminal{const}
+flag set, regardless of the flag's value on the secondary type.
 
 \specsubsubitem
 The execution environment shall compute the result of
@@ -1148,13 +1158,8 @@ calls to the enclosing function.
 
 \specsubsubitem
 An \nonterminal{assignment} expression shall cause the object given by the
-first term to be assigned the value given by the second term.
-
-\specsubsubitem
-The result type of the first term shall not be of a \terminal{const} type. If
-any indirection is used to access the value (e.g. via
-\nonterminal{field-access-expression}), the object shall not have any logical
-anscestors of a \terminal{const} type.
+first term to be assigned the value given by the second term. The result type
+of the first term shall not be of a \terminal{const} type.
 
 \specsubsubitem
 The second term shall be \textit{assignable} to the object. Assignability rules
