@@ -1070,9 +1070,8 @@ condition evaluates to \terminal{false}.
 
 \begin{grammar}
 \nonterminaldef{binding-list} \\
-	\terminal{let} \nonterminal{bindings} \\
+	\optional{\terminal{static}} \terminal{let} \nonterminal{bindings} \\
 	\terminal{const} \nonterminal{bindings} \\
-	\terminal{static} \terminal{let} \nonterminal{bindings} \\
 
 \nonterminaldef{bindings} \\
 	\nonterminal{binding} \optional{\terminal{,}} \\
@@ -1108,6 +1107,45 @@ the binding expression is encountered, including across repeated or recursive
 calls to the enclosing function.
 
 \specsubsection{Assignment}
+
+\begin{grammar}
+\nonterminaldef{assignment} \\
+	\nonterminal{postfix-expression} \terminal{=} \nonterminal{complex-expression} \\
+	\terminal{*} \nonterminal{postfix-expression} \terminal{=} \nonterminal{complex-expression} \\
+\end{grammar}
+% TODO: += -= etc
+
+\specsubsubitem
+An \nonterminal{assignment} expression shall cause the object given by the
+first term to be assigned the value given by the second term. The result type
+is the type of the affected object.
+
+\specsubsubitem
+The second term shall be \textit{assignable} to the object. Assignability rules
+are stricter than \textit{castability} rules. Unless otherwise specified, all
+types are assignable only to themselves. The set of other types which are
+assignable to a given type are given by the following table:
+
+\begin{tabular}{r | l}
+Object type & May be assigned from \\
+\hline
+Signed integer types & Signed integer types of equal or higher precision \\
+Unsigned integer types & Unsigned integer types of equal or higher precision \\
+Floating-point types & Any floating-point type of equal or higher precision \\
+Nullable pointer types & Non-nullable pointer type of the same secondary type \\
+Nullable pointer types & \terminal{null} \\
+Tagged union types & Any of its constituent types \\
+Type aliases & Any type assignable to the secondary type \\
+\end{tabular}
+
+The implementation shall perform any necessary conversion from the source type
+to the destination type.
+
+\specsubsubitem
+In the second form, the \nonterminal{postfix-expression} shall be of a
+non-nullable pointer type, and the object which is assigned shall be the
+secondary object to which the pointer object refers. The second term shall be
+assignable to the pointer's secondary type.
 
 \specsubsection{Expression lists}
 
