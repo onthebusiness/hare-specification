@@ -953,17 +953,48 @@ occur before side-effects of the second term.
 
 \specsubsection{Equality}
 
+\begin{grammar}
+\nonterminaldef{equality-expression} \\
+	\nonterminal{relational-expression} \\
+	\nonterminal{equality-expression} \terminal{==} \nonterminal{relational-expression} \\
+	\nonterminal{equality-expression} \terminal{!=} \nonterminal{relational-expression} \\
+\end{grammar}
+
 \specsubsubitem
 The implementation shall ensure that any side-effects of the first term shall
 occur before side-effects of the second term.
 
 \specsubsection{Bitwise arithmetic}
 
+\begin{grammar}
+\nonterminaldef{and-expression} \\
+	\nonterminal{equality-expression} \\
+	\nonterminal{and-expression} \terminal{\&} \nonterminal{equality-expression} \\
+
+\nonterminaldef{exclusive-or-expression} \\
+	\nonterminal{and-expression} \\
+	\nonterminal{exclusive-or-expression} \terminal{\^} \nonterminal{and-expression} \\
+
+\nonterminaldef{inclusive-or-expression} \\
+	\nonterminal{exclusive-or-expression} \\
+	\nonterminal{inclusive-or-expression} \terminal{|} \nonterminal{exclusive-or-expression} \\
+\end{grammar}
+
 \specsubsubitem
 The implementation shall ensure that any side-effects of the first term shall
 occur before side-effects of the second term.
 
 \specsubsection{Logical arithmetic}
+
+\begin{grammar}
+\nonterminaldef{logical-and-expression} \\
+	\nonterminal{inclusive-or-expression} \\
+	\nonterminal{logical-and-expression} \terminal{\&\&} \nonterminal{inclusive-or-expression} \\
+
+\nonterminaldef{logical-or-expression} \\
+	\nonterminal{logical-and-expression} \\
+	\nonterminal{logical-or-expression} \terminal{||} \nonterminal{logical-and-expression} \\
+\end{grammar}
 
 \specsubsubitem
 The implementation shall ensure that any side-effects of the first term shall
@@ -1117,8 +1148,13 @@ calls to the enclosing function.
 
 \specsubsubitem
 An \nonterminal{assignment} expression shall cause the object given by the
-first term to be assigned the value given by the second term. The result type
-is the type of the affected object.
+first term to be assigned the value given by the second term.
+
+\specsubsubitem
+The result type of the first term shall not be of a \terminal{const} type. If
+any indirection is used to access the value (e.g. via
+\nonterminal{field-access-expression}), the object shall not have any logical
+anscestors of a \terminal{const} type.
 
 \specsubsubitem
 The second term shall be \textit{assignable} to the object. Assignability rules
@@ -1230,15 +1266,13 @@ influence.
 	\nonterminal{simple-expression} \\
 	\nonterminal{if-expression} \\
 	\nonterminal{for-loop} \\
-	\nonterminal{while-expression} \\
 	\nonterminal{match-expression} \\
 	\nonterminal{switch-expression} \\
 
 \nonterminaldef{scope-expression} \\
+	\nonterminal{assignment} \\
 	\nonterminal{binding-list} \\
 	\nonterminal{complex-expression} \\
-	\nonterminal{allocation-expression} \\
-	\nonterminal{assignment-expression} \\
 
 \nonterminaldef{compound-expression} \\
 	\nonterminal{simple-expression} \\
