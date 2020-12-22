@@ -837,6 +837,10 @@ truncated towards the least significant bits in the case of integer types, and
 towards zero in the case of float types. Integer divisions which would produce
 a fractional part are floored.
 
+\specsubsubitem
+The implementation shall ensure that any side-effects of the first term shall
+occur before side-effects of the second term.
+
 \specsubsection{Additive arithmetic}
 
 \begin{grammar}
@@ -861,6 +865,10 @@ If an operation would cause the result to overflow or underflow the result
 type, it is truncated towards the least significant bits in the case of integer
 types, and towards zero in the case of float types. In the case of signed
 types, this truncation will cause the sign bit to change.
+
+\specsubsubitem
+The implementation shall ensure that any side-effects of the first term shall
+occur before side-effects of the second term.
 
 \specsubsection{Bit shifting arithmetic}
 
@@ -896,6 +904,10 @@ be zero.
 
 \informative{This operation is equivalent to dividing
 \nonterminal{shift-expression} by $2^N$}
+
+\specsubsubitem
+The implementation shall ensure that any side-effects of the first term shall
+occur before side-effects of the second term.
 
 \specsubsection{Relational arithmetic}
 
@@ -935,13 +947,27 @@ The result of the \terminal{>=} operator shall be \terminal{true} if the first
 operand is mathematically greater than or equal to second operand
 and \terminal{false} otherwise.
 
+\specsubsubitem
+The implementation shall ensure that any side-effects of the first term shall
+occur before side-effects of the second term.
+
 \specsubsection{Equality}
+
+\specsubsubitem
+The implementation shall ensure that any side-effects of the first term shall
+occur before side-effects of the second term.
 
 \specsubsection{Bitwise arithmetic}
 
+\specsubsubitem
+The implementation shall ensure that any side-effects of the first term shall
+occur before side-effects of the second term.
+
 \specsubsection{Logical arithmetic}
 
-\specsubsection{Scope expressions}
+\specsubsubitem
+The implementation shall ensure that any side-effects of the first term shall
+occur before side-effects of the second term.
 
 \specsubsection{If expressions}
 
