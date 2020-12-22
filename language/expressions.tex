@@ -1082,6 +1082,23 @@ condition evaluates to \terminal{false}.
 	\nonterminal{name} \terminal{:} \nonterminal{type} \terminal{=} \nonterminal{complex-expression} \\
 \end{grammar}
 
+\specsubsubitem
+A \nonterminal{binding-list} shall cause one or more objects to become
+available in the present scope. Each object shall be identified by its
+\nonterminal{name}, and shall have its initial value set to the result of the
+\nonterminal{simple-expression} or \nonterminal{complex-expression}. The result
+type of a binding list expression is \terminal{void}.
+
+\specsubsubitem
+In the first form of \nonterminal{binding-list}, the type of the object shall
+be equivalent to the result type of the \nonterminal{simple-expression}. In the
+second form, the type shall be as indicated, and the result type of the
+\nonterminal{complex-expression} shall be assignable to this type.
+
+\specsubsubitem
+If the \terminal{const} form is used, the type of each binding shall be
+modified to include the \terminal{const} flag.
+
 \specsubsection{Assignment}
 
 \specsubsection{Expression lists}
