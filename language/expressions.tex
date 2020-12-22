@@ -948,8 +948,11 @@ occur before side-effects of the second term.
 	\nonterminal{comparision-expression} \terminal{>} \nonterminal{inclusive-or-expression} \\
 	\nonterminal{comparision-expression} \terminal{<=} \nonterminal{inclusive-or-expression} \\
 	\nonterminal{comparision-expression} \terminal{>=} \nonterminal{inclusive-or-expression} \\
-	\nonterminal{comparision-expression} \terminal{==} \nonterminal{inclusive-or-expression} \\
-	\nonterminal{comparision-expression} \terminal{!=} \nonterminal{inclusive-or-expression} \\
+
+\nonterminaldef{equality-expression} \\
+	\nonterminal{comparison-expression} \\
+	\nonterminal{equality-expression} \terminal{==} \nonterminal{comparison-expression} \\
+	\nonterminal{equality-expression} \terminal{!=} \nonterminal{comparison-expression} \\
 \end{grammar}
 
 \specsubsubitem
@@ -980,9 +983,10 @@ operand is mathematically greater than or equal to second operand
 and \terminal{false} otherwise.
 
 \specsubsubitem
-If the types of the \terminal{==} or \terminal{!=} operators are numeric, they
-shall be subject to type promotion. Otherwise, each operand must be of the same
-type.
+An \nonterminal{equalty-expression} determines if two operands are equal to one
+another. The result type is \terminal{bool}. If the types of the \terminal{==}
+or \terminal{!=} operators are numeric, they shall be subject to
+\subsecref{Type promotion}. Otherwise, each operand must be of the same type.
 
 \specsubsubitem
 The result of the \terminal{==} operator shall be \terminal{true} if the first
@@ -1000,8 +1004,8 @@ occur before side-effects of the second term.
 
 \begin{grammar}
 \nonterminaldef{logical-and-expression} \\
-	\nonterminal{comparision-expression} \\
-	\nonterminal{logical-and-expression} \terminal{\&\&} \nonterminal{comparison-expression} \\
+	\nonterminal{equality-expression} \\
+	\nonterminal{logical-and-expression} \terminal{\&\&} \nonterminal{equality-expression} \\
 
 \nonterminaldef{logical-xor-expression} \\
 	\nonterminal{logical-and-expression} \\
