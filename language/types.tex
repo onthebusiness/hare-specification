@@ -460,11 +460,11 @@ the equation $N \times S$, where \textit{S} is the size of the secondary type.
 
 \specsubsubitem
 A \textit{slice type} stores a pointer to an unbounded array type, with a given
-\textit{capacity}, \textit{length}, and \textit{item size}, which respectively
-refer to the number of items that the unbounded array \textbf{may} store without
-re-allocation, and the number of items which are \textbf{currently valid}. The
-representation with no lexical elements between \terminal{[} and \terminal{]}
-indicates a slice type.
+\textit{capacity}, and \textit{length}, which respectively refer to the number
+of items that the unbounded array \textbf{may} store without re-allocation, and
+the number of items which are \textbf{currently valid}. The representation with
+no lexical elements between \terminal{[} and \terminal{]} indicates a slice
+type.
 
 \specsubsubitem
 The representation of a slice type shall be equivalent to the following struct
