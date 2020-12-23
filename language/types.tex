@@ -303,71 +303,74 @@ storage.
 
 \begin{grammar}
 \nonterminaldef{struct-union-type} \\
-	\terminal{struct} \terminal{\{} \nonterminal{struct-fields} \terminal{\}} \\
-	\terminal{union} \terminal{\{} \nonterminal{struct-fields} \terminal{\}} \\
+	\terminal{struct} \terminal{\{} \nonterminal{struct-union-fields} \terminal{\}} \\
+	\terminal{union} \terminal{\{} \nonterminal{struct-union-fields} \terminal{\}} \\
 
-\nonterminaldef{struct-fields} \\
-	\nonterminal{struct-field} \optional{\terminal{,}} \\
-	\nonterminal{struct-field} \terminal{,} \nonterminal{struct-fields} \\
+\nonterminaldef{struct-union-fields} \\
+	\nonterminal{struct-union-field} \optional{\terminal{,}} \\
+	\nonterminal{struct-union-field} \terminal{,} \nonterminal{struct-union-fields} \\
 
-\nonterminaldef{struct-field} \\
+\nonterminaldef{struct-union-field} \\
 	\nonterminal{name} \terminal{:} \nonterminal{type} \\
 	\nonterminal{struct-union-type} \\
 	\nonterminal{identifier} \\
 \end{grammar}
 
 \specsubsubitem
-The \textit{struct type} and \textit{union type} are \textit{aggregate types}.
-A struct type stores multiple values, each with its own type; a union type
-stores one value which may be one of several types. A type defined with the
-\terminal{struct} terminal is a struct type and uses the struct type class; if
-the \terminal{union} terminal is used the type is a union type with the union
-type class.
+The \textit{struct type} and \textit{union type} are \textit{aggregate types},
+which \textit{collect} multiple types, names them, and assigns them
+\textit{offset}s within their storage area. A struct type stores each value at a
+different offset; a union type stores all of its values at the the same offset.
+A type defined with the \terminal{struct} terminal is a struct type and uses the
+struct type class; if the \terminal{union} terminal is used the type is a union
+type with the union type class.
 
 \specsubsubitem
-The \nonterminal{struct-fields} list denotes, in order, the subvalues which are
-represented by a struct or union, and optionally assigns a \nonterminal{name} to
-each. Each \nonterminal{name} shall be unique.
+The \nonterminal{struct-union-fields} list denotes, in order, the subvalues
+which are collected by a struct or union, and optionally assigns a
+\nonterminal{name} to each.
 
 \specsubsubitem
-If the \nonterminal{struct-union-type} form of \nonterminal{struct-field} is
-given, it shall specify a struct type. The \nonterminal{struct-fields} of the
-parent struct shall interpret the fields of this struct type as its own fields,
-and apply all necessary constraints, such as those regarding the uniqueness of
-field names. The \nonterminal{identifier} form shall be interpreted in the same
-manner if the identifier refers to a type alias of a struct type, otherwise a
-diagnostic message shall be printed and the translation phase shall abort.
-
-Forward references: \subsecref{Type aliases}
-
-\informative{The following types are equivalent: \\
-\code{struct \{ a: int, b: int \}} \\
-\code{struct \{ a: int, struct \{ b: int \} \}}}
-
-\specsubsubitem
-For a struct type, the \textit{offset} of each field is equal to the minimum
+For a struct type, the offset of each field is equal to the minimum
 \textit{aligned} offset which would meet the alignment requirements of the
-field's type. The implementation shall add \textit{padding} to meet the
-alignment requirements of struct fields. For a union type, the offset of all
+field's type and which is greater than the offset of the previous field. The
+implementation shall add \textit{padding} to meet the alignment requirements of
+struct fields. For a union type, the offset of all
 members is zero.
 
 \specsubsubitem
 A union type's size is the maximum size among its fields. A struct type's size
 is the sum of the sizes of its fields plus any necessary padding.
 
-\informative{Struct and union types are distinct types even if they have the
-same \nonterminal{struct-fields}.}
+\specsubsubitem
+The default value of a struct or union type shall be defined as a value whose
+fields assume the default values of their respective types. The default
+value of any fields which have overlapping storage (as defined by the bounds of
+their offset and their size) shall be undefined.
 
 \specsubsubitem
-A struct type shall be equivalent to another struct type if their fields, in
-order, are of equivalent types and names. A union type shall be equal to another
-union type if the set field types \& names are identical between them,
-without respect to their order.
+If the \nonterminal{struct-union-type} form of \nonterminal{struct-union-field}
+is given, the parent type shall collect the fields of the child type as its
+own. The offset of each field within the child type shall be the sum of the
+offset within the child type and the offset the child type occupies within the
+parent struct. The \nonterminal{identifier} form shall be interpreted in the same
+manner as a \nonterminal{struct-union-type} if it refers to a type alias of a
+struct or union type, otherwise a diagnostic message shall be printed and the
+translation phase shall abort.
+
+Forward references: \subsecref{Type aliases}
 
 \specsubsubitem
-The default value of a struct shall be defined to be the default values of its
-constituent types, if defined. If the constituent defaults are not defined, the
-default value of the struct type is not defined.
+A struct or union type shall be equivqalent to another struct or union type if
+their fields are of equivalent name, type, and offset, without respect to order.
+
+\informative{The following types are equivalent: \\
+\code{struct \{ a: int, b: int \}} \\
+\code{struct \{ a: int, struct \{ b: int \} \}}}
+
+\specsubsubitem
+Each field name (including names of embedded fields) shall be unique within the
+set of all field names of the \nonterminal{struct-union-type}.
 
 \specsubsection{Tagged union types}
 
