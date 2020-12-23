@@ -656,11 +656,20 @@ secondary type of the slice or array type given by
 	\nonterminal{indexing-expression} \\
 	\nonterminal{measurement-expression} \\
 	\nonterminal{slicing-expression} \\
+
+\nonterminaldef{object-selector} \\
+	\nonterminal{identifier} \\
+	\nonterminal{indexing-expression} \\
+	\nonterminal{field-access-expression} \\
 \end{grammar}
 
 \specsubsubitem
 \nonterminal{postfix-expression} is an expression class for expressions whose
 operators use postfix notation.
+
+\specsubsubitem
+\nonterminal{object-selector} defines a subset of postfix expressions which
+refer to objects, for use in other parts of the grammar.
 
 \specsubsection{Unary arithmetic}
 
@@ -668,6 +677,7 @@ operators use postfix notation.
 \nonterminaldef{unary-expression} \\
 	\nonterminal{postfix-expression} \\
 	\nonterminal{unary-operator} \nonterminal{unary-expression} \\
+	\terminal{\&} \nonterminal{object-selector} \\
 
 \nonterminaldef{unary-operator} \oneof \\
 	\terminal{+}
@@ -675,7 +685,6 @@ operators use postfix notation.
 	\terminal{\textasciitilde}
 	\terminal{!}
 	\terminal{*}
-	\terminal{\&}
 \end{grammar}
 
 % TODO: Consider removing unary +
@@ -709,8 +718,8 @@ type shall not be \textit{nullable}.
 
 \specsubsubitem
 The \terminal{\&} operator shall take the address of an object. The result type
-shall be a pointer whose secondary type is the type of
-\nonterminal{unary-expression}.
+shall be a pointer whose secondary type is the type of the object selected by
+\nonterminal{object-selector}.
 
 \informative{The following table is informative.}
 
@@ -1179,18 +1188,11 @@ calls to the enclosing function.
 \specsubsection{Assignment}
 
 \begin{grammar}
-\nonterminaldef{object-selector} \\
-	\nonterminal{identifier} \\
-	\nonterminal{indexing-expression} \\
-	\nonterminal{field-access-expression} \\
-
 \nonterminaldef{assignment} \\
 	\nonterminal{object-selector} \terminal{=} \nonterminal{complex-expression} \\
 	\terminal{*} \nonterminal{unary-expression} \terminal{=} \nonterminal{complex-expression} \\
 \end{grammar}
 % TODO: += -= etc
-% TODO: Consider moving object-selector higher up and taking indexing and field
-% access out of postfix-expression
 
 \specsubsubitem
 An \nonterminal{assignment} expression shall cause the object given by the
