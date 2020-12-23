@@ -1227,6 +1227,10 @@ Type aliases & Any type assignable to the secondary type \\
 The implementation shall perform any necessary conversion from the source type
 to the destination type.
 
+\specsubsubitem
+The implementation shall ensure that any side-effects of the first term shall
+occur before side-effects of the second term.
+
 \specsubsection{Expression lists}
 
 \begin{grammar}
