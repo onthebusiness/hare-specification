@@ -327,16 +327,16 @@ type with the union type class.
 
 \specsubsubitem
 The \nonterminal{struct-union-fields} list denotes, in order, the subvalues
-which are collected by a struct or union, and optionally assigns a
+which are collected by a struct or union, and potentially assigns a
 \nonterminal{name} to each.
 
 \specsubsubitem
 For a struct type, the offset of each field is equal to the minimum
 \textit{aligned} offset which would meet the alignment requirements of the
-field's type and which is greater than the offset of the previous field. The
-implementation shall add \textit{padding} to meet the alignment requirements of
-struct fields. For a union type, the offset of all
-members is zero.
+field's type and which is greater than the offset of the previous field plus the
+size of the previous field. The implementation shall add \textit{padding} to
+meet the alignment requirements of struct fields. For a union type, the offset
+of all members is zero.
 
 \specsubsubitem
 A union type's size is the maximum size among its fields. A struct type's size
@@ -361,7 +361,7 @@ translation phase shall abort.
 Forward references: \subsecref{Type aliases}
 
 \specsubsubitem
-A struct or union type shall be equivqalent to another struct or union type if
+A struct or union type shall be equivalent to another struct or union type if
 their fields are of equivalent name, type, and offset, without respect to order.
 
 \informative{The following types are equivalent: \\
