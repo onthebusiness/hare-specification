@@ -1179,16 +1179,30 @@ calls to the enclosing function.
 \specsubsection{Assignment}
 
 \begin{grammar}
+\nonterminaldef{object-selector} \\
+	\nonterminal{identifier} \\
+	\nonterminal{indexing-expression} \\
+	\nonterminal{field-access-expression} \\
+
 \nonterminaldef{assignment} \\
-	\nonterminal{postfix-expression} \terminal{=} \nonterminal{complex-expression} \\
-	\terminal{*} \nonterminal{postfix-expression} \terminal{=} \nonterminal{complex-expression} \\
+	\nonterminal{object-selector} \terminal{=} \nonterminal{complex-expression} \\
+	\terminal{*} \nonterminal{unary-expression} \terminal{=} \nonterminal{complex-expression} \\
 \end{grammar}
 % TODO: += -= etc
 
 \specsubsubitem
 An \nonterminal{assignment} expression shall cause the object given by the
-first term to be assigned the value given by the second term. The result type
-of the first term shall not be of a \terminal{const} type.
+first term to be assigned the value given by the second term.
+
+\specsubsubitem
+In the first form, the \nonterminal{object-selector} selects the object to be
+modified. The type of this object shall not be of a \terminal{const} type.
+
+\specsubsubitem
+In the second form, the \nonterminal{unary-expression} shall have a result type
+of a non-nullable, non-const pointer type, and the object which is assigned
+shall be the secondary object to which the pointer object refers. The second
+term shall be assignable to the pointer's secondary type.
 
 \specsubsubitem
 The second term shall be \textit{assignable} to the object. Assignability rules
@@ -1210,12 +1224,6 @@ Type aliases & Any type assignable to the secondary type \\
 
 The implementation shall perform any necessary conversion from the source type
 to the destination type.
-
-\specsubsubitem
-In the second form, the \nonterminal{postfix-expression} shall be of a
-non-nullable pointer type, and the object which is assigned shall be the
-secondary object to which the pointer object refers. The second term shall be
-assignable to the pointer's secondary type.
 
 \specsubsection{Expression lists}
 
