@@ -379,7 +379,7 @@ set of all field names of the \nonterminal{struct-union-type}.
 	\terminal{(} \nonterminal{tagged-types} \terminal{)} \\
 
 \nonterminaldef{tagged-types} \\
-	\nonterminal{type} \terminal{|} \nonterminal{type} \\
+	\nonterminal{type} \terminal{|} \nonterminal{type} \optional{\terminal{|}}\\
 	\nonterminal{type} \terminal{|} \nonterminal{tagged-types} \\
 \end{grammar}
 
@@ -391,8 +391,9 @@ The constituent types is defined by \nonterminal{tagged-types}.
 \specsubsubitem
 The representation of a tagged union shall be a \terminal{size}, followed by
 sufficient space to store any of the possible constituent types. Padding shall
-be inserted between the tag and the value area if necessary to meet the maximum
-alignment among the tagged union members.
+be inserted between the tag and the value area and after the value area if
+necessary to meet the maximum alignment among the tagged union members and the
+\terminal{size} field.
 
 \specsubsubitem
 The tag value shall be assigned from $0$ based on the sort order of the
@@ -409,7 +410,7 @@ is greater.
 
 \specsubsubitem
 The size of a tagged union type shall be the maximum size of its constituent
-types, plus the size of the \terminal{int} type, plus any padding added per
+types, plus the size of the \terminal{size} type, plus any padding added per
 \subsubitemref{Tagged union types}{2}.
 
 \specsubsubitem
