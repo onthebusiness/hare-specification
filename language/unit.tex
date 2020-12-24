@@ -1,7 +1,5 @@
 \specsection{Declarations}
 
-% TODO: split grammars across pagebreaks
-\newpage
 \begin{grammar}
 \nonterminaldef{declarations} \\
 	\optional{\terminal{export}} \nonterminal{declaration} \terminal{;} \\
@@ -108,6 +106,8 @@ type aliases. In a \nonterminal{type-binding}, the underlying type for the
 \begin{grammar}
 \nonterminaldef{function-declaration} \\
 	\optional{\nonterminal{fndec-attrs}} \terminal{fn}
+		\nonterminal{identifier} \nonterminal{prototype} \\
+	\optional{\nonterminal{fndec-attrs}} \terminal{fn}
 		\nonterminal{identifier} \nonterminal{prototype} \terminal{=}
 		\nonterminal{complex-expression} \\
 
@@ -124,7 +124,18 @@ type aliases. In a \nonterminal{type-binding}, the underlying type for the
 \end{grammar}
 
 % TODO: @test
-% TODO: Prototypes
+
+\specsubsubitem
+The first form of \nonterminal{function-declaration} is a \textit{prototype},
+and shall cause the \nonterminal{identifier} to refer to the function type
+described by the \nonterminal{protototype} and the function attributes. The
+implementation of this function shall be provided separately, or the
+translation phase shall fail.
+
+\specsubsubitem
+The second form of \nonterminal{function-declaration} shall declare a function
+and its implementation. The result type of the expression shall be assignable
+to the prototype's result type.
 
 \specsubsubitem
 The \terminal{@fini} form of \nonterminal{fndec-attr} shall cause the
@@ -133,10 +144,6 @@ initialization function. If multiple \nonterminal{fndec-attr}s of the same type
 are specified, the last one shall override all previous ones.
 
 References: \secref{Initialization functions}, \secref{Finalization functions}
-
-\specsubsubitem
-The result type of the expression shall be assignable to the prototype's result
-type.
 
 \specsubsubitem
 If \terminal{@init}, \terminal{@fini}, \terminal{@test}, or

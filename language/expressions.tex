@@ -508,7 +508,7 @@ diagnostic message and abort. An abort is a terminating expression.
 	\terminal{size} \terminal{(} \nonterminal{type} \terminal{)} \\
 
 \nonterminaldef{length-expression} \\
-	\terminal{len} \terminal{(} \nonterminal{identifier} \terminal{)} \\
+	\terminal{len} \terminal{(} \nonterminal{postfix-expression} \terminal{)} \\
 
 \nonterminaldef{offset-expression} \\
 	\terminal{offset} \terminal{(} \nonterminal{field-access-expression} \terminal{)} \\
@@ -527,7 +527,7 @@ The \terminal{size} expression shall compute the \textit{size} of the specified
 \specsubsubitem
 The \terminal{len} expression shall compute the \textit{length} of a bounded
 array, or the \code{length} field of a slice object, referred to by
-\nonterminal{identifier}. If an unbounded array object is given, the
+\nonterminal{postfix-expression}. If an unbounded array object is given, the
 translation environment shall print a diagnostic message and abort.
 
 \specsubsubitem
