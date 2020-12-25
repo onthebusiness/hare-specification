@@ -1174,7 +1174,10 @@ second form, the type shall be as indicated, and the result type of the
 
 \specsubsubitem
 If the \terminal{const} form is used, the type of each binding shall be
-modified to include the \terminal{const} flag.
+modified to \textit{include} the \terminal{const} flag. If the \terminal{let}
+form is used, the type of each binding which uses the first form of
+\nonterminal{binding} shall be modified to \textit{omit} the \terminal{const}
+flag.
 
 \specsubsubitem
 If the \terminal{static} form is used, the variables shall be allocated
@@ -1228,6 +1231,18 @@ Type aliases & Any type assignable to the secondary type \\
 
 The implementation shall perform any necessary conversion from the source type
 to the destination type.
+
+\specsubsubitem
+\terminal{const} types have the same assignability rules as the equivalent
+non-const type.
+
+\informative{In the context of an assignment expression,
+\subsubitemref{Assignment}{2} prevents the modification of objects with a const
+type. However, the \textit{assignability} rules are referred to in many other
+contexts throughout the specification, and in these contexts, unless otherwise
+specified, non-const types are assignable to const types. For example, a
+\nonterminal{binding} which specifies a const \nonterminal{type} may use a
+non-const type for its \nonterminal{complex-expression}.}
 
 \specsubsubitem
 The implementation shall ensure that any side-effects of the first term shall
