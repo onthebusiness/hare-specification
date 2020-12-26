@@ -489,7 +489,7 @@ printed and the execution phase aborted. The programmer may provide the
 
 \specsubsubitem
 In the \terminal{static} form, \nonterminal{simple-expression} shall be limited
-to the \subsecref{Translation compatible expression subset}, shall be evaluated
+to the \secref{Translation compatible expression subset}, shall be evaluated
 in the translation environment, and is otherwise equivalent to the other forms.
 
 \specsubsubitem
@@ -1348,16 +1348,6 @@ influence.
 	\terminal{\{} \nonterminal{control-statement} \terminal{;} \terminal{\}} \\
 	\terminal{\{} \nonterminal{expression-list} \terminal{;} \nonterminal{control-statement} \terminal{;} \terminal{\}} \\
 \end{grammar}
-% TODO: Consider moving the final semicolon into control-statement for that
-% case. Because the return value is optional, the parser has to scan forward to
-% read the semicolon; if present, it is unlexed, if not, the return value is
-% parsed. The parser author has to infer themselves, from reading the grammar,
-% that the semicolon is the only token which can terminate a control-statement,
-% and cannot implement control-statement parsing without the context of its
-% users (that is, its user - it's only used by compound-expression).
-%
-% The disadvantage of moving the terminal in the grammar is that it still needs
-% to be here for the other cases, so it'll become inconsistent.
 
 \specsubsubitem
 \nonterminal{simple-expression}, \nonterminal{complex-expression},
@@ -1385,3 +1375,49 @@ sequence, and expands the classification to include
 \nonterminal{control-statements}, which are used to influence the flow of
 expression evaluation within the sequence.
 }
+
+\newpage
+\specsection{Translation compatible expression subset}
+
+The translation-compatible expression subset is a subset of expression types
+which the implementation must be able to evaluate during the translation phase.
+
+\specsubitem
+The following expression types are included:
+
+\begin{minipage}[t][7cm][b]{\textwidth}
+\begin{multicols}{2}
+\begin{itemize}
+\item \nonterminal{logical-or-expression}
+\item \nonterminal{logical-xor-expression}
+\item \nonterminal{logical-and-expression}
+\item \nonterminal{equality-expression}
+\item \nonterminal{comparison-expression}
+\item \nonterminal{inclusive-or-expression}
+\item \nonterminal{exclusive-or-expression}
+\item \nonterminal{and-expression}
+\item \nonterminal{shift-expression}
+\item \nonterminal{additive-expression}
+\item \nonterminal{multiplicative-expression}
+\item \nonterminal{cast-expression}
+\item \nonterminal{unary-expression}
+\item \nonterminal{field-access-expression}
+\item \nonterminal{indexing-expression}
+\item \nonterminal{measurement-expression}
+\item \nonterminal{slicing-expression}
+\item \nonterminal{nested-expression}
+\item \nonterminal{plain-expression}
+\end{itemize}
+\end{multicols}
+\end{minipage}
+
+\vspace{0.25cm}
+\specsubitem
+All terminals which are descendants of any of the listed terminals are
+included, and all non-terminals and terminals which are descendants of
+\nonterminal{plain-expression} are included.
+
+\specsubitem
+In a context where an expression is constrained to this subset, the use of an
+expression type outside of this set shall cause the translation environment to
+print a diagnostic message and abort.
