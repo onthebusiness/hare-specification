@@ -1404,7 +1404,6 @@ The following expression types are included:
 \item \nonterminal{field-access-expression}
 \item \nonterminal{indexing-expression}
 \item \nonterminal{measurement-expression}
-\item \nonterminal{slicing-expression}
 \item \nonterminal{nested-expression}
 \item \nonterminal{plain-expression}
 \end{itemize}
@@ -1416,6 +1415,17 @@ The following expression types are included:
 All terminals which are descendants of any of the listed terminals are
 included, and all non-terminals and terminals which are descendants of
 \nonterminal{plain-expression} are included.
+
+\specsubitem
+The pointer dereference \nonterminal{unary-expression} (the \terminal{*}
+operator) shall be excluded from the translation-compatible expression subset.
+Additionally, the implicit pointer type dereference semantics of
+\nonterminal{field-access-expression} and \nonterminal{indexing-expression} are
+not available.
+
+\specsubitem
+The implementation is not required to use a conformant implementation of the
+storage semantics of types in the translation environment.
 
 \specsubitem
 In a context where an expression is constrained to this subset, the use of an
