@@ -20,6 +20,11 @@ The \nonterminal{identifier}s shall be visible anywhere within the current
 translation unit. If the \terminal{export} keyword is used, the
 \nonterminal{identifier}s shall be part of the unit's exported interface.
 
+\specsubitem
+The \terminal{export} keyword shall not be used with a
+\nonterminal{function-declaration} which uses the \terminal{@init},
+\terminal{@fini}, or \terminal{@test} attributes.
+
 \specsubsection{Global declarations}
 
 \begin{grammar}
