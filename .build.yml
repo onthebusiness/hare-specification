@@ -1,9 +1,9 @@
-image: archlinux
+image: alpine/latest
 packages:
 - rsync
-- texlive-bin
-- texlive-fontsextra
-- texlive-latexextra
+- texlive-xetex
+- texmf-dist-fontsextra
+- texmf-dist-latexextra
 secrets:
 - 160a72cf-34d6-47b7-928b-c13b42b4d4f6
 sources:
