@@ -513,9 +513,11 @@ to zero and the data field set to null.
 \specsubsubitem
 A string stores a reference to a sequence of Unicode codepoints, encoded as
 UTF-8, along with its \textit{length} and \textit{capacity}. The length and
-capacity are measured in octets, rather than codepoints. The length and
-capacity shall include an additional octet for a NUL terminator, which shall be
-placed at the end of the UTF-8 sequence.
+capacity are measured in octets, rather than codepoints.
+
+\specsubsubitem
+The UTF-8 data shall end with a NUL terminator. The length and capacity fields
+will not include this additional octet.
 
 \specsubsubitem
 The representation of the string type shall be equivalent to the following
