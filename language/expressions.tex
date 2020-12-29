@@ -276,11 +276,11 @@ A \nonterminal{string-constant} expression shall have a result type of
 The string's \textit{data} field shall refer to a UTF-8 encoded sequence of
 Unicode codepoints, ascertained by encoding the sequence of
 \nonterminal{string-char}s given in order, after interpreting escape codes per
-\subsubitemref{Rune constants}{17}.
+\subsubitemref{Rune constants}{17}, plus a NUL terminator.
 
 \specsubsubitem
 The \textit{length} and \textit{capacity} fields shall be set to the length in
-octets of the encoded UTF-8 data.
+octets of the encoded UTF-8 data, plus the NUL terminator.
 
 \specsubsection{Array literals}
 
