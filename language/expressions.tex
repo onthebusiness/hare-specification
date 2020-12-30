@@ -771,7 +771,7 @@ Any pointer type & Any pointer type, \terminal{uintptr}, or \terminal{null} \\
 Enum types & Any enum type or numeric type \\
 Array slice and types & Any slice or array type \\
 Type alias & Any type the underlying type could cast to \\
-\terminal{str} & \terminal{*} \terminal{char} \\
+\terminal{str} & \terminal{*} \terminal{const} \terminal{char} \\
 \terminal{u8} & \terminal{char} \\
 \terminal{char} & \terminal{u8} \\
 \terminal{rune} & \terminal{u32} \\
@@ -818,7 +818,7 @@ guaranteed to yield the same pointer.}
 \specsubsubitem
 Casting a \terminal{str} to \terminal{*} \terminal{char} is a special case; it
 is equivalent to casting the string's \textit{data} field to \terminal{*}
-\terminal{char}.
+\terminal{const} \terminal{char}.
 
 \specsubsubitem
 The third form is a \textit{type assertion}. In this form,
@@ -1259,6 +1259,10 @@ contexts throughout the specification, and in these contexts, unless otherwise
 specified, non-const types are assignable to const types. For example, a
 \nonterminal{binding} which specifies a const \nonterminal{type} may use a
 non-const type for its \nonterminal{complex-expression}.}
+
+\specsubsubitem
+For assignment of \terminal{*} \terminal{const} \terminal{char} from
+\terminal{str} types, see the notes on \subsecref{Casts and type assertions}.
 
 \specsubsubitem
 The implementation shall ensure that any side-effects of the first term shall
