@@ -1206,14 +1206,35 @@ The type of the binding shall not use a type which has a zero or undefined size.
 
 \begin{grammar}
 \nonterminaldef{assignment} \\
-	\nonterminal{object-selector} \terminal{=} \nonterminal{complex-expression} \\
-	\terminal{*} \nonterminal{unary-expression} \terminal{=} \nonterminal{complex-expression} \\
+	\nonterminal{object-selector} \nonterminal{assignment-op} \nonterminal{complex-expression} \\
+	\terminal{*} \nonterminal{unary-expression} \nonterminal{assignment-op} \nonterminal{complex-expression} \\
+
+\nonterminaldef{assignment-op} \oneof \\
+	\terminal{=}
+	\terminal{+=}
+	\terminal{-=}
+	\terminal{*=}
+	\terminal{/=}
+	\terminal{\%=}
+	\terminal{\textless{}\textless{}=}
+	\terminal{\textgreater{}\textgreater{}=}
+	\terminal{\&=}
+	\terminal{|=}
+	\terminal{\textasciicircum=}
 \end{grammar}
-% TODO: += -= etc
 
 \specsubsubitem
 An \nonterminal{assignment} expression shall cause the object given by the
-first term to be assigned the value given by the second term.
+first term to be assigned a new value based on the value given by the second
+term.
+
+\specsubsubitem
+If the \nonterminal{assignment-op} is \terminal{=}, the first term shall be
+assigned the value given by the second term. Otherwise, the assignment
+\code{\nonterminal{e1} \nonterminal{op}\terminal{=} \nonterminal{e1}} shall be
+equivalent to the assignment
+\code{\nonterminal{e1} \terminal{=} \nonterminal{e1} \nonterminal{op} \nonterminal{e2}},
+but the side effects of \nonterminal{e1} shall only occur once.
 
 \specsubsubitem
 In the first form, the \nonterminal{object-selector} selects the object to be
@@ -1383,7 +1404,7 @@ simple-expression will not branch or alter control flow.
 \informative{
 \nonterminal{scope-expression} is available in context where new objects may
 be defined (\nonterminal{binding}, \nonterminal{allocation-expression}) and
-mutated (\nonterminal{assignment-expression}).
+mutated (\nonterminal{assignment}).
 }
 
 \informative{
