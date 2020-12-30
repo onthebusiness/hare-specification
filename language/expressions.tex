@@ -467,7 +467,7 @@ the call expression is considered to terminate.
 	\terminal{assert} \terminal{(} \nonterminal{simple-expression} \terminal{,} \nonterminal{string-constant} \terminal{)} \\
 	\terminal{static} \terminal{assert} \terminal{(} \nonterminal{simple-expression} \terminal{)} \\
 	\terminal{static} \terminal{assert} \terminal{(} \nonterminal{simple-expression} \terminal{,} \nonterminal{string-constant} \terminal{)} \\
-	\terminal{abort} \terminal{(} \terminal{)} \\
+	\terminal{abort} \terminal{(} \optional{\nonterminal{string-constant}} \terminal{)} \\
 \end{grammar}
 
 Forward references: \subsecref{Simple, complex, and compound expressions}
@@ -494,7 +494,9 @@ in the translation environment, and is otherwise equivalent to the other forms.
 
 \specsubsubitem
 The \terminal{abort} form shall cause the execution environment to print a
-diagnostic message and abort. An abort is a terminating expression.
+diagnostic message and abort. The programmer may provide the
+\nonterminal{string-constant} to be included in the diagnostic message. An
+abort is a terminating expression.
 
 \specsubsection{Measurements}
 
