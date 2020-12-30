@@ -753,9 +753,13 @@ form illustrates the precedence. The second and third forms (\terminal{:} and
 fourth form (\terminal{is}) has a result type of \terminal{bool}.
 
 \specsubsubitem
-The second form is a \textit{type cast}, and is only valid for a combination of
-\textit{source types} and \textit{destination types} which are specified by the
-following table:
+The second form is a \textit{type cast}, and shall not fail. It shall cause the
+execution environment to convert or interpret the value as another type.
+
+\specsubsubitem
+All cast expressions are only valid for specific combinations of \textit{source
+types} and \textit{destination types} which are specified by the following
+table:
 
 \begin{tabular}{r | l}
 Source type & Casts to \\
@@ -777,7 +781,6 @@ Function types & Cannot be cast \\
 \terminal{bool}, \terminal{void} & Cannot be cast \\
 Tagged unions & See notes \\
 \end{tabular}
-% TODO: rules for runes?
 
 Tagged union types are mutually castable with any type which is found among its
 members, including the otherwise non-castable types of \terminal{bool} and
