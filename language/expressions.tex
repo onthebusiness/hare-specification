@@ -762,16 +762,22 @@ Source type & Casts to \\
 \hline
 Floating types & Any numeric type \\
 Integer types & Any numeric type or enum type, or \terminal{uintptr} \\
-\terminal{bool}, \terminal{null}, \terminal{void} & Cannot be cast \\
-\terminal{char} & \terminal{u8} \\
-\terminal{str} & \terminal{*} \terminal{char} \\
-\terminal{uintptr} & Any pointer type or any integer type \\
-Any pointer type & Any pointer type or \terminal{uintptr} \\
+\terminal{uintptr} & Any pointer type, any integer type, or \terminal{null} \\
+Any pointer type & Any pointer type, \terminal{uintptr}, or \terminal{null} \\
 Enum types & Any enum type or numeric type \\
-Struct \& union types & Cannot be cast \\
-Tagged unions & See notes \\
+Array slice and types & Any slice or array type \\
 Type alias & Any type the underlying type could cast to \\
+\terminal{str} & \terminal{*} \terminal{char} \\
+\terminal{u8} & \terminal{char} \\
+\terminal{char} & \terminal{u8} \\
+\terminal{rune} & \terminal{u32} \\
+\terminal{u32} & \terminal{rune} \\
+Struct \& union types & Cannot be cast \\
+Function types & Cannot be cast \\
+\terminal{bool}, \terminal{void} & Cannot be cast \\
+Tagged unions & See notes \\
 \end{tabular}
+% TODO: rules for runes?
 
 Tagged union types are mutually castable with any type which is found among its
 members, including the otherwise non-castable types of \terminal{bool} and
