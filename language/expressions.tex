@@ -1263,6 +1263,9 @@ Nullable pointer types & Non-nullable pointer type of the same secondary type \\
 Nullable pointer types & \terminal{null} \\
 Tagged union types & Any of its constituent types \\
 Type aliases & Any type assignable to the secondary type \\
+\terminal{void} & Any type \\
+\terminal{*} \terminal{void} & Any non-nullable pointer type \\
+\terminal{nullable} \terminal{*} \terminal{void} & Any pointer type \\
 \terminal{*} \terminal{const} \terminal{char} & \terminal{str} \\
 \end{tabular}
 
