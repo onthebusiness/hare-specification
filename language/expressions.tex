@@ -817,9 +817,9 @@ and back again may truncate towards the least significant bit and is not
 guaranteed to yield the same pointer.}
 
 \specsubsubitem
-Casting a \terminal{str} to \terminal{*} \terminal{char} is a special case; it
-is equivalent to casting the string's \textit{data} field to \terminal{*}
-\terminal{const} \terminal{char}.
+Casting a \terminal{str} to \terminal{*} \terminal{const} \terminal{char} is a
+special case; it is equivalent to casting the string's \textit{data} field to
+\terminal{*} \terminal{const} \terminal{char}.
 
 \specsubsubitem
 The third form is a \textit{type assertion}. In this form,
