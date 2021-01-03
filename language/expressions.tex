@@ -821,9 +821,12 @@ The second form is a \textit{type cast}, and shall not fail. It shall cause the
 execution environment to convert or interpret the value as another type.
 
 \specsubsubitem
-All cast expressions are only valid for specific combinations of \textit{source
-types} and \textit{destination types} which are specified by the following
-table:
+A type which may be cast to another type is considered \textit{castable} to
+that type.
+
+\specsubsubitem
+All types are castable to themselves. The set of other types which are castable
+to a given type are given by the following table:
 
 \begin{tabular}{r | l}
 Source type & Casts to \\
@@ -841,18 +844,13 @@ Any type & Any type alias with an underlying type it may be cast to \\
 \terminal{char} & \terminal{u8} \\
 \terminal{rune} & \terminal{u32} \\
 \terminal{u32} & \terminal{rune} \\
-Struct \& union types & Cannot be cast \\
-Function types & Cannot be cast \\
-\terminal{bool}, \terminal{void} & Cannot be cast \\
-Tagged unions & See notes \\
+Tagged unions & See below \\
 \end{tabular}
 
+\specsubsubitem
 Tagged union types are mutually castable with any type which is found among its
 members, including the otherwise non-castable types of \terminal{bool} and
 \terminal{void}.
-
-A type which may be cast to another type is considered \textit{castable} to
-that type.
 
 \specsubsubitem
 When an integer type is cast to an integer of less precision, it shall be
@@ -1313,9 +1311,9 @@ term shall be assignable to the pointer's secondary type.
 
 \specsubsubitem
 The second term shall be \textit{assignable} to the object. Assignability rules
-are stricter than \textit{castability} rules. Unless otherwise specified, all
-types are assignable only to themselves. The set of other types which are
-assignable to a given type are given by the following table:
+are stricter than castability rules. All types are assignable to themselves. The
+set of other types which are assignable to a given type are given by the
+following table:
 
 \begin{tabular}{r | l}
 Object type & May be assigned from \\
