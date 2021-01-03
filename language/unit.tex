@@ -113,7 +113,7 @@ type aliases. In a \nonterminal{type-binding}, the underlying type for the
 	\optional{\nonterminal{fndec-attrs}} \terminal{fn}
 		\nonterminal{identifier} \nonterminal{prototype} \\
 	\optional{\nonterminal{fndec-attrs}} \terminal{fn}
-		\nonterminal{identifier} \nonterminal{prototype} \terminal{=}
+		\nonterminal{name} \nonterminal{prototype} \terminal{=}
 		\nonterminal{complex-expression} \\
 
 \nonterminaldef{fndec-attrs} \\
@@ -140,7 +140,11 @@ translation phase shall fail.
 \specsubsubitem
 The second form of \nonterminal{function-declaration} shall declare a function
 and its implementation. The result type of the expression shall be assignable
-to the prototype's result type.
+to the prototype's result type. The function shall be available in the unit
+scope by its \nonterminal{name}, and available to other units by forming a
+fully-qualified identifier from the unit namespace and the \nonterminal{name}.
+In this form, the \nonterminal{name} of each parameter in the
+\nonterminal{prototype} is mandatory.
 
 \specsubsubitem
 The \terminal{@fini} form of \nonterminal{fndec-attr} shall cause the
