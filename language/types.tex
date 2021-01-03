@@ -118,6 +118,12 @@ are limitations on its use, see \subsecref{Arithmetic expressions}
 \& \subsecref{Access expressions}.
 
 \specsubsubitem
+The implementation is not required to provide the \terminal{char} type. If the
+implementation does not support the \terminal{char} type, it must print a
+diagnostic message and abort the translation phase for programs which attempt
+to utilize it.
+
+\specsubsubitem
 The alignment of integer types shall be equal to their size in octets.
 
 \specsubsubitem
