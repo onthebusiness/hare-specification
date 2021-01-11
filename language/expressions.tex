@@ -259,6 +259,7 @@ Escape sequence & Unicode codepoint & Escape sequence & Unicode codepoint \\
 \begin{grammar}
 \nonterminaldef{string-constant} \\
 	\terminal{"} \nonterminal{string-chars} \terminal{"} \\
+	\nonterminal{string-constant} \nonterminal{string-constant} \\
 
 \nonterminaldef{string-chars} \\
 	\nonterminal{string-char} \optional{\nonterminal{string-chars}} \\
@@ -273,10 +274,18 @@ A \nonterminal{string-constant} expression shall have a result type of
 \terminal{const} \terminal{str}.
 
 \specsubsubitem
-The string's \textit{data} field shall refer to a UTF-8 encoded sequence of
-Unicode codepoints, ascertained by encoding the sequence of
-\nonterminal{string-char}s given in order, after interpreting escape codes per
+If the first form of \nonterminal{string-constant} is used, the string's
+\textit{data} field shall refer to a UTF-8 encoded sequence of Unicode
+codepoints, ascertained by encoding the sequence of \nonterminal{string-char}s
+given in order, after interpreting escape codes per
 \subsubitemref{Rune constants}{17}, plus a NUL terminator.
+
+\specsubsubitem
+If the second form of \nonterminal{string-constant} is used, the string's
+\textit{data} field shall refer to a UTF-8 encoded sequence of Unicode
+codepoints, ascertained by concatenating the \textit{data} field of the first
+\nonterminal{string-constant} and the \textit{data} field of the second
+\nonterminal{string-constant}.
 
 \specsubsubitem
 The \textit{length} and \textit{capacity} fields shall be set to the length in
