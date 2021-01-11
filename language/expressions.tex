@@ -303,6 +303,12 @@ determine the member type of the array value, and the length of the array type
 shall be defined by the number of members.
 
 \specsubsubitem
+If an array literal appears as the initializer for a binding expression, the
+member type may be inferred from the type of the binding, if specified. Each
+value shall be assignable to this type. Otherwise, the type is inferred from
+the type of the first value.
+
+\specsubsubitem
 The execution environment shall evaluate the \nonterminal{array-members},
 ordered such that any side-effects of evaluating the arguments occur in the
 order that the members are listed, such that the \textit{N}th member provides
