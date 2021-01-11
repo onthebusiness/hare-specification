@@ -328,11 +328,10 @@ If the \terminal{...} form is used, the result's array type shall be expandable.
 	\nonterminal{field-values} \terminal{,} \nonterminal{field-value} \\
 
 \nonterminaldef{field-value} \\
-	\nonterminal{name} \terminal{=} \nonterminal{simple-initializer} \\
-	\nonterminal{name} \terminal{:} \nonterminal{type} \terminal{=} \nonterminal{initializer} \\
+	\nonterminal{name} \terminal{=} \nonterminal{simple-expression} \\
+	\nonterminal{name} \terminal{:} \nonterminal{type} \terminal{=} \nonterminal{complex-expression} \\
 	\nonterminal{struct-literal} \\
 \end{grammar}
-% TODO: Define initializer and simple-initializer
 
 \specsubsubitem
 A \nonterminal{struct-literal} produces a value of a struct type. The first
