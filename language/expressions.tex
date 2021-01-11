@@ -522,13 +522,24 @@ environment and its result shall be a value of the type specified by the
 include any necessary side-effects per \subsubitemref{Program execution}{1}.
 
 \specsubsubitem
-The \nonterminal{postfix-expression} shall have a function type which does not
-have the \terminal{@init}, \terminal{@fini}, or \terminal{@test} attributes set.
+The result type of the \nonterminal{postfix-expression} shall be restricted to a
+set which includes all function types which do not have the \terminal{@init},
+\terminal{@fini}, or \terminal{@test} attributes set, as well as non-nullable
+pointers whose secondary type is included in the set.
+
+\informative{The result type of the \nonterminal{postfix-expression} can be a
+function, a pointer to a function, a pointer to a pointer to a function, and so
+on.}
+
+\specsubsubitem
+The function invoked shall be the function object the
+\nonterminal{postfix-expression} refers to, selecting that object indirectly via
+any number of pointer types if appropriate.
 
 \specsubsubitem
 The \nonterminal{argument-list} shall be a list of expressions whose types
-shall be assignable to the types of the function's parameters, in the order
-that they are declared in the function type.
+shall be assignable to the types of the invoked function's parameters, in the
+order that they are declared in the invoked function's result type.
 
 \specsubsubitem
 The execution environment shall evaluate the \nonterminal{argument-list},
@@ -560,7 +571,7 @@ implementation-defined.
 \informative{This is generally provided by the target's ABI specification.}
 
 \specsubsubitem
-If the function type which is called has the \terminal{@noreturn} attribute,
+If the invoked function's result type has the \terminal{@noreturn} attribute,
 the call expression is considered to terminate.
 
 \specsubsection{Measurements}
@@ -612,7 +623,18 @@ accessed by \nonterminal{field-access-expression} and compute its
 \specsubsubitem
 A \nonterminal{field-access-expression} is used to access fields of
 \subsecref{Struct and union types}. The result type of the
-\nonterminal{postfix-expression} shall be a struct type or a union type.
+\nonterminal{postfix-expression} shall be constrained to a set which includes
+all struct and union types, as well as non-nullable pointers whose secondary
+type is included in the set.
+
+\informative{The result type of the \nonterminal{postfix-expression} can be a
+struct or union, a pointer to a struct or union, a pointer to a pointer to a
+struct or union, and so on.}
+
+\specsubsubitem
+The object from which the field is selected shall be the struct or union object
+the \nonterminal{postfix-expression} refers to, selecting that object indirectly
+via any number of pointer types if appropriate.
 
 \specsubsubitem
 If the \nonterminal{postfix-expression}'s result type is a union type, the
@@ -641,9 +663,19 @@ the type of the named field.
 
 \specsubsubitem
 An \nonterminal{indexing-expression} shall access a specific value of a slice
-or array type. The \nonterminal{postfix-expression} shall have a result type of
-slice or array, and the \nonterminal{simple-expression} shall have an integer
-result type.
+or array type. The \nonterminal{simple-expression} shall have an integer result
+type. The result type of the \nonterminal{postfix-expression} shall be
+constrained to a set which includes all slice and array types, as well as
+non-nullable pointers whose secondary type is included in the set.
+
+\informative{The result type of the \nonterminal{postfix-expression} can be a
+slice or array, a pointer to a slice or array, a pointer to a pointer to a
+slice or array, and so on.}
+
+\specsubsubitem
+The object from which the field is selected shall be the slice or array object
+the \nonterminal{postfix-expression} refers to, selecting that object indirectly
+via any number of pointer types if appropriate.
 
 \specsubsubitem
 The result type of an \nonterminal{indexing-expression} is the secondary type
@@ -683,9 +715,19 @@ it fails.
 \specsubsubitem
 A \nonterminal{slicing-expression} shall have a result type of
 \nonterminal{slice}, which is computed a subset of a slice or array object.
-\nonterminal{postfix-expression} shall be of a slice or array type, and the
-optional \nonterminal{simple-expression}s shall be assignable to
-\nonterminal{size}.
+The optional \nonterminal{simple-expression}s shall have an integer result type.
+The result type of the \nonterminal{postfix-expression} shall be constrained to
+a set which includes all slice and array types, as well as non-nullable pointers
+whose secondary type is included in the set.
+
+\informative{The result type of the \nonterminal{postfix-expression} can be a
+slice or array, a pointer to a slice or array, a pointer to a pointer to a
+slice or array, and so on.}
+
+\specsubsubitem
+The object from which the field is selected shall be the slice or array object
+the \nonterminal{postfix-expression} refers to, selecting that object indirectly
+via any number of pointer types if appropriate.
 
 \specsubsubitem
 The first \nonterminal{simple-expression} shall compute value $L$, and the
