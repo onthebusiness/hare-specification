@@ -402,9 +402,64 @@ associativity between operators.
 \begin{grammar}
 \nonterminaldef{allocation-expression} \\
 	\terminal{alloc} \terminal{(} \nonterminal{type} \terminal{,} \nonterminal{simple-expression} \terminal{)} \\
-	\terminal{append} \terminal{(} \nonterminal{simple-expression} \terminal{,} \nonterminal{simple-expression} \terminal{)} \\
+	\terminal{alloc} \terminal{(} \nonterminal{type} \terminal{,} \nonterminal{simple-expression} \terminal{,} \nonterminal{simple-expression} \terminal{)} \\
+	\terminal{append} \terminal{(} \nonterminal{simple-expression} \terminal{,} \nonterminal{append-values} \terminal{)} \\
 	\terminal{free} \terminal{(} \nonterminal{simple-expression} \terminal{)} \\
+
+\nonterminaldef{append-values} \\
+	\nonterminal{simple-expression} \optional{\terminal{,}} \\
+	\terminal{...} \nonterminal{simple-expression} \optional{\terminal{,}} \\
+	\nonterminal{simple-expression} \terminal{,} \nonterminal{append-values} \\
 \end{grammar}
+
+\specsubsubitem
+An \nonterminal{allocation-expression} is used to manipulate objects allocated
+in the execution environment.
+
+\specsubsubitem
+In the \terminal{alloc} form, the \nonterminal{type} shall specify a pointer
+type or slice type, and this type shall be the result type of the expression.
+The first \nonterminal{simple-expression} term is the initializer.
+
+\specsubsubitem
+In the case of an \terminal{alloc} of a pointer type, the execution environment
+shall allocate storage sufficient to store a value of the referent type, and
+initialize it to the value provided by \nonterminal{simple-expression}, which
+shall be assignable to that type. The pointer's referent type shall have a
+defined, nonzero size.
+
+% TODO: Double check that slice/array types are only valid for defined, nonzero
+% sized secondary types
+
+\specsubsubitem
+In the case of an \terminal{alloc} of a slice type, the initializer shall be of
+a slice or array type whose secondary type is equivalent to the
+\nonterminal{type}'s secondary type. The execution environment shall choose a
+capacity which shall be greater than or equal to the number of items in the
+initializer, then allocate an array of that capacity and set its first $N$
+values to the $N$th value of the initializer, for each value of $N$ between $0$
+(inclusive) and the length of the initializer (exclusive).  The result shall be
+a slice whose data field refers to this array, whose length is equal to the
+length of the initializer, and whose capacity is set to the allocated capacity.
+
+% TODO: Allow implementation to over-allocate with a given capacity
+\specsubsubitem
+If the second form of \terminal{alloc} is used, the \nonterminal{type} shall
+specify a slice type, and the third term shall be assignable to \terminal{size}.
+The third term shall specify the capacity, which shall be greater than or equal
+to the length of the initializer. The execution environment shall use this
+capacity rather than one of its own choosing, and in other respects the
+semantics shall be the same as the first form.
+
+\specsubsubitem
+In the \terminal{alloc} form, if the execution environment is unable to
+allocate sufficient storage for the requested type, the execution environment
+shall print a diagnostic message and abort. If the type is a nullable pointer
+type, \terminal{null} shall be returned instead of aborting.
+
+\specsubsubitem
+The \terminal{append} form shall append a new value, or values, to a slice
+object.
 
 \specsubsection{Assertions}
 
