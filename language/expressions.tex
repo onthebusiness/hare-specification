@@ -435,8 +435,8 @@ In the case of an \terminal{alloc} of a slice type, the initializer shall be of
 a slice or array type whose secondary type is equivalent to the
 \nonterminal{type}'s secondary type. The execution environment shall choose a
 capacity which shall be greater than or equal to the number of items in the
-initializer, then allocate an array of that capacity and set its first $N$
-values to the $N$th value of the initializer, for each value of $N$ between $0$
+initializer, then allocate an array of that capacity and set its $N$th value to
+the $N$th value of the initializer, for each value of $N$ between $0$
 (inclusive) and the length of the initializer (exclusive).  The result shall be
 a slice whose data field refers to this array, whose length is equal to the
 length of the initializer, and whose capacity is set to the allocated capacity.
