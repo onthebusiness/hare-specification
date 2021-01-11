@@ -1373,6 +1373,7 @@ Floating-point types & Any floating-point type of equal or higher precision \\
 Nullable pointer types & Non-nullable pointer type of the same secondary type \\
 Nullable pointer types & \terminal{null} \\
 Slice types & An array type of the same secondary type and a defined length \\
+Array types of undefined size & Array types of defined size \\
 Tagged union types & Any of its constituent types \\
 Type aliases & Any type assignable to the secondary type \\
 \terminal{void} & Any type \\
@@ -1387,6 +1388,10 @@ to the destination type.
 \specsubsubitem
 \terminal{const} types have the same assignability rules as the equivalent
 non-const type.
+
+\specsubsubitem
+Pointers to array types are mutually assignable if their secondary types are
+mutually assignable.
 
 \informative{In the context of an assignment expression,
 \subsubitemref{Assignment}{2} prevents the modification of objects with a const
