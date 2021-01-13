@@ -1317,7 +1317,8 @@ If the \terminal{static} form is used, the variables shall be allocated
 \textit{statically}, such that they are only initialized once and their
 previous value, accounting for any later mutations, is preserved each time
 the binding expression is encountered, including across repeated or recursive
-calls to the enclosing function.
+calls to the enclosing function. In this case, the initializer must use the
+\secref{Translation compatible expression subset}.
 
 \specsubsubitem
 The type of the binding shall not use a type which has a zero or undefined size.
