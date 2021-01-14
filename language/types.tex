@@ -35,7 +35,7 @@ deterministic manner, such that several subsequent translation environments,
 perhaps with different inputs, will obtain the same unique ID; and such that
 distinct types shall have distinct IDs.
 
-This specification details under what circumstances two types are distinct to
+This specification details under what circumstances two types are equivalent to
 one another, and thus shall have the same ID. For all types, any two types are
 distinct if their type class, and their constant or mutable nature, are
 distinct. Each type class may impose additional distinguishing characteristics
@@ -445,9 +445,10 @@ constitent types in the parent union.
 The default value of a tagged union type is undefined.
 
 \specsubsubitem
-A tagged union type shall be equivalent if they share the same set of secondary
-types, without regard to order, and considering the secondary types of nested
-tagged unions as members of the set of their parent's secondary types.
+A tagged union type shall be equivalent to another tagged union type if they
+share the same set of secondary types, without regard to order, and considering
+the secondary types of nested tagged unions as members of the set of their
+parent's secondary types.
 
 \specsubsection{Slice and array types}
 
@@ -640,7 +641,7 @@ use of \terminal{const} in the type description.
 \specsubsubitem
 The function's result type, list of parameter types (in order), its variadism,
 and \terminal{@noreturn} status, are distinct characteristics of the function
-type, for the purpose of determining equivilancy.
+type, for the purpose of determining equivelancy.
 
 \specsubsection{Type aliases}
 
