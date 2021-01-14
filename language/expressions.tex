@@ -907,7 +907,7 @@ Tagged unions & See below \\
 \specsubsubitem
 Tagged union types are mutually castable with any type which is found among its
 members, including the otherwise non-castable types of \terminal{bool} and
-\terminal{void}.
+\terminal{void}, as well as any other tagged union type.
 
 \specsubsubitem
 When an integer type is cast to an integer of less precision, it shall be
@@ -1373,6 +1373,7 @@ are stricter than castability rules. All types are assignable to themselves. The
 set of other types which are assignable to a given type are given by the
 following table:
 
+\begin{figure}
 \begin{tabular}{r | l}
 Object type & May be assigned from \\
 \hline
@@ -1384,24 +1385,33 @@ Nullable pointer types & Non-nullable pointer type of the same secondary type \\
 Nullable pointer types & \terminal{null} \\
 Slice types & An array type of the same secondary type and a defined length \\
 Array types of undefined size & Array types of defined size \\
-Tagged union types & Any of its constituent types \\
+Tagged union types & See notes \\
 Type aliases & Any type assignable to the secondary type \\
 \terminal{void} & Any type \\
 \terminal{*} \terminal{void} & Any non-nullable pointer type \\
 \terminal{nullable} \terminal{*} \terminal{void} & Any pointer type \\
 \terminal{*} \terminal{const} \terminal{char} & \terminal{str} \\
 \end{tabular}
+\end{figure}
 
 The implementation shall perform any necessary conversion from the source type
 to the destination type.
 
 \specsubsubitem
-\terminal{const} types have the same assignability rules as the equivalent
-non-const type.
-
-\specsubsubitem
 Pointers to array types are mutually assignable if their secondary types are
 mutually assignable.
+
+\specsubsubitem
+Tagged union types may be assigned from any of their constituent types. Tagged
+unions may also be assigned from any type which is assignable to exactly one of
+its constituent types. Additionally, tagged unions may be assigned from any
+other tagged union type, provided that the set of constituent types of the
+destination type is a superset of the set of constituent types of the source
+type.
+
+\specsubsubitem
+\terminal{const} types have the same assignability rules as the equivalent
+non-const type.
 
 \informative{In the context of an assignment expression,
 \subsubitemref{Assignment}{2} prevents the modification of objects with a const
