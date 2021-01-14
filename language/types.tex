@@ -54,9 +54,6 @@ either scalar or aggregate.
 The \textit{type class} of a type is defined for scalar types as the terminal
 which reprents it, for example \terminal{i32}.
 
-\specsubitem
-The implementation shall define a \textit{sort order} between types.
-
 \specsubsection{Integer types}
 
 \begin{grammar}
@@ -635,3 +632,175 @@ semantics as its underlying type.
 \specsubsubitem
 Each type alias (uniquely identified by its \nonterminal{identifier}) shall be
 a unique type, even if it shares its underlying type with another type alias.
+
+\specsubsection{Type hashing}
+
+\specsubitem
+Every type has a unique \textbf{type identifier}, or ID, which shall be obtained
+through a hashing process. The hashing algorithm is based on the
+\textit{Fowler--Noll--Vo non-cryptographic hash algorithm} described by IETF
+document draft-eastlake-fnv-17. The full algorithm is specified here; it is not
+necessary to reference this document to implement it.
+
+\specsubitem
+The hashing algorithm is as follows:
+
+\begin{enumerate}
+\item
+Let $H$ be an unsigned integer equivalent to the \terminal{size} type.
+\item
+Let $P$ be the prime selected from table \ref{table:hash ivs}.
+\item
+Let $B$ be the offset basis selected from table \ref{table:hash ivs}.
+\item
+$H \gets B$
+\item
+For each octet $O$ of an input:
+	\begin{enumerate}
+	\item
+	$H \gets H \oplus O$
+	\item
+	$H \gets H \times P$
+	\end{enumerate}
+\end{enumerate}
+
+The value of $H$ at the conclusion of this procedure is the hash.
+
+\begin{figure}[hbt!]
+\centering
+\begin{tabular}{r | l | l}
+Size of \terminal{size} & Prime & Offset basis \\
+\hline
+32 bits & 16777619 & 2166136261 \\
+64 bits & 1099511628211 & 14695981039346656037 \\
+128 bits & 309485009821345068724781371 & 144066263297769815596495629667062367629 \\
+\end{tabular}
+\caption{Initialization vector reference}
+\label{table:hash ivs}
+\end{figure}
+
+\specsubitem
+If the implementation provides a \terminal{size} type of a size not specified
+by table \ref{table:hash ivs}, the hash algorithm is implementation-defined.
+
+\specsubitem
+The procedure for type hashing is given with inputs in terms of octets, words,
+and strings. A word is an unsigned integer equivalent to the \terminal{size}
+type, and may be converted into octets for input to the hashing function by
+selecting, in order, the least to most significant octet from the value.
+Strings are sequences of Unicode codepoints equivalent to the \terminal{rune}
+type, which may be converted to a sequence of words and processed as such.
+
+\specsubitem
+The procedure for type hashing is performed by yielding the following values
+as inputs to the hash algorithm, in order:
+
+\begin{enumerate}
+\item
+Yield the type class from table \ref{table:type class}.
+\item
+If the type is \terminal{const}, yield $1$. Otherwise, yield $0$.
+\item
+If the type class is...
+\begin{itemize}
+\item
+Array:
+\begin{enumerate}
+	\item
+	Yield the hash of the secondary type.
+	\item
+	Yield the array length.
+\end{enumerate}
+
+\item
+Slice:
+\begin{enumerate}
+	\item
+	Yield the hash of the secondary type.
+\end{enumerate}
+
+\item
+Enum:
+\begin{enumerate}
+	\item
+	Yield the type class for the enum's underlying storage type from table
+		\ref{table:type class}.
+	\item
+	Order each enum value first by its assigned value, then by its name,
+	then for each value yield respectively the hash of the name and the
+	assigned value converted to a word.
+\end{enumerate}
+
+\item
+Pointer:
+\begin{enumerate}
+	\item
+	Yield the hash of the secondary type.
+	\item
+	If the pointer is \terminal{nullable}, yield $1$. Otherwise, yield $0$.
+\end{enumerate}
+
+\item
+Struct or union:
+\begin{enumerate}
+	\item
+	Order the fields first by their offset, then by their name, then for
+	each field, yield respectively the hash of the name, the hash of the
+	field type, and the offset.
+\end{enumerate}
+
+\item
+Function:
+\begin{enumerate}
+	\item
+	Yield the hash of the result type.
+	\item
+	If the function is non-variadic, yield $0$. If it uses C-style
+	variadism, yield $1$. If it uses Hare-style variadism, yield $2$.
+	\item
+	If the function is \terminal{@noreturn}, yield $1$. Otherwise, yield $0$.
+	\item
+	For each function paramter, yield the hash of the parameter type.
+\end{enumerate}
+
+\item
+Type alias:
+\begin{enumerate}
+	\item
+	For each part of the identifier, from most to least specific:
+	\begin{enumerate}
+	\item
+	Yield the identifier part as a string.
+	\item
+	Yield $0$.
+	\end{enumerate}
+	\item
+	Yield the hash of the secondary type.
+\end{enumerate}
+\end{itemize}
+\end{enumerate}
+
+The value of $H$ at the end of this procedure is the type hash (and its type
+ID).
+
+\begin{figure}[hbt!]
+\centering
+\begin{tabular}{r l | r l | r l}
+Type class & Value & Type class & Value & Type class & Value \\
+\hline
+\terminal{bool} & $0$  & \terminal{char} & $1$  & \terminal{enum} & $2$ \\
+\terminal{f32}  & $3$  & \terminal{f64}  & $4$  & \terminal{i16}  & $5$ \\
+\terminal{i32}  & $6$  & \terminal{i64}  & $7$  & \terminal{i8}   & $8$ \\
+\terminal{int}  & $9$  & \terminal{null} & $10$ & \terminal{rune} & $11$ \\
+\terminal{size} & $12$ & \terminal{u16}  & $13$ & \terminal{u32}  & $14$ \\
+\terminal{u64}  & $15$ & \terminal{u8}   & $16$ & \terminal{uint} & $17$ \\
+\terminal{uintptr} & $18$ & \terminal{void}  & $19$ & \terminal{str} & $20$ \\
+array    & $21$ & slice      & $22$ & pointer      & $23$ \\
+struct   & $24$ & union      & $25$ & tagged union & $26$ \\
+function & $27$ & type alias & $28$ & & \\
+\end{tabular}
+\caption{Type class reference}
+\label{table:type class}
+\end{figure}
+
+% TODO: Provide a list of reference hashes
