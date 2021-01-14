@@ -392,16 +392,17 @@ as a \textit{tag} which indicates which of the constituent types is selected.
 The constituent types is defined by \nonterminal{tagged-types}.
 
 \specsubsubitem
-The representation of a tagged union shall be a \terminal{size}, followed by
-sufficient space to store any of the possible constituent types. Padding shall
-be inserted between the tag and the value area and after the value area if
-necessary to meet the maximum alignment among the tagged union members and the
-\terminal{size} field.
+The representation of a tagged union shall be a \terminal{size}, in which the
+tag value is stored, followed by sufficient space to store any of the possible
+constituent types. Padding shall be inserted between the tag and the value area
+and after the value area if necessary to meet the maximum alignment among the
+tagged union members and the \terminal{size} field.
 
 \specsubsubitem
-The tag value shall be assigned from $0$ based on the sort order of the
-constituent types, per \subitemref{Types}{7}. This value shall be stored at the
-\terminal{size} field and shall indicate which type is stored in the value area.
+The tag value shall be the type ID of the type which is selected from the
+constituent types, per \subsecref{Type hashing}. This value shall be stored at
+the \terminal{size} field and shall indicate which type is stored in the value
+area.
 
 \informative{It follows that the types \code{(A | B)} and \code{(B | A)}
 are equivalent.}
