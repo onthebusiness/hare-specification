@@ -30,6 +30,18 @@ all types are its \textit{size}, in octets; \textit{alignment}; its
 \textit{constant} or \textit{mutable} nature; and its \textit{default value}.
 
 \specsubitem
+The implementation shall assign a globally unique ID to every type, in a
+deterministic manner, such that several subsequent translation environments,
+perhaps with different inputs, will obtain the same unique ID; and such that
+distinct types shall have distinct IDs.
+
+This specification details under what circumstances two types are distinct to
+one another, and thus shall have the same ID. For all types, any two types are
+distinct if their type class, and their constant or mutable nature, are
+distinct. Each type class may impose additional distinguishing characteristics
+on their types, which are specified in their respective sections.
+
+\specsubitem
 Some types have an undefined size. This includes \nonterminal{function-type},
 and some cases of \nonterminal{slice-array-type}.
 
@@ -270,6 +282,10 @@ shall have an implementation-defined length and alignment.
 The default value of a nullable pointer type is null. The default value of a
 non-nullable pointer type is undefined.
 
+\specsubsubitem
+A pointer type shall be equivalent to another pointer type only if they share
+the same secondary type and nullable status.
+
 \specsubsection{Other primitive types}
 
 \textbf{The bool type}
@@ -365,7 +381,8 @@ Forward references: \subsecref{Type aliases}
 
 \specsubsubitem
 A struct or union type shall be equivalent to another struct or union type if
-their fields are of equivalent name, type, and offset, without respect to order.
+their fields are of equivalent name, type, and offset, without respect to the
+order of their appearance in the program source.
 
 \informative{The following types are equivalent: \\
 \code{struct \{ a: int, b: int \}} \\
@@ -400,9 +417,8 @@ tagged union members and the \terminal{size} field.
 
 \specsubsubitem
 The tag value shall be the type ID of the type which is selected from the
-constituent types, per \subsecref{Type hashing}. This value shall be stored at
-the \terminal{size} field and shall indicate which type is stored in the value
-area.
+constituent types. This value shall be stored at the \terminal{size} field and
+shall indicate which type is stored in the value area.
 
 \informative{It follows that the types \code{(A | B)} and \code{(B | A)}
 are equivalent.}
@@ -427,6 +443,11 @@ constitent types in the parent union.
 
 \specsubsubitem
 The default value of a tagged union type is undefined.
+
+\specsubsubitem
+A tagged union type shall be equivalent if they share the same set of secondary
+types, without regard to order, and considering the secondary types of nested
+tagged unions as members of the set of their parent's secondary types.
 
 \specsubsection{Slice and array types}
 
@@ -506,6 +527,11 @@ underlying type is undefined, the default value of the array type is undefined.
 \specsubsubitem
 The default value of a slice type shall have the capacity and length fields set
 to zero and the data field set to null.
+
+\specsubsubitem
+An array type shall be equivalent to another array type only if its length and
+secondary types are equivalent. A slice type shall only be equivalent to a
+slice type with the same secondary type.
 
 \specsubsection{String types}
 
@@ -611,6 +637,11 @@ The size, alignment, default value, and storage semantics of function types is
 undefined. All function types shall be \terminal{const}, without regard to the
 use of \terminal{const} in the type description.
 
+\specsubsubitem
+The function's result type, list of parameter types (in order), its variadism,
+and \terminal{@noreturn} status, are distinct characteristics of the function
+type, for the purpose of determining equivilancy.
+
 \specsubsection{Type aliases}
 
 \begin{grammar}
@@ -633,175 +664,3 @@ semantics as its underlying type.
 \specsubsubitem
 Each type alias (uniquely identified by its \nonterminal{identifier}) shall be
 a unique type, even if it shares its underlying type with another type alias.
-
-\specsubsection{Type hashing}
-
-\specsubitem
-Every type has a unique \textbf{type identifier}, or ID, which shall be obtained
-through a hashing process. The hashing algorithm is based on the
-\textit{Fowler--Noll--Vo non-cryptographic hash algorithm} described by IETF
-document draft-eastlake-fnv-17. The full algorithm is specified here; it is not
-necessary to reference this document to implement it.
-
-\specsubitem
-The hashing algorithm is as follows:
-
-\begin{enumerate}
-\item
-Let $H$ be an unsigned integer equivalent to the \terminal{size} type.
-\item
-Let $P$ be the prime selected from table \ref{table:hash ivs}.
-\item
-Let $B$ be the offset basis selected from table \ref{table:hash ivs}.
-\item
-$H \gets B$
-\item
-For each octet $O$ of an input:
-	\begin{enumerate}
-	\item
-	$H \gets H \oplus O$
-	\item
-	$H \gets H \times P$
-	\end{enumerate}
-\end{enumerate}
-
-The value of $H$ at the conclusion of this procedure is the hash.
-
-\begin{figure}[hbt!]
-\centering
-\begin{tabular}{r | l | l}
-Size of \terminal{size} & Prime & Offset basis \\
-\hline
-32 bits & 16777619 & 2166136261 \\
-64 bits & 1099511628211 & 14695981039346656037 \\
-128 bits & 309485009821345068724781371 & 144066263297769815596495629667062367629 \\
-\end{tabular}
-\caption{Initialization vector reference}
-\label{table:hash ivs}
-\end{figure}
-
-\specsubitem
-If the implementation provides a \terminal{size} type of a size not specified
-by table \ref{table:hash ivs}, the hash algorithm is implementation-defined.
-
-\specsubitem
-The procedure for type hashing is given with inputs in terms of octets, words,
-and strings. A word is an unsigned integer equivalent to the \terminal{size}
-type, and may be converted into octets for input to the hashing function by
-selecting, in order, the least to most significant octet from the value.
-Strings are sequences of Unicode codepoints equivalent to the \terminal{rune}
-type, which may be converted to a sequence of words and processed as such.
-
-\specsubitem
-The procedure for type hashing is performed by yielding the following values
-as inputs to the hash algorithm, in order:
-
-\begin{enumerate}
-\item
-Yield the type class from table \ref{table:type class}.
-\item
-If the type is \terminal{const}, yield $1$. Otherwise, yield $0$.
-\item
-If the type class is...
-\begin{itemize}
-\item
-Array:
-\begin{enumerate}
-	\item
-	Yield the hash of the secondary type.
-	\item
-	Yield the array length.
-\end{enumerate}
-
-\item
-Slice:
-\begin{enumerate}
-	\item
-	Yield the hash of the secondary type.
-\end{enumerate}
-
-\item
-Enum:
-\begin{enumerate}
-	\item
-	Yield the type class for the enum's underlying storage type from table
-		\ref{table:type class}.
-	\item
-	Order each enum value first by its assigned value, then by its name,
-	then for each value yield respectively the name and the assigned value
-	converted to a word.
-\end{enumerate}
-
-\item
-Pointer:
-\begin{enumerate}
-	\item
-	Yield the hash of the secondary type.
-	\item
-	If the pointer is \terminal{nullable}, yield $1$. Otherwise, yield $0$.
-\end{enumerate}
-
-\item
-Struct or union:
-\begin{enumerate}
-	\item
-	Order the fields first by their offset, then by their name, then for
-	each field, yield respectively the name, the hash of the field type,
-	and the offset.
-\end{enumerate}
-
-\item
-Function:
-\begin{enumerate}
-	\item
-	Yield the hash of the result type.
-	\item
-	If the function is non-variadic, yield $0$. If it uses C-style
-	variadism, yield $1$. If it uses Hare-style variadism, yield $2$.
-	\item
-	If the function is \terminal{@noreturn}, yield $1$. Otherwise, yield $0$.
-	\item
-	For each function paramter, yield the hash of the parameter type.
-\end{enumerate}
-
-\item
-Type alias:
-\begin{enumerate}
-	\item
-	For each part of the identifier, from most to least specific:
-	\begin{enumerate}
-	\item
-	Yield the identifier part as a string.
-	\item
-	Yield $0$.
-	\end{enumerate}
-	\item
-	Yield the hash of the secondary type.
-\end{enumerate}
-\end{itemize}
-\end{enumerate}
-
-The value of $H$ at the end of this procedure is the type hash (and its type
-ID).
-
-\begin{figure}[hbt!]
-\centering
-\begin{tabular}{r l | r l | r l}
-Type class & Value & Type class & Value & Type class & Value \\
-\hline
-\terminal{bool} & $0$  & \terminal{char} & $1$  & \terminal{enum} & $2$ \\
-\terminal{f32}  & $3$  & \terminal{f64}  & $4$  & \terminal{i16}  & $5$ \\
-\terminal{i32}  & $6$  & \terminal{i64}  & $7$  & \terminal{i8}   & $8$ \\
-\terminal{int}  & $9$  & \terminal{null} & $10$ & \terminal{rune} & $11$ \\
-\terminal{size} & $12$ & \terminal{u16}  & $13$ & \terminal{u32}  & $14$ \\
-\terminal{u64}  & $15$ & \terminal{u8}   & $16$ & \terminal{uint} & $17$ \\
-\terminal{uintptr} & $18$ & \terminal{void}  & $19$ & \terminal{str} & $20$ \\
-array    & $21$ & slice      & $22$ & pointer      & $23$ \\
-struct   & $24$ & union      & $25$ & tagged union & $26$ \\
-function & $27$ & type alias & $28$ & & \\
-\end{tabular}
-\caption{Type class reference}
-\label{table:type class}
-\end{figure}
-
-% TODO: Provide a list of reference hashes
