@@ -1299,8 +1299,9 @@ A switch statement evaluates a value (\nonterminal{simple-expression}, the
 \specsubsubitem
 Each of the \nonterminal{case-options} specifies a value to compare with, given
 by \nonterminal{simple-expression}. This expression shall be limited to the 
-\secref{Translation compatible expression subset}. The implementation shall
-evaluate the \nonterminal{compound-expression} of the corresponding
+\secref{Translation compatible expression subset}, and its result type shall be
+equivalent to the result type of the switching expression. The implementation
+shall evaluate the \nonterminal{compound-expression} of the corresponding
 \nonterminal{switch-case} if any of the \nonterminal{case-options} is equal to
 the switching expression's result, setting the result of the overall switch
 expression to the result of the selected \nonterminal{compound-expression}.
