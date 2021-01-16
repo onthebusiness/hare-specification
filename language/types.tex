@@ -648,6 +648,9 @@ type, for the purpose of determining equivelancy.
 \begin{grammar}
 \nonterminaldef{alias-type} \\
 	\nonterminal{identifier} \\
+
+\nonterminaldef{unwrapped-alias} \\
+	\terminal{...} \nonterminal{identifier} \\
 \end{grammar}
 
 \specsubsubitem
@@ -665,3 +668,20 @@ semantics as its underlying type.
 \specsubsubitem
 Each type alias (uniquely identified by its \nonterminal{identifier}) shall be
 a unique type, even if it shares its underlying type with another type alias.
+
+\specsubsubitem
+The \terminal{...} operator shall \textit{unwrap} the type alias, and shall
+case the statement to refer to the underlying type rather than the type alias
+itself.
+
+\informative{This notably affects the relationship between type aliases and
+tagged unions. In the following example, union\_a and union\_b have different
+storage semantics, the former being a tagged union of two other tagged unions,
+and the latter being reduced to a single tagged union.}
+
+\begin{codesample}
+type signed = (i8 | i16 | i32 | i64 | int);
+type unsigned = (u8 | u16 | u32 | u64 | uint);
+type union_a = (signed | unsigned);
+type union_b = (...signed | ...unsigned);
+\end{codesample}
