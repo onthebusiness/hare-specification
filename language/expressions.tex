@@ -1272,9 +1272,63 @@ shall be evaluated and all of its side-effects shall occur; this process is an
 evaluate the afterthought, if present, and then repeat the process, until the
 condition evaluates to \terminal{false}.
 
-\specsubsection{Match expressions}
-
 \specsubsection{Switch expressions}
+
+\begin{grammar}
+\nonterminaldef{switch-expression} \\
+	\terminal{switch} \terminal{(} \nonterminal{simple-expression} \terminal{)} \terminal{\{} \nonterminal{switch-cases} \terminal{\}} \\
+
+\nonterminaldef{switch-cases} \\
+	\nonterminal{switch-case} \optional{\terminal{,}} \\
+	\nonterminal{switch-case} \terminal{,} \nonterminal{switch-cases} \\
+
+\nonterminaldef{switch-case} \\
+	\nonterminal{case-options} \terminal{=>} \nonterminal{compound-expression} \\
+	\terminal{*} \terminal{=>} \nonterminal{compound-expression} \\
+
+\nonterminaldef{case-options} \\
+	\nonterminal{simple-expression} \optional{\terminal{,}} \\
+	\nonterminal{simple-expression} \terminal{,} \nonterminal{case-options} \\
+\end{grammar}
+
+\specsubsubitem
+A switch statement evaluates a value (\nonterminal{simple-expression}, the
+\textit{switching expression}), then compares it with a number of
+\nonterminal{switch-cases}, taking whichever branch matches the value.
+
+\specsubsubitem
+Each of the \nonterminal{case-options} specifies a value to compare with, given
+by \nonterminal{simple-expression}. This expression shall be limited to the 
+\secref{Translation compatible expression subset}. The implementation shall
+evaluate the \nonterminal{compound-expression} of the corresponding
+\nonterminal{switch-case} if any of the \nonterminal{case-options} is equal to
+the switching expression's result, setting the result of the overall switch
+expression to the result of the selected \nonterminal{compound-expression}.
+
+\specsubsubitem
+The \terminal{*} form of \nonterminal{switch-case} indicates any case which is
+not selected by the other cases. Only one case of this form shall appear in the
+switch expression.
+
+\specsubsubitem
+The switch cases shall be \textit{exhaustive}, meaning that every possible
+value of the switching expression is accounted for by a
+\nonterminal{switch-case}. It shall also be preicsely exhaustive: no two cases
+shall select for the same value.
+
+\specsubsubitem
+The implementation shall ensure that side-effects of the switch value
+expression occur before those of the selected case, and that side-effects of
+non-selected cases do not occur.
+
+\specsubsubitem
+If the result types of all non-terminating cases are equivalent, the result type
+of the switch expression shall be the result type of the cases. Otherwise, the
+result type shall be a tagged union of the set of the result types of the
+non-terminating cases. If all cases terminate, the result type shall be
+\terminal{void} and the switch expression shall terminate.
+
+\specsubsection{Match expressions}
 
 \specsubsection{Variable binding}
 
@@ -1512,8 +1566,8 @@ influence.
 	\nonterminal{simple-expression} \\
 	\nonterminal{if-expression} \\
 	\nonterminal{for-loop} \\
-	\nonterminal{match-expression} \\
 	\nonterminal{switch-expression} \\
+	\nonterminal{match-expression} \\
 
 \nonterminaldef{scope-expression} \\
 	\nonterminal{assignment} \\
