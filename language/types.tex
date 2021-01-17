@@ -409,15 +409,15 @@ as a \textit{tag} which indicates which of the constituent types is selected.
 The constituent types is defined by \nonterminal{tagged-types}.
 
 \specsubsubitem
-The representation of a tagged union shall be a \terminal{size}, in which the
+The representation of a tagged union shall be a \terminal{uint}, in which the
 tag value is stored, followed by sufficient space to store any of the possible
 constituent types. Padding shall be inserted between the tag and the value area
 and after the value area if necessary to meet the maximum alignment among the
-tagged union members and the \terminal{size} field.
+tagged union members and the \terminal{uint} field.
 
 \specsubsubitem
 The tag value shall be the type ID of the type which is selected from the
-constituent types. This value shall be stored at the \terminal{size} field and
+constituent types. This value shall be stored at the \terminal{uint} field and
 shall indicate which type is stored in the value area.
 
 \informative{It follows that the types \code{(A | B)} and \code{(B | A)}
@@ -425,12 +425,12 @@ are equivalent.}
 
 \specsubsubitem
 The alignment of a tagged union type shall be the alignment of the
-\terminal{size} type or the maximum alignment of the constituent types, whichever
-is greater.
+\terminal{uint} type or the maximum alignment of the constituent types,
+whichever is greater.
 
 \specsubsubitem
 The size of a tagged union type shall be the maximum size of its constituent
-types, plus the size of the \terminal{size} type, plus any padding added per
+types, plus the size of the \terminal{uint} type, plus any padding added per
 \subsubitemref{Tagged union types}{2}.
 
 \specsubsubitem
