@@ -969,9 +969,8 @@ otherwise.
 \specsubsubitem
 A \nonterminal{multiplicative-expression} multiplies (\terminal{*}), divides
 (\terminal{/}), or obtains the remainder between (\terminal{\%}) two
-expressions. The first form illustrates the precedence. The types of the
-operands, and the result type, are determined per the \subsecref{Type promotion}
-rules.
+expressions. The first form illustrates the precedence. The operands and result
+type shall be subject to the \secref{Type promotion} rules.
 
 \specsubsubitem
 In the case of division or modulus, the first term is the dividend, and the
@@ -1003,8 +1002,8 @@ occur before side-effects of the second term.
 \specsubsubitem
 An \nonterminal{additive-expression} adds (\terminal{+}) two operands, or
 subtracts (\terminal{-}) one from another. The first form illustrates the
-precedence. The types of the operands, and the result type, are determined per
-the \subsecref{Type promotion} rules.
+precedence. The operands and result type shall be subject to the \secref{Type
+promotion} rules.
 
 \specsubsubitem
 In the case of subtraction, the first term is the minuend, and the second term
@@ -1099,8 +1098,8 @@ occur before side-effects of the second term.
 A \nonterminal{comparison-expression} determines which operand is lesser than
 (\terminal{<}), greater than (\terminal{>}), less than or equal to
 (\terminal{<=}), or greater than or equal to (\terminal{>=}) the other. The
-types of both operands shall both be numeric, and shall be subject to the
-\subsecref{Type promotion} rules. The result type shall be \terminal{bool}.
+operands shall be numeric, and are subject to the \secref{Type promotion}
+rules.  The result type shall be \terminal{bool}.
 
 \specsubsubitem
 The result of the \terminal{<} operator shall be \terminal{true} if the first
@@ -1609,7 +1608,30 @@ sequence, and expands the classification to include
 expression evaluation within the sequence.
 }
 
-\newpage
+\specsection{Type promotion}
+
+\specsubitem
+The operands of some arithmetic expressions are subject to \textit{type
+promotion}, to allow for arithmetic between disjoint types. The operand of
+lower precision may be \textit{promoted}, or implicitly cast, to the precision
+of the more precise operand. Unless explicitly covered by the following cases,
+operands shall not be promoted, and the translation environment shall print a
+diagnostic message and abort for incompatible combinations of operand types.
+
+\specsubitem
+For expressions where the result type is determined by type promotion, the
+result type shall be equivalent to the type of the operand which has the
+highest precision.
+
+\specsubitem
+For expressions involving two integer types, the type of lower precision may be
+promoted to the type of higher precision only if the signedness is the same for
+each operand. A type cannot be promoted to \terminal{uintptr}.
+
+\specsubitem
+For expressions involving floating-point types, \terminal{f32} may be promoted
+to \terminal{f64}.
+
 \specsection{Translation compatible expression subset}
 
 The translation-compatible expression subset is a subset of expression types
