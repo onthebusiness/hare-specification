@@ -796,6 +796,10 @@ If the current scope is terminated before a \nonterminal{deferred-expression}
 evaluated, the side-effects of the \nonterminal{scope-expression} shall not
 occur.
 
+\specsubsubitem
+A \nonterminal{deferred-expression} shall not appear as a descendant of the
+expression tree formed by \nonterminal{scope-expression}.
+
 \specsubsection{Postfix expressions}
 
 \begin{grammar}
