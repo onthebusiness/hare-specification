@@ -1519,11 +1519,8 @@ occur before side-effects of the second term.
 
 \begin{grammar}
 \nonterminaldef{expression-list} \\
-	\terminal{\{} \nonterminal{expressions} \terminal{\}} \\
-
-\nonterminaldef{expressions} \\
 	\nonterminal{scope-expression} \terminal{;} \\
-	\nonterminal{scope-expression} \terminal{;} \nonterminal{expressions} \\
+	\nonterminal{scope-expression} \terminal{;} \nonterminal{expression-list} \\
 \end{grammar}
 
 \specsubsubitem
