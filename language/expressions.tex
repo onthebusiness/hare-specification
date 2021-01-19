@@ -57,7 +57,7 @@ The \terminal{void} keyword represents the \terminal{void} value of the
 \specsubsection{Floating constants}
 
 \begin{grammar}
-\nonterminaldef{floating-constant} \\
+\nonterminaldef{floating-constant} \exactly \\
 	\nonterminal{decimal-digits} \terminal{.} \nonterminal{decimal-digits} \optional{\nonterminal{exponent}} \optional{\nonterminal{floating-suffix}} \\
 	\nonterminal{decimal-digits} \optional{\nonterminal{exponent}} \nonterminal{floating-suffix} \\
 
@@ -65,7 +65,7 @@ The \terminal{void} keyword represents the \terminal{void} value of the
 	\terminal{f32}
 	\terminal{f64} \\
 
-\nonterminaldef{decimal-digits} \\
+\nonterminaldef{decimal-digits} \exactly \\
 	\nonterminal{decimal-digit} \optional{\nonterminal{decimal-digits}} \\
 
 \nonterminaldef{decimal-digit} \oneof \\
@@ -80,7 +80,7 @@ The \terminal{void} keyword represents the \terminal{void} value of the
 	\terminal{8}
 	\terminal{9} \\
 
-\nonterminaldef{exponent} \\
+\nonterminaldef{exponent} \exactly \\
 	\terminal{e} \nonterminal{decimal-digits} \\
 \end{grammar}
 
@@ -102,14 +102,14 @@ constant shall be multiplied by 10 to the power of
 \specsubsection{Integer constants}
 
 \begin{grammar}
-\nonterminaldef{integer-constant} \\
+\nonterminaldef{integer-constant} \exactly \\
 	\terminal{0x} \nonterminal{hex-digits} \optional{\nonterminal{integer-suffix}} \\
 	\terminal{0o} \nonterminal{octal-digits} \optional{\nonterminal{integer-suffix}} \\
 	\terminal{0b} \nonterminal{binary-digits} \optional{\nonterminal{integer-suffix}} \\
 	\nonterminal{decimal-digits} \optional{\nonterminal{exponent}}
 		\optional{\nonterminal{integer-suffix}} \\
 
-\nonterminaldef{hex-digits} \\
+\nonterminaldef{hex-digits} \exactly \\
 	\nonterminal{hex-digit} \optional{\nonterminal{hex-digits}} \\
 
 \nonterminaldef{hex-digit} \oneof \\
@@ -136,7 +136,7 @@ constant shall be multiplied by 10 to the power of
 	\terminal{e}
 	\terminal{f} \\
 
-\nonterminaldef{octal-digits} \\
+\nonterminaldef{octal-digits} \exactly \\
 	\nonterminal{octal-digit} \optional{\nonterminal{octal-digits}} \\
 
 \nonterminaldef{octal-digit} \oneof \\
@@ -149,7 +149,7 @@ constant shall be multiplied by 10 to the power of
 	\terminal{6}
 	\terminal{7} \\
 
-\nonterminaldef{binary-digits} \\
+\nonterminaldef{binary-digits} \exactly \\
 	\nonterminal{binary-digit} \optional{\nonterminal{binary-digits}} \\
 
 \nonterminaldef{binary-digit} \oneof \\
