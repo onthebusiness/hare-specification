@@ -242,6 +242,11 @@ the enum type's underlying integer type (ref \subsecref{Assignment}).
 \secref{Translation compatible expression subset}.
 
 \specsubsubitem
+Each \nonterminal{enum-value}'s name shall be unique within the set of all
+names of \nonterminal{enum-value}s of the \nonterminal{enum-type}. Otherwise, a
+diagnostic message shall be printed and the translation phase shall be aborted.
+
+\specsubsubitem
 Two enum types shall be considered equivalent if all of these conditions are
 met:
 
