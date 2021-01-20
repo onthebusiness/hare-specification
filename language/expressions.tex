@@ -791,37 +791,6 @@ secondary type of the slice or array type given by
 \nonterminal{postfix-expression}. The resulting slice type shall inherit the
 \nonterminal{const} attribute from this type.
 
-\specsubsection{Deferred expressions}
-
-\begin{grammar}
-\nonterminaldef{deferred-expression} \\
-	\terminal{defer} \nonterminal{scope-expression} \\
-\end{grammar}
-
-\specsubsubitem
-A \nonterminal{deferred-expression} causes another expression to be
-\textit{deferred} until the termination of the current scope. The result type
-is \terminal{void}.
-
-\specsubsubitem
-The implementation shall cause the \nonterminal{scope-expression} to be
-evaluated upon the termination of the current scope, either due to normal
-program flow, or due to encountering a terminating expression.
-
-\specsubsubitem
-If several expressions are deferred in a single scope, their side-effects shall
-occur in the same order that they appear in the program source.
-
-\specsubsubitem
-If the current scope is terminated before a \nonterminal{deferred-expression}
-(\informative{but not an expression which was already deferred}) would be
-evaluated, the side-effects of the \nonterminal{scope-expression} shall not
-occur.
-
-\specsubsubitem
-A \nonterminal{deferred-expression} shall not appear as a descendant of the
-expression tree formed by \nonterminal{scope-expression}.
-
 \specsubsection{Postfix expressions}
 
 \begin{grammar}
@@ -834,7 +803,6 @@ expression tree formed by \nonterminal{scope-expression}.
 	\nonterminal{indexing-expression} \\
 	\nonterminal{measurement-expression} \\
 	\nonterminal{slicing-expression} \\
-	\nonterminal{deferred-expression} \\
 
 \nonterminaldef{object-selector} \\
 	\nonterminal{identifier} \\
@@ -1384,52 +1352,7 @@ non-terminating cases. If all cases terminate, the result type shall be
 
 \specsubsection{Match expressions}
 
-\specsubsection{Variable binding}
-
-\begin{grammar}
-\nonterminaldef{binding-list} \\
-	\optional{\terminal{static}} \terminal{let} \nonterminal{bindings} \\
-	\terminal{const} \nonterminal{bindings} \\
-
-\nonterminaldef{bindings} \\
-	\nonterminal{binding} \optional{\terminal{,}} \\
-	\nonterminal{binding} \terminal{,} \nonterminal{bindings} \\
-
-\nonterminaldef{binding} \\
-	\nonterminal{name} \terminal{=} \nonterminal{simple-expression} \\
-	\nonterminal{name} \terminal{:} \nonterminal{type} \terminal{=} \nonterminal{complex-expression} \\
-\end{grammar}
-
-\specsubsubitem
-A \nonterminal{binding-list} shall cause one or more objects to become
-available in the present scope. Each object shall be identified by its
-\nonterminal{name}, and shall have its initial value set to the result of the
-\nonterminal{simple-expression} or \nonterminal{complex-expression}. The result
-type of a binding list expression is \terminal{void}.
-
-\specsubsubitem
-In the first form of \nonterminal{binding-list}, the type of the object shall
-be equivalent to the result type of the \nonterminal{simple-expression}. In the
-second form, the type shall be as indicated, and the result type of the
-\nonterminal{complex-expression} shall be assignable to this type.
-
-\specsubsubitem
-If the \terminal{const} form is used, the type of each binding shall be
-modified to \textit{include} the \terminal{const} flag. If the \terminal{let}
-form is used, the type of each binding which uses the first form of
-\nonterminal{binding} shall be modified to \textit{omit} the \terminal{const}
-flag.
-
-\specsubsubitem
-If the \terminal{static} form is used, the variables shall be allocated
-\textit{statically}, such that they are only initialized once and their
-previous value, accounting for any later mutations, is preserved each time
-the binding expression is encountered, including across repeated or recursive
-calls to the enclosing function. In this case, the initializer must use the
-\secref{Translation compatible expression subset}.
-
-\specsubsubitem
-The type of the binding shall not use a type which has a zero or undefined size.
+% TODO
 
 \specsubsection{Assignment}
 
@@ -1537,6 +1460,85 @@ For assignment of \terminal{*} \terminal{const} \terminal{char} from
 The implementation shall ensure that any side-effects of the first term shall
 occur before side-effects of the second term.
 
+
+\specsubsection{Variable binding}
+
+\begin{grammar}
+\nonterminaldef{binding-list} \\
+	\optional{\terminal{static}} \terminal{let} \nonterminal{bindings} \\
+	\terminal{const} \nonterminal{bindings} \\
+
+\nonterminaldef{bindings} \\
+	\nonterminal{binding} \optional{\terminal{,}} \\
+	\nonterminal{binding} \terminal{,} \nonterminal{bindings} \\
+
+\nonterminaldef{binding} \\
+	\nonterminal{name} \terminal{=} \nonterminal{simple-expression} \\
+	\nonterminal{name} \terminal{:} \nonterminal{type} \terminal{=} \nonterminal{complex-expression} \\
+\end{grammar}
+
+\specsubsubitem
+A \nonterminal{binding-list} shall cause one or more objects to become
+available in the present scope. Each object shall be identified by its
+\nonterminal{name}, and shall have its initial value set to the result of the
+\nonterminal{simple-expression} or \nonterminal{complex-expression}. The result
+type of a binding list expression is \terminal{void}.
+
+\specsubsubitem
+In the first form of \nonterminal{binding-list}, the type of the object shall
+be equivalent to the result type of the \nonterminal{simple-expression}. In the
+second form, the type shall be as indicated, and the result type of the
+\nonterminal{complex-expression} shall be assignable to this type.
+
+\specsubsubitem
+If the \terminal{const} form is used, the type of each binding shall be
+modified to \textit{include} the \terminal{const} flag. If the \terminal{let}
+form is used, the type of each binding which uses the first form of
+\nonterminal{binding} shall be modified to \textit{omit} the \terminal{const}
+flag.
+
+\specsubsubitem
+If the \terminal{static} form is used, the variables shall be allocated
+\textit{statically}, such that they are only initialized once and their
+previous value, accounting for any later mutations, is preserved each time
+the binding expression is encountered, including across repeated or recursive
+calls to the enclosing function. In this case, the initializer must use the
+\secref{Translation compatible expression subset}.
+
+\specsubsubitem
+The type of the binding shall not use a type which has a zero or undefined size.
+
+\specsubsection{Deferred expressions}
+
+\begin{grammar}
+\nonterminaldef{deferred-expression} \\
+	\terminal{defer} \nonterminal{scope-expression} \\
+\end{grammar}
+
+\specsubsubitem
+A \nonterminal{deferred-expression} causes another expression to be
+\textit{deferred} until the termination of the current scope. The result type
+is \terminal{void}.
+
+\specsubsubitem
+The implementation shall cause the \nonterminal{scope-expression} to be
+evaluated upon the termination of the current scope, either due to normal
+program flow, or due to encountering a terminating expression.
+
+\specsubsubitem
+If several expressions are deferred in a single scope, their side-effects shall
+occur in the same order that they appear in the program source.
+
+\specsubsubitem
+If the current scope is terminated before a \nonterminal{deferred-expression}
+(\informative{but not an expression which was already deferred}) would be
+evaluated, the side-effects of the \nonterminal{scope-expression} shall not
+occur.
+
+\specsubsubitem
+A \nonterminal{deferred-expression} shall not appear as a descendant of the
+expression tree formed by \nonterminal{scope-expression}.
+
 \specsubsection{Expression lists}
 
 \begin{grammar}
@@ -1623,6 +1625,7 @@ influence.
 \nonterminaldef{scope-expression} \\
 	\nonterminal{assignment} \\
 	\nonterminal{binding-list} \\
+	\nonterminal{deferred-expression} \\
 	\nonterminal{complex-expression} \\
 
 \nonterminaldef{compound-expression} \\
