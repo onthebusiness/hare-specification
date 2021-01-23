@@ -1352,7 +1352,65 @@ non-terminating cases. If all cases terminate, the result type shall be
 
 \specsubsection{Match expressions}
 
-% TODO
+\begin{grammar}
+\nonterminaldef{match-expression} \\
+	\terminal{match} \terminal{(} \nonterminal{simple-expression} \terminal{)} \terminal{\{} \nonterminal{match-cases} \terminal{\}} \\
+
+\nonterminaldef{match-cases} \\
+	\nonterminal{match-case} \optional{\terminal{,}} \\
+	\nonterminal{match-case} \terminal{,} \nonterminal{match-cases} \\
+
+\nonterminaldef{match-case} \\
+	\nonterminal{name} \terminal{:} \nonterminal{type} \terminal{=>} \nonterminal{compound-expression} \\
+	\nonterminal{type} \terminal{=>} \nonterminal{compound-expression} \\
+	\terminal{*} \terminal{=>} \nonterminal{compound-expression} \\
+\end{grammar}
+
+\specsubsubitem
+A match statement evaluates a value (\nonterminal{simple-expression}, the
+\textit{matching expression}), then selects and evaluates another expression
+based on its result type. The result type of the matching expression must be a
+tagged union or nullable pointer type, or an alias of either.
+
+\specsubsubitem
+If the matching expression has a tagged union type, each
+\nonterminal{match-case} shall specify a type which is either a member of that
+tagged union, or another tagged union which supports a subset of the matching
+expression's type, or a type alias which refers to a qualifying type.
+
+\specsubsubitem
+If the matching expression has a nullable pointer type, one match case shall be
+\terminal{null}, and another shall be the equivalent non-nullable pointer type,
+or a type alias which refers to a qualifying type.
+
+\specsubsubitem
+The \terminal{*} form of \nonterminal{match-case} indicates any case which is
+not selected by the other cases. Only one case of this form shall appear in the
+match expression.
+
+\specsubsubitem
+The first form of \nonterminal{match-case}, if selected, shall cause the
+implementation to cast the match expression to the selected type and assign the
+resulting value to \nonterminal{name}. It shall insert this binding into a new
+scope which applies to the \nonterminal{compound-expression}.
+
+\specsubsubitem
+The match cases shall be \textit{exhaustive}, meaning that every possible type
+of the matching expression is accounted for by a \nonterminal{match-case}. It
+shall also be preicsely exhaustive: no two cases shall select for the same
+type.
+
+\specsubsubitem
+The implementation shall ensure that side-effects of the match value
+expression occur before those of the selected case, and that side-effects of
+non-selected cases do not occur.
+
+\specsubsubitem
+If the result types of all non-terminating cases are equivalent, the result type
+of the match expression shall be the result type of the cases. Otherwise, the
+result type shall be a tagged union of the set of the result types of the
+non-terminating cases. If all cases terminate, the result type shall be
+\terminal{void} and the match expression shall terminate.
 
 \specsubsection{Assignment}
 
@@ -1404,7 +1462,6 @@ are stricter than castability rules. All types are assignable to themselves. The
 set of other types which are assignable to a given type are given by the
 following table:
 
-\begin{figure}
 \begin{tabular}{r | l}
 Object type & May be assigned from \\
 \hline
@@ -1414,7 +1471,7 @@ Unsigned integer types & Unsigned integer types of equal or higher precision \\
 Floating-point types & Any floating-point type of equal or higher precision \\
 Nullable pointer types & Non-nullable pointer type of the same secondary type \\
 Nullable pointer types & \terminal{null} \\
-Slice types & An array type of the same secondary type and a defined length \\
+Slice types & Array type of the same secondary type and definite length \\
 Array types of undefined size & Array types of defined size \\
 Tagged union types & See notes \\
 Type aliases & Any type assignable to the secondary type \\
@@ -1423,7 +1480,6 @@ Type aliases & Any type assignable to the secondary type \\
 \terminal{nullable} \terminal{*} \terminal{void} & Any pointer type \\
 \terminal{*} \terminal{const} \terminal{char} & \terminal{str} \\
 \end{tabular}
-\end{figure}
 
 The implementation shall perform any necessary conversion from the source type
 to the destination type.
