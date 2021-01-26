@@ -20,6 +20,11 @@ If unspecified, expressions described by this expression are presumed to be
 non-terminating. Expression classes inherit their termination qualities from the
 more specific sub-expressions which they classify.
 
+\specsubitem
+Some expressions may provide a \textit{type hint} to other expressions which
+appear in their grammar, which those expressions may take advantage of to
+refine their behavior.
+
 \specsubsection{Constants}
 
 \begin{grammar}
@@ -312,10 +317,10 @@ determine the member type of the array value, and the length of the array type
 shall be defined by the number of members.
 
 \specsubsubitem
-If an array literal appears as the initializer for a binding expression, the
-member type may be inferred from the type of the binding, if specified. Each
-value shall be assignable to this type. Otherwise, the type is inferred from
-the type of the first value.
+If a type hint has been provided to an array literal which is an array type (or
+a type alias which represents an array type), the member type will be inferred
+from this array type. The initializer expressions for each value among
+\nonterminal{array-members} shall receive this member type as a type hint.
 
 \specsubsubitem
 The execution environment shall evaluate the \nonterminal{array-members},
@@ -385,6 +390,13 @@ alias (see \subsecref{Type aliases}) which refers to a struct type. The result
 type shall be this alias type.
 
 \specsubsubitem
+Each \nonterminal{field-value} shall specify a field by its \nonterminal{name},
+and assign that field in the result value to the result of the expression
+given. The type of the named field, via the named type alias in the first form,
+or the given type in the second form, shall be provided to the initializer
+expression as a type hint.
+
+\specsubsubitem
 If \terminal{...} is not given, \nonterminal{field-values} shall be
 \textit{exhaustive}, and include every field of the result type exactly once.
 Otherwise, a diagnostic message shall be printed and the translation phase
@@ -393,7 +405,9 @@ shall abort.
 \specsubsubitem
 If \terminal{...} is given, any fields of the result type which are not
 included in \nonterminal{field-values} shall be initialized to their default
-values.
+values. Each included field shall only be named once. If a field is omitted
+which does not have a default value, a diagnostic message shall be printed and
+the translation phase shall abort.
 
 \specsubsubitem
 If the \nonterminal{struct-literal} form of the \nonterminal{field-value} is
@@ -455,7 +469,8 @@ in the execution environment.
 \specsubsubitem
 In the \terminal{alloc} form, the \nonterminal{type} shall specify a pointer
 type or slice type, and this type shall be the result type of the expression.
-The first \nonterminal{simple-expression} term is the initializer.
+The first \nonterminal{simple-expression} term is the initializer. The
+initializer shall be provided the given \nonterminal{type} as a type hint.
 
 \specsubsubitem
 In the case of an \terminal{alloc} of a pointer type, the execution environment
@@ -463,9 +478,6 @@ shall allocate storage sufficient to store a value of the referent type, and
 initialize it to the value provided by \nonterminal{simple-expression}, which
 shall be assignable to that type. The pointer's referent type shall have a
 defined, nonzero size.
-
-% TODO: Double check that slice/array types are only valid for defined, nonzero
-% sized secondary types
 
 \specsubsubitem
 In the case of an \terminal{alloc} of a slice type, the initializer shall be of
@@ -519,7 +531,7 @@ programmer by \textit{asserting} its truth. The result type of a
 
 \specsubsubitem
 \nonterminal{simple-expression} shall be an expression of type
-\nonterminal{bool}.
+\terminal{bool}, which shall be provided to it as a type hint.
 
 \specsubsubitem
 In the first two forms, this expression shall be evaluated
@@ -576,7 +588,9 @@ any number of pointer types if appropriate.
 \specsubsubitem
 The \nonterminal{argument-list} shall be a list of expressions whose types
 shall be assignable to the types of the invoked function's parameters, in the
-order that they are declared in the invoked function's result type.
+order that they are declared in the invoked function's result type. The types
+specified in the function's prototype shall be provided as type hints to each
+argument expression as appropriate.
 
 \specsubsubitem
 The execution environment shall evaluate the \nonterminal{argument-list},
@@ -1247,10 +1261,15 @@ union of the set of possible result types. The result value shall be selected
 from the result of the branch which is executed.
 
 \specsubsubitem
-If any of the branch expressions terminate, that branch is not considered for
-the purpose of determining the result type. If all branches terminate, the
-result type is \terminal{void} and the if statement itself is considered
-terminal.
+If a type hint is provided and all non-terminating branches are assignable to
+that type, the result type shall be the type given by the type hint. If the
+result types of all non-terminating cases are equivalent, the result type of
+the if expression shall be the result type of the cases. Otherwise, the
+result type shall be a tagged union of the set of the result types of the
+non-terminating cases.
+
+If all cases terminate, the result type shall be \terminal{void} and the if
+expression shall terminate.
 
 \specsubsection{For loops}
 
@@ -1281,7 +1300,8 @@ with its \nonterminal{simple-expression}. In the second form, the first
 expression is the condition, and the second expression is the
 \textit{afterthought}. In the third form, the \nonterminal{binding} is the
 \textit{binding}, and the two expressions are respectively the condition and
-afterthought. The result type of the condition shall be \terminal{bool}.
+afterthought. The result type of the condition shall be \terminal{bool}, and
+this shall be provided as a type hint.
 
 \specsubsubitem
 The implementation shall establish a new scope for the
@@ -1344,11 +1364,15 @@ expression occur before those of the selected case, and that side-effects of
 non-selected cases do not occur.
 
 \specsubsubitem
-If the result types of all non-terminating cases are equivalent, the result type
-of the switch expression shall be the result type of the cases. Otherwise, the
+If a type hint is provided and all non-terminating branches are assignable to
+that type, the result type shall be the type given by the type hint. If the
+result types of all non-terminating cases are equivalent, the result type of
+the switch expression shall be the result type of the cases. Otherwise, the
 result type shall be a tagged union of the set of the result types of the
-non-terminating cases. If all cases terminate, the result type shall be
-\terminal{void} and the switch expression shall terminate.
+non-terminating cases.
+
+If all cases terminate, the result type shall be \terminal{void} and the switch
+expression shall terminate.
 
 \specsubsection{Match expressions}
 
@@ -1406,11 +1430,15 @@ expression occur before those of the selected case, and that side-effects of
 non-selected cases do not occur.
 
 \specsubsubitem
-If the result types of all non-terminating cases are equivalent, the result type
-of the match expression shall be the result type of the cases. Otherwise, the
+If a type hint is provided and all non-terminating branches are assignable to
+that type, the result type shall be the type given by the type hint. If the
+result types of all non-terminating cases are equivalent, the result type of
+the match expression shall be the result type of the cases. Otherwise, the
 result type shall be a tagged union of the set of the result types of the
-non-terminating cases. If all cases terminate, the result type shall be
-\terminal{void} and the match expression shall terminate.
+non-terminating cases.
+
+If all cases terminate, the result type shall be \terminal{void} and the match
+expression shall terminate.
 
 \specsubsection{Assignment}
 
@@ -1436,7 +1464,8 @@ non-terminating cases. If all cases terminate, the result type shall be
 \specsubsubitem
 An \nonterminal{assignment} expression shall cause the object given by the
 first term to be assigned a new value based on the value given by the second
-term.
+term. The type of the object shall be provided as a type hint to the secondary
+expression(s).
 
 \specsubsubitem
 If the \nonterminal{assignment-op} is \terminal{=}, the first term shall be
@@ -1516,7 +1545,6 @@ For assignment of \terminal{*} \terminal{const} \terminal{char} from
 The implementation shall ensure that any side-effects of the first term shall
 occur before side-effects of the second term.
 
-
 \specsubsection{Variable binding}
 
 \begin{grammar}
@@ -1544,7 +1572,9 @@ type of a binding list expression is \terminal{void}.
 In the first form of \nonterminal{binding-list}, the type of the object shall
 be equivalent to the result type of the \nonterminal{simple-expression}. In the
 second form, the type shall be as indicated, and the result type of the
-\nonterminal{complex-expression} shall be assignable to this type.
+\nonterminal{complex-expression} shall be assignable to this type. In this
+second form, the type specified is used as a type hint for the
+\nonterminal{complex-expression}.
 
 \specsubsubitem
 If the \terminal{const} form is used, the type of each binding shall be
@@ -1655,9 +1685,9 @@ message shall be shown and the translation phase shall abort.
 The third form shall terminate the function the expression is a descendant of.
 If the function's result type is not \terminal{void}, the
 \nonterminal{complex-expression} shall be provided, and shall be assignable to
-the function's result type. It shall provide the result for the function. If
-the function's result type is void, the \nonterminal{complex-expression} shall
-not be present.
+the function's result type. It shall provide the result for the function. The
+result type of the enclosing function shall be provided as a type hint to the
+\nonterminal{complex-expression}.
 
 \specsubsubitem
 In any of these cases, the implementation shall ensure that side-effects do not
