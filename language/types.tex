@@ -462,6 +462,7 @@ parent's secondary types.
 	\terminal{[} \terminal{]} \nonterminal{type} \\
 	\terminal{[} \nonterminal{simple-expression} \terminal{]} \nonterminal{type} \\
 	\terminal{[} \terminal{*} \terminal{]} \nonterminal{type} \\
+	\terminal{[} \terminal{\_} \terminal{]} \nonterminal{type} \\
 \end{grammar}
 
 \specsubsubitem
@@ -480,6 +481,11 @@ compatible expression subset}.
 \specsubsubitem
 An array type may be \textit{unbounded}, in which case the number of items is
 not known. The \terminal{*} representation indicates an array of this type.
+
+\specsubsubitem
+An array may be bounded, but infer its size from context, using the
+\terminal{\_} representation. Such an array is said to be
+\textit{context-defined}.
 
 \specsubsubitem
 An array type may be \textit{expandable}. This state is not represented in the
