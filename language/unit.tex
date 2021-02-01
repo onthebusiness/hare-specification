@@ -191,8 +191,11 @@ module to be linked into the final program image as described by
 
 \specsubitem
 The first form of the \nonterminal{use-statement} shall cause the identifiers
-declared by the target module to become visible to this \nonterminal{sub-unit}
-in their fully-qualified form.
+exported by the target module to become visible to this \nonterminal{sub-unit}
+in their fully-qualified form. Additionally, if the imported module has more
+than one namespace, identifiers of the form "x::y" shall be made available,
+where x is the most-specific namespace, and y is each of the exported members
+of the target module.
 
 \specsubitem
 The second form of the \nonterminal{use-statement} shall cause the identifiers
