@@ -1204,6 +1204,11 @@ The result of the \terminal{!=} operator shall be \terminal{true} if the first
 operand is not equal to second operand in value, and \terminal{false} otherwise.
 
 \specsubsubitem
+If the type is \terminal{str}, an \nonterminal{equality-expression} shall be
+\terminal{true} if both strings have the same length and octets, and
+\terminal{false} otherwise.
+
+\specsubsubitem
 The implementation shall ensure that any side-effects of the first term shall
 occur before side-effects of the second term.
 
