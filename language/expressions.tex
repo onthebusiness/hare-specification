@@ -454,7 +454,8 @@ associativity between operators.
 \nonterminaldef{allocation-expression} \\
 	\terminal{alloc} \terminal{(} \nonterminal{type} \terminal{,} \nonterminal{simple-expression} \terminal{)} \\
 	\terminal{alloc} \terminal{(} \nonterminal{type} \terminal{,} \nonterminal{simple-expression} \terminal{,} \nonterminal{simple-expression} \terminal{)} \\
-	\terminal{append} \terminal{(} \nonterminal{simple-expression} \terminal{,} \nonterminal{append-values} \terminal{)} \\
+	\terminal{append} \terminal{(} \nonterminal{object-selector} \terminal{,} \nonterminal{append-values} \terminal{)} \\
+	\terminal{append} \terminal{(} \terminal{*} \nonterminal{unary-expression} \terminal{,} \nonterminal{append-values} \terminal{)} \\
 	\terminal{free} \terminal{(} \nonterminal{simple-expression} \terminal{)} \\
 
 \nonterminaldef{append-values} \\
@@ -508,7 +509,37 @@ type, \terminal{null} shall be returned instead of aborting.
 
 \specsubsubitem
 The \terminal{append} form shall append a new value, or values, to a slice
-object.
+object specified by the \nonterminal{simple-expression}. The
+\nonterminal{simple-expression}'s result type shall be a mutable slice type.
+This slice type's member type shall be the \terminal{append}'s
+\textit{member type}. The result of an \terminal{append} shall be
+\terminal{void}.
+
+\specsubsubitem
+The \nonterminal{simple-expression} of the first and third cases of
+\nonterminal{append-values} shall have result types assignable to the
+\terminal{append}'s member type. The \nonterminal{simple-expression} of the
+second case of \nonterminal{append-values} shall have a result type assignable
+to the result type of the \terminal{append}'s \nonterminal{simple-expression}.
+
+\specsubsubitem
+The \terminal{append} shall increase the slice object's capacity, and
+potentially re-allocate its data field, in order to ensure that the capacity is
+large enough to store the current contents of the slice as well as the values
+appended by the \terminal{append}.
+
+\specsubsubitem
+The results of each \nonterminal{simple-expression} in the
+\nonterminal{append-values} shall be appended to the slice object in the
+order in which they appear. If the second case of the
+\nonterminal{append-values} is specified, each of its members shall be appended
+to the slice object in order.
+
+\specsubsubitem
+The side-effects of the \terminal{append}'s \nonterminal{simple-expression}
+shall occur before the side-effects of the \nonterminal{append-values}. The
+side-effects of the \nonterminal{append-values}'
+\nonterminal{simple-expression}s shall occur in the order in which they appear.
 
 \specsubsection{Assertions}
 
