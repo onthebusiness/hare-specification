@@ -128,8 +128,6 @@ type aliases. In a \nonterminal{type-binding}, the underlying type for the
 	\nonterminal{decl-attr} \\
 \end{grammar}
 
-% TODO: @test
-
 \specsubsubitem
 The first form of \nonterminal{function-declaration} is a \textit{prototype},
 and shall cause the \nonterminal{identifier} to refer to the function type
@@ -157,6 +155,13 @@ References: \secref{Initialization functions}, \secref{Finalization functions}
 \specsubsubitem
 If \terminal{@init}, \terminal{@fini}, \terminal{@test}, or
 \terminal{@noreturn} are given, the result type shall be \terminal{void}.
+
+\specsubsubitem
+The \terminal{@test} attribute indicates that a function is used for testing.
+The name of the function need not be unique within its namespace, and it shall
+not be inserted into the unit's scope. \terminal{@test} functions shall not be
+exported. Other semantics of \terminal{@test} functions are
+implementation-defined.
 
 \specsection{Units}
 
