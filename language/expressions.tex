@@ -1811,6 +1811,11 @@ each operand. A type cannot be promoted to \terminal{uintptr}.
 For expressions involving floating-point types, \terminal{f32} may be promoted
 to \terminal{f64}.
 
+\specsubitem
+For expressions involving pointer types, \terminal{null} may be promoted to any
+nullable pointer type, and a non-nullable pointer type may be promoted to
+a nullable pointer type with the same secondary type.
+
 \specsection{Translation compatible expression subset}
 
 The translation-compatible expression subset is a subset of expression types
