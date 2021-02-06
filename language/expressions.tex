@@ -853,7 +853,6 @@ secondary type of the slice or array type given by
 \nonterminaldef{object-selector} \\
 	\nonterminal{identifier} \\
 	\nonterminal{indexing-expression} \\
-	\nonterminal{slicing-expression} \\
 	\nonterminal{field-access-expression} \\
 \end{grammar}
 
@@ -1484,6 +1483,7 @@ expression shall terminate.
 \nonterminaldef{assignment} \\
 	\nonterminal{object-selector} \nonterminal{assignment-op} \nonterminal{complex-expression} \\
 	\terminal{*} \nonterminal{unary-expression} \nonterminal{assignment-op} \nonterminal{complex-expression} \\
+	\nonterminal{slicing-expression} \terminal{=} \nonterminal{complex-expression} \\
 
 \nonterminaldef{assignment-op} \oneof \\
 	\terminal{=}
@@ -1522,6 +1522,14 @@ In the second form, the \nonterminal{unary-expression} shall have a result type
 of a non-nullable, non-const pointer type, and the object which is assigned
 shall be the secondary object to which the pointer object refers. The second
 term shall be assignable to the pointer's secondary type.
+
+\specsubsubitem
+In the third form, the \nonterminal{complex-expression} shall be of a slice
+type, and shall have a length equal to the slice given by
+\nonterminal{slicing-expression}. The first term shall not be of a
+\terminal{const} type, and the lengths of the two slices shall be equal. The
+contents of the slice given by the second term shall be copied into the slice
+given by the first term.
 
 \specsubsubitem
 The second term shall be \textit{assignable} to the object. Assignability rules
