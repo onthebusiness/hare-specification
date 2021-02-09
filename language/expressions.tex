@@ -1825,6 +1825,21 @@ For expressions involving pointer types, \terminal{null} may be promoted to any
 nullable pointer type, and a non-nullable pointer type may be promoted to
 a nullable pointer type with the same secondary type.
 
+\specsubitem
+A mutable type may be promoted to a constant type which is otherwise equivalent
+to the mutable type, or any other type which that constant type may promote to.
+
+\specsubitem
+A pointer type may be promoted to another pointer type if the secondary type of
+the pointer may be promoted to the secondary type of the second pointer.
+
+\specsubitem
+An array type may promote to an array type with undefined size with an
+equivalent member type.
+
+\specsubitem
+A type may promote to an alias type with that underlying type.
+
 \specsection{Translation compatible expression subset}
 
 The translation-compatible expression subset is a subset of expression types
