@@ -89,14 +89,13 @@ The \terminal{void} keyword represents the \terminal{void} value of the
 	\terminal{e} \nonterminal{decimal-digits} \\
 \end{grammar}
 
-% TODO: consider using magic precision numeric constants which assume
-% their type from context
-
 Floating constants represent an IEEE 754-compatible floating-point
 number in either the binary32 or binary64 format.
 
 \specsubitem
-If the \nonterminal{floating-suffix} is not provided, the type shall be
+If the \nonterminal{floating-suffix} is not provided and a type hint is
+provided, the type shall be the type hint. If the \nonterminal{floating-suffix}
+is not provided and a type hint is not provided, the type shall be
 \terminal{f64}. Otherwise, the type shall refer to the type named by the suffix.
 
 \specsubitem
@@ -175,17 +174,16 @@ constant shall be multiplied by 10 to the power of
 	\terminal{u64} \\
 \end{grammar}
 
-% TODO: Consider using magic precision numeric constants which assume their
-% type from context
-
 Integer constants represent an integer value at a specific precision.
 
 \specsubitem
-If the \nonterminal{integer-suffix} is not provided, the type shall be
-\terminal{int}.  Otherwise, the type is specified by the suffix. Suffixes
-\terminal{i}, \terminal{u},  and \terminal{z} shall respectively refer to the
-\terminal{int}, \terminal{uint}, and \terminal{size} types; the remainder shall
-refer to the type named by the suffix.
+If the \nonterminal{integer-suffix} is not provided and a type hint is provided,
+the type shall be the type hint. If the \nonterminal{integer-suffix} is not
+provided and a type hint is not provided, the type shall be \terminal{int}. If
+the \nonterminal{integer-suffix} is provided, the type is specified by the
+suffix. Suffixes \terminal{i}, \terminal{u},  and \terminal{z} shall
+respectively refer to the \terminal{int}, \terminal{uint}, and \terminal{size}
+types; the remainder shall refer to the type named by the suffix.
 
 \specsubitem
 If the number provided is not within the limits of the precision of the
@@ -1871,6 +1869,20 @@ equivalent member type.
 
 \specsubitem
 A type may promote to an alias type with that underlying type.
+
+% TODO: This is an awful edge case, fix harec first
+% Ideally, constants wouldn't be lowered to int without a type hint, then we
+% could specify promotion and assignability normally for them and lower them to
+% int in bindings (and maybe some other places?)
+
+\specsubitem
+If one operand is a constant and the other is not, the constant shall receive
+the result type of the other operand as a type hint and type promotion shall be
+done between its result type and the other operand's result type.
+
+\specsubitem
+If both operands are constants, they shall both receive the lowest-precision
+integer type which would hold both of them as a type hint.
 
 \specsection{Translation compatible expression subset}
 
