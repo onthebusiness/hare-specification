@@ -8,6 +8,7 @@
 \nonterminaldef{storage-class} \\
 	\nonterminal{scalar-type} \\
 	\nonterminal{struct-union-type} \\
+	\nonterminal{tuple-type} \\
 	\nonterminal{tagged-union-type} \\
 	\nonterminal{slice-array-type} \\
 	\nonterminal{function-type} \\
@@ -396,6 +397,43 @@ order of their appearance in the program source.
 \specsubsubitem
 Each field name (including names of embedded fields) shall be unique within the
 set of all field names of the \nonterminal{struct-union-type}.
+
+\specsubsection{Tuple types}
+
+\begin{grammar}
+\nonterminaldef{tuple-type} \\
+	\terminal{(} \nonterminal{tuple-types} \terminal{)} \\
+
+\nonterminaldef{tuple-types} \\
+	\nonterminal{type} \terminal{,} \nonterminal{type} \optional{\terminal{,}}\\
+	\nonterminal{type} \terminal{,} \nonterminal{tuple-types} \\
+\end{grammar}
+
+\specsubsubitem
+A tuple type stores two or more values of arbitrary types in a specific order.
+It is similar to a struct type, but without names for each of its subvalues.
+Each value is stored at a given offset, possibly with padding added to meet
+alignment requirements.
+
+\specsubsubitem
+The offset of each value is equal to the minimum \textit{aligned} offset which
+would meet the alignment requirements of the value's type and which is greater
+than the offset of the previous value plus the size of the previous value. The
+implementation shall add \textit{padding} to meet the alignment requirements of
+tuple values.
+
+\specsubsubitem
+The size of a tuple is the sum of the sizes of its values plus any necessary
+padding. The alignment is the maximum alignment among its value types.
+
+\specsubsubitem
+The default value of a tuple type shall be defined such that its values assume
+the default values of their respective types. If any of the subtypes do not
+have a default value, neither does the tuple type.
+
+\specsubsubitem
+Two tuple types shall be equivalent to each other if they have the same value
+types in the same order.
 
 \specsubsection{Tagged union types}
 

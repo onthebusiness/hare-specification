@@ -431,6 +431,11 @@ given, its fields shall be interpreted as fields of the parent struct.
 \nonterminaldef{nested-expression} \\
 	\nonterminal{plain-expression} \\
 	\terminal{(} \nonterminal{complex-expression} \terminal{)} \\
+	\terminal{(} \nonterminal{tuple-items} \terminal{)} \\
+
+\nonterminaldef{tuple-items} \\
+	\nonterminal{complex-expression} \terminal{,} \nonterminal{complex-expression} \optional{\terminal{,}} \\
+	\nonterminal{complex-expression} \terminal{,} \nonterminal{tuple-items} \\
 \end{grammar}
 
 Forward references: \subsecref{Simple, complex, and compound expressions}
@@ -447,6 +452,15 @@ object.
 programmer to overcome constraints placed on the valid range of expression
 types in certain parts of the grammar, and to overcome undesirable
 associativity between operators.
+
+\specsubsubitem
+The \nonterminal{tuple-items} form of \nonterminal{nested-expression} shall
+describe a \textit{tuple expression}, and have a result type which is the tuple
+described by the types of its \nonterminal{complex-expressions} in the order
+that they appear. If a type hint is available, the tuple items may be assigned
+to the types of the respective tuple sub-types in the order that they appear.
+The implementation shall cause the side-effects of each
+\nonterminal{complex-expression} to occur in the order that they appear.
 
 \specsubsection{Allocations}
 
@@ -692,27 +706,28 @@ array, or the \code{length} field of a slice object, referred to by
 translation environment shall print a diagnostic message and abort.
 
 \specsubsubitem
-The \terminal{offset} expression shall determine the struct field which would be
-accessed by \nonterminal{field-access-expression} and compute its
-\textit{offset}.
+The \terminal{offset} expression shall determine the struct or tuple field
+which would be accessed by \nonterminal{field-access-expression} and compute
+its \textit{offset}.
 
 \specsubsection{Field access}
 
 \begin{grammar}
 \nonterminaldef{field-access-expression} \\
 	\nonterminal{postfix-expression} \terminal{.} \nonterminal{name} \\
+	\nonterminal{postfix-expression} \terminal{.} \nonterminal{integer-constant} \\
 \end{grammar}
 
 \specsubsubitem
 A \nonterminal{field-access-expression} is used to access fields of
-\subsecref{Struct and union types}. The result type of the
-\nonterminal{postfix-expression} shall be constrained to a set which includes
-all struct and union types, as well as non-nullable pointers whose secondary
-type is included in the set.
+\subsecref{Struct and union types} and \subsecref{Tuple types}. The result type
+of the \nonterminal{postfix-expression} shall be constrained to a set which
+includes all struct, union, and tuple types, as well as non-nullable pointers
+whose secondary type is included in the set.
 
 \informative{The result type of the \nonterminal{postfix-expression} can be a
-struct or union, a pointer to a struct or union, a pointer to a pointer to a
-struct or union, and so on.}
+struct or union or tuple, a pointer to a struct or union or tuple, a pointer to
+a pointer to a struct or union or tuple, and so on.}
 
 \specsubsubitem
 The object from which the field is selected shall be the struct or union object
@@ -721,21 +736,29 @@ via any number of pointer types if appropriate.
 
 \specsubsubitem
 If the \nonterminal{postfix-expression}'s result type is a union type, the
-result of the \nonterminal{field-access-expression} shall be the union's storage
-area interpreted as the type of the field named by \nonterminal{name}, and the
+first form shall be used. The result of the
+\nonterminal{field-access-expression} shall be the union's storage area
+interpreted as the type of the field named by \nonterminal{name}, and the
 result type of the expression shall be the type of the named field.
+
+\specsubsubitem
+If the \nonterminal{postfix-expression}'s result type is a struct type, the
+first form shall be used. The result of the
+\nonterminal{field-access-expression} shall be the value stored in the
+\nonterminal{name} field of the result of the \nonterminal{postfix-expression},
+and the result type of the expression shall be the type of the named field.
+
+\specsubsubitem
+If the \nonterminal{postfix-expression}'s result type is a tuple type,
+the second form shall be used. The result of the
+\nonterminal{field-access-expression} shall be the $N$th value stored in the
+tuple which is the result of the \nonterminal{postfix-expression}, and the
+result type of the expression shall be the type of the $N$th value.
 
 \specsubsubitem
 If the type of the struct object in the first term has the \terminal{const}
 flag, the result type shall also have the \terminal{const} flag set, regardless
 of the flag's value on the type of the named field.
-
-\specsubsubitem
-If the \nonterminal{postfix-expression}'s result type is a struct type,
-the result of the \nonterminal{field-access-expression} shall be the value
-stored in the \nonterminal{name} field of the result of the
-\nonterminal{postfix-expression}, and the result type of the expression shall be
-the type of the named field.
 
 \specsubsection{Indexing}
 
