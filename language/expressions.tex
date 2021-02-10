@@ -492,19 +492,21 @@ initializer shall be provided the given \nonterminal{type} as a type hint.
 In the case of an \terminal{alloc} of a pointer type, the execution environment
 shall allocate storage sufficient to store a value of the referent type, and
 initialize it to the value provided by \nonterminal{simple-expression}, which
-shall be assignable to that type. The pointer's referent type shall have a
-defined, nonzero size.
+shall be assignable to that type. The \nonterminal{simple-expression} shall
+receive the pointer's referent type as a type hint. The pointer's referent type
+shall have a defined, nonzero size.
 
 \specsubsubitem
 In the case of an \terminal{alloc} of a slice type, the initializer shall be of
 a slice or array type whose secondary type is equivalent to the
-\nonterminal{type}'s secondary type. The execution environment shall choose a
-capacity which shall be greater than or equal to the number of items in the
-initializer, then allocate an array of that capacity and set its $N$th value to
-the $N$th value of the initializer, for each value of $N$ between $0$
-(inclusive) and the length of the initializer (exclusive).  The result shall be
-a slice whose data field refers to this array, whose length is equal to the
-length of the initializer, and whose capacity is set to the allocated capacity.
+\nonterminal{type}'s secondary type. The initializer shall receive the slice
+type as a type hint. The execution environment shall choose a capacity which
+shall be greater than or equal to the number of items in the initializer, then
+allocate an array of that capacity and set its $N$th value to the $N$th value of
+the initializer, for each value of $N$ between $0$ (inclusive) and the length of
+the initializer (exclusive).  The result shall be a slice whose data field
+refers to this array, whose length is equal to the length of the initializer,
+and whose capacity is set to the allocated capacity.
 
 % TODO: Allow implementation to over-allocate with a given capacity
 \specsubsubitem
@@ -1289,7 +1291,8 @@ occur.
 \specsubsubitem
 An \nonterminal{if-expression} chooses which, if any, expression to evaluate
 based on a logical criteria. In all forms, the result type of
-\nonterminal{simple-expression} shall be \terminal{bool}.
+\nonterminal{simple-expression} shall be \terminal{bool}. If a type hint is
+provided, the \nonterminal{compound-expression} shall receive it as a type hint.
 
 \specsubsubitem
 When executing a \nonterminal{conditional-branch}, the implementation shall
@@ -1424,6 +1427,9 @@ expression occur before those of the selected case, and that side-effects of
 non-selected cases do not occur.
 
 \specsubsubitem
+If a type hint is provided, each branch shall receive it as a type hint.
+
+\specsubsubitem
 If a type hint is provided and all non-terminating branches are assignable to
 that type, the result type shall be the type given by the type hint. If the
 result types of all non-terminating cases are equivalent, the result type of
@@ -1488,6 +1494,9 @@ type.
 The implementation shall ensure that side-effects of the match value
 expression occur before those of the selected case, and that side-effects of
 non-selected cases do not occur.
+
+\specsubsubitem
+If a type hint is provided, each branch shall receive it as a type hint.
 
 \specsubsubitem
 If a type hint is provided and all non-terminating branches are assignable to

@@ -235,8 +235,10 @@ integer type; if it were to, a diagnostic message shall be shown instead per
 \specsubsubitem
 \nonterminal{simple-expression}, if specified, shall be evaluated in the
 translation environment and the resulting value shall be assigned to the
-corresponding \nonterminal{enum-value}. The result type must be assignable to
-the enum type's underlying integer type (ref \subsecref{Assignment}).
+corresponding \nonterminal{enum-value}. The \nonterminal{simple-expression}
+shall be provided the enum's type's underlying integer type as a type hint. The
+result type must be assignable to the enum type's underlying integer type (ref
+\subsecref{Assignment}).
 
 \specsubsubitem
 \nonterminal{simple-expression} shall be limited to the
