@@ -1626,7 +1626,7 @@ occur before side-effects of the second term.
 \begin{grammar}
 \nonterminaldef{binding-list} \\
 	\optional{\terminal{static}} \terminal{let} \nonterminal{bindings} \\
-	\terminal{const} \nonterminal{bindings} \\
+	\optional{\terminal{static}} \terminal{const} \nonterminal{bindings} \\
 
 \nonterminaldef{bindings} \\
 	\nonterminal{binding} \optional{\terminal{,}} \\
