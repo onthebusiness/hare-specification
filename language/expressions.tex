@@ -208,10 +208,18 @@ integer shall be multiplied by 10 to the power of \nonterminal{decimal-digits}.
 	\norm{Any character other than \terminal{\textbackslash} or \terminal{'}} \\
 	\nonterminal{escape-sequence} \\
 
-\nonterminaldef{escape-sequence} \\
+\nonterminaldef{escape-sequence} \exactly \\
 	\nonterminal{named-escape} \\
 	\terminal{\textbackslash{}x} \nonterminal{hex-digit} \nonterminal{hex-digit} \\
-	\terminal{\textbackslash{}u} \nonterminal{hex-digit} \nonterminal{hex-digit} \nonterminal{hex-digit} \nonterminal{hex-digit} \\
+	\terminal{\textbackslash{}u} \nonterminal{fourbyte} \\
+	\terminal{\textbackslash{}U} \nonterminal{eightbyte} \\
+
+
+\nonterminaldef{fourbyte} \exactly \\
+	\nonterminal{hex-digit} \nonterminal{hex-digit} \nonterminal{hex-digit} \nonterminal{hex-digit} \\
+
+\nonterminaldef{eightbyte} \exactly \\
+	\nonterminal{fourbyte} \nonterminal{fourbyte} \\
 
 \nonterminaldef{named-escape} \oneof \\
 	\terminal{\textbackslash0}
@@ -233,9 +241,10 @@ value of the rune shall be the Unicode codepoint representing
 \nonterminal{rune}.
 
 \specsubsubitem
-A \nonterminal{rune-constant} beginning with \terminal{\textbackslash{}x} or
-\terminal{\textbackslash{}u} shall interpet its value as a Unicode codepoint
-specified in its hexadecimal representation by \nonterminal{hex-digit}s.
+A \nonterminal{rune-constant} beginning with \terminal{\textbackslash{}x},
+\terminal{\textbackslash{}u}, or \terminal{\textbackslash{}U} shall interpet
+its value as a Unicode codepoint specified in its hexadecimal representation by
+\nonterminal{hex-digit}s.
 
 \specsubsubitem
 A \nonterminal{rune-constant} containing a \nonterminal{named-escape} shall have
