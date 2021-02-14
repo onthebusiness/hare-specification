@@ -382,6 +382,10 @@ shall be limited to the \subsecref{Translation compatible expression subset},
 and shall have an integer type and a positive or zero value.
 
 \specsubsubitem
+The \nonterminal{offset-specifier} shall not be given for a \terminal{union}
+type.
+
+\specsubsubitem
 A union type's size is the maximum size among its fields. A struct type's size
 is the maximum value of $S$ for $S = O+Z$ among its fields, where $O$ is that
 field's offset and $Z$ is that field's size.
