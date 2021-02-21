@@ -478,6 +478,8 @@ The implementation shall cause the side-effects of each
 	\terminal{append} \terminal{(} \nonterminal{object-selector} \terminal{,} \nonterminal{append-values} \terminal{)} \\
 	\terminal{append} \terminal{(} \terminal{*} \nonterminal{unary-expression} \terminal{,} \nonterminal{append-values} \terminal{)} \\
 	\terminal{free} \terminal{(} \nonterminal{simple-expression} \terminal{)} \\
+	\terminal{delete} \terminal{(} \nonterminal{slicing-expression} \terminal{)} \\
+	\terminal{delete} \terminal{(} \nonterminal{indexing-expression} \terminal{)} \\
 
 \nonterminaldef{append-values} \\
 	\nonterminal{simple-expression} \optional{\terminal{,}} \\
@@ -563,6 +565,23 @@ The side-effects of the \terminal{append}'s \nonterminal{simple-expression}
 shall occur before the side-effects of the \nonterminal{append-values}. The
 side-effects of the \nonterminal{append-values}'
 \nonterminal{simple-expression}s shall occur in the order in which they appear.
+
+\specsubsubitem
+The \terminal{delete} form shall delete a section of a slice object specified by
+the \nonterminal{slicing-expression} or \nonterminal{indexing-expression}'s
+\nonterminal{postfix-expression}. The \nonterminal{postfix-expression} shall
+have a slice result type.
+
+\specsubsubitem
+The \nonterminal{delete} shall remove the members selected by the
+\nonterminal{slicing-expression} or \nonterminal{indexing-expression} from the
+data field of the slice object. If there is at least one member which follows
+the selected members, they shall be moved such that the first member following
+the selected members is moved to the index of the first selected member and each
+member following it maintains its position relative to the first selected
+member. The \nonterminal{delete} may decrease the slice object's capacity, and
+potentially re-allocate its data field, so long as the new capacity is large
+enough to store the new contents of the slice.
 
 \specsubsection{Assertions}
 
