@@ -1413,8 +1413,8 @@ condition evaluates to \terminal{false}.
 	\nonterminal{switch-case} \terminal{,} \nonterminal{switch-cases} \\
 
 \nonterminaldef{switch-case} \\
-	\nonterminal{case-options} \terminal{=>} \nonterminal{compound-expression} \\
-	\terminal{*} \terminal{=>} \nonterminal{compound-expression} \\
+	\nonterminal{case-options} \terminal{=>} \nonterminal{scope-expression} \\
+	\terminal{*} \terminal{=>} \nonterminal{scope-expression} \\
 
 \nonterminaldef{case-options} \\
 	\nonterminal{simple-expression} \optional{\terminal{,}} \\
@@ -1477,9 +1477,9 @@ expression shall terminate.
 	\nonterminal{match-case} \terminal{,} \nonterminal{match-cases} \\
 
 \nonterminaldef{match-case} \\
-	\nonterminal{name} \terminal{:} \nonterminal{type} \terminal{=>} \nonterminal{compound-expression} \\
-	\nonterminal{type} \terminal{=>} \nonterminal{compound-expression} \\
-	\terminal{*} \terminal{=>} \nonterminal{compound-expression} \\
+	\nonterminal{name} \terminal{:} \nonterminal{type} \terminal{=>} \nonterminal{scope-expression} \\
+	\nonterminal{type} \terminal{=>} \nonterminal{scope-expression} \\
+	\terminal{*} \terminal{=>} \nonterminal{scope-expression} \\
 \end{grammar}
 
 \specsubsubitem
