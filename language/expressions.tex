@@ -905,15 +905,12 @@ error flag set among its member types.
 \specsubsubitem
 The result type of an error propagation expression shall be the same as the
 type of the \nonterminal{postfix-expression}, without its error cases, or
-\terminal{void} if no non-error types remain. If the type is a tagged union,
-the result is a tagged union whose member types are the subset of the original
-type which do not include the error flag; or, if there is only one such type,
-that type without a tagged union; or, if there are no such types,
-\terminal{void}. If the type is not a tagged union, but has the error flag set,
-the result type of the error propagation is \terminal{void}. If there are no
-types with the error flag among the constituent types of the
-\nonterminal{postfix-expression}, the translation phase shall abort with a
-diagnostic message.
+\terminal{void} if no non-error types remain. The result is a tagged union
+whose member types are the subset of the original type which do not include the
+error flag; or, if there is only one such type, that type without a tagged
+union; or, if there are no such types, \terminal{void}. If the original type is
+not a tagged union type, the translation phase shall abort with a diagnostic
+message.
 
 \specsubsubitem
 An error propagation expression shall test that the result value of the
