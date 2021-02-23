@@ -1,9 +1,12 @@
 \specsection{Types}
 
 \begin{grammar}
+
 \nonterminaldef{type} \\
-	\nonterminal{storage-class} \\
-	\terminal{const} \nonterminal{storage-class} \\
+	\nonterminal{type-const} \optional{\terminal{!}} \\
+
+\nonterminaldef{type-const} \\
+	\optional{\terminal{const}} \nonterminal{storage-class} \\
 
 \nonterminaldef{storage-class} \\
 	\nonterminal{scalar-type} \\
@@ -28,7 +31,8 @@
 \specsubitem
 A type defines the storage and semantics of a value. The attributes common to
 all types are its \textit{size}, in octets; \textit{alignment}; its
-\textit{constant} or \textit{mutable} nature; and its \textit{default value}.
+\textit{constant} or \textit{mutable} nature; its \textit{error flag}, or lack
+thereof; and its \textit{default value}, which may be undefined.
 
 \specsubitem
 The implementation shall assign a globally unique ID to every type, in a
@@ -38,9 +42,10 @@ distinct types shall have distinct IDs.
 
 This specification details under what circumstances two types are equivalent to
 one another, and thus shall have the same ID. For all types, any two types are
-distinct if their type class, and their constant or mutable nature, are
-distinct. Each type class may impose additional distinguishing characteristics
-on their types, which are specified in their respective sections.
+distinct if their type class, their constant or mutable nature, and their error
+flag or lack thereof, are distinct. Each type class may impose additional
+distinguishing characteristics on their types, which are specified in their
+respective sections.
 
 \specsubitem
 Some types have an undefined size. This includes \nonterminal{function-type},
@@ -55,6 +60,10 @@ abort the translation phase.
 The \terminal{const} terminal, when used in a type specifier, enables the
 constant flag and prohibits write operations on any value of that type. Types
 without this attribute are considered mutable by default.
+
+\specsubitem
+The \terminal{!} terminal, when used in a type specifier, sets the
+error flag for this type.
 
 \specsubitem
 A scalar type, also called a \textit{built-in} or \textit{primitive} type,

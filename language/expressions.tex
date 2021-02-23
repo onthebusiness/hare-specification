@@ -1061,6 +1061,11 @@ special case; it is equivalent to casting the string's \textit{data} field to
 \terminal{*} \terminal{const} \terminal{char}.
 
 \specsubsubitem
+Except in the case of \terminal{str} to \terminal{*} \terminal{const}
+\terminal{char}, the \terminal{const} flag shall not affect the rules for
+casting one type to another. The same holds for the error flag as well.
+
+\specsubsubitem
 The third form is a \textit{type assertion}. In this form,
 \nonterminal{cast-expression} shall be of a tagged union type, and
 \nonterminal{type} shall be a constituent type of that tagged union. The
@@ -1633,7 +1638,8 @@ type.
 
 \specsubsubitem
 \terminal{const} types have the same assignability rules as the equivalent
-non-const type.
+non-const type. Types with the error flag set have the same assignability rules
+as the equivalent type with the flag unset.
 
 \informative{In the context of an assignment expression,
 \subsubitemref{Assignment}{2} prevents the modification of objects with a const
