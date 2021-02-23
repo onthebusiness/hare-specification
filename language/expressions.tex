@@ -889,6 +889,44 @@ secondary type of the slice or array type given by
 \nonterminal{postfix-expression}. The resulting slice type shall inherit the
 \nonterminal{const} attribute from this type.
 
+\specsubsection{Error propagation}
+
+\begin{grammar}
+\nonterminaldef{error-propagation} \\
+	\nonterminal{postfix-expression} \terminal{?} \\
+\end{grammar}
+
+\specsubsubitem
+\terminal{?} is the error propagation operator. The
+\nonterminal{postfix-expression} shall have a result type which is either a
+type with the error flag set, or a tagged union type which has a type with the
+error flag set among its member types.
+
+\specsubsubitem
+The result type of an error propagation expression shall be the same as the
+type of the \nonterminal{postfix-expression}, without its error cases, or
+\terminal{void} if no non-error types remain. If the type is a tagged union,
+the result is a tagged union whose member types are the subset of the original
+type which do not include the error flag; or, if there is only one such type,
+that type without a tagged union; or, if there are no such types,
+\terminal{void}. If the type is not a tagged union, but has the error flag set,
+the result type of the error propagation is \terminal{void}. If there are no
+types with the error flag among the constituent types of the
+\nonterminal{postfix-expression}, the translation phase shall abort with a
+diagnostic message.
+
+\specsubsubitem
+An error propagation expression shall test that the result value of the
+\nonterminal{postfix-expression} is of a non-error type, and if so, that value
+shall be the result of the error propagation expression. However, if the value
+is of an error type, that type shall be assignable to the current function's
+return type, and that value shall be returned from the function, causing the
+function to terminate.
+
+\specsubsubitem
+If a type hint is provided to the error propagation expression, the same type
+shall be provided to the \nonterminal{postfix-expression}.
+
 \specsubsection{Postfix expressions}
 
 \begin{grammar}
@@ -901,6 +939,7 @@ secondary type of the slice or array type given by
 	\nonterminal{indexing-expression} \\
 	\nonterminal{measurement-expression} \\
 	\nonterminal{slicing-expression} \\
+	\nonterminal{error-propegation} \\
 
 \nonterminaldef{object-selector} \\
 	\nonterminal{identifier} \\
