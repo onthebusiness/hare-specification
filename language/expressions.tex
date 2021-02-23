@@ -473,8 +473,8 @@ The implementation shall cause the side-effects of each
 
 \begin{grammar}
 \nonterminaldef{allocation-expression} \\
-	\terminal{alloc} \terminal{(} \nonterminal{type} \terminal{,} \nonterminal{simple-expression} \terminal{)} \\
-	\terminal{alloc} \terminal{(} \nonterminal{type} \terminal{,} \nonterminal{simple-expression} \terminal{,} \nonterminal{simple-expression} \terminal{)} \\
+	\terminal{alloc} \terminal{(} \nonterminal{simple-expression} \terminal{)} \\
+	\terminal{alloc} \terminal{(} \nonterminal{simple-expression} \terminal{,} \nonterminal{simple-expression} \terminal{)} \\
 	\terminal{append} \terminal{(} \nonterminal{object-selector} \terminal{,} \nonterminal{append-values} \terminal{)} \\
 	\terminal{append} \terminal{(} \terminal{*} \nonterminal{unary-expression} \terminal{,} \nonterminal{append-values} \terminal{)} \\
 	\terminal{free} \terminal{(} \nonterminal{simple-expression} \terminal{)} \\
@@ -492,39 +492,40 @@ An \nonterminal{allocation-expression} is used to manipulate objects allocated
 in the execution environment.
 
 \specsubsubitem
-In the \terminal{alloc} form, the \nonterminal{type} shall specify a pointer
-type or slice type, and this type shall be the result type of the expression.
-The first \nonterminal{simple-expression} term is the initializer. The
-initializer shall be provided the given \nonterminal{type} as a type hint.
+In the \terminal{alloc} form, the \nonterminal{simple-expression} is the
+initializer for a new object whose type shall be inferred from the type hint.
+If this type is a slice, the result type of \terminal{alloc} shall be that
+slice type, and the initializer shall be provided that slice type as a type
+hint. If the type hint is a pointer type, the result type shall be that type,
+and the initializer provided the pointer type's secondary as its type hint. In
+the case of any other type hint, or no type hint, the result type shall be a
+pointer type whose secondary is the result type of the initializer, and the
+initializer shall not be given a type hint.
 
 \specsubsubitem
 In the case of an \terminal{alloc} of a pointer type, the execution environment
 shall allocate storage sufficient to store a value of the referent type, and
-initialize it to the value provided by \nonterminal{simple-expression}, which
-shall be assignable to that type. The \nonterminal{simple-expression} shall
-receive the pointer's referent type as a type hint. The pointer's referent type
-shall have a defined, nonzero size.
+initialize it to the value provided by \nonterminal{simple-expression}. The
+pointer's referent type shall have a defined, nonzero size.
 
 \specsubsubitem
-In the case of an \terminal{alloc} of a slice type, the initializer shall be of
-a slice or array type whose secondary type is equivalent to the
-\nonterminal{type}'s secondary type. The initializer shall receive the slice
-type as a type hint. The execution environment shall choose a capacity which
-shall be greater than or equal to the number of items in the initializer, then
-allocate an array of that capacity and set its $N$th value to the $N$th value of
-the initializer, for each value of $N$ between $0$ (inclusive) and the length of
-the initializer (exclusive).  The result shall be a slice whose data field
-refers to this array, whose length is equal to the length of the initializer,
-and whose capacity is set to the allocated capacity.
+In the case of an \terminal{alloc} of a slice type, the execution environment
+shall choose a capacity which shall be greater than or equal to the number of
+items in the initializer, then allocate an array of that capacity and set each
+$N$th value to the $N$th value of the initializer, for each value of $N$
+between $0$ (inclusive) and the length of the initializer (exclusive).  The
+result shall be a slice whose data field refers to this array, whose length is
+equal to the length of the initializer, and whose capacity is set to the
+allocated capacity.
 
 % TODO: Allow implementation to over-allocate with a given capacity
 \specsubsubitem
 If the second form of \terminal{alloc} is used, the \nonterminal{type} shall
-specify a slice type, and the third term shall be assignable to \terminal{size}.
-The third term shall specify the capacity, which shall be greater than or equal
-to the length of the initializer. The execution environment shall use this
-capacity rather than one of its own choosing, and in other respects the
-semantics shall be the same as the first form.
+specify a slice type, and the second term shall be assignable to
+\terminal{size}.  The second term shall specify the capacity, which shall be
+greater than or equal to the length of the initializer. The execution
+environment shall use this capacity rather than one of its own choosing, and in
+other respects the semantics shall be the same as the first form.
 
 \specsubsubitem
 In the \terminal{alloc} form, if the execution environment is unable to
