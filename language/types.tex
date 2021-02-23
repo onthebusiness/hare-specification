@@ -3,10 +3,7 @@
 \begin{grammar}
 
 \nonterminaldef{type} \\
-	\nonterminal{type-const} \optional{\terminal{!}} \\
-
-\nonterminaldef{type-const} \\
-	\optional{\terminal{const}} \nonterminal{storage-class} \\
+	\optional{\terminal{const}} \nonterminal{type-const} \optional{\terminal{!}} \\
 
 \nonterminaldef{storage-class} \\
 	\nonterminal{scalar-type} \\
