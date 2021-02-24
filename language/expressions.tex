@@ -1707,6 +1707,12 @@ occur before side-effects of the second term.
 \nonterminaldef{binding} \\
 	\nonterminal{name} \terminal{=} \nonterminal{complex-expression} \\
 	\nonterminal{name} \terminal{:} \nonterminal{type} \terminal{=} \nonterminal{complex-expression} \\
+	\nonterminal{binding-names} \terminal{=} \nonterminal{complex-expression} \\
+	\nonterminal{binding-names} \terminal{:} \nonterminal{type} \terminal{=} \nonterminal{complex-expression} \\
+
+\nonterminaldef{binding-names} \\
+	\nonterminal{name} \terminal{,} \nonterminal{name} \\
+	\nonterminal{name} \terminal{,} \nonterminal{binding-names} \\
 \end{grammar}
 
 \specsubsubitem
@@ -1723,6 +1729,18 @@ second form, the type shall be as indicated, and the result type of the
 \nonterminal{complex-expression} shall be assignable to this type. In this
 second form, the type specified is used as a type hint for the
 \nonterminal{complex-expression}.
+
+\specsubsubitem
+The third and fourth forms of \nonterminal{binding} are the \textit{tuple
+unpacking} form, and in this case, the \nonterminal{type} and
+\nonterminal{complex-expression} shall be of a tuple type with a number of
+values equal to the number of times \nonterminal{name} is given. The
+implementation shall create separate bindings for each name, of the type of the
+corresponding tuple value, and initialize them to that value from the tuple.
+
+\specsubsubitem
+If any \nonterminal{name} is \terminal{\_} (an underscore), a binding shall not
+be created, but any side-effects of the initializer shall still occur.
 
 \specsubsubitem
 If the \terminal{const} form is used, the type of each binding shall be
