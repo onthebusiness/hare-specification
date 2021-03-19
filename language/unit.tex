@@ -131,7 +131,7 @@ type aliases. In a \nonterminal{type-binding}, the underlying type for the
 \specsubsubitem
 The first form of \nonterminal{function-declaration} is a \textit{prototype},
 and shall cause the \nonterminal{identifier} to refer to the function type
-described by the \nonterminal{protototype} and the function attributes. The
+described by the \nonterminal{prototype} and the function attributes. The
 implementation of this function shall be provided separately, or the
 translation phase shall fail.
 
@@ -141,8 +141,13 @@ and its implementation. The result type of the expression shall be assignable
 to the prototype's result type. The function shall be available in the unit
 scope by its \nonterminal{name}, and available to other units by forming a
 fully-qualified identifier from the unit namespace and the \nonterminal{name}.
-In this form, the \nonterminal{name} of each parameter in the
-\nonterminal{prototype} is mandatory.
+
+\specsubsubitem
+In the second form of \nonterminal{function-declaration}, each
+\nonterminal{parameter} in the \nonterminal{prototype} which uses the
+\nonterminal{name} form shall be available within the
+\nonterminal{complex-expression} by its \nonterminal{name}. Those which use the
+\terminal{\_} form shall not be made available.
 
 \specsubsubitem
 The \terminal{@fini} form of \nonterminal{fndec-attr} shall cause the
