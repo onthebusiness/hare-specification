@@ -290,7 +290,7 @@ If the first form of \nonterminal{string-constant} is used, the string's
 \textit{data} field shall refer to a UTF-8 encoded sequence of Unicode
 codepoints, ascertained by encoding the sequence of \nonterminal{string-char}s
 given in order, after interpreting escape codes per
-\subsubitemref{Rune constants}{17}, plus a NUL terminator.
+\subsubitemref{Rune constants}{17}.
 
 \specsubsubitem
 If the second form of \nonterminal{string-constant} is used, the string's
@@ -301,7 +301,7 @@ codepoints, ascertained by concatenating the \textit{data} field of the first
 
 \specsubsubitem
 The \textit{length} and \textit{capacity} fields shall be set to the length in
-octets of the encoded UTF-8 data, not including the NUL terminator.
+octets of the encoded UTF-8 data.
 
 \specsubsection{Array literals}
 
@@ -1053,7 +1053,6 @@ Array and slice types & Any array or slice type \\
 Slice types & Any pointer to an array type \\
 Type alias & Any type the underlying type could cast to \\
 Any type & Any type alias with an underlying type it may be cast to \\
-\terminal{str} & \terminal{*} \terminal{const} \terminal{char} \\
 \terminal{u8} & \terminal{char} \\
 \terminal{char} & \terminal{u8} \\
 \terminal{rune} & \terminal{u32} \\
@@ -1094,14 +1093,8 @@ and back again may truncate towards the least significant bit and is not
 guaranteed to yield the same pointer.}
 
 \specsubsubitem
-Casting a \terminal{str} to \terminal{*} \terminal{const} \terminal{char} is a
-special case; it is equivalent to casting the string's \textit{data} field to
-\terminal{*} \terminal{const} \terminal{char}.
-
-\specsubsubitem
-Except in the case of \terminal{str} to \terminal{*} \terminal{const}
-\terminal{char}, the \terminal{const} flag shall not affect the rules for
-casting one type to another. The same holds for the error flag as well.
+The \terminal{const} flag shall not affect the rules for casting one type to
+another. The same holds for the error flag as well.
 
 \specsubsubitem
 The third form is a \textit{type assertion}. In this form,
