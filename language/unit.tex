@@ -172,7 +172,7 @@ implementation-defined.
 
 \begin{grammar}
 \nonterminaldef{sub-unit}\\
-	\optional{\nonterminal{imports}} \nonterminal{declarations}\\
+	\optional{\nonterminal{imports}} \optional{\nonterminal{declarations}}\\
 
 \nonterminaldef{imports}\\
 	\nonterminal{use-statement}\\
@@ -191,6 +191,8 @@ implementation-defined.
 \specsubitem
 A unit, or translation unit, is composed of several source files as described
 by \secref{Translation steps}. Each source file is a \nonterminal{sub-unit}.
+A specific sub-unit may have no declarations, but the unit shall contain at
+least one declaration among its sub-units.
 
 \specsubitem
 An \nonterminal{import} shall declare a dependency between this translation
