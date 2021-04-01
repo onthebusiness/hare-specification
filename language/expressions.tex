@@ -1405,6 +1405,7 @@ expression shall terminate.
 
 \nonterminaldef{for-predicate} \\
 	\nonterminal{simple-expression} \\
+	\nonterminal{binding-list} \terminal{;} \nonterminal{simple-expression} \\
 	\nonterminal{simple-expression} \terminal{;} \nonterminal{scope-expression} \\
 	\nonterminal{binding-list} \terminal{;} \nonterminal{simple-expression} \terminal{;} \nonterminal{scope-expression} \\
 
@@ -1422,12 +1423,13 @@ labelled.
 
 \specsubsubitem
 In the first form, \nonterminal{for-predicate} specifies the \textit{condition}
-with its \nonterminal{simple-expression}. In the second form, the first
-expression is the condition, and the second expression is the
-\textit{afterthought}. In the third form, the \nonterminal{binding} is the
-\textit{binding}, and the two expressions are respectively the condition and
-afterthought. The result type of the condition shall be \terminal{bool}, and
-this shall be provided as a type hint.
+with its \nonterminal{simple-expression}. In the second form, the
+\nonterminal{binding-list} is the \textit{binding} and the expression is the
+condition. In the second form, the first expression is the condition, and the
+second expression is the \textit{afterthought}. In the third form, the
+\nonterminal{binding-list} is the binding, and the two expressions are
+respectively the condition and afterthought. The result type of the condition
+shall be \terminal{bool}, and this shall be provided as a type hint.
 
 \specsubsubitem
 The implementation shall establish a new scope for the
