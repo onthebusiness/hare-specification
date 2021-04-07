@@ -310,16 +310,16 @@ octets of the encoded UTF-8 data.
 	\terminal{[} \nonterminal{array-members} \terminal{]} \\
 
 \nonterminaldef{array-members} \\
-	\nonterminal{simple-expression} \optional{\terminal{,}} \\
-	\nonterminal{simple-expression} \terminal{...} \optional{\terminal{,}} \\
-	\nonterminal{simple-expression} \terminal{,} \nonterminal{array-members} \\
+	\nonterminal{expression} \optional{\terminal{,}} \\
+	\nonterminal{expression} \terminal{...} \optional{\terminal{,}} \\
+	\nonterminal{expression} \terminal{,} \nonterminal{array-members} \\
 \end{grammar}
 
 Forward references: \subsecref{Simple, complex, and compound expressions}
 
 \specsubsubitem
 An \nonterminal{array-literal} expression produces a value of an array type.
-The type of each \nonterminal{simple-expression} shall be uniform and shall
+The type of each \nonterminal{expression} shall be uniform and shall
 determine the member type of the array value, and the length of the array type
 shall be defined by the number of members.
 
@@ -377,8 +377,8 @@ translation phase shall abort.
 	\nonterminal{field-values} \terminal{,} \nonterminal{field-value} \\
 
 \nonterminaldef{field-value} \\
-	\nonterminal{name} \terminal{=} \nonterminal{simple-expression} \\
-	\nonterminal{name} \terminal{:} \nonterminal{type} \terminal{=} \nonterminal{complex-expression} \\
+	\nonterminal{name} \terminal{=} \nonterminal{expression} \\
+	\nonterminal{name} \terminal{:} \nonterminal{type} \terminal{=} \nonterminal{expression} \\
 	\nonterminal{struct-literal} \\
 \end{grammar}
 
@@ -437,12 +437,12 @@ given, its fields shall be interpreted as fields of the parent struct.
 
 \nonterminaldef{nested-expression} \\
 	\nonterminal{plain-expression} \\
-	\terminal{(} \nonterminal{complex-expression} \terminal{)} \\
+	\terminal{(} \nonterminal{expression} \terminal{)} \\
 	\terminal{(} \nonterminal{tuple-items} \terminal{)} \\
 
 \nonterminaldef{tuple-items} \\
-	\nonterminal{complex-expression} \terminal{,} \nonterminal{complex-expression} \optional{\terminal{,}} \\
-	\nonterminal{complex-expression} \terminal{,} \nonterminal{tuple-items} \\
+	\nonterminal{expression} \terminal{,} \nonterminal{expression} \optional{\terminal{,}} \\
+	\nonterminal{expression} \terminal{,} \nonterminal{tuple-items} \\
 \end{grammar}
 
 Forward references: \subsecref{Simple, complex, and compound expressions}
@@ -456,35 +456,33 @@ object.
 
 \specsubsubitem
 \nonterminal{nested-expression} is an expression class provided to allow the
-programmer to overcome constraints placed on the valid range of expression
-types in certain parts of the grammar, and to overcome undesirable
-associativity between operators.
+programmer to overcome undesirable associativity between operators.
 
 \specsubsubitem
 The \nonterminal{tuple-items} form of \nonterminal{nested-expression} shall
 describe a \textit{tuple expression}, and have a result type which is the tuple
-described by the types of its \nonterminal{complex-expressions} in the order
-that they appear. If a type hint is available, the tuple items may be assigned
-to the types of the respective tuple sub-types in the order that they appear.
-The implementation shall cause the side-effects of each
-\nonterminal{complex-expression} to occur in the order that they appear.
+described by the types of its \nonterminal{expression}s in the order that they
+appear. If a type hint is available, the tuple items may be assigned to the
+types of the respective tuple sub-types in the order that they appear. The
+implementation shall cause the side-effects of each \nonterminal{expression} to
+occur in the order that they appear.
 
 \specsubsection{Allocations}
 
 \begin{grammar}
 \nonterminaldef{allocation-expression} \\
-	\terminal{alloc} \terminal{(} \nonterminal{simple-expression} \terminal{)} \\
-	\terminal{alloc} \terminal{(} \nonterminal{simple-expression} \terminal{,} \nonterminal{simple-expression} \terminal{)} \\
+	\terminal{alloc} \terminal{(} \nonterminal{expression} \terminal{)} \\
+	\terminal{alloc} \terminal{(} \nonterminal{expression} \terminal{,} \nonterminal{expression} \terminal{)} \\
 	\terminal{append} \terminal{(} \nonterminal{object-selector} \terminal{,} \nonterminal{append-values} \terminal{)} \\
 	\terminal{append} \terminal{(} \terminal{*} \nonterminal{unary-expression} \terminal{,} \nonterminal{append-values} \terminal{)} \\
-	\terminal{free} \terminal{(} \nonterminal{simple-expression} \terminal{)} \\
+	\terminal{free} \terminal{(} \nonterminal{expression} \terminal{)} \\
 	\terminal{delete} \terminal{(} \nonterminal{slicing-expression} \terminal{)} \\
 	\terminal{delete} \terminal{(} \nonterminal{indexing-expression} \terminal{)} \\
 
 \nonterminaldef{append-values} \\
-	\nonterminal{simple-expression} \optional{\terminal{,}} \\
-	\terminal{...} \nonterminal{simple-expression} \optional{\terminal{,}} \\
-	\nonterminal{simple-expression} \terminal{,} \nonterminal{append-values} \\
+	\nonterminal{expression} \optional{\terminal{,}} \\
+	\terminal{...} \nonterminal{expression} \optional{\terminal{,}} \\
+	\nonterminal{expression} \terminal{,} \nonterminal{append-values} \\
 \end{grammar}
 
 \specsubsubitem
@@ -492,21 +490,21 @@ An \nonterminal{allocation-expression} is used to manipulate objects allocated
 in the execution environment.
 
 \specsubsubitem
-In the \terminal{alloc} form, the \nonterminal{simple-expression} is the
-initializer for a new object whose type shall be inferred from the type hint.
-If this type is a slice, the result type of \terminal{alloc} shall be that
-slice type, and the initializer shall be provided that slice type as a type
-hint. If the type hint is a pointer type, the result type shall be that type,
-and the initializer provided the pointer type's secondary as its type hint. In
-the case of any other type hint, or no type hint, the result type shall be a
-pointer type whose secondary is the result type of the initializer, and the
-initializer shall not be given a type hint.
+In the \terminal{alloc} form, the \nonterminal{expression} is the initializer
+for a new object whose type shall be inferred from the type hint. If this type
+is a slice, the result type of \terminal{alloc} shall be that slice type, and
+the initializer shall be provided that slice type as a type hint. If the type
+hint is a pointer type, the result type shall be that type, and the initializer
+provided the pointer type's secondary as its type hint. In the case of any other
+type hint, or no type hint, the result type shall be a pointer type whose
+secondary is the result type of the initializer, and the initializer shall not
+be given a type hint.
 
 \specsubsubitem
 In the case of an \terminal{alloc} of a pointer type, the execution environment
 shall allocate storage sufficient to store a value of the referent type, and
-initialize it to the value provided by \nonterminal{simple-expression}. The
-pointer's referent type shall have a defined, nonzero size.
+initialize it to the value provided by \nonterminal{expression}. The pointer's
+referent type shall have a defined, nonzero size.
 
 \specsubsubitem
 In the case of an \terminal{alloc} of a slice type, the execution environment
@@ -535,18 +533,17 @@ type, \terminal{null} shall be returned instead of aborting.
 
 \specsubsubitem
 The \terminal{append} form shall append a new value, or values, to a slice
-object specified by the \nonterminal{simple-expression}. The
-\nonterminal{simple-expression}'s result type shall be a mutable slice type.
-This slice type's member type shall be the \terminal{append}'s
-\textit{member type}. The result of an \terminal{append} shall be
-\terminal{void}.
+object specified by the \nonterminal{expression}. The \nonterminal{expression}'s
+result type shall be a mutable slice type.  This slice type's member type shall
+be the \terminal{append}'s \textit{member type}. The result of an
+\terminal{append} shall be \terminal{void}.
 
 \specsubsubitem
-The \nonterminal{simple-expression} of the first and third cases of
+The \nonterminal{expression} of the first and third cases of
 \nonterminal{append-values} shall have result types assignable to the
-\terminal{append}'s member type. The \nonterminal{simple-expression} of the
-second case of \nonterminal{append-values} shall have a result type assignable
-to the result type of the \terminal{append}'s \nonterminal{simple-expression}.
+\terminal{append}'s member type. The \nonterminal{expression} of the second case
+of \nonterminal{append-values} shall have a result type assignable to the result
+type of the \terminal{append}'s \nonterminal{expression}.
 
 \specsubsubitem
 The \terminal{append} shall increase the slice object's capacity, and
@@ -555,17 +552,16 @@ large enough to store the current contents of the slice as well as the values
 appended by the \terminal{append}.
 
 \specsubsubitem
-The results of each \nonterminal{simple-expression} in the
-\nonterminal{append-values} shall be appended to the slice object in the
-order in which they appear. If the second case of the
-\nonterminal{append-values} is specified, each of its members shall be appended
-to the slice object in order.
+The results of each \nonterminal{expression} in the \nonterminal{append-values}
+shall be appended to the slice object in the order in which they appear. If the
+second case of the \nonterminal{append-values} is specified, each of its members
+shall be appended to the slice object in order.
 
 \specsubsubitem
-The side-effects of the \terminal{append}'s \nonterminal{simple-expression}
-shall occur before the side-effects of the \nonterminal{append-values}. The
-side-effects of the \nonterminal{append-values}'
-\nonterminal{simple-expression}s shall occur in the order in which they appear.
+The side-effects of the \terminal{append}'s \nonterminal{expression} shall occur
+before the side-effects of the \nonterminal{append-values}. The
+side-effects of the \nonterminal{append-values}' \nonterminal{expression}s shall
+occur in the order in which they appear.
 
 \specsubsubitem
 The \terminal{delete} form shall delete a section of a slice object specified by
@@ -588,10 +584,10 @@ enough to store the new contents of the slice.
 
 \begin{grammar}
 \nonterminaldef{assertion-expression} \\
-	\terminal{assert} \terminal{(} \nonterminal{simple-expression} \terminal{)} \\
-	\terminal{assert} \terminal{(} \nonterminal{simple-expression} \terminal{,} \nonterminal{string-constant} \terminal{)} \\
-	\terminal{static} \terminal{assert} \terminal{(} \nonterminal{simple-expression} \terminal{)} \\
-	\terminal{static} \terminal{assert} \terminal{(} \nonterminal{simple-expression} \terminal{,} \nonterminal{string-constant} \terminal{)} \\
+	\terminal{assert} \terminal{(} \nonterminal{expression} \terminal{)} \\
+	\terminal{assert} \terminal{(} \nonterminal{expression} \terminal{,} \nonterminal{string-constant} \terminal{)} \\
+	\terminal{static} \terminal{assert} \terminal{(} \nonterminal{expression} \terminal{)} \\
+	\terminal{static} \terminal{assert} \terminal{(} \nonterminal{expression} \terminal{,} \nonterminal{string-constant} \terminal{)} \\
 	\terminal{abort} \terminal{(} \optional{\nonterminal{string-constant}} \terminal{)} \\
 \end{grammar}
 % TODO: Specify the calling semantics for sys::assert and sys::abort
@@ -605,8 +601,8 @@ programmer by \textit{asserting} its truth. The result type of a
 \nonterminal{assertion-expression} is \terminal{void}.
 
 \specsubsubitem
-\nonterminal{simple-expression} shall be an expression of type
-\terminal{bool}, which shall be provided to it as a type hint.
+\nonterminal{expression} shall be an expression of type \terminal{bool}, which
+shall be provided to it as a type hint.
 
 \specsubsubitem
 In the first two forms, this expression shall be evaluated
@@ -615,9 +611,9 @@ printed and the execution phase aborted. The programmer may provide the
 \nonterminal{string-constant} to be included in the diagnostic message.
 
 \specsubsubitem
-In the \terminal{static} form, \nonterminal{simple-expression} shall be limited
-to the \secref{Translation compatible expression subset}, shall be evaluated
-in the translation environment, and is otherwise equivalent to the other forms.
+In the \terminal{static} form, \nonterminal{expression} shall be limited to the
+\secref{Translation compatible expression subset}, shall be evaluated in the
+translation environment, and is otherwise equivalent to the other forms.
 
 \specsubsubitem
 The \terminal{abort} form shall cause the execution environment to print a
@@ -632,9 +628,9 @@ abort is a terminating expression.
 	\nonterminal{postfix-expression} \terminal{(} \optional{\nonterminal{argument-list}} \terminal{)} \\
 
 \nonterminaldef{argument-list} \\
-	\nonterminal{complex-expression} \optional{\terminal{,}} \\
-	\nonterminal{complex-expression} \terminal{...} \optional{\terminal{,}} \\
-	\nonterminal{complex-expression} \terminal{,} \nonterminal{argument-list} \\
+	\nonterminal{expression} \optional{\terminal{,}} \\
+	\nonterminal{expression} \terminal{...} \optional{\terminal{,}} \\
+	\nonterminal{expression} \terminal{,} \nonterminal{argument-list} \\
 \end{grammar}
 
 Forward references: \subsecref{Simple, complex, and compound expressions}
@@ -712,7 +708,7 @@ the call expression is considered to terminate.
 	\terminal{size} \terminal{(} \nonterminal{type} \terminal{)} \\
 
 \nonterminaldef{length-expression} \\
-	\terminal{len} \terminal{(} \nonterminal{complex-expression} \terminal{)} \\
+	\terminal{len} \terminal{(} \nonterminal{expression} \terminal{)} \\
 
 \nonterminaldef{offset-expression} \\
 	\terminal{offset} \terminal{(} \nonterminal{field-access-expression} \terminal{)} \\
@@ -731,8 +727,8 @@ The \terminal{size} expression shall compute the \textit{size} of the specified
 \specsubsubitem
 The \terminal{len} expression shall compute the \textit{length} of a bounded
 array, or the \code{length} field of a slice object, referred to by
-\nonterminal{postfix-expression}. If an unbounded array object is given, the
-translation environment shall print a diagnostic message and abort.
+\nonterminal{expression}. If an unbounded array object is given, the translation
+environment shall print a diagnostic message and abort.
 
 \specsubsubitem
 The \terminal{offset} expression shall determine the struct or tuple field
@@ -793,15 +789,15 @@ of the flag's value on the type of the named field.
 
 \begin{grammar}
 \nonterminaldef{indexing-expression} \\
-	\nonterminal{postfix-expression} \terminal{[} \nonterminal{simple-expression} \terminal{]} \\
+	\nonterminal{postfix-expression} \terminal{[} \nonterminal{expression} \terminal{]} \\
 \end{grammar}
 
 \specsubsubitem
 An \nonterminal{indexing-expression} shall access a specific value of a slice
-or array type. The \nonterminal{simple-expression} shall have an integer result
-type. The result type of the \nonterminal{postfix-expression} shall be
-constrained to a set which includes all slice and array types, as well as
-non-nullable pointers whose secondary type is included in the set.
+or array type. The \nonterminal{expression} shall have an integer result type.
+The result type of the \nonterminal{postfix-expression} shall be constrained to
+a set which includes all slice and array types, as well as non-nullable pointers
+whose secondary type is included in the set.
 
 \informative{The result type of the \nonterminal{postfix-expression} can be a
 slice or array, a pointer to a slice or array, a pointer to a pointer to a
@@ -824,8 +820,8 @@ flag set, regardless of the flag's value on the secondary type.
 
 \specsubsubitem
 The execution environment shall compute the result of
-\nonterminal{simple-expression} to obtain $N$ for selecting the \textit{N} per
-the algorithm given in \subsecref{Slice and array types}.
+\nonterminal{expression} to obtain $N$ for selecting the \textit{N} per the
+algorithm given in \subsecref{Slice and array types}.
 
 \specsubsubitem
 The execution environment shall perform a \textit{bounds test} on the value of
@@ -844,14 +840,14 @@ it fails.
 
 \begin{grammar}
 \nonterminaldef{slicing-expression} \\
-	\nonterminal{postfix-expression} \terminal{[} \optional{\nonterminal{simple-expression}} \terminal{..} \optional{\nonterminal{simple-expression}} \terminal{]} \\
+	\nonterminal{postfix-expression} \terminal{[} \optional{\nonterminal{expression}} \terminal{..} \optional{\nonterminal{expression}} \terminal{]} \\
 \end{grammar}
 
 \specsubsubitem
 A \nonterminal{slicing-expression} shall have a result type of
 \nonterminal{slice}, which is computed a subset of a slice or array object.
-The optional \nonterminal{simple-expression}s shall have an integer result type.
-The result type of the \nonterminal{postfix-expression} shall be constrained to
+The optional \nonterminal{expression}s shall have an integer result type. The
+result type of the \nonterminal{postfix-expression} shall be constrained to
 a set which includes all slice and array types, as well as non-nullable pointers
 whose secondary type is included in the set.
 
@@ -865,10 +861,10 @@ the \nonterminal{postfix-expression} refers to, selecting that object indirectly
 via any number of pointer types if appropriate.
 
 \specsubsubitem
-The first \nonterminal{simple-expression} shall compute value $L$, and the
-second shall compute $H$. If absent, $L = 0$ and $H = \code{length}$, where
-\code{length} shall be equal to the length of a bounded array type or the
-length of a slice type, represented in either case by the result of
+The first \nonterminal{expression} shall compute value $L$, and the second shall
+compute $H$. If absent, $L = 0$ and $H = \code{length}$, where \code{length}
+shall be equal to the length of a bounded array type or the length of a slice
+type, represented in either case by the result of
 \nonterminal{postfix-expression}. If $H$ is not specified, and
 \nonterminal{postfix-expression} is of an unbounded array type, the translation
 environment shall abort.
@@ -1345,25 +1341,25 @@ occur.
 \nonterminaldef{if-expression} \\
 	\terminal{if} \nonterminal{conditional-branch} \\
 	\terminal{if} \nonterminal{conditional-branch} \terminal{else} \nonterminal{if-expression} \\
-	\terminal{if} \nonterminal{conditional-branch} \terminal{else} \nonterminal{compound-expression} \\
+	\terminal{if} \nonterminal{conditional-branch} \terminal{else} \nonterminal{expression} \\
 
 \nonterminaldef{conditional-branch} \\
-	\terminal{(} \nonterminal{simple-expression} \terminal{)} \nonterminal{compound-expression} \\
+	\terminal{(} \nonterminal{expression} \terminal{)} \nonterminal{expression} \\
 \end{grammar}
 
 \specsubsubitem
 An \nonterminal{if-expression} chooses which, if any, expression to evaluate
 based on a logical criteria. In all forms, the result type of
-\nonterminal{simple-expression} shall be \terminal{bool}. If a type hint is
-provided, the \nonterminal{compound-expression} shall receive it as a type hint.
+\nonterminal{expression} shall be \terminal{bool}. If a type hint is provided,
+the \nonterminal{expression} shall receive it as a type hint.
 
 \specsubsubitem
 When executing a \nonterminal{conditional-branch}, the implementation shall
-evaluate the \\ \nonterminal{simple-expression} (the \textit{condition}), and
-if \terminal{true}, the implementation shall execute the corresponding
-\nonterminal{compound-expression} (the \textit{branch}), ensuring that all
-side-effects occur. If the condition is \terminal{false}, the branch shall not
-be executed and shall not cause side-effects.
+evaluate the \\ \nonterminal{expression} (the \textit{condition}), and if
+\terminal{true}, the implementation shall execute the corresponding
+\nonterminal{expression} (the \textit{branch}), ensuring that all side-effects
+occur. If the condition is \terminal{false}, the branch shall not be executed
+and shall not cause side-effects.
 
 \specsubsubitem
 In the second form, the first \nonterminal{conditional-branch} shall be
@@ -1373,8 +1369,8 @@ case, any side-effects of the second condition or branch shall not occur.
 
 \specsubsubitem
 In the third form, the \nonterminal{conditional-branch} shall be executed. If
-it was \terminal{false}, the \nonterminal{compound-expression} shall be
-executed, and all of its side-effects shall occur.
+it was \terminal{false}, the \nonterminal{expression} shall be executed, and all
+of its side-effects shall occur.
 
 \specsubsubitem
 In the first form, the result type is \terminal{void}. In the second form, the
@@ -1401,13 +1397,13 @@ expression shall terminate.
 
 \begin{grammar}
 \nonterminaldef{for-loop} \\
-	\optional{\nonterminal{label}} \terminal{for} \terminal{(} \nonterminal{for-predicate} \terminal{)} \nonterminal{compound-expression} \\
+	\optional{\nonterminal{label}} \terminal{for} \terminal{(} \nonterminal{for-predicate} \terminal{)} \nonterminal{expression} \\
 
 \nonterminaldef{for-predicate} \\
-	\nonterminal{simple-expression} \\
-	\nonterminal{binding-list} \terminal{;} \nonterminal{simple-expression} \\
-	\nonterminal{simple-expression} \terminal{;} \nonterminal{scope-expression} \\
-	\nonterminal{binding-list} \terminal{;} \nonterminal{simple-expression} \terminal{;} \nonterminal{scope-expression} \\
+	\nonterminal{expression} \\
+	\nonterminal{binding-list} \terminal{;} \nonterminal{expression} \\
+	\nonterminal{expression} \terminal{;} \nonterminal{expression} \\
+	\nonterminal{binding-list} \terminal{;} \nonterminal{expression} \terminal{;} \nonterminal{expression} \\
 
 \nonterminaldef{label}\exactly \\
 	\terminal{:} \nonterminal{name} \\
@@ -1415,15 +1411,15 @@ expression shall terminate.
 % XXX: We may want to narrow the afterthought's expression class
 
 \specsubsubitem
-A \nonterminal{for-loop} executes its \nonterminal{compound-expression} zero or
-more times, so long as a condition is true. Its result type is \terminal{void}.
+A \nonterminal{for-loop} executes its \nonterminal{expression} zero or more
+times, so long as a condition is true. Its result type is \terminal{void}.
 If the \nonterminal{label} is present, the expression is \textit{labelled}, and
 the label must be unique among all anscestors of the for loop which are
 labelled.
 
 \specsubsubitem
 In the first form, \nonterminal{for-predicate} specifies the \textit{condition}
-with its \nonterminal{simple-expression}. In the second form, the
+with its \nonterminal{expression}. In the second form, the
 \nonterminal{binding-list} is the \textit{binding} and the expression is the
 condition. In the second form, the first expression is the condition, and the
 second expression is the \textit{afterthought}. In the third form, the
@@ -1433,10 +1429,10 @@ shall be \terminal{bool}, and this shall be provided as a type hint.
 
 \specsubsubitem
 The implementation shall establish a new scope for the
-\nonterminal{compound-expression}, then, if present, it shall evaluate the
+\nonterminal{expression}, then, if present, it shall evaluate the
 \nonterminal{binding} in this scope. The implementation shall then evaluate the
-condition. If it is \terminal{true}, the \nonterminal{compound-expression}
-shall be evaluated and all of its side-effects shall occur; this process is an
+condition. If it is \terminal{true}, the \nonterminal{expression} shall be
+evaluated and all of its side-effects shall occur; this process is an
 \textit{iteration}. When the iteration is complete, the implementation shall
 evaluate the afterthought, if present, and then repeat the process, until the
 condition evaluates to \terminal{false}.
@@ -1445,35 +1441,35 @@ condition evaluates to \terminal{false}.
 
 \begin{grammar}
 \nonterminaldef{switch-expression} \\
-	\terminal{switch} \terminal{(} \nonterminal{simple-expression} \terminal{)} \terminal{\{} \nonterminal{switch-cases} \terminal{\}} \\
+	\terminal{switch} \terminal{(} \nonterminal{expression} \terminal{)} \terminal{\{} \nonterminal{switch-cases} \terminal{\}} \\
 
 \nonterminaldef{switch-cases} \\
 	\nonterminal{switch-case} \optional{\terminal{,}} \\
 	\nonterminal{switch-case} \terminal{,} \nonterminal{switch-cases} \\
 
 \nonterminaldef{switch-case} \\
-	\nonterminal{case-options} \terminal{=>} \nonterminal{scope-expression} \\
-	\terminal{*} \terminal{=>} \nonterminal{scope-expression} \\
+	\nonterminal{case-options} \terminal{=>} \nonterminal{expression} \\
+	\terminal{*} \terminal{=>} \nonterminal{expression} \\
 
 \nonterminaldef{case-options} \\
-	\nonterminal{simple-expression} \optional{\terminal{,}} \\
-	\nonterminal{simple-expression} \terminal{,} \nonterminal{case-options} \\
+	\nonterminal{expression} \optional{\terminal{,}} \\
+	\nonterminal{expression} \terminal{,} \nonterminal{case-options} \\
 \end{grammar}
 
 \specsubsubitem
-A switch statement evaluates a value (\nonterminal{simple-expression}, the
+A switch statement evaluates a value (\nonterminal{expression}, the
 \textit{switching expression}), then compares it with a number of
 \nonterminal{switch-cases}, taking whichever branch matches the value.
 
 \specsubsubitem
 Each of the \nonterminal{case-options} specifies a value to compare with, given
-by \nonterminal{simple-expression}. This expression shall be limited to the 
+by \nonterminal{expression}. This expression shall be limited to the
 \secref{Translation compatible expression subset}, and its result type shall be
 equivalent to the result type of the switching expression. The implementation
-shall evaluate the \nonterminal{compound-expression} of the corresponding
+shall evaluate the \nonterminal{expression} of the corresponding
 \nonterminal{switch-case} if any of the \nonterminal{case-options} is equal to
 the switching expression's result, setting the result of the overall switch
-expression to the result of the selected \nonterminal{compound-expression}.
+expression to the result of the selected \nonterminal{expression}.
 
 \specsubsubitem
 The \terminal{*} form of \nonterminal{switch-case} indicates any case which is
@@ -1509,20 +1505,20 @@ expression shall terminate.
 
 \begin{grammar}
 \nonterminaldef{match-expression} \\
-	\terminal{match} \terminal{(} \nonterminal{simple-expression} \terminal{)} \terminal{\{} \nonterminal{match-cases} \terminal{\}} \\
+	\terminal{match} \terminal{(} \nonterminal{expression} \terminal{)} \terminal{\{} \nonterminal{match-cases} \terminal{\}} \\
 
 \nonterminaldef{match-cases} \\
 	\nonterminal{match-case} \optional{\terminal{,}} \\
 	\nonterminal{match-case} \terminal{,} \nonterminal{match-cases} \\
 
 \nonterminaldef{match-case} \\
-	\nonterminal{name} \terminal{:} \nonterminal{type} \terminal{=>} \nonterminal{scope-expression} \\
-	\nonterminal{type} \terminal{=>} \nonterminal{scope-expression} \\
-	\terminal{*} \terminal{=>} \nonterminal{scope-expression} \\
+	\nonterminal{name} \terminal{:} \nonterminal{type} \terminal{=>} \nonterminal{expression} \\
+	\nonterminal{type} \terminal{=>} \nonterminal{expression} \\
+	\terminal{*} \terminal{=>} \nonterminal{expression} \\
 \end{grammar}
 
 \specsubsubitem
-A match statement evaluates a value (\nonterminal{simple-expression}, the
+A match statement evaluates a value (\nonterminal{expression}, the
 \textit{matching expression}), then selects and evaluates another expression
 based on its result type. The result type of the matching expression must be a
 tagged union or nullable pointer type, or an alias of either.
@@ -1547,7 +1543,7 @@ match expression.
 The first form of \nonterminal{match-case}, if selected, shall cause the
 implementation to cast the match expression to the selected type and assign the
 resulting value to \nonterminal{name}. It shall insert this binding into a new
-scope which applies to the \nonterminal{compound-expression}.
+scope which applies to the \nonterminal{expression}.
 
 \specsubsubitem
 The match cases shall be \textit{exhaustive}, meaning that every possible type
@@ -1578,9 +1574,9 @@ expression shall terminate.
 
 \begin{grammar}
 \nonterminaldef{assignment} \\
-	\nonterminal{object-selector} \nonterminal{assignment-op} \nonterminal{complex-expression} \\
-	\terminal{*} \nonterminal{unary-expression} \nonterminal{assignment-op} \nonterminal{complex-expression} \\
-	\nonterminal{slicing-expression} \terminal{=} \nonterminal{complex-expression} \\
+	\nonterminal{object-selector} \nonterminal{assignment-op} \nonterminal{expression} \\
+	\terminal{*} \nonterminal{unary-expression} \nonterminal{assignment-op} \nonterminal{expression} \\
+	\nonterminal{slicing-expression} \terminal{=} \nonterminal{expression} \\
 
 \nonterminaldef{assignment-op} \oneof \\
 	\terminal{=}
@@ -1621,7 +1617,7 @@ shall be the secondary object to which the pointer object refers. The second
 term shall be assignable to the pointer's secondary type.
 
 \specsubsubitem
-In the third form, the \nonterminal{complex-expression} shall be of a slice
+In the third form, the \nonterminal{expression} shall be of a slice
 type, and shall have a length equal to the slice given by
 \nonterminal{slicing-expression}. The first term shall not be of a
 \terminal{const} type, and the lengths of the two slices shall be equal. The
@@ -1680,7 +1676,7 @@ type. However, the \textit{assignability} rules are referred to in many other
 contexts throughout the specification, and in these contexts, unless otherwise
 specified, non-const types are assignable to const types. For example, a
 \nonterminal{binding} which specifies a const \nonterminal{type} may use a
-non-const type for its \nonterminal{complex-expression}.}
+non-const type for its \nonterminal{expression}.}
 
 \specsubsubitem
 For assignment of \terminal{*} \terminal{const} \terminal{char} from
@@ -1702,10 +1698,10 @@ occur before side-effects of the second term.
 	\nonterminal{binding} \terminal{,} \nonterminal{bindings} \\
 
 \nonterminaldef{binding} \\
-	\nonterminal{name} \terminal{=} \nonterminal{complex-expression} \\
-	\nonterminal{name} \terminal{:} \nonterminal{type} \terminal{=} \nonterminal{complex-expression} \\
-	\nonterminal{binding-names} \terminal{=} \nonterminal{complex-expression} \\
-	\nonterminal{binding-names} \terminal{:} \nonterminal{type} \terminal{=} \nonterminal{complex-expression} \\
+	\nonterminal{name} \terminal{=} \nonterminal{expression} \\
+	\nonterminal{name} \terminal{:} \nonterminal{type} \terminal{=} \nonterminal{expression} \\
+	\nonterminal{binding-names} \terminal{=} \nonterminal{expression} \\
+	\nonterminal{binding-names} \terminal{:} \nonterminal{type} \terminal{=} \nonterminal{expression} \\
 
 \nonterminaldef{binding-names} \\
 	\nonterminal{name} \terminal{,} \nonterminal{name} \\
@@ -1716,24 +1712,23 @@ occur before side-effects of the second term.
 A \nonterminal{binding-list} shall cause one or more objects to become
 available in the present scope. Each object shall be identified by its
 \nonterminal{name}, and shall have its initial value set to the result of the
-\nonterminal{simple-expression} or \nonterminal{complex-expression}. The result
+\nonterminal{expression} or \nonterminal{expression}. The result
 type of a binding list expression is \terminal{void}.
 
 \specsubsubitem
 In the first form of \nonterminal{binding-list}, the type of the object shall
-be equivalent to the result type of the \nonterminal{simple-expression}. In the
+be equivalent to the result type of the \nonterminal{expression}. In the
 second form, the type shall be as indicated, and the result type of the
-\nonterminal{complex-expression} shall be assignable to this type. In this
-second form, the type specified is used as a type hint for the
-\nonterminal{complex-expression}.
+\nonterminal{expression} shall be assignable to this type. In this second form,
+the type specified is used as a type hint for the \nonterminal{expression}.
 
 \specsubsubitem
 The third and fourth forms of \nonterminal{binding} are the \textit{tuple
 unpacking} form, and in this case, the \nonterminal{type} and
-\nonterminal{complex-expression} shall be of a tuple type with a number of
-values equal to the number of times \nonterminal{name} is given. The
-implementation shall create separate bindings for each name, of the type of the
-corresponding tuple value, and initialize them to that value from the tuple.
+\nonterminal{expression} shall be of a tuple type with a number of values equal
+to the number of times \nonterminal{name} is given. The implementation shall
+create separate bindings for each name, of the type of the corresponding tuple
+value, and initialize them to that value from the tuple.
 
 \specsubsubitem
 If any \nonterminal{name} is \terminal{\_} (an underscore), a binding shall not
@@ -1763,9 +1758,9 @@ binding.
 \specsubsubitem
 If the second form of \nonterminal{binding} is used and the \nonterminal{name}
 is not already in use in this scope, the name shall be bound prior to the
-evaluation of the \nonterminal{complex-expression}, and may be used in the
-\nonterminal{complex-expression} \textit{only} as the object of the unary
-addressing operator (\terminal{\&}).
+evaluation of the \nonterminal{expression}, and may be used in the
+\nonterminal{expression} \textit{only} as the object of the unary addressing
+operator (\terminal{\&}).
 
 \specsubsubitem
 The type of the binding shall not use a type which has a zero or undefined size.
@@ -1774,7 +1769,7 @@ The type of the binding shall not use a type which has a zero or undefined size.
 
 \begin{grammar}
 \nonterminaldef{deferred-expression} \\
-	\terminal{defer} \nonterminal{scope-expression} \\
+	\terminal{defer} \nonterminal{expression} \\
 \end{grammar}
 
 \specsubsubitem
@@ -1783,9 +1778,9 @@ A \nonterminal{deferred-expression} causes another expression to be
 is \terminal{void}.
 
 \specsubsubitem
-The implementation shall cause the \nonterminal{scope-expression} to be
-evaluated upon the termination of the current scope, either due to normal
-program flow, or due to encountering a terminating expression.
+The implementation shall cause the \nonterminal{expression} to be evaluated
+upon the termination of the current scope, either due to normal program flow,
+or due to encountering a terminating expression.
 
 \specsubsubitem
 If several expressions are deferred in a single scope, their side-effects shall
@@ -1794,33 +1789,32 @@ occur in the same order that they appear in the program source.
 \specsubsubitem
 If the current scope is terminated before a \nonterminal{deferred-expression}
 (\informative{but not an expression which was already deferred}) would be
-evaluated, the side-effects of the \nonterminal{scope-expression} shall not
-occur.
+evaluated, the side-effects of the \nonterminal{expression} shall not occur.
 
 \specsubsubitem
 A \nonterminal{deferred-expression} shall not appear as a descendant of the
-expression tree formed by \nonterminal{scope-expression}.
+expression tree formed by \nonterminal{expression}.
 
 \specsubsection{Expression lists}
 
 \begin{grammar}
 \nonterminaldef{expression-list} \\
-	\nonterminal{scope-expression} \terminal{;} \\
-	\nonterminal{scope-expression} \terminal{;} \nonterminal{expression-list} \\
+	\nonterminal{expression} \terminal{;} \\
+	\nonterminal{expression} \terminal{;} \nonterminal{expression-list} \\
 \end{grammar}
 
 \specsubsubitem
 A \nonterminal{expression-list} evaluates any number of
-\nonterminal{scope-expression}s in sequence. The result of the
+\nonterminal{expression}s in sequence. The result of the
 \nonterminal{expression-list} shall be the result of the final
-\nonterminal{scope-expression}.
+\nonterminal{expression}.
 
 \specsubsubitem
 The expressions shall be evaluated such that the side-effects of each all occur
 in the order that each expression appears.
 
 \specsubsubitem
-If any of the \nonterminal{scope-expression}s terminate, the
+If any of the \nonterminal{expression}s terminate, the
 \nonterminal{expression-list} is considered to terminate.
 
 \specsubsubitem
@@ -1833,7 +1827,7 @@ the scope in which the \nonterminal{expression-list} resides.
 \nonterminaldef{control-statement} \\
 	\terminal{break} \optional{\nonterminal{label}} \\
 	\terminal{continue} \optional{\nonterminal{label}} \\
-	\terminal{return} \optional{\nonterminal{complex-expression}} \\
+	\terminal{return} \optional{\nonterminal{expression}} \\
 \end{grammar}
 
 \specsubsubitem
@@ -1860,10 +1854,10 @@ message shall be shown and the translation phase shall abort.
 \specsubsubitem
 The third form shall terminate the function the expression is a descendant of.
 If the function's result type is not \terminal{void}, the
-\nonterminal{complex-expression} shall be provided, and shall be assignable to
-the function's result type. It shall provide the result for the function. The
+\nonterminal{expression} shall be provided, and shall be assignable to the
+function's result type. It shall provide the result for the function. The
 result type of the enclosing function shall be provided as a type hint to the
-\nonterminal{complex-expression}.
+\nonterminal{expression}.
 
 \specsubsubitem
 In any of these cases, the implementation shall ensure that side-effects do not
@@ -1871,60 +1865,26 @@ occur for any expressions which are lexically situated \textit{after} the
 \nonterminal{control-statement} within the scope of the loop or function they
 influence.
 
-\specsubsection{High-level expression classes}
+\specsubsection{High-level expression class}
 
 \begin{grammar}
-\nonterminaldef{simple-expression} \\
+\nonterminaldef{expression} \\
+	\nonterminal{assignment} \\
+	\nonterminal{binding-list} \\
+	\nonterminal{deferred-expression} \\
 	\nonterminal{logical-or-expression} \\
-
-\nonterminaldef{complex-expression} \\
-	\nonterminal{simple-expression} \\
 	\nonterminal{if-expression} \\
 	\nonterminal{for-loop} \\
 	\nonterminal{switch-expression} \\
 	\nonterminal{match-expression} \\
-
-\nonterminaldef{scope-expression} \\
-	\nonterminal{assignment} \\
-	\nonterminal{binding-list} \\
-	\nonterminal{deferred-expression} \\
-	\nonterminal{complex-expression} \\
+	\nonterminal{control-statement} \\
 	\nonterminal{compound-expression} \\
 
 \nonterminaldef{compound-expression} \\
-	\nonterminal{complex-expression} \\
-	\nonterminal{control-statement} \\
 	\terminal{\{} \nonterminal{expression-list} \terminal{\}} \\
 	\terminal{\{} \nonterminal{control-statement} \terminal{;} \terminal{\}} \\
 	\terminal{\{} \nonterminal{expression-list} \terminal{;} \nonterminal{control-statement} \terminal{;} \terminal{\}} \\
 \end{grammar}
-
-\specsubsubitem
-\nonterminal{simple-expression}, \nonterminal{complex-expression},
-\nonterminal{scope-expression}, and \nonterminal{compound-expression} are
-high-level expression classes which are used to classify the kinds of
-expressions which are available in specific situations.
-
-\informative{
-\nonterminal{simple-expression} and \nonterminal{complex-expression} are
-available in most circumstances. A simple expression can encapsulate a
-complex-expression via \nonterminal{nested-expression} should the programmer
-consider themselves wiser than the language designer, but generally speaking a
-simple-expression will not branch or alter control flow.
-}
-
-\informative{
-\nonterminal{scope-expression} is available in context where new objects may
-be defined (\nonterminal{binding}, \nonterminal{allocation-expression}) and
-mutated (\nonterminal{assignment}).
-}
-
-\informative{
-\nonterminal{compound-expression} is used for lists of expressions evaluated in
-sequence, and expands the classification to include
-\nonterminal{control-statements}, which are used to influence the flow of
-expression evaluation within the sequence.
-}
 
 \specsection{Type promotion}
 

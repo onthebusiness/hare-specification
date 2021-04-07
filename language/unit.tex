@@ -37,7 +37,7 @@ The \terminal{export} keyword shall not be used with a
 	\nonterminal{global-bindings} \terminal{,} \nonterminal{global-binding} \\
 
 \nonterminaldef{global-binding} \\
-	\optional{\nonterminal{decl-attr}} \nonterminal{identifier} \terminal{:} \nonterminal{type} \terminal{=} \nonterminal{simple-expression} \\
+	\optional{\nonterminal{decl-attr}} \nonterminal{identifier} \terminal{:} \nonterminal{type} \terminal{=} \nonterminal{expression} \\
 
 \nonterminaldef{decl-attr} \\
 	\terminal{@symbol} \terminal{(} \nonterminal{string-constant} \terminal{)}
@@ -47,16 +47,16 @@ The \terminal{export} keyword shall not be used with a
 In a \nonterminal{global-declaration}, sufficient space shall be reserved for
 each \nonterminal{identifier} in the \nonterminal{global-bindings} to store
 the \nonterminal{type} associated with it. That storage shall be initialized to
-the value of the \nonterminal{simple-expression} and shall have alignment
-greater than or equal to the necessary alignment for the \nonterminal{type}. In
-the \terminal{const} form, the \nonterminal{type}s shall have the constant flag
+the value of the \nonterminal{expression} and shall have alignment greater than
+or equal to the necessary alignment for the \nonterminal{type}. In the
+\terminal{const} form, the \nonterminal{type}s shall have the constant flag
 enabled by default.
 
 \specsubsubitem
-A \nonterminal{global-binding}'s \nonterminal{simple-expression} shall be
-limited to the \secref{Translation compatible expression subset}, and shall be
-evaluated in the translation environment. The type of the value of the
-\nonterminal{simple-expression} shall assignable to \nonterminal{type}.
+A \nonterminal{global-binding}'s \nonterminal{expression} shall be limited to
+the \secref{Translation compatible expression subset}, and shall be evaluated
+in the translation environment. The type of the value of the
+\nonterminal{expression} shall assignable to \nonterminal{type}.
 
 \specsubsubitem
 The interpretation of the \terminal{@symbol} form of \nonterminal{decl-attr} is
@@ -73,7 +73,7 @@ implementation-defined.
 	\nonterminal{constant-bindings} \terminal{,} \nonterminal{constant-binding} \\
 
 \nonterminaldef{constant-binding} \\
-	\nonterminal{identifier} \terminal{:} \nonterminal{type} \terminal{=} \nonterminal{simple-expression} \\
+	\nonterminal{identifier} \terminal{:} \nonterminal{type} \terminal{=} \nonterminal{expression} \\
 \end{grammar}
 
 \specsubsubitem
@@ -81,14 +81,14 @@ In a \nonterminal{constant-declaration}, the \nonterminal{identifier}s in the
 \nonterminal{constant-binding} shall be available to the translation
 environment. No storage shall be allocated for them in the execution
 environment, and they shall not be addressable. References to them shall be
-equivalent to references to the \nonterminal{simple-expression} associated with
-them, with a cast to \nonterminal{type} inserted.
+equivalent to references to the \nonterminal{expression} associated with them,
+with a cast to \nonterminal{type} inserted.
 
 \specsubsubitem
-A \nonterminal{constant-binding}'s \nonterminal{simple-expression} shall be
-limited to the \secref{Translation compatible expression subset}, and shall be
-evaluated in the translation environment. The type of the value of the
-\nonterminal{simple-expression} shall assignable to \nonterminal{type}.
+A \nonterminal{constant-binding}'s \nonterminal{expression} shall be limited to
+the \secref{Translation compatible expression subset}, and shall be evaluated
+in the translation environment. The type of the value of the
+\nonterminal{expression} shall assignable to \nonterminal{type}.
 
 \specsubsection{Type declarations}
 
@@ -110,11 +110,8 @@ type aliases. In a \nonterminal{type-binding}, the underlying type for the
 
 \begin{grammar}
 \nonterminaldef{function-declaration} \\
-	\optional{\nonterminal{fndec-attrs}} \terminal{fn}
-		\nonterminal{identifier} \nonterminal{prototype} \\
-	\optional{\nonterminal{fndec-attrs}} \terminal{fn}
-		\nonterminal{name} \nonterminal{prototype} \terminal{=}
-		\nonterminal{complex-expression} \\
+	\optional{\nonterminal{fndec-attrs}} \terminal{fn} \nonterminal{identifier} \nonterminal{prototype} \\
+	\optional{\nonterminal{fndec-attrs}} \terminal{fn} \nonterminal{name} \nonterminal{prototype} \terminal{=} \nonterminal{expression} \\
 
 \nonterminaldef{fndec-attrs} \\
 	\nonterminal{fndec-attr} \\
@@ -145,9 +142,9 @@ fully-qualified identifier from the unit namespace and the \nonterminal{name}.
 \specsubsubitem
 In the second form of \nonterminal{function-declaration}, each
 \nonterminal{parameter} in the \nonterminal{prototype} which uses the
-\nonterminal{name} form shall be available within the
-\nonterminal{complex-expression} by its \nonterminal{name}. Those which use the
-\terminal{\_} form shall not be made available.
+\nonterminal{name} form shall be available within the \nonterminal{expression}
+by its \nonterminal{name}. Those which use the \terminal{\_} form shall not be
+made available.
 
 \specsubsubitem
 The \terminal{@fini} form of \nonterminal{fndec-attr} shall cause the

@@ -212,7 +212,7 @@ The \terminal{rune} type represents a Unicode codepoint, encoded as a
 
 \nonterminaldef{enum-value} \\
 	\nonterminal{name} \\
-	\nonterminal{name} \terminal{=} \nonterminal{simple-expression} \\
+	\nonterminal{name} \terminal{=} \nonterminal{expression} \\
 \end{grammar}
 
 \specsubsubitem
@@ -229,10 +229,10 @@ The size and alignment of an enum type is equivalent to those attributes of the
 underlying integer type.
 
 \specsubsubitem
-If the \nonterminal{enum-value} does not specify a
-\nonterminal{simple-expression}, the value assigned to that \nonterminal{name}
-is equal to the last value assigned to an \nonterminal{enum-value} of this enum
-type plus one. If no such previous value exists, zero is assigned.
+If the \nonterminal{enum-value} does not specify a \nonterminal{expression},
+the value assigned to that \nonterminal{name} is equal to the last value
+assigned to an \nonterminal{enum-value} of this enum type plus one. If no such
+previous value exists, zero is assigned.
 
 \specsubsubitem
 An implicitly assigned value shall not exceed the precision of the underlying
@@ -240,22 +240,22 @@ integer type; if it were to, a diagnostic message shall be shown instead per
 \secref{Diagnostics}.
 
 \specsubsubitem
-\nonterminal{simple-expression}, if specified, shall be evaluated in the
-translation environment and the resulting value shall be assigned to the
-corresponding \nonterminal{enum-value}. The \nonterminal{simple-expression}
-shall be provided the enum's type's underlying integer type as a type hint. The
-result type must be assignable to the enum type's underlying integer type (ref
+\nonterminal{expression}, if specified, shall be evaluated in the translation
+environment and the resulting value shall be assigned to the corresponding
+\nonterminal{enum-value}. The \nonterminal{expression} shall be provided the
+enum's type's underlying integer type as a type hint. The result type must be
+assignable to the enum type's underlying integer type (ref
 \subsecref{Assignment}).
 
 \specsubsubitem
 A temporary scope shall be allocated while loading an enum type, and each value
 name, in order, shall be made available to that scope.
 
-\informative{This allows the \nonterminal{simple-expression} for each value to
-refer to previously declared values.}
+\informative{This allows the \nonterminal{expression} for each value to refer
+to previously declared values.}
 
 \specsubsubitem
-\nonterminal{simple-expression} shall be limited to the
+\nonterminal{expression} shall be limited to the
 \secref{Translation compatible expression subset}.
 
 \specsubsubitem
@@ -357,7 +357,7 @@ storage.
 	\optional{offset-specifier} \nonterminal{identifier} \\
 
 \nonterminaldef{offset-specifier} \\
-	\terminal{@offset} \terminal{(} \nonterminal{simple-expression} \terminal{)}
+	\terminal{@offset} \terminal{(} \nonterminal{expression} \terminal{)}
 \end{grammar}
 
 \specsubsubitem
@@ -391,9 +391,9 @@ translation phase, or shall support unaligned memory accesses (perhaps at a
 cost to performance).
 
 \specsubsubitem
-The \nonterminal{simple-expression} given for the \nonterminal{offset-specifier}
-shall be limited to the \subsecref{Translation compatible expression subset},
-and shall have an integer type and a positive or zero value.
+The \nonterminal{expression} given for the \nonterminal{offset-specifier} shall
+be limited to the \subsecref{Translation compatible expression subset}, and
+shall have an integer type and a positive or zero value.
 
 \specsubsubitem
 The \nonterminal{offset-specifier} shall not be given for a \terminal{union}
@@ -535,7 +535,7 @@ parent's secondary types.
 \begin{grammar}
 \nonterminaldef{slice-array-type} \\
 	\terminal{[} \terminal{]} \nonterminal{type} \\
-	\terminal{[} \nonterminal{simple-expression} \terminal{]} \nonterminal{type} \\
+	\terminal{[} \nonterminal{expression} \terminal{]} \nonterminal{type} \\
 	\terminal{[} \terminal{*} \terminal{]} \nonterminal{type} \\
 	\terminal{[} \terminal{\_} \terminal{]} \nonterminal{type} \\
 \end{grammar}
@@ -547,11 +547,11 @@ and is specified during the translation phase. The secondary type shall have a
 definite, nonzero size.
 
 \specsubsubitem
-The \nonterminal{simple-expression} representation is used for array types of a
-determinate length, that is, with a determinate number of items. Such arrays are
-\textit{bounded}. The \nonterminal{simple-expression} must evaluate to a
-positive integer value, and shall be limited to the \subsecref{Translation
-compatible expression subset}.
+The \nonterminal{expression} representation is used for array types of a
+determinate length, that is, with a determinate number of items. Such arrays
+are \textit{bounded}. The \nonterminal{expression} must evaluate to a positive
+integer value, and shall be limited to the \subsecref{Translation compatible
+expression subset}.
 
 \specsubsubitem
 An array type may be \textit{unbounded}, in which case the number of items is
