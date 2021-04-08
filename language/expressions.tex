@@ -307,7 +307,7 @@ octets of the encoded UTF-8 data.
 
 \begin{grammar}
 \nonterminaldef{array-literal} \\
-	\terminal{[} \nonterminal{array-members} \terminal{]} \\
+	\terminal{[} \optional{\nonterminal{array-members}} \terminal{]} \\
 
 \nonterminaldef{array-members} \\
 	\nonterminal{expression} \optional{\terminal{,}} \\
@@ -327,7 +327,8 @@ shall be defined by the number of members.
 If a type hint has been provided to an array literal which is an array type (or
 a type alias which represents an array type), the member type will be inferred
 from this array type. The initializer expressions for each value among
-\nonterminal{array-members} shall receive this member type as a type hint.
+\nonterminal{array-members} shall receive this member type as a type hint. If
+the \nonterminal{array-members} is not specified, a type hint must be provided.
 
 \specsubsubitem
 The execution environment shall evaluate the \nonterminal{array-members},
