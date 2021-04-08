@@ -926,12 +926,9 @@ shall be provided to the \nonterminal{postfix-expression}.
 \begin{grammar}
 \nonterminaldef{postfix-expression} \\
 	\nonterminal{nested-expression} \\
-	\nonterminal{allocation-expression} \\
-	\nonterminal{assertion-expression} \\
 	\nonterminal{call-expression} \\
 	\nonterminal{field-access-expression} \\
 	\nonterminal{indexing-expression} \\
-	\nonterminal{measurement-expression} \\
 	\nonterminal{slicing-expression} \\
 	\nonterminal{error-propagation} \\
 
@@ -949,11 +946,22 @@ operators use postfix notation.
 \nonterminal{object-selector} defines a subset of postfix expressions which
 refer to objects, for use in other parts of the grammar.
 
+\specsubsection{Builtin expressions}
+
+\begin{grammar}
+\nonterminaldef{builtin-expression} \\
+	\nonterminal{allocation-expression} \\
+	\nonterminal{assertion-expression} \\
+	\nonterminal{deferred-expression} \\
+	\nonterminal{measurement-expression} \\
+	\nonterminal{postfix-expression} \\
+\end{grammar}
+
 \specsubsection{Unary arithmetic}
 
 \begin{grammar}
 \nonterminaldef{unary-expression} \\
-	\nonterminal{postfix-expression} \\
+	\nonterminal{builtin-expression} \\
 	\nonterminal{unary-operator} \nonterminal{unary-expression} \\
 	\terminal{\&} \nonterminal{object-selector} \\
 
@@ -1872,7 +1880,6 @@ influence.
 \nonterminaldef{expression} \\
 	\nonterminal{assignment} \\
 	\nonterminal{binding-list} \\
-	\nonterminal{deferred-expression} \\
 	\nonterminal{logical-or-expression} \\
 	\nonterminal{if-expression} \\
 	\nonterminal{for-loop} \\
