@@ -1937,7 +1937,8 @@ An array type may promote to an array type with undefined size with an
 equivalent member type.
 
 \specsubitem
-A type may promote to an alias type with that underlying type.
+A non-aliased type A may promote to a type alias B if type A may promote to the
+underlying type of type B.
 
 % TODO: This is an awful edge case, fix harec first
 % Ideally, constants wouldn't be lowered to int without a type hint, then we
