@@ -1836,14 +1836,14 @@ If a type hint is provided, the last expression shall receive it as a type hint.
 \specsubsection{Control statements}
 
 \begin{grammar}
-\nonterminaldef{control-statement} \\
+\nonterminaldef{control-expression} \\
 	\terminal{break} \optional{\nonterminal{label}} \\
 	\terminal{continue} \optional{\nonterminal{label}} \\
 	\terminal{return} \optional{\nonterminal{expression}} \\
 \end{grammar}
 
 \specsubsubitem
-\nonterminal{control-statement} causes an \nonterminal{expression-list} to
+\nonterminal{control-expression} causes an \nonterminal{expression-list} to
 terminate in a specific way. A control statement is a terminating expression
 and its result type is \terminal{void}.
 
@@ -1874,7 +1874,7 @@ result type of the enclosing function shall be provided as a type hint to the
 \specsubsubitem
 In any of these cases, the implementation shall ensure that side-effects do not
 occur for any expressions which are lexically situated \textit{after} the
-\nonterminal{control-statement} within the scope of the loop or function they
+\nonterminal{control-expression} within the scope of the loop or function they
 influence.
 
 \specsubsection{High-level expression class}
@@ -1888,13 +1888,11 @@ influence.
 	\nonterminal{for-loop} \\
 	\nonterminal{switch-expression} \\
 	\nonterminal{match-expression} \\
-	\nonterminal{control-statement} \\
+	\nonterminal{control-expression} \\
 	\nonterminal{compound-expression} \\
 
 \nonterminaldef{compound-expression} \\
 	\terminal{\{} \nonterminal{expression-list} \terminal{\}} \\
-	\terminal{\{} \nonterminal{control-statement} \terminal{;} \terminal{\}} \\
-	\terminal{\{} \nonterminal{expression-list} \terminal{;} \nonterminal{control-statement} \terminal{;} \terminal{\}} \\
 \end{grammar}
 
 \specsection{Type promotion}
