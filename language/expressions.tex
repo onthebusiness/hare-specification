@@ -1719,8 +1719,8 @@ occur before side-effects of the second term.
 \nonterminaldef{binding} \\
 	\nonterminal{name} \terminal{=} \nonterminal{expression} \\
 	\nonterminal{name} \terminal{:} \nonterminal{type} \terminal{=} \nonterminal{expression} \\
-	\nonterminal{binding-names} \terminal{=} \nonterminal{expression} \\
-	\nonterminal{binding-names} \terminal{:} \nonterminal{type} \terminal{=} \nonterminal{expression} \\
+	\terminal{(} \nonterminal{binding-names} \terminal{)}  \terminal{=} \nonterminal{expression} \\
+	\terminal{(} \nonterminal{binding-names} \terminal{)} \terminal{:} \nonterminal{type} \terminal{=} \nonterminal{expression} \\
 
 \nonterminaldef{binding-names} \\
 	\nonterminal{name} \terminal{,} \nonterminal{name} \\
