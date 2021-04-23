@@ -901,11 +901,11 @@ enough to store the new contents of the slice.
 The \terminal{insert} form shall ensure that the slice has sufficient capacity
 to store the items from \nonterminal{append-values} by reallocating the slice
 if necessary, then moving the items from the index specified by
-\nonterminal{indexing-expression} forward by the number of places required to
-insert the \nonterminal{append-values}, then inserting the appended values into
-the new space. The side-effects of the \nonterminal{indexing-expression} shall
-occur first, followed by the side effects of each appended value the order that
-they appear.
+\nonterminal{indexing-expression} (including the indexed item itself) forward
+by the number of places required to insert the \nonterminal{append-values},
+then inserting the appended values into the new space. The side-effects of the
+\nonterminal{indexing-expression} shall occur first, followed by the side
+effects of each appended value the order that they appear.
 
 \specsubsubitem
 The \terminal{static} forms of each of these expressions shall be equivalent to
