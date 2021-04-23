@@ -833,10 +833,10 @@ secondary type of the slice or array type given by
 
 \begin{grammar}
 \nonterminaldef{slice-mutation-expression} \\
-	\terminal{append} \terminal{(} \nonterminal{object-selector} \terminal{,} \nonterminal{append-values} \terminal{)} \\
-	\terminal{append} \terminal{(} \terminal{*} \nonterminal{unary-expression} \terminal{,} \nonterminal{append-values} \terminal{)} \\
-	\terminal{delete} \terminal{(} \nonterminal{slicing-expression} \terminal{)} \\
-	\terminal{delete} \terminal{(} \nonterminal{indexing-expression} \terminal{)} \\
+	\optional{\terminal{static}} \terminal{append} \terminal{(} \nonterminal{object-selector} \terminal{,} \nonterminal{append-values} \terminal{)} \\
+	\optional{\terminal{static}} \terminal{append} \terminal{(} \terminal{*} \nonterminal{unary-expression} \terminal{,} \nonterminal{append-values} \terminal{)} \\
+	\optional{\terminal{static}} \terminal{delete} \terminal{(} \nonterminal{indexing-expression} \terminal{)} \\
+	\optional{\terminal{static}} \terminal{delete} \terminal{(} \nonterminal{slicing-expression} \terminal{)} \\
 
 \nonterminaldef{append-values} \\
 	\nonterminal{expression} \optional{\terminal{,}} \\
@@ -892,6 +892,13 @@ member following it maintains its position relative to the first selected
 member. The \nonterminal{delete} may decrease the slice object's capacity, and
 potentially re-allocate its data field, so long as the new capacity is large
 enough to store the new contents of the slice.
+
+\specsubsubitem
+The \terminal{static} forms of each of these expressions shall be equivalent to
+the non-static forms except that they shall never cause the underlying slice to
+be resized. In the static form, if an operation would require more space than
+the current capacity of the slice provides, the implementation shall print a
+diagnostic message and abort the execution environment.
 
 \specsubsection{Error propagation}
 
