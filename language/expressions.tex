@@ -833,10 +833,14 @@ secondary type of the slice or array type given by
 
 \begin{grammar}
 \nonterminaldef{slice-mutation-expression} \\
-	\optional{\terminal{static}} \terminal{append} \terminal{(} \nonterminal{object-selector} \terminal{,} \nonterminal{append-values} \terminal{)} \\
-	\optional{\terminal{static}} \terminal{append} \terminal{(} \terminal{*} \nonterminal{unary-expression} \terminal{,} \nonterminal{append-values} \terminal{)} \\
+	\optional{\terminal{static}} \terminal{append} \terminal{(} \nonterminal{slice-reference} \terminal{,} \nonterminal{append-values} \terminal{)} \\
 	\optional{\terminal{static}} \terminal{delete} \terminal{(} \nonterminal{indexing-expression} \terminal{)} \\
 	\optional{\terminal{static}} \terminal{delete} \terminal{(} \nonterminal{slicing-expression} \terminal{)} \\
+	\optional{\terminal{static}} \terminal{insert} \terminal{(} \nonterminal{indexing-expression} \terminal{,} \nonterminal{append-values} \terminal{)} \\
+
+\nonterminaldef{slice-reference} \\
+	\nonterminal{object-selector} \\
+	\terminal{*} \nonterminal{unary-expression} \\
 
 \nonterminaldef{append-values} \\
 	\nonterminal{expression} \optional{\terminal{,}} \\
@@ -846,10 +850,10 @@ secondary type of the slice or array type given by
 
 \specsubsubitem
 The \terminal{append} form shall append a new value, or values, to a slice
-object specified by the \nonterminal{expression}. The \nonterminal{expression}'s
-result type shall be a mutable slice type.  This slice type's member type shall
-be the \terminal{append}'s \textit{member type}. The result of an
-\terminal{append} shall be \terminal{void}.
+object specified by the first argument. The \nonterminal{expression}'s result
+type shall be a mutable slice type. This slice type's member type shall be the
+\terminal{append}'s \textit{member type}. The result of an \terminal{append}
+shall be \terminal{void}.
 
 \specsubsubitem
 The \nonterminal{expression} of the first and third cases of
@@ -883,7 +887,7 @@ the \nonterminal{slicing-expression} or \nonterminal{indexing-expression}'s
 have a slice result type.
 
 \specsubsubitem
-The \nonterminal{delete} shall remove the members selected by the
+The \terminal{delete} form shall remove the members selected by the
 \nonterminal{slicing-expression} or \nonterminal{indexing-expression} from the
 data field of the slice object. If there is at least one member which follows
 the selected members, they shall be moved such that the first member following
@@ -892,6 +896,16 @@ member following it maintains its position relative to the first selected
 member. The \nonterminal{delete} may decrease the slice object's capacity, and
 potentially re-allocate its data field, so long as the new capacity is large
 enough to store the new contents of the slice.
+
+\specsubsubitem
+The \terminal{insert} form shall ensure that the slice has sufficient capacity
+to store the items from \nonterminal{append-values} by reallocating the slice
+if necessary, then moving the items from the index specified by
+\nonterminal{indexing-expression} forward by the number of places required to
+insert the \nonterminal{append-values}, then inserting the appended values into
+the new space. The side-effects of the \nonterminal{indexing-expression} shall
+occur first, followed by the side effects of each appended value the order that
+they appear.
 
 \specsubsubitem
 The \terminal{static} forms of each of these expressions shall be equivalent to
