@@ -919,10 +919,11 @@ diagnostic message and abort the execution environment.
 \begin{grammar}
 \nonterminaldef{error-propagation} \\
 	\nonterminal{postfix-expression} \terminal{?} \\
+	\nonterminal{postfix-expression} \terminal{!} \\
 \end{grammar}
 
 \specsubsubitem
-\terminal{?} is the error propagation operator. The
+\terminal{?} and \terminal{!} are the error propagation operators. The
 \nonterminal{postfix-expression} shall have a result type which is either a
 type with the error flag set, or a tagged union type which has a type with the
 error flag set among its member types.
@@ -938,12 +939,19 @@ not a tagged union type, the translation phase shall abort with a diagnostic
 message.
 
 \specsubsubitem
-An error propagation expression shall test that the result value of the
-\nonterminal{postfix-expression} is of a non-error type, and if so, that value
-shall be the result of the error propagation expression. However, if the value
-is of an error type, that type shall be assignable to the current function's
-return type, and that value shall be returned from the function, causing the
-function to terminate.
+An error propagation expression shall perform an \textit{error test} which
+checks if the result value of the \nonterminal{postfix-expression} is of a
+non-error type. If so, that value shall be the result of the error propagation
+expression.
+
+\specsubsubitem
+In the \terminal{?} form, if the error test fails (i.e. an error is found), the
+error type shall be assignable to the current function's return type, and that
+value shall be returned from the function, causing the function to terminate.
+
+\specsubsubitem
+In the \terminal{!} form, if the error test fails (i.e. an error is found), the
+execution environment shall print a diagnostic message and abort.
 
 \specsubsubitem
 If a type hint is provided to the error propagation expression, the same type
