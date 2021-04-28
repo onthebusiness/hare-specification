@@ -1566,8 +1566,7 @@ expression shall terminate.
 
 \nonterminaldef{match-case} \\
 	\nonterminal{name} \terminal{:} \nonterminal{type} \terminal{=>} \nonterminal{expression} \\
-	\terminal{\_} \terminal{:} \nonterminal{type} \terminal{=>} \nonterminal{expression} \\
-	\terminal{null} \terminal{=>} \nonterminal{expression} \\
+	\nonterminal{type} \terminal{=>} \nonterminal{expression} \\
 	\terminal{*} \terminal{=>} \nonterminal{expression} \\
 \end{grammar}
 
@@ -1598,14 +1597,6 @@ The first form of \nonterminal{match-case}, if selected, shall cause the
 implementation to cast the match expression to the selected type and assign the
 resulting value to \nonterminal{name}. It shall insert this binding into a new
 scope which applies to the \nonterminal{expression}.
-
-\specsubsubitem
-The \terminal{\_} form of \nonterminal{name}, shall discard the resulting value.
-
-\specsubsubitem
-The \terminal{null} form of \nonterminal{match-case} is identical to
-\terminal{\_} \terminal{:} \nonterminal{type} form with the type set to
-\terminal{null}.
 
 \specsubsubitem
 The match cases shall be \textit{exhaustive}, meaning that every possible type
