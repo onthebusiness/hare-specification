@@ -820,8 +820,8 @@ of an array type, the address of the array; or in the case of a slice type, the
 size of the slice or array's secondary type.
 
 \specsubsubitem
-The resulting slice value shall have its \code{length} and \code{capacity}
-fields set to $H - L$.
+The resulting slice value shall have its \code{length} field set to $H - L$,
+and its capacity field set to the \code{length} of the source object minus $L$.
 
 \specsubsubitem
 The secondary type of the resulting slice type shall be equivalent to the
