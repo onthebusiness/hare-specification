@@ -383,6 +383,9 @@ meet the alignment requirements of struct fields. For a union type, the offset
 of all members is zero.
 
 \specsubsubitem
+The type of each struct or union field shall have a definite, nonzero size.
+
+\specsubsubitem
 If given, the \nonterminal{offset-specifier} shall override the computed offset
 for a given field. If the user-defined offset for a field would not meet the
 alignment requirements for that type, the behavior is implementation-defined.
@@ -462,6 +465,9 @@ tuple values.
 \specsubsubitem
 The size of a tuple is the sum of the sizes of its values plus any necessary
 padding. The alignment is the maximum alignment among its value types.
+
+\specsubsubitem
+The type of each tuple value shall have a definite, nonzero size.
 
 \specsubsubitem
 The default value of a tuple type shall be defined such that its values assume
