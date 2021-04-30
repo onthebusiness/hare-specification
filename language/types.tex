@@ -458,12 +458,12 @@ alignment requirements.
 \specsubsubitem
 The offset of each value is equal to the minimum \textit{aligned} offset which
 would meet the alignment requirements of the value's type and which is greater
-than the offset of the previous value plus the size of the previous value. The
-implementation shall add \textit{padding} to meet the alignment requirements of
-tuple values.
+than the offset of the previous value plus the size of the previous value type.
+The implementation shall add \textit{padding} to meet the alignment
+requirements of tuple values.
 
 \specsubsubitem
-The size of a tuple is the sum of the sizes of its values plus any necessary
+The size of a tuple is the sum of the sizes of its value types plus any necessary
 padding. The alignment is the maximum alignment among its value types.
 
 \specsubsubitem
