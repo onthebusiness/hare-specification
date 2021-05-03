@@ -86,7 +86,15 @@ The \terminal{void} keyword represents the \terminal{void} value of the
 	\terminal{9} \\
 
 \nonterminaldef{exponent} \exactly \\
-	\terminal{e} \nonterminal{decimal-digits} \\
+	\nonterminal{exponent-char} \optional{\nonterminal{sign}} \nonterminal{decimal-digits} \\
+
+\nonterminaldef{sign} \oneof \\
+        \terminal{+}
+        \terminal{-} \\
+
+\nonterminaldef{exponent-char} \oneof \\
+        \terminal{e}
+        \terminal{E} \\
 \end{grammar}
 
 Floating constants represent an IEEE 754-compatible floating-point
