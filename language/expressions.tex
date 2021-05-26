@@ -1465,25 +1465,20 @@ expression shall terminate.
 
 \begin{grammar}
 \nonterminaldef{for-loop} \\
-	\optional{\nonterminal{label}} \terminal{for} \terminal{(} \nonterminal{for-predicate} \terminal{)} \nonterminal{expression} \\
+	\terminal{for} \terminal{(} \nonterminal{for-predicate} \terminal{)} \nonterminal{expression} \\
 
 \nonterminaldef{for-predicate} \\
 	\nonterminal{expression} \\
 	\nonterminal{binding-list} \terminal{;} \nonterminal{expression} \\
 	\nonterminal{expression} \terminal{;} \nonterminal{expression} \\
 	\nonterminal{binding-list} \terminal{;} \nonterminal{expression} \terminal{;} \nonterminal{expression} \\
-
-\nonterminaldef{label}\exactly \\
-	\terminal{:} \nonterminal{name} \\
 \end{grammar}
 % XXX: We may want to narrow the afterthought's expression class
 
 \specsubsubitem
-A \nonterminal{for-loop} executes its \nonterminal{expression} zero or more
-times, so long as a condition is true. Its result type is \terminal{void}.
-If the \nonterminal{label} is present, the expression is \textit{labelled}, and
-the label must be unique among all anscestors of the for loop which are
-labelled.
+A \nonterminal{for-loop} executes its \nonterminal{expression}, the
+\textit{body} of the loop, zero or more times, so long as a condition is true.
+Its result type is \terminal{void}.
 
 \specsubsubitem
 In the first form, \nonterminal{for-predicate} specifies the \textit{condition}
@@ -1866,19 +1861,38 @@ evaluated, the side-effects of the \nonterminal{expression} shall not occur.
 A \nonterminal{deferred-expression} shall not appear as a descendant of the
 expression tree formed by \nonterminal{expression}.
 
-\specsubsection{Expression lists}
+\specsubsection{Compound expressions}
 
 \begin{grammar}
 \nonterminaldef{expression-list} \\
 	\nonterminal{expression} \terminal{;} \\
 	\nonterminal{expression} \terminal{;} \nonterminal{expression-list} \\
+
+\nonterminaldef{compound-expression} \\
+	\optional{\nonterminal{label}} \terminal{\{} \nonterminal{expression-list} \terminal{\}} \\
+
+\nonterminaldef{label}\exactly \\
+	\terminal{:} \nonterminal{name} \\
 \end{grammar}
 
 \specsubsubitem
-A \nonterminal{expression-list} evaluates any number of
-\nonterminal{expression}s in sequence. The result of the
-\nonterminal{expression-list} shall be the result of the final
-\nonterminal{expression}.
+A \nonterminal{compound-expression} evaluates any number of
+\nonterminal{expression}s in sequence. If a \nonterminal{label} is present, the
+expression is considered \textit{labelled}.
+
+\specsubsubitem
+The result of a \nonterminal{compound-expression} shall be \terminal{void}
+unless the expression is selected by one or more
+\nonterminal{yield-expression}s. If the result types of the yield expressions
+are uniform, the \nonterminal{compound-expression} result type is that type.
+Otherwise, the result type is the tagged union which is the sum of those types.
+
+% TODO: Rewrite result type aggregation rules
+
+\specsubsubitem
+If a type hint is provided to an \nonterminal{compound-expression}, the hint shall
+be provided to the expression of any \nonterminal{yield-expression} which
+selects that \nonterminal{compound-expression}.
 
 \specsubsubitem
 The expressions shall be evaluated such that the side-effects of each all occur
@@ -1886,11 +1900,11 @@ in the order that each expression appears.
 
 \specsubsubitem
 If any of the \nonterminal{expression}s terminate, the
-\nonterminal{expression-list} is considered to terminate.
+\nonterminal{compound-expression} is considered to terminate.
 
 \specsubsubitem
-The \nonterminal{expression-list} shall establish a new scope whose parent is
-the scope in which the \nonterminal{expression-list} resides.
+The \nonterminal{compound-expression} shall establish a new scope whose parent is
+the scope in which the \nonterminal{compound-expression} resides.
 
 \specsubsubitem
 If a type hint is provided, the last expression shall receive it as a type hint.
@@ -1902,42 +1916,62 @@ If a type hint is provided, the last expression shall receive it as a type hint.
 	\terminal{break} \optional{\nonterminal{label}} \\
 	\terminal{continue} \optional{\nonterminal{label}} \\
 	\terminal{return} \optional{\nonterminal{expression}} \\
+	\nonterminal{yield-expression} \\
+
+\nonterminaldef{yield-expression} \\
+	\terminal{yield} \\
+	\terminal{yield} \nonterminal{expression} \\
+	\terminal{yield} \nonterminal{label} \\
+	\terminal{yield} \nonterminal{label} \terminal{,} \nonterminal{expression} \\
 \end{grammar}
 
 \specsubsubitem
-\nonterminal{control-expression} causes an \nonterminal{expression-list} to
-terminate in a specific way. A control statement is a terminating expression
-and its result type is \terminal{void}.
+\nonterminal{control-expression} causes a \textit{selected}
+\nonterminal{compound-expression} to terminate in a specific way. A control
+statement is a terminating expression and its result type is \terminal{void}.
 
 \specsubsubitem
-The first and second forms shall be valid only if used within a
-\nonterminal{for-loop}. The first form shall cause the loop to abort without
-evaluating the \textit{condition} or the \textit{afterthought}. The second form
-shall cause the loop to repeat immediately, running the \textit{afterthought},
-re-testing the \textit{condition}, and repeating the loop if \terminal{true}.
+The rules for the selection of an applicable \nonterminal{compound-expression}
+vary based on the kind of control expression used. If a label is used, it shall
+select the corresponding labelled \nonterminal{compound-expression} from the
+anscestors of the \nonterminal{control-expression}, and the selected expression
+shall meet the requirements for the appropriate control expression type.
+Otherwise, the first qualifying \nonterminal{compound-expression} among the
+ancestors of the \nonterminal{control-expression} is used, ordered such that
+the nearest ancestor is considered first. If no suitable
+\nonterminal{compound-expression} is selected, a diagnostic message will be
+displayed and the translation phase shall terminate.
 
 \specsubsubitem
-If the \nonterminal{label} is provided for either the first or second forms, it
-shall be used to specify which \nonterminal{for-loop} the statement shall
-influence, and shall match a labelled for loop which is an ancestor of the
-statement. If the label is not specified, the control statement shall refer to
-the most immediate anscestor of the control statement which is a
-\nonterminal{for-loop}. If no qualifying loop can be identified, a diagnostic
-message shall be shown and the translation phase shall abort.
+In the \terminal{break} and \terminal{continue} forms, the selected expression
+shall be the body of a \nonterminal{for-loop}. The \terminal{break} form shall
+cause the loop to abort without evaluating the \textit{condition} or the
+\textit{afterthought}. The \terminal{continue} form shall cause the loop to
+repeat immediately, running the \textit{afterthought}, re-testing the
+\textit{condition}, and repeating the loop if \terminal{true}.
 
 \specsubsubitem
-The third form shall terminate the function the expression is a descendant of.
-If the function's result type is not \terminal{void}, the
-\nonterminal{expression} shall be provided, and shall be assignable to the
-function's result type. It shall provide the result for the function. The
-result type of the enclosing function shall be provided as a type hint to the
-\nonterminal{expression}.
+The \terminal{return} form shall select the \nonterminal{compound-expression}
+which is the body of the \nonterminal{function-declaration} within which it
+appears. The \nonterminal{expression} shall be used as the result value for the
+function, or, if absent, \terminal{void} shall be used. This expression shall
+receive the function's result type as a type hint, and the result shall be
+assignable to that type.
+
+\specsubsubitem
+The \nonterminal{yield-expression} form shall select any
+\nonterminal{compound-expression} which is not eligible for the other forms;
+that is, any compound expression which is not a function or loop body. If an
+expression is provided, it shall be used as the result value for the
+\nonterminal{compound-expression}. See the description of
+\nonterminal{compound-expression} for details on the type semantics associated
+with a yield expression.
 
 \specsubsubitem
 In any of these cases, the implementation shall ensure that side-effects do not
 occur for any expressions which are lexically situated \textit{after} the
-\nonterminal{control-expression} within the scope of the loop or function they
-influence.
+\nonterminal{control-expression} within the selected
+\nonterminal{compound-expression}.
 
 \specsubsection{High-level expression class}
 
@@ -1952,9 +1986,6 @@ influence.
 	\nonterminal{match-expression} \\
 	\nonterminal{control-expression} \\
 	\nonterminal{compound-expression} \\
-
-\nonterminaldef{compound-expression} \\
-	\terminal{\{} \nonterminal{expression-list} \terminal{\}} \\
 \end{grammar}
 
 \specsection{Type promotion}
