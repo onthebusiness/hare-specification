@@ -415,7 +415,8 @@ Each \nonterminal{field-value} shall specify a field by its \nonterminal{name},
 and assign that field in the result value to the result of the expression
 given. The type of the named field, via the named type alias in the first form,
 or the given type in the second form, shall be provided to the initializer
-expression as a type hint.
+expression as a type hint. The \nonterminal{field-values} shall be evaluated in
+the order in which they appear in the \nonterminal{struct-literal}.
 
 \specsubsubitem
 If \terminal{...} is not given, \nonterminal{field-values} shall be
