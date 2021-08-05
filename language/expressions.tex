@@ -1850,7 +1850,7 @@ or due to encountering a terminating expression.
 
 \specsubsubitem
 If several expressions are deferred in a single scope, their side-effects shall
-occur in the same order that they appear in the program source.
+occur in the reverse of the order that they appear in the program source.
 
 \specsubsubitem
 If the current scope is terminated before a \nonterminal{deferred-expression}
@@ -1900,14 +1900,14 @@ in the order that each expression appears.
 
 \specsubsubitem
 If any of the \nonterminal{expression}s terminate, the
-\nonterminal{compound-expression} is considered to terminate.
+\nonterminal{compound-expression} is considered to terminate, unless the
+expression which would cause the \nonterminal{compound-expression} is a
+\nonterminal{yield-expression} which selects this
+\nonterminal{compound-expression}s scope.
 
 \specsubsubitem
 The \nonterminal{compound-expression} shall establish a new scope whose parent is
 the scope in which the \nonterminal{compound-expression} resides.
-
-\specsubsubitem
-If a type hint is provided, the last expression shall receive it as a type hint.
 
 \specsubsection{Control statements}
 
