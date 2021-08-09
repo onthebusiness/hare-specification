@@ -688,6 +688,11 @@ array, or the \code{length} field of a slice object, referred to by
 environment shall print a diagnostic message and abort.
 
 \specsubsubitem
+The object used for a length expression selected shall be the array or slice
+object the \nonterminal{expression} refers to, selecting that object indirectly
+via any number of pointer types if appropriate.
+
+\specsubsubitem
 The \terminal{offset} expression shall determine the struct or tuple field
 which would be accessed by \nonterminal{field-access-expression} and compute
 its \textit{offset}.
