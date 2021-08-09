@@ -528,9 +528,8 @@ specify a slice type, and the second term shall be assignable to
 \terminal{size}.  The second term shall specify the capacity, which shall be
 greater than or equal to the length of the initializer. The execution
 environment shall use this capacity rather than one of its own choosing, and in
-other respects the semantics shall be the same as the first form. The
-side-effects of the capacity expression shall occur before the side-effects of
-the initializer expression.
+other respects the semantics shall be the same as the first form. The order of
+side-effects between the initializer and capacity is undefined.
 
 \specsubsubitem
 In the \terminal{alloc} form, if the execution environment is unable to
