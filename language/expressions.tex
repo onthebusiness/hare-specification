@@ -876,6 +876,10 @@ type shall be a mutable slice type. This slice type's member type shall be the
 shall be \terminal{void}.
 
 \specsubsubitem
+The slice object shall be selected indirectly via any number of pointer types
+if appropriate.
+
+\specsubsubitem
 The \nonterminal{expression} of the first and third cases of
 \nonterminal{append-values} shall have result types assignable to the
 \terminal{append}'s member type. The \nonterminal{expression} of the second case
