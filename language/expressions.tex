@@ -904,7 +904,8 @@ shall be appended to the slice object in order.
 The side-effects of the \terminal{append}'s \nonterminal{expression} shall occur
 before the side-effects of the \nonterminal{append-values}. The
 side-effects of the \nonterminal{append-values}' \nonterminal{expression}s shall
-occur in the order in which they appear.
+occur in the order in which they appear, except in the case of a value using
+\terminal{...}, which will be evaluated before other values.
 
 \specsubsubitem
 The \terminal{delete} form shall delete a section of a slice object specified by
