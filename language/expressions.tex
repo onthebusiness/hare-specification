@@ -1915,7 +1915,8 @@ If any of the \nonterminal{expression}s terminate, the
 \nonterminal{compound-expression} is considered to terminate, unless the
 expression which would cause the \nonterminal{compound-expression} is a
 \nonterminal{yield-expression} which selects this
-\nonterminal{compound-expression}s scope.
+\nonterminal{compound-expression}s scope. There shall be no expressions
+following the first terminating expression in a \nonterminal{compound-expression}.
 
 \specsubsubitem
 The \nonterminal{compound-expression} shall establish a new scope whose parent is
@@ -1939,8 +1940,9 @@ the scope in which the \nonterminal{compound-expression} resides.
 
 \specsubsubitem
 \nonterminal{control-expression} causes a \textit{selected}
-\nonterminal{compound-expression} to terminate in a specific way. A control
-statement is a terminating expression and its result type is \terminal{void}.
+\nonterminal{compound-expression} to terminate in a specific way. Control
+statements and yield expresisons are terminating expressions and their result
+type is \terminal{void}.
 
 \specsubsubitem
 The rules for the selection of an applicable \nonterminal{compound-expression}
@@ -1974,8 +1976,8 @@ assignable to that type.
 The \nonterminal{yield-expression} form shall select any
 \nonterminal{compound-expression} which is not eligible for the other forms;
 that is, any compound expression which is not a function or loop body. If an
-expression is provided, it shall be used as the result value for the
-\nonterminal{compound-expression}. See the description of
+expression is provided, it shall not terminate, and shall be used as the result
+value for the \nonterminal{compound-expression}. See the description of
 \nonterminal{compound-expression} for details on the type semantics associated
 with a yield expression.
 
