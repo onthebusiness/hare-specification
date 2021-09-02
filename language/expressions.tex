@@ -855,14 +855,10 @@ secondary type of the slice or array type given by
 
 \begin{grammar}
 \nonterminaldef{slice-mutation-expression} \\
-	\optional{\terminal{static}} \terminal{append} \terminal{(} \nonterminal{slice-reference} \terminal{,} \nonterminal{append-values} \terminal{)} \\
+	\optional{\terminal{static}} \terminal{append} \terminal{(} \nonterminal{object-selector} \terminal{,} \nonterminal{append-values} \terminal{)} \\
 	\optional{\terminal{static}} \terminal{delete} \terminal{(} \nonterminal{indexing-expression} \terminal{)} \\
-	\optional{\terminal{static}} \terminal{delete} \terminal{(} \nonterminal{slicing-expression} \terminal{)} \\
+	\optional{\terminal{static}} \terminal{delete} \terminal{(} \nonterminal{object-selector} \terminal{)} \\
 	\optional{\terminal{static}} \terminal{insert} \terminal{(} \nonterminal{indexing-expression} \terminal{,} \nonterminal{append-values} \terminal{)} \\
-
-\nonterminaldef{slice-reference} \\
-	\nonterminal{object-selector} \\
-	\terminal{*} \nonterminal{unary-expression} \\
 
 \nonterminaldef{append-values} \\
 	\nonterminal{expression} \optional{\terminal{,}} \\
