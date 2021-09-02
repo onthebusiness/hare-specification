@@ -1027,7 +1027,6 @@ refer to objects, for use in other parts of the grammar.
 \nonterminaldef{unary-expression} \\
 	\nonterminal{builtin-expression} \\
 	\nonterminal{unary-operator} \nonterminal{unary-expression} \\
-	\terminal{\&} \nonterminal{object-selector} \\
 
 \nonterminaldef{unary-operator} \oneof \\
 	\terminal{+}
@@ -1035,6 +1034,7 @@ refer to objects, for use in other parts of the grammar.
 	\terminal{\textasciitilde}
 	\terminal{!}
 	\terminal{*}
+	\terminal{&}
 \end{grammar}
 
 \specsubsubitem
@@ -1067,7 +1067,9 @@ type shall not be \textit{nullable}.
 \specsubsubitem
 The \terminal{\&} operator shall take the address of an object. The result type
 shall be a pointer whose secondary type is the type of the object selected by
-\nonterminal{object-selector}.
+the \nonterminal{unary-expression}. If the \nonterminal{unary-expression} is not
+an \nonterminal{object-selector}, the ensuing pointer shall only be valid within
+the current function.
 
 \informative{The following table is informative.}
 
