@@ -1736,7 +1736,8 @@ mutually assignable.
 \specsubsubitem
 A pointer to a type is assignable to a pointer to a secondary type if
 the primary type is a struct type which contains the secondary type at
-offset zero.
+offset zero, or if the type at offset zero is a type which would be assignable
+under these rules.
 
 \specsubsubitem
 Tagged union types may be assigned from any of their constituent types. Tagged
