@@ -1355,7 +1355,9 @@ and \terminal{false} otherwise.
 An \nonterminal{equality-expression} determines if two operands are equal to one
 another. The result type is \terminal{bool}. If the types of the \terminal{==}
 or \terminal{!=} operators are numeric, they shall be subject to
-\subsecref{Type promotion}. Otherwise, each operand must be of the same type.
+\subsecref{Type promotion}. Otherwise, each operand must be of the same type,
+and that type must both be either \terminal{str}, \terminal{bool},
+\terminal{rune}, or a pointer type.
 
 \specsubsubitem
 The result of the \terminal{==} operator shall be \terminal{true} if the first
