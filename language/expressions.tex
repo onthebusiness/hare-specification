@@ -1519,17 +1519,19 @@ condition evaluates to \terminal{false}.
 	\terminal{switch} \terminal{(} \nonterminal{expression} \terminal{)} \terminal{\{} \nonterminal{switch-cases} \terminal{\}} \\
 
 \nonterminaldef{switch-cases} \\
-	\nonterminal{switch-case} \optional{\terminal{,}} \\
-	\nonterminal{switch-case} \terminal{,} \nonterminal{switch-cases} \\
+	\nonterminal{switch-case} \optional{\terminal{;}} \\
+	\nonterminal{switch-case} \terminal{;} \nonterminal{switch-cases} \\
 
 \nonterminaldef{switch-case} \\
-	\nonterminal{case-options} \terminal{=>} \nonterminal{expression} \\
-	\terminal{*} \terminal{=>} \nonterminal{expression} \\
+	\terminal{case} \nonterminal{case-options} \terminal{=>} \nonterminal{expression-list} \\
+	\terminal{case} \terminal{=>} \nonterminal{expression-list} \\
 
 \nonterminaldef{case-options} \\
 	\nonterminal{expression} \optional{\terminal{,}} \\
 	\nonterminal{expression} \terminal{,} \nonterminal{case-options} \\
 \end{grammar}
+
+Forward references: \subsecref{Compound expressions}
 
 \specsubsubitem
 A switch statement evaluates a value (\nonterminal{expression}, the
@@ -1540,16 +1542,26 @@ A switch statement evaluates a value (\nonterminal{expression}, the
 Each of the \nonterminal{case-options} specifies a value to compare with, given
 by \nonterminal{expression}. This expression shall be limited to the
 \secref{Translation compatible expression subset}, and its result type shall be
-equivalent to the result type of the switching expression. The implementation
-shall evaluate the \nonterminal{expression} of the corresponding
-\nonterminal{switch-case} if any of the \nonterminal{case-options} is equal to
-the switching expression's result, setting the result of the overall switch
-expression to the result of the selected \nonterminal{expression}.
+equivalent to the result type of the switching expression.
 
 \specsubsubitem
-The \terminal{*} form of \nonterminal{switch-case} indicates any case which is
-not selected by the other cases. Only one case of this form shall appear in the
-switch expression.
+Each \nonterminal{switch-case} introduces an implicit
+\nonterminal{compound-expression} which the provided
+\nonterminal{expression-list} gives the expressions of. The implementation
+shall evaluate the \nonterminal{expression-list} of the corresponding
+\nonterminal{switch-case} if any of the \nonterminal{case-options} is equal to
+the switching expression's result, setting the result of the overall switch
+expression to the result of the selected \nonterminal{switch-case}.
+
+\informative{As such, the appropriate way to set the result of a switch
+statement is with a \nonterminal{yield-expression}. The semantics of
+\nonterminal{deferred-expression}, \nonterminal{bindings}, and so on, are also
+implicated.}
+
+\specsubsubitem
+The form of \nonterminal{switch-case} without \nonterminal{case-options}
+indicates any case which is not selected by the other cases. Only one case of
+this form shall appear in the switch expression.
 
 \specsubsubitem
 The switch cases shall be \textit{exhaustive}, meaning that every possible
@@ -1587,10 +1599,12 @@ expression shall terminate.
 	\nonterminal{match-case} \terminal{,} \nonterminal{match-cases} \\
 
 \nonterminaldef{match-case} \\
-	\nonterminal{name} \terminal{:} \nonterminal{type} \terminal{=>} \nonterminal{expression} \\
-	\nonterminal{type} \terminal{=>} \nonterminal{expression} \\
-	\terminal{*} \terminal{=>} \nonterminal{expression} \\
+	\terminal{case} \nonterminal{name} \terminal{:} \nonterminal{type} \terminal{=>} \nonterminal{expression-list} \\
+	\terminal{case} \nonterminal{type} \terminal{=>} \nonterminal{expression-list} \\
+	\terminal{case} \terminal{=>} \nonterminal{expression-list} \\
 \end{grammar}
+
+Forward references: \subsecref{Compound expressions}
 
 \specsubsubitem
 A match statement evaluates a value (\nonterminal{expression}, the
@@ -1610,15 +1624,32 @@ If the matching expression has a nullable pointer type, one match case shall be
 or a type alias which refers to a qualifying type.
 
 \specsubsubitem
-The \terminal{*} form of \nonterminal{match-case} indicates any case which is
-not selected by the other cases. Only one case of this form shall appear in the
-match expression.
+Each \nonterminal{match-case} introduces an implicit
+\nonterminal{compound-expression} which the provided
+\nonterminal{expression-list} gives the expressions of. The implementation
+shall evaluate the \nonterminal{expression-list} of the corresponding
+\nonterminal{match-case} if the value of the matching expression is of the type
+specified by this match case, or can be assigned from it, setting the result of
+the overall match statement to the result of the selected
+\nonterminal{match-case}.
+
+% TODO: Write up new matching algorithm
+
+\informative{As such, the appropriate way to set the result of a match
+statement is with a \nonterminal{yield-expression}. The semantics of
+\nonterminal{deferred-expression}, \nonterminal{bindings}, and so on, are also
+implicated.}
+
+\specsubsubitem
+The form of \nonterminal{match-case} without a \nonterminal{type} indicates any
+case which is not selected by the other cases. Only one case of this form shall
+appear in the match expression.
 
 \specsubsubitem
 The first form of \nonterminal{match-case}, if selected, shall cause the
 implementation to cast the match expression to the selected type and assign the
-resulting value to \nonterminal{name}. It shall insert this binding into a new
-scope which applies to the \nonterminal{expression}.
+resulting value to \nonterminal{name}. It shall insert this binding into the
+scope of the implicit \nonterminal{compound-expression} of the selected case.
 
 \specsubsubitem
 The match cases shall be \textit{exhaustive}, meaning that every possible type
