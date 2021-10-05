@@ -42,6 +42,7 @@ The \terminal{export} keyword shall not be used with a
 
 \nonterminaldef{decl-attr} \\
 	\terminal{@symbol} \terminal{(} \nonterminal{string-constant} \terminal{)}
+	\terminal{@hidden}
 \end{grammar}
 
 \specsubsubitem
@@ -65,8 +66,8 @@ form, the implementation shall not allocate storage for the global, and the
 programmer must arrange for storage to be provided elsewhere, e.g. during linking.
 
 \specsubsubitem
-The interpretation of the \terminal{@symbol} form of \nonterminal{decl-attr} is
-implementation-defined.
+The interpretation of the \terminal{@symbol} form and \terminal{@hidden} form
+of \nonterminal{decl-attr} is implementation-defined.
 
 \specsubsection{Constant declarations}
 
