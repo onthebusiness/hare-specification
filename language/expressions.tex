@@ -1225,7 +1225,7 @@ types only.
 If an operation would cause the result to overflow the result type, it is
 truncated towards the least significant bits in the case of integer types, and
 towards zero in the case of float types. Integer divisions which would produce
-a fractional part are floored.
+a fractional part are rounded towards zero.
 
 \specsubsubitem
 The implementation shall ensure that any side-effects of the first term shall
