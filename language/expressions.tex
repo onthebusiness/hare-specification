@@ -491,52 +491,53 @@ occur in the order that they appear.
 \end{grammar}
 
 \specsubsubitem
-An \nonterminal{allocation-expression} is used to manipulate objects allocated
-in the execution environment.
+An \terminal{alloc} expression allocates an object at runtime and initializes
+it to the first \nonterminal{expression} (the \textit{initializer}). The
+\textit{object type} of the allocation expression shall be based on its type
+hint, which may be absent; if so, it shall be a pointer type whose secondary
+type is the result type of the initializer.
 
 \specsubsubitem
-In the \terminal{alloc} form, the \nonterminal{expression} is the initializer
-for a new object whose type shall be inferred from the type hint. If this type
-is a slice, the result type of \terminal{alloc} shall be that slice type, and
-the initializer shall be provided that slice type as a type hint. If the type
-hint is a pointer type, the result type shall be that type, and the initializer
-provided the pointer type's secondary as its type hint. In the case of any other
-type hint, or no type hint, the result type shall be a pointer type whose
-secondary is the result type of the initializer, and the initializer shall not
-be given a type hint.
+In the case of a pointer type as the object type, the pointer's referent type
+shall have a defined, nonzero size. The execution environment shall provision
+storage sufficient to store a value of the referent type, and provide the
+pointer type's referent type as a type hint to the initializer. The new
+object's value shall be set to the initializer result.
 
 \specsubsubitem
-In the case of an \terminal{alloc} of a pointer type, the execution environment
-shall allocate storage sufficient to store a value of the referent type, and
-initialize it to the value provided by \nonterminal{expression}. The pointer's
-referent type shall have a defined, nonzero size.
+In the case of a slice type as the object type, the execution environment shall
+choose a capacity which shall be greater than or equal to the number of items
+in the initializer, then provision an array of that length and set each $N$th
+value to the $N$th value of the initializer, for each value of $N$ between $0$
+(inclusive) and the length of the initializer (exclusive). The result of the
+\nonterminal{allocation-expression} shall be a slice whose data field refers to
+this array, whose length is equal to the length of the initializer, and whose
+capacity is set to the allocated capacity.
 
 \specsubsubitem
-In the case of an \terminal{alloc} of a slice type, the execution environment
-shall choose a capacity which shall be greater than or equal to the number of
-items in the initializer, then allocate an array of that capacity and set each
-$N$th value to the $N$th value of the initializer, for each value of $N$
-between $0$ (inclusive) and the length of the initializer (exclusive).  The
-result shall be a slice whose data field refers to this array, whose length is
-equal to the length of the initializer, and whose capacity is set to the
-allocated capacity.
-
-% TODO: Allow implementation to over-allocate with a given capacity
-\specsubsubitem
-If the second form of \terminal{alloc} is used, the \nonterminal{type} shall
-specify a slice type, and the second term shall be assignable to
-\terminal{size}.  The second term shall specify the capacity, which shall be
-greater than or equal to the length of the initializer. The execution
-environment shall use this capacity rather than one of its own choosing, and in
-other respects the semantics shall be the same as the first form. The
-side-effects of the capacity expression shall occur before the side-effects of
-the initializer expression.
+If the second form of \terminal{alloc} is used, the object type shall be a slice
+type, and the second term shall be assignable to the \terminal{size} type. The
+second term shall specify the capacity, which shall be greater to or equal to
+the length of the initializer. The execution environment shall choose a
+capacity equal to or greater than this term, then provision an array of that
+length and set each $N$th value to the $N$th value of the initializer, for each
+value of $N$ between $0$ (inclusive) and the length of the initializer
+(exclusive). The result of the \nonterminal{allocation-expression} shall be a
+slice whose data field refers to this array, whose length is equal to the
+length of the initializer, and whose capacity is set to the allocated capacity.
 
 \specsubsubitem
 In the \terminal{alloc} form, if the execution environment is unable to
 allocate sufficient storage for the requested type, the execution environment
 shall print a diagnostic message and abort. If the type is a nullable pointer
 type, \terminal{null} shall be returned instead of aborting.
+
+\specsubsubitem
+The \terminal{free} form shall discard resources previously allocated with a
+\terminal{alloc} expression, freeing them for future use. The
+\nonterminal{expression} shall evaluate to a pointer type, in which case the
+object referred to by the pointer shall be freed, or a slice type, in which
+case the array referred to by its data field shall be freed.
 
 \specsubsection{Assertions}
 
