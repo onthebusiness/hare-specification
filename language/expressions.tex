@@ -487,7 +487,12 @@ occur in the order that they appear.
 \nonterminaldef{allocation-expression} \\
 	\terminal{alloc} \terminal{(} \nonterminal{expression} \terminal{)} \\
 	\terminal{alloc} \terminal{(} \nonterminal{expression} \terminal{,} \nonterminal{expression} \terminal{)} \\
+	\terminal{alloc} \terminal{(} \nonterminal{slice-items} \terminal{...} \terminal{,} \nonterminal{expression} \terminal{)} \\
 	\terminal{free} \terminal{(} \nonterminal{expression} \terminal{)} \\
+
+\nonterminaldef{slice-items} \\
+	\nonterminal{expression} \\
+	\nonterminal{slice-items} \terminal{,} \nonterminal{expression}
 \end{grammar}
 
 \specsubsubitem
@@ -524,7 +529,20 @@ length and set each $N$th value to the $N$th value of the initializer, for each
 value of $N$ between $0$ (inclusive) and the length of the initializer
 (exclusive). The result of the \nonterminal{allocation-expression} shall be a
 slice whose data field refers to this array, whose length is equal to the
-length of the initializer, and whose capacity is set to the allocated capacity.
+length of the initializer, and whose capacity is set to the selected capacity.
+
+\specsubsubitem
+If the third form of \terminal{alloc} is used, the object type shall be a slice
+type, and the final term shall be assignable to the \terminal{size} type. The
+execution environment shall choose a capacity equal to or greater than this
+term, then provision an array of that length and set each $N$th value to the
+$N$th value of \nonterminal{slice-items} (exclusive), for each value of $N$
+between $0$ (inclusive) and the number of \nonterminal{slice-items}, then set
+each $N$th value to the value of the last \nonterminal{slice-items} expression
+for each subsequent value of $N$ up to the length given by the final term
+(exclusive).  The result of the \nonterminal{allocation-expression} shall be a
+slice whose data field refers to the provisioned array, and whose length is
+equal to the final term, and whose capacity is set to the selected capacity.
 
 \specsubsubitem
 In the \terminal{alloc} form, if the execution environment is unable to
