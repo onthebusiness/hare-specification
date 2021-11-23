@@ -956,17 +956,6 @@ be resized. In the static form, if an operation would require more space than
 the current capacity of the slice provides, the implementation shall print a
 diagnostic message and abort the execution environment.
 
-\specsubsection{Type expressions}
-
-\begin{grammar}
-\nonterminaldef{type-expression} \\
-	\terminal{type} \terminal{(} \nonterminal{type} \terminal{)}
-\end{grammar}
-
-\specsubsubitem
-A \nonterminal{type-expression} shall have a result type of \terminal{type} and
-returns a \terminal{type} value describing the given \nonterminal{type}.
-
 \specsubsection{Error propagation}
 
 \begin{grammar}
@@ -1044,7 +1033,6 @@ refer to objects, for use in other parts of the grammar.
 	\nonterminal{deferred-expression} \\
 	\nonterminal{measurement-expression} \\
 	\nonterminal{slice-mutation-expression} \\
-	\nonterminal{type-expression} \\
 	\nonterminal{postfix-expression} \\
 \end{grammar}
 
@@ -1149,7 +1137,7 @@ Source type & Casts to \\
 Floating types & Any numeric type \\
 Integer types & Any numeric type or enum type \\
 \terminal{uintptr} & Any pointer type or \terminal{null} \\
-Any pointer type & Any pointer type, \terminal{uintptr}, \terminal{null}, or \terminal{type} \\
+Any pointer type & Any pointer type, \terminal{uintptr}, or \terminal{null} \\
 Enum types & Any enum type or numeric type \\
 Array and slice types & Any array or slice type \\
 Slice types & Any pointer to an array type \\
@@ -1160,7 +1148,6 @@ Any type & Any type alias with an underlying type it may be cast to \\
 \terminal{rune} & \terminal{u32} \\
 \terminal{u32} & \terminal{rune} \\
 \terminal{null} & Any pointer type or \terminal{uintptr} \\
-\terminal{type} & Any pointer type \\
 Tagged unions & See below \\
 \end{tabular}
 
@@ -1390,7 +1377,7 @@ another. The result type is \terminal{bool}. If the types of the \terminal{==}
 or \terminal{!=} operators are numeric, they shall be subject to
 \subsecref{Type promotion}. Otherwise, each operand must be of the same type,
 and that type must both be either \terminal{str}, \terminal{bool},
-\terminal{rune}, \terminal{type}, or a pointer type.
+\terminal{rune}, or a pointer type.
 
 \specsubsubitem
 The result of the \terminal{==} operator shall be \terminal{true} if the first
@@ -1404,11 +1391,6 @@ operand is not equal to second operand in value, and \terminal{false} otherwise.
 If the type is \terminal{str}, an \nonterminal{equality-expression} shall be
 \terminal{true} if both strings have the same length and octets, and
 \terminal{false} otherwise.
-
-\specsubsubitem
-If the type is \terminal{type}, an \nonterminal{equality-expression} shall be
-\terminal{true} if both types have the same type ID, and \terminal{false}
-otherwise.
 
 \specsubsubitem
 The implementation shall ensure that any side-effects of the first term shall

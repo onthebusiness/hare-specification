@@ -24,7 +24,6 @@
 	\terminal{rune} \\
 	\terminal{bool} \\
 	\terminal{void} \\
-	\terminal{type} \\
 \end{grammar}
 
 \specsubitem
@@ -775,11 +774,3 @@ type unsigned = (u8 | u16 | u32 | u64 | uint);
 type union_a = (signed | unsigned);
 type union_b = (...signed | ...unsigned);
 \end{codesample}
-
-\specsubsection{Meta-types}
-
-\specsubsubitem
-The \terminal{type} type is a meta-type, which represents information about
-another type. Its size and alignment shall be equivalent to a pointer type. It
-shall be represented as a pointer to a type information structure as described
-by \secref{Reflection}.
