@@ -1539,7 +1539,7 @@ condition evaluates to \terminal{false}.
 	\terminal{switch} \terminal{(} \nonterminal{expression} \terminal{)} \terminal{\{} \nonterminal{switch-cases} \terminal{\}} \\
 
 \nonterminaldef{switch-cases} \\
-	\nonterminal{switch-case} \optional{\terminal{;}} \\
+	\nonterminal{switch-case} \terminal{;} \\
 	\nonterminal{switch-case} \terminal{;} \nonterminal{switch-cases} \\
 
 \nonterminaldef{switch-case} \\
@@ -1615,8 +1615,8 @@ expression shall terminate.
 	\terminal{match} \terminal{(} \nonterminal{expression} \terminal{)} \terminal{\{} \nonterminal{match-cases} \terminal{\}} \\
 
 \nonterminaldef{match-cases} \\
-	\nonterminal{match-case} \optional{\terminal{,}} \\
-	\nonterminal{match-case} \terminal{,} \nonterminal{match-cases} \\
+	\nonterminal{match-case} \terminal{;} \\
+	\nonterminal{match-case} \terminal{;} \nonterminal{match-cases} \\
 
 \nonterminaldef{match-case} \\
 	\terminal{case} \terminal{let} \nonterminal{name} \terminal{:} \nonterminal{type} \terminal{=>} \nonterminal{expression-list} \\
