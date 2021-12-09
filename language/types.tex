@@ -409,9 +409,10 @@ field's offset and $Z$ is that field's size.
 
 \specsubsubitem
 The default value of a struct or union type shall be defined as a value whose
-fields assume the default values of their respective types. The default
-value of any fields which have overlapping storage (as defined by the bounds of
-their offset and their size) shall be undefined.
+fields assume the default values of their respective types. If two or more
+fields have overlapping storage (as defined by the bounds of their offsets and
+size), and any of their types does not have a default value, the default value
+of all of these fields shall be undefined.
 
 \specsubsubitem
 If the \nonterminal{struct-union-type} form of \nonterminal{struct-union-field}

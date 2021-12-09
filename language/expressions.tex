@@ -407,8 +407,8 @@ used in such a struct.
 
 \specsubsubitem
 If the named form is given, the \nonterminal{identifier} shall identify a type
-alias (see \subsecref{Type aliases}) which refers to a struct type. The result
-type shall be this alias type.
+alias (see \subsecref{Type aliases}) which refers to a struct or union type.
+The result type shall be this alias type.
 
 \specsubsubitem
 Each \nonterminal{field-value} shall specify a field by its \nonterminal{name},
@@ -430,6 +430,10 @@ included in \nonterminal{field-values} shall be initialized to their default
 values. Each included field shall only be named once. If a field is omitted
 which does not have a default value, a diagnostic message shall be printed and
 the translation phase shall abort.
+
+\specsubsubitem
+If the named type is a union type, the \nonterminal{field-values} shall be
+empty and \terminal{...} provided. The union type must have a default value.
 
 \specsubsubitem
 If the \nonterminal{struct-literal} form of the \nonterminal{field-value} is
