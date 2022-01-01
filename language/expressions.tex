@@ -932,9 +932,15 @@ operation would require more space than the capacity of the slice provides, the
 execution environment shall print a diagnostic message and abort.
 
 \specsubsubitem
-The side-effects of the \nonterminal{object-selector} shall occur before the
-side-effects of the append values, which shall occur before the side-effects of
-the length term if present.
+The side-effects shall occur in the following order:
+\nonterminal{object-selector}; then the length term, if present; then the
+append values.
+
+\specsubsubitem
+The object selector shall be not be provided a type hint. If \terminal{...} is
+used, the append values shall be given the object type as its type hint; if
+not, it shall receive the member type as its type hint. The length will receive
+a type hint of \terminal{size} if applicable.
 
 \specsubsection{Inserting}
 
@@ -990,6 +996,12 @@ execution environment shall print a diagnostic message and abort.
 \specsubsubitem
 The side-effects of the \nonterminal{indexing-expression} shall occur before
 the side-effects of the insert values.
+
+\specsubsubitem
+The object selector shall be not be provided a type hint. If \terminal{...} is
+used, the append values shall be given the object type as its type hint; if
+not, it shall receive the member type as its type hint. The length will receive
+a type hint of \terminal{size} if applicable.
 
 \specsubsection{Deleting}
 
