@@ -165,11 +165,13 @@ If \terminal{@init}, \terminal{@fini}, \terminal{@test}, or
 \terminal{@noreturn} are given, the result type shall be \terminal{void}.
 
 \specsubsubitem
-The \terminal{@test} attribute indicates that a function is used for testing.
-The name of the function need not be unique within its namespace, and it shall
-not be inserted into the unit's scope. \terminal{@test} functions shall not be
-exported. Other semantics of \terminal{@test} functions are
-implementation-defined.
+Functions declared with \terminal{@test}, \terminal{@init}, or \terminal{@fini}
+shall accept no parameters, shall retrun void, shall not appear in
+\nonterminal{object-selector}s, need not have unique names, and shall not be
+inserted into the unit's scope.
+
+\specsubsubitem
+Other semantics of \terminal{@test} functions are implementation-defined.
 
 \specsection{Units}
 
