@@ -1567,29 +1567,19 @@ case, any side-effects of the second condition or branch shall not occur.
 
 \specsubsubitem
 In the third form, the \nonterminal{conditional-branch} shall be executed. If
-it was \terminal{false}, the \nonterminal{expression} shall be executed, and all
-of its side-effects shall occur.
+it was \terminal{false}, the \nonterminal{expression} shall be executed. The
+result value shall be selected from the result of the branch which is executed.
 
 \specsubsubitem
 In the first form, the result type is \terminal{void}. In the second form, the
 result type is \terminal{void} unless the third form is present in the
-$N^{th}$-order sub-expression for any value of $N$. In this case, and in the
-case of the third form used in the first order, if the result types of each
-branch are uniform, the result type of the expression as a whole shall be of
-that type. If the types are not uniform, the result type shall be a tagged
-union of the set of possible result types. The result value shall be selected
-from the result of the branch which is executed.
-
-\specsubsubitem
-If a type hint is provided and all non-terminating branches are assignable to
-that type, the result type shall be the type given by the type hint. If the
-result types of all non-terminating cases are equivalent, the result type of
-the if expression shall be the result type of the cases. Otherwise, the
-result type shall be a tagged union of the set of the result types of the
-non-terminating cases.
-
-If all cases terminate, the result type shall be \terminal{void} and the if
-expression shall terminate.
+$N^{th}$-order sub-branch for any value of $N$. In this case, and in the case of
+the third form used in the first order, if a type hint is provided and all
+non-terminating branches are assignable to that type, the result type shall be
+the type given by the type hint. If all branches terminate, the result type
+shall be \terminal{void} and the if expression shall terminate. Otherwise, the
+result type shall be the \secref{Result type reduction algorithm} applied to the
+result types of the non-terminating branches.
 
 \specsubsection{For loops}
 
@@ -1697,14 +1687,11 @@ If a type hint is provided, each branch shall receive it as a type hint.
 
 \specsubsubitem
 If a type hint is provided and all non-terminating branches are assignable to
-that type, the result type shall be the type given by the type hint. If the
-result types of all non-terminating cases are equivalent, the result type of
-the switch expression shall be the result type of the cases. Otherwise, the
-result type shall be a tagged union of the set of the result types of the
-non-terminating cases.
-
-If all cases terminate, the result type shall be \terminal{void} and the switch
-expression shall terminate.
+that type, the result type shall be the type given by the type hint. If all
+branches terminate, the result type shall be \terminal{void} and the switch
+expression shall terminate. Otherwise, the result type shall be the
+\secref{Result type reduction algorithm} applied to the result types of the
+non-terminating branches.
 
 \specsubsection{Match expressions}
 
@@ -1785,14 +1772,12 @@ If a type hint is provided, each branch shall receive it as a type hint.
 
 \specsubsubitem
 If a type hint is provided and all non-terminating branches are assignable to
-that type, the result type shall be the type given by the type hint. If the
-result types of all non-terminating cases are equivalent, the result type of
-the match expression shall be the result type of the cases. Otherwise, the
-result type shall be a tagged union of the set of the result types of the
-non-terminating cases.
+that type, the result type shall be the type given by the type hint. If all
+branches terminate, the result type shall be \terminal{void} and the match
+expression shall terminate. Otherwise, the result type shall be the
+\secref{Result type reduction algorithm} applied to the result types of the
+non-terminating branches.
 
-If all cases terminate, the result type shall be \terminal{void} and the match
-expression shall terminate.
 
 \specsubsection{Assignment}
 
@@ -2050,11 +2035,9 @@ expression is considered \textit{labelled}.
 \specsubsubitem
 The result of a \nonterminal{compound-expression} shall be \terminal{void}
 unless the expression is selected by one or more
-\nonterminal{yield-expression}s. If the result types of the yield expressions
-are uniform, the \nonterminal{compound-expression} result type is that type.
-Otherwise, the result type is the tagged union which is the sum of those types.
-
-% TODO: Rewrite result type aggregation rules
+\nonterminal{yield-expression}s. In that case, the result type shall be the
+\secref{Result type reduction algorithm} applied to the result types of the
+yield expressions.
 
 \specsubsubitem
 If a type hint is provided to an \nonterminal{compound-expression}, the hint shall
@@ -2273,3 +2256,28 @@ differences.
 In a context where an expression is constrained to this subset, the use of an
 expression type outside of this set shall cause the translation environment to
 print a diagnostic message and abort.
+
+\specsection{Result type reduction algorithm}
+
+\specsubitem
+The result type reduction algorithm shall operate on a list of types. It shall
+perform the following reductions in order:
+
+\begin{enumerate}
+\item Replace all tagged unions with their members
+\item Remove all duplicate types
+\item Remove all pointer types such that an equivalent nullable pointer type
+	exists
+\item Remove all mutable types such that an equivalent constant type exists
+\item If \terminal{null} and exactly one pointer type remain, replace both with
+	an equivalent nullable pointer type
+\end{enumerate}
+
+\specsubitem
+If \terminal{null} and at least one other type remain after these reductions,
+the translation phase shall print a diagnostic message and abort.
+
+\specsubitem
+If exactly one type remains, it shall be the result of the result type reduction
+algorithm. If more than one type remains, the result of the result type
+reduction algorithm shall be a tagged union containing the remaining types.
