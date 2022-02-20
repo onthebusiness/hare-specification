@@ -283,6 +283,7 @@ Escape sequence & Unicode codepoint & Escape sequence & Unicode codepoint \\
 \begin{grammar}
 \nonterminaldef{string-constant} \\
 	\terminal{"} \nonterminal{string-chars} \terminal{"} \\
+	\terminal{`} \nonterminal{rawstring-chars} \terminal{`} \\
 	\nonterminal{string-constant} \nonterminal{string-constant} \\
 
 \nonterminaldef{string-chars} \\
@@ -291,6 +292,12 @@ Escape sequence & Unicode codepoint & Escape sequence & Unicode codepoint \\
 \nonterminaldef{string-char} \\
 	\norm{Any character other than \terminal{\textbackslash} or \terminal{"}} \\
 	\nonterminal{escape-sequence} \\
+
+\nonterminaldef{rawstring-chars} \\
+	\nonterminal{rawstring-char} \optional{\nonterminal{rawstring-char}} \\
+
+\nonterminaldef{rawstring-char} \\
+	\norm{Any character other than \terminal{`}} \\
 \end{grammar}
 
 \specsubsubitem
@@ -306,6 +313,12 @@ given in order, after interpreting escape codes per
 
 \specsubsubitem
 If the second form of \nonterminal{string-constant} is used, the string's
+\textit{data} field shall refer to a UTF-8 encoded sequence of Unicode
+codepoints, ascertained by encoding the sequence of
+\nonterminal{rawstring-char}s given in order.
+
+\specsubsubitem
+If the third form of \nonterminal{string-constant} is used, the string's
 \textit{data} field shall refer to a UTF-8 encoded sequence of Unicode
 codepoints, ascertained by concatenating the \textit{data} field of the first
 \nonterminal{string-constant} and the \textit{data} field of the second
