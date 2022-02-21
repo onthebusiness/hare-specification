@@ -1264,9 +1264,9 @@ the most significant bit of the unsigned type, and vice versa.
 
 \specsubsubitem
 When a floating type is cast to an integer, the resulting value shall be equal
-to $I = \lfloor F \rfloor$, where F is the source value. If the destination type
-has insufficient precision to represent $I$, it shall be truncated towards the
-least significant bit.
+to the nearest integer with smaller or equal absolute value. If the destination
+type has insufficient precision to represent the resulting integer, it shall be
+truncated towards the least significant bit.
 
 \specsubsubitem
 When casting an integer to a floating point type, if the destination type
