@@ -282,8 +282,8 @@ Escape sequence & Unicode codepoint & Escape sequence & Unicode codepoint \\
 
 \begin{grammar}
 \nonterminaldef{string-constant} \\
-	\terminal{"} \nonterminal{string-chars} \terminal{"} \\
-	\terminal{`} \nonterminal{rawstring-chars} \terminal{`} \\
+	\terminal{"} \optional{\nonterminal{string-chars}} \terminal{"} \\
+	\terminal{`} \optional{\nonterminal{rawstring-chars}} \terminal{`} \\
 	\nonterminal{string-constant} \nonterminal{string-constant} \\
 
 \nonterminaldef{string-chars} \\
