@@ -1286,11 +1286,20 @@ another. The same holds for the error flag as well.
 
 \specsubsubitem
 The third form is a \textit{type assertion}. In this form,
-\nonterminal{cast-expression} shall be of a tagged union type, and
-\nonterminal{type} shall be a constituent type of that tagged union. The
-\nonterminal{cast-expression} shall be computed, and if the tag does not match
-\nonterminal{type}, a diagnostic message shall be printed and the execution
-environment shall abort. Otherwise, the result type is \nonterminal{type}.
+\nonterminal{cast-expression} shall be of a tagged union type or a nullable
+pointer type.
+
+In the former case, \nonterminal{type} shall be a constituent
+type of that tagged union. The \nonterminal{cast-expression} shall be computed,
+and if the tag does not match \nonterminal{type}, a diagnostic message shall be
+printed and the execution environment shall abort. Otherwise, the result type
+is \nonterminal{type}.
+
+In the latter case \nonterminal{type} shall be a
+non-nullable pointer type. The \nonterminal{cast-expression} shall be computed,
+and if the resulting pointer equals null, a diagnostic message shall be printed
+and the execution environment shall abort. Otherwise, the result type is
+\nonterminal{type}.
 
 \specsubsubitem
 The fourth form is a \textit{type test}. In this form,
