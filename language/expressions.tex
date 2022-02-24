@@ -340,8 +340,6 @@ octets of the encoded UTF-8 data.
 	\nonterminal{expression} \terminal{,} \nonterminal{array-members} \\
 \end{grammar}
 
-Forward references: \subsecref{Simple, complex, and compound expressions}
-
 \specsubsubitem
 An \nonterminal{array-literal} expression produces a value of an array type.
 The type of each \nonterminal{expression} shall be uniform and shall
@@ -476,8 +474,6 @@ given, its fields shall be interpreted as fields of the parent struct.
 	\nonterminal{expression} \terminal{,} \nonterminal{tuple-items} \\
 \end{grammar}
 
-Forward references: \subsecref{Simple, complex, and compound expressions}
-
 \specsubsubitem
 \nonterminal{plain-expression} is an expression class which represents its
 result value "plainly". In the case of constants and literals, the value is
@@ -588,8 +584,6 @@ case the array referred to by its data field shall be freed.
 % TODO: Specify the calling semantics for sys::assert and sys::abort
 % Blocked until we start specifying the runtime library details
 
-Forward references: \subsecref{Simple, complex, and compound expressions}
-
 \specsubsubitem
 An \nonterminal{assertion-expression} is used to validate an assumption by the
 programmer by \textit{asserting} its truth. The result type of a
@@ -627,8 +621,6 @@ abort is a terminating expression.
 	\nonterminal{expression} \terminal{...} \optional{\terminal{,}} \\
 	\nonterminal{expression} \terminal{,} \nonterminal{argument-list} \\
 \end{grammar}
-
-Forward references: \subsecref{Simple, complex, and compound expressions}
 
 \specsubsubitem
 A \nonterminal{call-expression} shall invoke a function in the execution
@@ -1482,9 +1474,9 @@ and \terminal{false} otherwise.
 An \nonterminal{equality-expression} determines if two operands are equal to one
 another. The result type is \terminal{bool}. If the types of the \terminal{==}
 or \terminal{!=} operators are numeric, they shall be subject to
-\subsecref{Type promotion}. Otherwise, each operand must be of the same type,
-and that type must both be either \terminal{str}, \terminal{bool},
-\terminal{rune}, or a pointer type.
+\secref{Type promotion}. Otherwise, each operand must be of the same type, and
+that type must both be either \terminal{str}, \terminal{bool}, \terminal{rune},
+or a pointer type.
 
 \specsubsubitem
 The result of the \terminal{==} operator shall be \terminal{true} if the first
