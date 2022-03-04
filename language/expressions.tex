@@ -1135,6 +1135,9 @@ refer to objects, for use in other parts of the grammar.
 \begin{grammar}
 \nonterminaldef{unary-expression} \\
 	\nonterminal{builtin-expression} \\
+	\nonterminal{compound-expression} \\
+	\nonterminal{match-expression} \\
+	\nonterminal{switch-expression} \\
 	\nonterminal{unary-operator} \nonterminal{unary-expression} \\
 
 \nonterminaldef{unary-operator} \oneof \\
@@ -2150,10 +2153,7 @@ occur for any expressions which are lexically situated \textit{after} the
 	\nonterminal{logical-or-expression} \\
 	\nonterminal{if-expression} \\
 	\nonterminal{for-loop} \\
-	\nonterminal{switch-expression} \\
-	\nonterminal{match-expression} \\
 	\nonterminal{control-expression} \\
-	\nonterminal{compound-expression} \\
 \end{grammar}
 
 \specsection{Type promotion}
