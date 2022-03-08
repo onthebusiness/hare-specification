@@ -198,6 +198,52 @@ The default value of a float type shall be zero.
 The \terminal{rune} type represents a Unicode codepoint, encoded as a
 \nonterminal{u32}.
 
+\specsubsection{Flexible constant types}
+
+\specsubsubitem
+Flexible constant types represent floating, integer, or rune constants whose
+result type has not been determined. The size and alignment of flexible constant
+types shall be undefined. \terminal{iconst} and \terminal{fconst} are considered
+numeric types.
+
+\specsubsubitem
+An \terminal{iconst} shall have maximum and minimum values associated with it,
+which shall be represented as signed integers with sufficient precision to store
+an \terminal{i64}. The minimum value shall represent the smallest integer
+constant which has this result type, and the maximum value shall represent the
+largest. The minimum shall always be less than or equal to the maximum, and the
+type shall be considered unsigned if and only if the minimum is greater than or
+equal to 0.
+
+\specsubsubitem
+The \textit{default type} for \terminal{fconst} shall be \terminal{f64}. The
+default type for iconst shall be \terminal{int} if the maximum and minimum are
+within \terminal{int}'s range, and \terminal{i64} otherwise. The default type
+for \terminal{rconst} shall be \terminal{rune}.
+
+\specsubsubitem
+A flexible constant type may be \textit{lowered} to a different type by the
+\secref{Flexible constant promotion algorithm}, causing all instances of that
+type within the translation environment to be replaced by the new type. If a
+flexible constant type hasn't been lowered by the end of the translation phase,
+it shall be lowered to its default type.
+
+\specsubsubitem
+There is no grammar for defining flexible constant types. They are for internal
+use only, as the result type of \nonterminal{integer-constant},
+\nonterminal{floating-constant}, and \nonterminal{rune-constant}.
+
+\specsubsubitem
+Each constant with a flexible result shall have a distinct type.
+
+\specsubsubitem
+If a flexible constant type is embedded within another type, it shall first be
+lowered to its default type.
+
+\informative{This is intended to ease implementation, in order to prevent a
+type's ID, size, and alignment from changing partway through the translation
+phase.}
+
 \specsubsection{Enum types}
 
 \begin{grammar}

@@ -102,9 +102,12 @@ number in either the binary32 or binary64 format.
 
 \specsubitem
 If the \nonterminal{floating-suffix} is not provided and a type hint is
-provided, the type shall be the type hint. If the \nonterminal{floating-suffix}
-is not provided and a type hint is not provided, the type shall be
-\terminal{f64}. Otherwise, the type shall refer to the type named by the suffix.
+provided, the type shall be the
+\secref{Flexible constant promotion algorithm} applied to \terminal{fconst}
+and the hint, or \terminal{fconst} if constant promotion fails. If the
+\nonterminal{floating-suffix} is not provided and a type hint is not provided,
+the type shall be \terminal{fconst}. Otherwise, the type shall refer to the type
+named by the suffix.
 
 \specsubitem
 If the \nonterminal{exponent} is provided, the value of the
@@ -185,13 +188,15 @@ constant shall be multiplied by 10 to the power of
 Integer constants represent an integer value at a specific precision.
 
 \specsubitem
-If the \nonterminal{integer-suffix} is not provided and a type hint is provided,
-the type shall be the type hint. If the \nonterminal{integer-suffix} is not
-provided and a type hint is not provided, the type shall be \terminal{int}. If
-the \nonterminal{integer-suffix} is provided, the type is specified by the
+If the \nonterminal{integer-suffix} is provided, the type is specified by the
 suffix. Suffixes \terminal{i}, \terminal{u},  and \terminal{z} shall
 respectively refer to the \terminal{int}, \terminal{uint}, and \terminal{size}
-types; the remainder shall refer to the type named by the suffix.
+types; the remainder shall refer to the type named by the suffix. Otherwise,
+the type shall be \terminal{iconst} with both maximum and minimum set to the
+number provided. If the \nonterminal{integer-suffix} isn't provided and a type
+hint is provided, the \secref{Flexible constant promotion algorithm} shall be
+aplied to the result type and the type hint. If promotion fails, the result
+shall instead be the \terminal{iconst}'s default type.
 
 \specsubitem
 If the number provided is not within the limits of the precision of the
@@ -244,8 +249,10 @@ integer shall be multiplied by 10 to the power of \nonterminal{decimal-digits}.
 \end{grammar}
 
 \specsubsubitem
-If a type hint is provided, the type shall be the type hint. Otherwise, the type
-shall be \terminal{rune}.
+If a type hint is provided, the result type shall be the
+\secref{Flexible constant promotion algorithm} applied to \terminal{rconst}
+and the hint. If constant promotion fails or a hint is not provided, the result
+type shall be \terminal{rconst}.
 
 \specsubsubitem
 If the \nonterminal{rune-constant} is not an \nonterminal{escape-sequence}, the
@@ -1242,6 +1249,12 @@ members, including the otherwise non-castable types of \terminal{bool} and
 \terminal{void}, as well as any other tagged union type.
 
 \specsubsubitem
+When a flexible constant type is cast to another type, the
+\secref{Flexible constant promotion algorithm} shall be applied to them, and
+the flexible constant shall be castable to the other type if the promotion
+succeeds.
+
+\specsubsubitem
 When an integer type is cast to an integer of less precision, it shall be
 truncated towards the least significant bit.
 
@@ -1884,6 +1897,11 @@ type.
 non-const type. Types with the error flag set have the same assignability rules
 as the equivalent type with the flag unset.
 
+\specsubsubitem
+If at least one of the types is a flexible constant, the
+\secref{Flexible constant promotion algorithm} shall be applied to them, and
+they shall be considered mutually assignable if the promotion succeeds.
+
 \informative{In the context of an assignment expression,
 \subsubitemref{Assignment}{2} prevents the modification of objects with a const
 type. However, the \textit{assignability} rules are referred to in many other
@@ -1978,6 +1996,8 @@ operator (\terminal{\&}).
 
 \specsubsubitem
 The type of the binding shall not use a type which has a zero or undefined size.
+If the type of a binding is a flexible constant type, it shall first be lowered
+to its default type.
 
 \specsubsection{Deferred expressions}
 
@@ -2152,6 +2172,10 @@ result type shall be equivalent to the type of the operand which has the
 highest precision.
 
 \specsubitem
+For expressions involving at least one flexible constant type, the result type
+shall be determined by the \secref{Flexible constant promotion algorithm}.
+
+\specsubitem
 For expressions involving two integer types, the type of lower precision may be
 promoted to the type of higher precision only if the signedness is the same for
 each operand. A type cannot be promoted to \terminal{uintptr}.
@@ -2185,20 +2209,6 @@ equivalent member type.
 \specsubitem
 A non-aliased type A may promote to a type alias B if type A may promote to the
 underlying type of type B.
-
-% TODO: This is an awful edge case, fix harec first
-% Ideally, constants wouldn't be lowered to int without a type hint, then we
-% could specify promotion and assignability normally for them and lower them to
-% int in bindings (and maybe some other places?)
-
-\specsubitem
-If one operand is a constant and the other is not, the constant shall receive
-the result type of the other operand as a type hint and type promotion shall be
-done between its result type and the other operand's result type.
-
-\specsubitem
-If both operands are constants, they shall both receive the lowest-precision
-integer type which would hold both of them as a type hint.
 
 \specsection{Translation compatible expression subset}
 
@@ -2281,3 +2291,52 @@ the translation phase shall print a diagnostic message and abort.
 If exactly one type remains, it shall be the result of the result type reduction
 algorithm. If more than one type remains, the result of the result type
 reduction algorithm shall be a tagged union containing the remaining types.
+
+\specsection{Flexible constant promotion algorithm}
+
+\specsubitem
+The flexible constant promotion algorithm shall operate on two types, at least
+one of which shall be a flexible constant type.
+
+\specsubitem
+If both operands are \terminal{iconst}, they shall both be lowered to
+\terminal{iconst} with the minimum value set to the smaller of their
+minimum values and the maximum value set to the larger of their maximum values,
+and that type shall be the result.
+
+\specsubitem
+Otherwise, if both operands are \terminal{fconst} or both are \terminal{rconst},
+they shall both be lowered to a new \terminal{fconst} or \terminal{rconst}
+respectively, and that type shall be the result. If both operands are flexible
+constant types with different storages, the promotion shall fail.
+
+\specsubitem
+If one operand is a tagged union type and promotion between exactly one of its
+members and the flexible constant type succeeds, the side effects of that
+promotion shall occur and that member shall be the result of the promotion.
+Otherwise, the promotion shall fail.
+
+\specsubitem
+If one operand is \terminal{fconst} and the other is a floating type, the
+\terminal{fconst} shall be lowered to the floating type, which shall be the
+result of the promotion. Otherwise, the promotion shall fail.
+
+% XXX: Should prevent eg. promoting -1337 to u8
+
+\specsubitem
+If one operand is \terminal{iconst} and the other is a signed integer type, the
+promotion shall succeed if both the minimum and maximum values fields of the
+\terminal{iconst} are within the limits of the other type. If one operand is
+\terminal{iconst} and the other is an unsigned integer type, the promotion shall
+succeed if the maximum value of the iconst is within the limits of the other
+type. If the promotion succeeds, the \terminal{iconst} shall be lowered to the
+other type, which shall be the result of the promotion.
+
+% XXX; Should ideally prevent assigning rconst => u8, but need to keep
+% castability
+
+\specsubitem
+If one operand is \terminal{rconst} and the other is either an integer type or
+\terminal{rune}, the \terminal{rconst} shall be lowered to the other type, and
+the other type shall be the result of the promotion. Otherwise, the promotion
+shall fail.
