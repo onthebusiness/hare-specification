@@ -184,13 +184,20 @@ Other semantics of \terminal{@test} functions are implementation-defined.
 	\nonterminal{use-statement} \nonterminal{imports}\\
 
 \nonterminaldef{use-statement}\\
-	\terminal{use} \nonterminal{identifier} \terminal{;}\\
-	\terminal{use} \nonterminal{name} \terminal{=} \nonterminal{identifier} \terminal{;}\\
-	\terminal{use} \nonterminal{identifier} \terminal{::} \terminal{\{} \nonterminal{name-list} \terminal{\}} \terminal{;}\\
+	\terminal{use} \optional{\nonterminal{import-alias}} \nonterminal{identifier} \terminal{;}\\
+	\terminal{use} \optional{\nonterminal{import-alias}} \nonterminal{identifier} \terminal{::} \terminal{\{} \nonterminal{member-list} \terminal{\}} \terminal{;}\\
+	\terminal{use} \nonterminal{identifier} \terminal{::} \terminal{*} \terminal{;}\\
 
-\nonterminaldef{name-list}\\
-	\nonterminal{name} \optional{\terminal{,}}\\
-	\nonterminal{name} \terminal{,} \nonterminal{name-list}\\
+\nonterminaldef{import-alias}\\
+	\nonterminal{name} \terminal{=}\\
+
+\nonterminaldef{member-list}\\
+	\nonterminal{member} \optional{\terminal{,}}\\
+	\nonterminal{member} \terminal{,} \nonterminal{member-list}\\
+
+\nonterminaldef{member}\\
+	\nonterminal{name}\\
+	\nonterminal{name} \terminal{=} \nonterminal{name}\\
 \end{grammar}
 
 \specsubitem
@@ -215,27 +222,35 @@ where x is the most-specific namespace, and y is each of the exported members
 of the target module.
 
 \specsubitem
-The second form of the \nonterminal{use-statement} shall cause the identifiers
-declared by the target module to become visible to this \nonterminal{sub-unit}
-in a rewritten form, with the fully-qualified namespace of the identifiers
-being visible under the namespace described by the \nonterminal{name} given in
-this form.
+The second form of the \nonterminal{use-statement} shall cause only the members
+listed in the \nonterminal{member-list}, qualified in the context of the target
+namespace to become visible in their un-qualified form to this
+\nonterminal{sub-unit}.
+
+\specsubitem
+A \nonterminal{member} in the first form shall become visible with the name
+given by its definition in the target namespace. A \nonterminal{member} in the
+second form shall become visible with the name given by the first
+\nonterminal{name} in this form.
+
+\informative{In the use statement \code{use bar::baz::\{bat\}}, identifier
+\code{bar::baz::bat} may be referred to by its unqualified name \code{bat} in
+the scope of this \nonterminal{sub-unit}.}
+
+\specsubitem
+The third form of the \nonterminal{use-statement} shall cause all identifiers
+qualified in the context of the target namespace to become visible in their
+un-qualified form to this \nonterminal{sub-unit}.
+
+\specsubitem
+The forms with \terminal{import-alias} shall be equivalent to the forms without
+it except that the identifiers shall become visible under the namespace
+described by the \nonterminal{name} given in this form.
 
 \informative{In the use statement \code{use foo = bar::baz;}, identifiers in
 the namespace \code{bar::baz} will be visible under the namespace \code{foo}.
 For example, if the fully-qualified identifier \code{bar::baz::bat} exists, this
 \nonterminal{sub-unit} may refer to it as \code{foo::bat}.}
-
-\specsubitem
-The third form of the \nonterminal{use-statement} shall cause only the
-identifiers listed in the \nonterminal{name-list}, qualified in the context
-of the target namespace, to become visible in their un-qualified form to this
-\nonterminal{sub-unit}.
-
-\informative{If the use statement \code{use bar::baz::\{bat\}} were specified
-in the same conditions as the previous example, the fully-qualified identifier
-\code{bar::baz::bat} may be referred to by its unqualified name \code{bat} in
-the scope of this \nonterminal{sub-unit}.}
 
 \specsubitem
 The translation unit shall establish a scope into which all
