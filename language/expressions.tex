@@ -574,12 +574,9 @@ case the array referred to by its data field shall be freed.
 
 \begin{grammar}
 \nonterminaldef{assertion-expression} \\
-	\terminal{assert} \terminal{(} \nonterminal{expression} \terminal{)} \\
-	\terminal{assert} \terminal{(} \nonterminal{expression} \terminal{,} \nonterminal{string-constant} \terminal{)} \\
-	\terminal{static} \terminal{assert} \terminal{(} \nonterminal{expression} \terminal{)} \\
-	\terminal{static} \terminal{assert} \terminal{(} \nonterminal{expression} \terminal{,} \nonterminal{string-constant} \terminal{)} \\
-	\terminal{abort} \terminal{(} \optional{\nonterminal{string-constant}} \terminal{)} \\
-	\terminal{static} \terminal{abort} \terminal{(} \optional{\nonterminal{string-constant}} \terminal{)} \\
+	\optional{\terminal{static}} \terminal{assert} \terminal{(} \nonterminal{expression} \terminal{)} \\
+	\optional{\terminal{static}} \terminal{assert} \terminal{(} \nonterminal{expression} \terminal{,} \nonterminal{string-constant} \terminal{)} \\
+	\optional{\terminal{static}} \terminal{abort} \terminal{(} \optional{\nonterminal{string-constant}} \terminal{)} \\
 \end{grammar}
 % TODO: Specify the calling semantics for sys::assert and sys::abort
 % Blocked until we start specifying the runtime library details
@@ -600,7 +597,7 @@ printed and the execution phase aborted. The programmer may provide the
 \nonterminal{string-constant} to be included in the diagnostic message.
 
 \specsubsubitem
-In the \terminal{static} form, \nonterminal{expression} shall be limited to the
+If \terminal{static} is given, \nonterminal{expression} shall be limited to the
 \secref{Translation compatible expression subset}, shall be evaluated in the
 translation environment, and is otherwise equivalent to the other forms.
 
