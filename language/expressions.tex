@@ -112,7 +112,9 @@ named by the suffix.
 \specsubitem
 If the \nonterminal{exponent} is provided, the value of the
 constant shall be multiplied by 10 to the power of
-\nonterminal{decimal-digits}.
+\nonterminal{decimal-digits}. If \nonterminal{sign} is provided within the
+\nonterminal{exponent}, \nonterminal{decimal-digits} shall assume the given
+sign.
 
 \specsubsection{Integer constants}
 
@@ -211,6 +213,8 @@ If no prefix is used, the number shall be interpreted with a decimal base.
 \specsubitem
 If the \nonterminal{exponent} is provided, the value of the
 integer shall be multiplied by 10 to the power of \nonterminal{decimal-digits}.
+If \nonterminal{sign} is provided and is negative (\terminal{-}), a diagnostic
+message shall be printed and the translation phase shall abort.
 
 \specsubsection{Rune constants}
 \begin{grammar}
