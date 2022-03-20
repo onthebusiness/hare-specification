@@ -23,6 +23,7 @@
 	\nonterminal{pointer-type} \\
 	\terminal{rune} \\
 	\terminal{bool} \\
+	\terminal{valist} \\
 	\terminal{void} \\
 \end{grammar}
 
@@ -379,6 +380,24 @@ only store a specific, implementation-defined value (the \textit{null} value).
 \specsubsubitem
 There is no grammar for defining a value of type null, or a sub-type of null. It
 is for internal use only, as the type of the \terminal{null} constant.
+
+\textbf{The valist type}
+
+\specsubsubitem
+The \terminal{valist} type is provided for compatibility with the C programming
+language as specified by ISO/IEC 9899:2011. Implementation support is optional:
+implementations which do not provide C ABI compatibility must parse this type,
+print a diagnostic message, and abort.
+
+\specsubsubitem
+The size and alignment of the \terminal{valist} shall be an
+implementation-defined value which shall be at least eight, and shall be
+divisible by eight.
+
+\specsubsubitem
+Copying a \terminal{valist} value via an \subsecref{Assignment} expression
+shall be equivalent to the "va\_copy" macro described by ISO/IEC 9899:2011
+section 7.16.1.2.
 
 \textbf{The void type}
 

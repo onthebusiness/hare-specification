@@ -1122,6 +1122,47 @@ operators use postfix notation.
 \nonterminal{object-selector} defines a subset of postfix expressions which
 refer to objects, for use in other parts of the grammar.
 
+\specsubsection{Variadic expressions}
+
+\begin{grammar}
+\nonterminaldef{variadic-expression} \\
+	\terminal{vastart} \terminal{(} \terminal{)} \\
+	\terminal{vaarg} \terminal{(} \nonterminal{object-selector} \terminal{)} \\
+	\terminal{vaend} \terminal{(} \nonterminal{object-selector} \terminal{)} \\
+\end{grammar}
+
+\specsubsubitem
+Variadic expressions are provided for compatibility with the C programming
+language as specified by ISO/IEC 9899:2011. Implementation support is optional:
+implementations which do not provide C ABI compatibility must parse these
+expressions, print a diagnostic message, and abort.
+
+\informative{These expressions are used only for C compatibility. "Hare-style"
+variadism is handled separately.}
+
+\specsubsubitem
+The \terminal{vastart} expression shall have a result type of
+\terminal{valist}, and may only be used within a function body which uses
+C-style variadism. It will initialize a structure compatible with the
+"va\_list" type defined by ISO/IEC 9899:2011 section 7.16.3 such that the first
+use of "va\_next" would return the first variadic parameter.
+
+\specsubsubitem
+The \terminal{vaarg} expression accepts an \nonterminal{object-selector} which
+must be of the \terminal{valist} type. The expression shall also be provided a
+type hint. The result of the expression shall be the next variadic parameter
+from the \terminal{valist} object of the type provided by the type hint, and
+the object shall be advanced to the next parameter. This expression shall
+behave in a manner compatible with ISO/IEC 9899:2011 section 7.16.1.1's
+"va\_arg" macro.
+
+\specsubsubitem
+The \terminal{vaend} expression accepts an \nonterminal{object-selector} which
+must be of the \terminal{valist} type. The implementation shall finalize the
+\terminal{valist} object in an implementation-defined manner which is
+compatible with ISO/IEC 9899:2011 section 7.16.1.2. The result type of this
+expression is \terminal{void}.
+
 \specsubsection{Builtin expressions}
 
 \begin{grammar}
@@ -1132,6 +1173,7 @@ refer to objects, for use in other parts of the grammar.
 	\nonterminal{measurement-expression} \\
 	\nonterminal{slice-mutation-expression} \\
 	\nonterminal{postfix-expression} \\
+	\nonterminal{variadic-expression} \\
 \end{grammar}
 
 \specsubsection{Unary arithmetic}
