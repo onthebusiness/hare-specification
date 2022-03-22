@@ -101,13 +101,9 @@ Floating constants represent an IEEE 754-compatible floating-point
 number in either the binary32 or binary64 format.
 
 \specsubitem
-If the \nonterminal{floating-suffix} is not provided and a type hint is
-provided, the type shall be the
-\secref{Flexible constant promotion algorithm} applied to \terminal{fconst}
-and the hint, or \terminal{fconst} if constant promotion fails. If the
-\nonterminal{floating-suffix} is not provided and a type hint is not provided,
-the type shall be \terminal{fconst}. Otherwise, the type shall refer to the type
-named by the suffix.
+If the \nonterminal{floating-suffix} is not provided, the result shall be
+\terminal{fconst}. Otherwise, the type shall refer to the type named by the
+suffix.
 
 \specsubitem
 If the \nonterminal{exponent} is provided, the value of the
@@ -195,10 +191,7 @@ suffix. Suffixes \terminal{i}, \terminal{u},  and \terminal{z} shall
 respectively refer to the \terminal{int}, \terminal{uint}, and \terminal{size}
 types; the remainder shall refer to the type named by the suffix. Otherwise,
 the type shall be \terminal{iconst} with both maximum and minimum set to the
-number provided. If the \nonterminal{integer-suffix} isn't provided and a type
-hint is provided, the \secref{Flexible constant promotion algorithm} shall be
-aplied to the result type and the type hint. If promotion fails, the result
-shall instead be the \terminal{iconst}'s default type.
+number provided.
 
 \specsubitem
 If the number provided is not within the limits of the precision of the
@@ -253,10 +246,7 @@ message shall be printed and the translation phase shall abort.
 \end{grammar}
 
 \specsubsubitem
-If a type hint is provided, the result type shall be the
-\secref{Flexible constant promotion algorithm} applied to \terminal{rconst}
-and the hint. If constant promotion fails or a hint is not provided, the result
-type shall be \terminal{rconst}.
+A \nonterminal{rune-constant} shall have a result type of \terminal{rconst}.
 
 \specsubsubitem
 If the \nonterminal{rune-constant} is not an \nonterminal{escape-sequence}, the
