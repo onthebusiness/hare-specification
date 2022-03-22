@@ -2350,6 +2350,8 @@ constant types with different storages, the promotion shall fail.
 If one operand is a tagged union type and promotion between exactly one of its
 members and the flexible constant type succeeds, the side effects of that
 promotion shall occur and that member shall be the result of the promotion.
+Otherwise, if the constant's default type is a member of the tagged union, the
+constant shall be lowered to its default type and the promotion shall succeed.
 Otherwise, the promotion shall fail.
 
 \specsubitem
