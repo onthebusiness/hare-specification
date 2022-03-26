@@ -572,9 +572,6 @@ The tag value shall be the type ID of the type which is selected from the
 constituent types. This value shall be stored at the \terminal{uint} field and
 shall indicate which type is stored in the value area.
 
-\informative{It follows that the types \code{(A | B)} and \code{(B | A)}
-are equivalent.}
-
 \specsubsubitem
 The alignment of a tagged union type shall be the alignment of the
 \terminal{uint} type or the maximum alignment of the constituent types,
@@ -601,6 +598,9 @@ A tagged union type shall be equivalent to another tagged union type if they
 share the same set of secondary types, without regard to order, and considering
 the secondary types of nested tagged unions as members of the set of their
 parent's secondary types.
+
+\informative{It follows that the types \code{(A | B)} and \code{(B | A)}
+are equivalent.}
 
 \specsubsection{Slice and array types}
 
