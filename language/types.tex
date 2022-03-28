@@ -250,7 +250,7 @@ phase.}
 \begin{grammar}
 \nonterminaldef{enum-type} \\
 	\terminal{enum} \terminal{\{} \nonterminal{enum-values} \terminal{\}} \\
-	\terminal{enum} \nonterminal{integer-type} \terminal{\{} \nonterminal{enum-values} \terminal{\}} \\
+	\terminal{enum} \nonterminal{enum-storage} \terminal{\{} \nonterminal{enum-values} \terminal{\}} \\
 
 \nonterminaldef{enum-values} \\
 	\nonterminal{enum-value} \optional{\terminal{,}} \\
@@ -259,17 +259,29 @@ phase.}
 \nonterminaldef{enum-value} \\
 	\nonterminal{name} \\
 	\nonterminal{name} \terminal{=} \nonterminal{expression} \\
+
+\nonterminaldef{enum-storage} \\
+	\nonterminal{integer-type} \\
+	\terminal{rune} \\
+
 \end{grammar}
 
 \specsubsubitem
-Enum types, or \textit{enumerated types}, are a subset of integer types which
-allows the user to assign a name to specific values. Enum types are considered
-\textit{numeric types}.
+Enum types, or \textit{enumerated types}, are types which allow the user to
+assign a name to specific values.
 
 \specsubsubitem
-If \nonterminal{integer-type} is specified, the underlying storage of the enum
-type is defined by the integer type specified. Otherwise, the underlying storage
-is \terminal{int}.
+If \nonterminal{enum-storage} is specified, the underlying storage of the enum
+type is defined by the type specified. Otherwise, the underlying storage is
+\terminal{int}.
+
+\specsubsubitem
+If an enum type's underlying storage is classified as a \textit{numeric type},
+the encompassing enum shall also be considered a \textit{numeric type}.
+
+\informative{In practice, this means that all enum types are
+\textit{numeric types}, except for those whose underlying storage is
+\terminal{rune}.}
 
 \specsubsubitem
 The size and alignment of an enum type is equivalent to those attributes of the
