@@ -518,7 +518,8 @@ provided a type hint of a pointer type, the secondary type of this pointer type
 shall be provided to the initializer as its type hint. The execution
 environment will allocate sufficient storage for the object type and initialize
 its value using the initializer expression, then set its result to a pointer to
-the new object.
+the new object. The object type must have a defined size which is be greater
+than zero.
 
 \specsubsubitem
 The second form is the copy allocation form. In this form, the initializer will
