@@ -1,3 +1,5 @@
+.POSIX:
+
 all:
 	xelatex specification.tex
 
@@ -10,4 +12,4 @@ watch:
 		-e close_write language/; \
 		do make; done
 
-.PHONY: all clean
+.PHONY: all clean watch
