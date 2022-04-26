@@ -2131,21 +2131,19 @@ the scope in which the \nonterminal{compound-expression} resides.
 \end{grammar}
 
 \specsubsubitem
-\nonterminal{control-expression} causes a \textit{selected}
-\nonterminal{compound-expression} to terminate in a specific way. Control
-statements and yield expresisons are terminating expressions and their result
-type is \terminal{void}.
+A \nonterminal{control-expression} causes a \textit{selected}
+\nonterminal{expression} to terminate in a specific way. All control expressions
+are terminating expressions, and their result type is \terminal{void}.
 
 \specsubsubitem
-The rules for the selection of an applicable \nonterminal{compound-expression}
-vary based on the kind of control expression used. If a label is used, it shall
-select the corresponding labelled \nonterminal{compound-expression} from the
-anscestors of the \nonterminal{control-expression}, and the selected expression
-shall meet the requirements for the appropriate control expression type.
-Otherwise, the first qualifying \nonterminal{compound-expression} among the
-ancestors of the \nonterminal{control-expression} is used, ordered such that
-the nearest ancestor is considered first. If no suitable
-\nonterminal{compound-expression} is selected, a diagnostic message will be
+The rules for selection of an applicable \nonterminal{expression} vary based on
+the kind of control expression used. If a label is used, it shall select the
+corresponding labelled \nonterminal{compound-expression} from the ancestors of
+the \nonterminal{control-expression}, and the selected expression shall meet the
+requirements for the appropriate control expression type. Otherwise, the first
+qualifying \nonterminal{compound-expression} or body of a \nonterminal{for-loop}
+is used, ordered such that the nearest ancestor is considered first. If no
+suitable \nonterminal{expression} is selected, a diagnostic message will be
 displayed and the translation phase shall terminate.
 
 \specsubsubitem
@@ -2167,9 +2165,9 @@ assignable to that type.
 \specsubsubitem
 The \nonterminal{yield-expression} form shall select any
 \nonterminal{compound-expression} which is not eligible for the other forms;
-that is, any compound expression which is not a function or loop body. If an
-expression is provided, it shall not terminate, and shall be used as the result
-value for the \nonterminal{compound-expression}. See the description of
+that is, any compound expression which is not the body of a function or loop. If
+an expression is provided, it shall not terminate, and shall be used as the
+result value for the \nonterminal{compound-expression}. See the description of
 \nonterminal{compound-expression} for details on the type semantics associated
 with a yield expression.
 
