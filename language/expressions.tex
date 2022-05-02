@@ -212,10 +212,10 @@ message shall be printed and the translation phase shall abort.
 \specsubsection{Rune constants}
 \begin{grammar}
 \nonterminaldef{rune-constant} \\
-	\terminal{'} \nonterminal{rune} \terminal{'} \\
+	\terminal{\textquotesingle} \nonterminal{rune} \terminal{\textquotesingle} \\
 
 \nonterminaldef{rune} \\
-	\norm{Any character other than \terminal{\textbackslash} or \terminal{'}} \\
+	\norm{Any character other than \terminal{\textbackslash} or \terminal{\textquotesingle}} \\
 	\nonterminal{escape-sequence} \\
 
 \nonterminaldef{escape-sequence} \exactly \\
@@ -241,7 +241,7 @@ message shall be printed and the translation phase shall abort.
 	\terminal{\textbackslash{}t}
 	\terminal{\textbackslash{}v}
 	\terminal{\textbackslash\textbackslash}
-	\terminal{\textbackslash'}
+	\terminal{\textbackslash\textquotesingle}
 	\terminal{\textbackslash"} \\
 \end{grammar}
 
@@ -275,7 +275,7 @@ Escape sequence & Unicode codepoint & Escape sequence & Unicode codepoint \\
 \terminal{\textbackslash{}t} & \code{U+0009} &
 \terminal{\textbackslash{}v} & \code{U+000B} \\
 \terminal{\textbackslash\textbackslash} & \code{U+005C} &
-\terminal{\textbackslash'} & \code{U+002C} \\
+\terminal{\textbackslash\textquotesingle} & \code{U+0027} \\
 \terminal{\textbackslash"} & \code{U+0022} \\
 \end{tabular}
 
@@ -284,7 +284,7 @@ Escape sequence & Unicode codepoint & Escape sequence & Unicode codepoint \\
 \begin{grammar}
 \nonterminaldef{string-constant} \\
 	\terminal{"} \optional{\nonterminal{string-chars}} \terminal{"} \\
-	\terminal{`} \optional{\nonterminal{rawstring-chars}} \terminal{`} \\
+	\terminal{\textasciigrave} \optional{\nonterminal{rawstring-chars}} \terminal{\textasciigrave} \\
 	\nonterminal{string-constant} \nonterminal{string-constant} \\
 
 \nonterminaldef{string-chars} \\
@@ -298,7 +298,7 @@ Escape sequence & Unicode codepoint & Escape sequence & Unicode codepoint \\
 	\nonterminal{rawstring-char} \optional{\nonterminal{rawstring-char}} \\
 
 \nonterminaldef{rawstring-char} \\
-	\norm{Any character other than \terminal{`}} \\
+	\norm{Any character other than \terminal{\textasciigrave}} \\
 \end{grammar}
 
 \specsubsubitem
