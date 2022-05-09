@@ -429,9 +429,9 @@ storage.
 	\nonterminal{struct-union-field} \terminal{,} \nonterminal{struct-union-fields} \\
 
 \nonterminaldef{struct-union-field} \\
-	\optional{offset-specifier} \nonterminal{name} \terminal{:} \nonterminal{type} \\
-	\optional{offset-specifier} \nonterminal{struct-union-type} \\
-	\optional{offset-specifier} \nonterminal{identifier} \\
+	\optional{\nonterminal{offset-specifier}} \nonterminal{name} \terminal{:} \nonterminal{type} \\
+	\optional{\nonterminal{offset-specifier}} \nonterminal{struct-union-type} \\
+	\optional{\nonterminal{offset-specifier}} \nonterminal{identifier} \\
 
 \nonterminaldef{offset-specifier} \\
 	\terminal{@offset} \terminal{(} \nonterminal{expression} \terminal{)}
