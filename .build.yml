@@ -16,6 +16,11 @@ tasks:
     make
     make # for the ToC
 - upload: |
+    if [ $BUILD_SUBMITTER != "git.sr.ht" ]
+    then
+        echo "Skipping upload for non-git.sr.ht build"
+        exit
+    fi
     cd hare-specification
     echo "StrictHostKeyChecking=no" >> ~/.ssh/config
     rsync -rP specification.pdf deploy@drewdevault.com:/var/www/harelang.org/
