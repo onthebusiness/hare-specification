@@ -364,27 +364,6 @@ the value for the \textit{N}th array member.
 If the \terminal{...} form is used, the result's array type shall be expandable.
 If a type hint is available, it shall not be of a context-defined array type.
 
-\specsubsection{Enum literals}
-
-\begin{grammar}
-\nonterminaldef{enum-literal} \exactly \\
-	\nonterminal{identifier} \terminal{::} \nonterminal{name} \\
-\end{grammar}
-
-\specsubsubitem
-An \nonterminal{enum-literal} expression produces a value of an enum type. The
-\nonterminal{identifier} shall be a type alias (see \subsecref{Type aliases})
-which refers to an enum type. The result type shall be the type alias to which
-the \nonterminal{identifier} refers.
-
-\specsubsubitem
-The enum type to which the type alias refers shall have an
-\nonterminal{enum-value} whose name is the \nonterminal{enum-literal}'s
-\nonterminal{name}. The result of the \nonterminal{enum-literal}
-shall be the value assigned to this \nonterminal{enum-value}. If there is no
-such \nonterminal{enum-value}, a diagnostic message shall be printed and the
-translation phase shall abort. 
-
 \specsubsection{Struct literals}
 
 \begin{grammar}
@@ -462,7 +441,6 @@ given, its fields shall be interpreted as fields of the parent struct.
 	\nonterminal{identifier} \\
 	\nonterminal{constant} \\
 	\nonterminal{array-literal} \\
-	\nonterminal{enum-literal} \\
 	\nonterminal{struct-literal} \\
 
 \nonterminaldef{nested-expression} \\
