@@ -250,7 +250,7 @@ phase.}
 \begin{grammar}
 \nonterminaldef{enum-type} \\
 	\terminal{enum} \terminal{\{} \nonterminal{enum-values} \terminal{\}} \\
-	\terminal{enum} \nonterminal{enum-storage} \terminal{\{} \nonterminal{enum-values} \terminal{\}} \\
+	\terminal{enum} \optional{\nonterminal{enum-storage}} \terminal{\{} \nonterminal{enum-values} \terminal{\}} \\
 
 \nonterminaldef{enum-values} \\
 	\nonterminal{enum-value} \optional{\terminal{,}} \\
