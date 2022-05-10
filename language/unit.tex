@@ -103,14 +103,79 @@ in the translation environment. The type of the value of the
 	\terminal{type} \nonterminal{type-bindings} \\
 
 \nonterminaldef{type-bindings} \\
-	\nonterminal{identifier} \terminal{=} \nonterminal{type} \optional{\terminal{,}} \\
-	\nonterminal{identifier} \terminal{=} \nonterminal{type} \terminal{,} \nonterminal{type-bindings} \\
+	\nonterminal{type-binding} \optional{\terminal{,}} \\
+	\nonterminal{type-binding} \terminal{,} \nonterminal{type-bindings} \\
+
+\nonterminaldef{type-binding} \\
+	\nonterminal{identifier} \terminal{=} \nonterminal{type} \\
+	\nonterminal{identifier} \terminal{=} \nonterminal{enum-type}
+
+\nonterminaldef{enum-type} \\
+	\terminal{enum} \terminal{\{} \nonterminal{enum-values} \terminal{\}} \\
+	\terminal{enum} \optional{\nonterminal{enum-storage}} \terminal{\{} \nonterminal{enum-values} \terminal{\}} \\
+
+\nonterminaldef{enum-values} \\
+	\nonterminal{enum-value} \optional{\terminal{,}} \\
+	\nonterminal{enum-value} \terminal{,} \nonterminal{enum-values} \\
+
+\nonterminaldef{enum-value} \\
+	\nonterminal{name} \\
+	\nonterminal{name} \terminal{=} \nonterminal{expression} \\
+
+\nonterminaldef{enum-storage} \\
+	\nonterminal{integer-type} \\
+	\terminal{rune} \\
+
 \end{grammar}
 
 \specsubsubitem
-In a \nonterminal{type-declaration}, the \nonterminal{identifier}s shall declare
-type aliases. In a \nonterminal{type-binding}, the underlying type for the
-\nonterminal{identifier} shall be the \nonterminal{type}.
+In a \nonterminal{type-declaration}, the \nonterminal{identifier}s shall
+declare type aliases. In the first form of \nonterminal{type-binding}, the
+underlying type for the \nonterminal{identifier} shall be the
+\nonterminal{type}. In the second form, the underlying type shall be
+\nonterminal{enum-storage}, if specified. Otherwise, the underlying type shall
+be \terminal{int}.
+
+\specsubsubitem
+In the second form of \nonterminal{type-binding}, the enum values qualified
+with the binding's \nonterminal{identifier} shall be made available to the
+translation environment. No storage shall be allocated for them in the
+execution environment, and they shall not be addressable.
+
+\specsubsubitem
+If the \nonterminal{enum-value} does not specify a \nonterminal{expression},
+the value assigned to that \nonterminal{name} is equal to the last value
+assigned to an \nonterminal{enum-value} of this enum type plus one. If no such
+previous value exists, zero is assigned.
+
+\specsubsubitem
+An implicitly assigned \nonterminal{enum-value} shall not exceed the precision
+of the underlying integer type; if it were to, a diagnostic message shall be
+shown instead per \secref{Diagnostics}.
+
+\specsubsubitem
+\nonterminal{expression}, if specified, shall be evaluated in the translation
+environment and the resulting value shall be assigned to the corresponding
+\nonterminal{enum-value}. The \nonterminal{expression} shall be provided the
+enum's type's underlying integer type as a type hint. The result type must be
+assignable to the enum type's underlying integer type (ref
+\subsecref{Assignment}).
+
+\specsubsubitem
+A temporary scope shall be allocated while declaring an enum type, and each value
+name, in order, shall be made available to that scope.
+
+\informative{This allows the \nonterminal{expression} for each value to refer
+to previously declared values.}
+
+\specsubsubitem
+Each \nonterminal{enum-value}'s name shall be unique within the set of all
+names of \nonterminal{enum-value}s of the \nonterminal{enum-type}. Otherwise, a
+diagnostic message shall be printed and the translation phase shall be aborted.
+
+\specsubsubitem
+\nonterminal{expression} shall be limited to the
+\secref{Translation compatible expression subset}.
 
 \specsubsection{Function declarations}
 
