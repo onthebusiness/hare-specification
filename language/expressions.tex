@@ -1694,7 +1694,7 @@ condition evaluates to \terminal{false}.
 Forward references: \subsecref{Compound expressions}
 
 \specsubsubitem
-A switch statement evaluates a value (\nonterminal{expression}, the
+A switch expression evaluates a value (\nonterminal{expression}, the
 \textit{switching expression}), then compares it with a number of
 \nonterminal{switch-cases}, taking whichever branch matches the value. The
 switching expression's result type must either be numeric or be a
@@ -1716,7 +1716,7 @@ the switching expression's result, setting the result of the overall switch
 expression to the result of the selected \nonterminal{switch-case}.
 
 \informative{As such, the appropriate way to set the result of a switch
-statement is with a \nonterminal{yield-expression}. The semantics of
+expression is with a \nonterminal{yield-expression}. The semantics of
 \nonterminal{deferred-expression}, \nonterminal{bindings}, and so on, are also
 implicated.}
 
@@ -1766,7 +1766,7 @@ non-terminating branches.
 Forward references: \subsecref{Compound expressions}
 
 \specsubsubitem
-A match statement evaluates a value (\nonterminal{expression}, the
+A match expression evaluates a value (\nonterminal{expression}, the
 \textit{matching expression}), then selects and evaluates another expression
 based on its result type. The result type of the matching expression must be a
 tagged union or nullable pointer type, or an alias of either.
@@ -1789,13 +1789,13 @@ Each \nonterminal{match-case} introduces an implicit
 shall evaluate the \nonterminal{expression-list} of the corresponding
 \nonterminal{match-case} if the value of the matching expression is of the type
 specified by this match case, or can be assigned from it, setting the result of
-the overall match statement to the result of the selected
+the overall match expression to the result of the selected
 \nonterminal{match-case}.
 
 % TODO: Write up new matching algorithm
 
 \informative{As such, the appropriate way to set the result of a match
-statement is with a \nonterminal{yield-expression}. The semantics of
+expression is with a \nonterminal{yield-expression}. The semantics of
 \nonterminal{deferred-expression}, \nonterminal{bindings}, and so on, are also
 implicated.}
 
@@ -2121,7 +2121,7 @@ following the first terminating expression in a \nonterminal{compound-expression
 The \nonterminal{compound-expression} shall establish a new scope whose parent is
 the scope in which the \nonterminal{compound-expression} resides.
 
-\specsubsection{Control statements}
+\specsubsection{Control expressions}
 
 \begin{grammar}
 \nonterminaldef{control-expression} \\
