@@ -2352,11 +2352,9 @@ succeed if the maximum value of the iconst is within the limits of the other
 type. If the promotion succeeds, the \terminal{iconst} shall be lowered to the
 other type, which shall be the result of the promotion.
 
-% XXX; Should ideally prevent assigning rconst => u8, but need to keep
-% castability
-
 \specsubitem
-If one operand is \terminal{rconst} and the other is either an integer type or
-\terminal{rune}, the \terminal{rconst} shall be lowered to the other type, and
-the other type shall be the result of the promotion. Otherwise, the promotion
-shall fail.
+If one operand is \terminal{rconst} and the other is \terminal{rune}, the
+\terminal{rconst} shall be lowered into a \terminal{rune}. If one operand is
+\terminal{rconst} and the other is an integer type, the promotion shall succeed
+if the \terminal{rconst} value can be represented as the specified integer type
+without any data loss.
