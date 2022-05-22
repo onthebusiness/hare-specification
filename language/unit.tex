@@ -226,14 +226,10 @@ are specified, the last one shall override all previous ones.
 References: \secref{Initialization functions}, \secref{Finalization functions}
 
 \specsubsubitem
-If \terminal{@init}, \terminal{@fini}, \terminal{@test}, or
-\terminal{@noreturn} are given, the result type shall be \terminal{void}.
-
-\specsubsubitem
 Functions declared with \terminal{@test}, \terminal{@init}, or \terminal{@fini}
-shall accept no parameters, shall return void, shall not appear in
-\nonterminal{object-selector}s, need not have unique names, and shall not be
-inserted into the unit's scope.
+shall accept no parameters, shall return void, shall not be declared with
+\terminal{@noreturn}, shall not appear in \nonterminal{object-selector}s, need
+not have unique names, and shall not be inserted into the unit's scope.
 
 \specsubsubitem
 Other semantics of \terminal{@test} functions are implementation-defined.
