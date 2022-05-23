@@ -1835,6 +1835,7 @@ non-terminating branches.
 	\nonterminal{object-selector} \nonterminal{assignment-op} \nonterminal{expression} \\
 	\terminal{*} \nonterminal{unary-expression} \nonterminal{assignment-op} \nonterminal{expression} \\
 	\nonterminal{slicing-expression} \terminal{=} \nonterminal{expression} \\
+	\terminal{(} \nonterminal{binding-names} \terminal{)} \terminal{=} \nonterminal{expression} \\
 
 \nonterminaldef{assignment-op} \oneof \\
 	\terminal{=}
@@ -1852,6 +1853,8 @@ non-terminating branches.
 	\terminal{||=}
 	\terminal{\textasciicircum\textasciicircum=}
 \end{grammar}
+
+Forward references: \subsecref{Variable binding}
 
 \specsubsubitem
 An \nonterminal{assignment} expression shall cause the object given by the
@@ -1884,6 +1887,17 @@ type, and shall have a length equal to the slice given by
 \terminal{const} type, and the lengths of the two slices shall be equal. The
 contents of the slice given by the second term shall be copied into the slice
 given by the first term.
+
+\specsubsubitem
+In the fourth form, the \nonterminal{expression} shall be of a tuple type, and
+shall have length equal to the number of \nonterminal{binding-name}s specified.
+The implementation shall assign each value of the \nonterminal{expression}
+to the object given by the respective left-hand term. All left-hand terms shall
+be of a non-\terminal{const} type.
+
+\specsubsubitem
+If any name in \nonterminal{binding-names} is \terminal{\_} (an underscore), a
+binding shall not be created.
 
 \specsubsubitem
 The second term shall be \textit{assignable} to the object. Assignability rules
