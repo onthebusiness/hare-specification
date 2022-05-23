@@ -1737,11 +1737,13 @@ non-terminating branches.
 
 \nonterminaldef{match-case} \\
 	\terminal{case} \terminal{let} \nonterminal{name} \terminal{:} \nonterminal{type} \terminal{=>} \nonterminal{expression-list} \\
+	\terminal{case} \terminal{let} \terminal{(} \nonterminal{binding-names} \terminal{)} \terminal{:} \nonterminal{type} \terminal{=>} \nonterminal{expression-list} \\
 	\terminal{case} \nonterminal{type} \terminal{=>} \nonterminal{expression-list} \\
 	\terminal{case} \terminal{=>} \nonterminal{expression-list} \\
 \end{grammar}
 
-Forward references: \subsecref{Compound expressions}
+Forward references: \subsecref{Compound expressions}, \subsecref{Variable
+binding}
 
 \specsubsubitem
 A match expression evaluates a value (\nonterminal{expression}, the
@@ -1787,6 +1789,21 @@ The first form of \nonterminal{match-case}, if selected, shall cause the
 implementation to cast the match expression to the selected type and assign the
 resulting value to \nonterminal{name}. It shall insert this binding into the
 scope of the implicit \nonterminal{compound-expression} of the selected case.
+
+\specsubsubitem
+The second form of \nonterminal{match-case} is the \textit{tuple unpacking}
+form, and in this case, the \nonterminal{type} shall be of a tuple type
+with a number of values equal to the number of items given in
+\nonterminal{binding-names}. The implementation shall cast the match expression
+to the selected type and create separate bindings for each name in
+\nonterminal{binding-names}, of the type of the corresponding tuple value, and
+initialize them to that value from the tuple. It shall insert this binding into
+the scope of the implicit \nonterminal{compound-expression} of the selected
+case.
+
+\specsubsubitem
+If any name in \nonterminal{binding-names} is \terminal{\_} (an underscore), a
+binding shall not be created.
 
 \specsubsubitem
 The match cases shall be \textit{exhaustive}, meaning that every possible type
