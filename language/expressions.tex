@@ -1138,7 +1138,7 @@ expression is \terminal{void}.
 \nonterminaldef{builtin-expression} \\
 	\nonterminal{allocation-expression} \\
 	\nonterminal{assertion-expression} \\
-	\nonterminal{deferred-expression} \\
+	\nonterminal{defer-expression} \\
 	\nonterminal{measurement-expression} \\
 	\nonterminal{slice-mutation-expression} \\
 	\nonterminal{postfix-expression} \\
@@ -1695,7 +1695,7 @@ expression to the result of the selected \nonterminal{switch-case}.
 
 \informative{As such, the appropriate way to set the result of a switch
 expression is with a \nonterminal{yield-expression}. The semantics of
-\nonterminal{deferred-expression}, \nonterminal{bindings}, and so on, are also
+\nonterminal{defer-expression}, \nonterminal{bindings}, and so on, are also
 implicated.}
 
 \specsubsubitem
@@ -1776,7 +1776,7 @@ the overall match expression to the result of the selected
 
 \informative{As such, the appropriate way to set the result of a match
 expression is with a \nonterminal{yield-expression}. The semantics of
-\nonterminal{deferred-expression}, \nonterminal{bindings}, and so on, are also
+\nonterminal{defer-expression}, \nonterminal{bindings}, and so on, are also
 implicated.}
 
 \specsubsubitem
@@ -2056,12 +2056,12 @@ to its default type.
 \specsubsection{Deferred expressions}
 
 \begin{grammar}
-\nonterminaldef{deferred-expression} \\
+\nonterminaldef{defer-expression} \\
 	\terminal{defer} \nonterminal{expression} \\
 \end{grammar}
 
 \specsubsubitem
-A \nonterminal{deferred-expression} causes another expression to be
+A \nonterminal{defer-expression} causes another expression to be
 \textit{deferred} until the termination of the current scope. The result type
 is \terminal{void}.
 
@@ -2075,12 +2075,12 @@ If several expressions are deferred in a single scope, their side-effects shall
 occur in the reverse of the order that they appear in the program source.
 
 \specsubsubitem
-If the current scope is terminated before a \nonterminal{deferred-expression}
+If the current scope is terminated before a \nonterminal{defer-expression}
 (\informative{but not an expression which was already deferred}) would be
 evaluated, the side-effects of the \nonterminal{expression} shall not occur.
 
 \specsubsubitem
-A \nonterminal{deferred-expression} shall not appear as a descendant of the
+A \nonterminal{defer-expression} shall not appear as a descendant of the
 expression tree formed by \nonterminal{expression}.
 
 \specsubsection{Compound expressions}
