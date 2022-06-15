@@ -11,6 +11,16 @@ sources:
 artifacts:
 - hare-specification/specification.pdf
 tasks:
+- signoff: |
+    cd hare-specification
+    if [ "$BUILD_REASON" = "patchset" ]
+    then
+        if ! git log --format='%b' origin/master^^.. | grep 'Signed-off-by' >/dev/null
+        then
+            echo "Patch missing Signed-off-by"
+            exit 1
+        fi
+    fi
 - build: |
     cd hare-specification
     make
