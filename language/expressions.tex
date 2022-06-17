@@ -1731,8 +1731,7 @@ non-terminating branches.
 	\terminal{match} \terminal{(} \nonterminal{expression} \terminal{)} \terminal{\{} \nonterminal{match-cases} \terminal{\}} \\
 
 \nonterminaldef{match-cases} \\
-	\nonterminal{match-case} \terminal{;} \\
-	\nonterminal{match-case} \terminal{;} \nonterminal{match-cases} \\
+	\nonterminal{match-case} \optional{\nonterminal{match-cases}} \\
 
 \nonterminaldef{match-case} \\
 	\terminal{case} \terminal{let} \nonterminal{name} \terminal{:} \nonterminal{type} \terminal{=>} \nonterminal{expression-list} \\
