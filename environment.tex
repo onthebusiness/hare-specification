@@ -48,8 +48,8 @@ Forward references: \secref{Lexical analysis}
 
 \specsubitem
 Syntax analysis is conducted on the token stream, mapping the tokens to an
-abstract syntax tree (AST). The Hare grammar shall define the relationships
-between tokens necessary to produce a valid AST.
+abstract syntax tree (AST). The Hare grammar defines the relationships between
+tokens necessary to produce a valid AST.
 
 Forward references: \chref{Grammar}
 
@@ -131,9 +131,9 @@ expression is not necessary to compute the correct value and cause the same
 side-effects to occur in the same order, it may rewrite or re-order the
 expressions or sub-expressions to produce the same results more optimally.
 
-\informative{The interpretation of this constraint shall be conservative.
+\informative{The interpretation of this constraint should be conservative.
 Implementations should prefer to be predictable over being fast. Programs which
-require greater performance shall prefer to hand-optimize their source code for
+require greater performance should prefer to hand-optimize their source code for
 this purpose.}
 
 Forward references: \secref{Expressions}
