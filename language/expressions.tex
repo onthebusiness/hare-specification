@@ -1138,7 +1138,6 @@ expression is \terminal{void}.
 \nonterminaldef{builtin-expression} \\
 	\nonterminal{allocation-expression} \\
 	\nonterminal{assertion-expression} \\
-	\nonterminal{defer-expression} \\
 	\nonterminal{measurement-expression} \\
 	\nonterminal{slice-mutation-expression} \\
 	\nonterminal{postfix-expression} \\
@@ -2087,8 +2086,9 @@ expression tree formed by \nonterminal{expression}.
 
 \begin{grammar}
 \nonterminaldef{expression-list} \\
-	\nonterminal{expression} \terminal{;} \\
-	\nonterminal{expression} \terminal{;} \nonterminal{expression-list} \\
+	\nonterminal{expression} \terminal{;} \optional{\nonterminal{expression-list}} \\
+	\nonterminal{binding-list} \terminal{;} \optional{\nonterminal{expression-list}} \\
+	\nonterminal{defer-expression} \terminal{;} \optional{\nonterminal{expression-list}} \\
 
 \nonterminaldef{compound-expression} \\
 	\optional{\nonterminal{label}} \terminal{\{} \nonterminal{expression-list} \terminal{\}} \\
@@ -2198,7 +2198,6 @@ occur for any expressions which are lexically situated \textit{after} the
 \begin{grammar}
 \nonterminaldef{expression} \\
 	\nonterminal{assignment} \\
-	\nonterminal{binding-list} \\
 	\nonterminal{logical-or-expression} \\
 	\nonterminal{if-expression} \\
 	\nonterminal{for-loop} \\
