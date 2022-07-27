@@ -41,7 +41,8 @@ The \terminal{export} keyword shall not be used with a
 	\optional{\nonterminal{decl-attr}} \nonterminal{identifier} \terminal{:} \nonterminal{type} \terminal{=} \nonterminal{expression} \\
 
 \nonterminaldef{decl-attr} \\
-	\terminal{@symbol} \terminal{(} \nonterminal{string-constant} \terminal{)}
+	\terminal{@symbol} \terminal{(} \nonterminal{string-constant} \terminal{)} \\
+	\terminal{@threadlocal}
 \end{grammar}
 
 \specsubsubitem
@@ -67,6 +68,16 @@ programmer must arrange for storage to be provided elsewhere, e.g. during linkin
 \specsubsubitem
 The interpretation of the \terminal{@symbol} form of \nonterminal{decl-attr} is
 implementation-defined.
+
+\informative{The purpose of this directive is to allow users to customize the
+symbol name emitted for targets like ELF.}
+
+\specsubsubitem
+The interpretation of the \terminal{@threadlocal} form of
+\nonterminal{decl-attr} is implementation-defined.
+
+\informative{The purpose of this directive is to store a separate copy of a
+global for each thread, similar to \_Thread\_local in C.}
 
 \specsubsection{Constant declarations}
 
