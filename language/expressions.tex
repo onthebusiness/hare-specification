@@ -1878,12 +1878,12 @@ shall be the secondary object to which the pointer object refers. The second
 term shall be assignable to the pointer's secondary type.
 
 \specsubsubitem
-In the third form, the \nonterminal{expression} shall be of a slice
-type, and shall have a length equal to the slice given by
-\nonterminal{slicing-expression}. The first term shall not be of a
-\terminal{const} type, and the lengths of the two slices shall be equal. The
-contents of the slice given by the second term shall be copied into the slice
-given by the first term.
+In the third form, the \nonterminal{expression} shall be either of a slice
+type and have a length equal to the slice given by \nonterminal{slicing-expression},
+or an expandable array. The first term shall not be of a \terminal{const} type,
+and the lengths of the two slices shall be equal. The contents of the slice or
+expandable array given by the second term shall be copied into the slice given
+by the first term.
 
 \specsubsubitem
 In the fourth form, the \nonterminal{expression} shall be of a tuple type, and
@@ -2386,3 +2386,4 @@ If one operand is \terminal{rconst} and the other is \terminal{rune}, the
 \terminal{rconst} and the other is an integer type, the promotion shall succeed
 if the \terminal{rconst} value can be represented as the specified integer type
 without any data loss.
+
