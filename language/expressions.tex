@@ -1995,11 +1995,11 @@ occur before side-effects of the second term.
 A \nonterminal{binding-list} shall cause one or more objects to become
 available in the present scope. Each object shall be identified by its
 \nonterminal{name}, and shall have its initial value set to the result of the
-\nonterminal{expression} or \nonterminal{expression}. The result
+\nonterminal{expression}. The result
 type of a binding list expression is \terminal{void}.
 
 \specsubsubitem
-In the first form of \nonterminal{binding-list}, the type of the object shall
+In the first form of \nonterminal{binding}, the type of the object shall
 be equivalent to the result type of the \nonterminal{expression}. In the
 second form, the type shall be as indicated, and the result type of the
 \nonterminal{expression} shall be assignable to this type. In this second form,
@@ -2108,7 +2108,7 @@ unless the expression is selected by one or more
 yield expressions.
 
 \specsubsubitem
-If a type hint is provided to an \nonterminal{compound-expression}, the hint shall
+If a type hint is provided to a \nonterminal{compound-expression}, the hint shall
 be provided to the expression of any \nonterminal{yield-expression} which
 selects that \nonterminal{compound-expression}.
 

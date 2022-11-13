@@ -386,7 +386,7 @@ type.
 
 \specsubsubitem
 A union type's size is the maximum size among its fields. A struct type's size
-is the maximum value of $S$ for $S = O+Z$ among its fields, where $O$ is that
+is the sum of $S$ for $S = O+Z$ among its fields, where $O$ is that
 field's offset and $Z$ is that field's size.
 
 \specsubsubitem
@@ -677,7 +677,7 @@ be \terminal{void}), and zero or more parameters. Each \nonterminal{name} shall
 be unique.
 
 \specsubsubitem
-If the second form of \nonterminal{parameters} is used, the final parameter of
+If the second form of \nonterminal{parameter-list} is used, the final parameter of
 the function type uses \textit{Hare-style variadism}. If the third form is
 used, the function uses \textit{C-style variadism}. The variadism of a function
 type affects the calling semantics for that function.
