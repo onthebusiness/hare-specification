@@ -1575,14 +1575,14 @@ occur.
 
 \specsubsubitem
 An \nonterminal{if-expression} chooses which, if any, expression to evaluate
-based on a logical criteria. In all forms, the result type of
-\nonterminal{expression} shall be \terminal{bool}. If a type hint is provided,
-the \nonterminal{expression} shall receive it as a type hint.
+based on a logical criteria. In \nonterminal{conditional-branch}, the result type of
+the first \nonterminal{expression} shall be \terminal{bool}. If a type hint is provided,
+the second \nonterminal{expression} shall receive it as a type hint.
 
 \specsubsubitem
 When executing a \nonterminal{conditional-branch}, the implementation shall
-evaluate the \\ \nonterminal{expression} (the \textit{condition}), and if
-\terminal{true}, the implementation shall execute the corresponding
+evaluate the first \nonterminal{expression} (the \textit{condition}), and if
+\terminal{true}, the implementation shall execute the corresponding second
 \nonterminal{expression} (the \textit{branch}), ensuring that all side-effects
 occur. If the condition is \terminal{false}, the branch shall not be executed
 and shall not cause side-effects.
