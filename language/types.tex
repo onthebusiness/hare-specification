@@ -325,7 +325,7 @@ storage.
 
 \begin{grammar}
 \nonterminaldef{struct-union-type} \\
-	\terminal{struct} \terminal{\{} \nonterminal{struct-union-fields} \terminal{\}} \\
+	\terminal{struct} \optional{\terminal{@packed}} \terminal{\{} \nonterminal{struct-union-fields} \terminal{\}} \\
 	\terminal{union} \terminal{\{} \nonterminal{struct-union-fields} \terminal{\}} \\
 
 \nonterminaldef{struct-union-fields} \\
@@ -361,7 +361,16 @@ For a struct type, the offset of each field is equal to the minimum
 field's type and which is greater than the offset of the previous field plus the
 size of the previous field. The implementation shall add \textit{padding} to
 meet the alignment requirements of struct fields. For a union type, the offset
-of all members is zero.
+of all members is zero. Padding shall additionally be added to the end of a
+struct type such that the total size of the struct type modulo its alignment is
+zero.
+
+\specsubsubitem
+For a struct type using the \terminal{@packed} modifier, the offset of each
+field shall be computed without respect to alignment, such that each field's
+offset is equal to the offset of the previous field plus the size of the
+previous field. No additional padding shall be added to the end of the struct
+type in this case.
 
 \specsubsubitem
 The type of each struct or union field shall have a definite, nonzero size.
