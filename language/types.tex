@@ -370,7 +370,11 @@ For a struct type using the \terminal{@packed} modifier, the offset of each
 field shall be computed without respect to alignment, such that each field's
 offset is equal to the offset of the previous field plus the size of the
 previous field. No additional padding shall be added to the end of the struct
-type in this case.
+type in this case. If the alignment of the struct fields or the struct type
+itself would not meet the alignment requirements for their respective type, the
+behavior is implementation defined. The implementation shall either raise a
+diagnostic message and terminate the translation phase, or shall support
+unaligned memory accesses (perhaps at a cost to performance).
 
 \specsubsubitem
 The type of each struct or union field shall have a definite, nonzero size.
