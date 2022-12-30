@@ -2,6 +2,9 @@ image: alpine/latest
 packages:
 - rsync
 - texlive-xetex
+- texlive-dvi
+- ghostscript
+- texmf-dist-pstricks
 - texmf-dist-fontsextra
 - texmf-dist-latexextra
 secrets:

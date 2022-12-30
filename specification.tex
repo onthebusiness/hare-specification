@@ -25,17 +25,17 @@
 \usepackage{nimbusserif}
 \usepackage[scaled]{beramono}
 
-\usepackage{contour}
+\usepackage{pst-text}
 \usepackage{ulem}
 
 \renewcommand{\thefootnote}{\fnsymbol{footnote}}
 
-% \under for nice underlines via https://alexwlchan.net/2017/10/latex-underlines/
+% \under for nice underlines inspired by https://alexwlchan.net/2017/10/latex-underlines/
 \renewcommand{\ULdepth}{1.8pt}
-\contourlength{0.8pt}
 \newcommand{\under}[1]{%
-  \uline{\phantom{#1}}%
-  \llap{\contour{white}{#1}}%
+  \uline{\phantom{#1}}% make the underline
+  \llap{\pscharpath[linewidth=1.6pt,linecolor=white]{#1}}% make a white border around the text
+  \llap{#1}% write the text itself
 }
 
 \newcommand{\code}[1]{\mbox{\textup{\small\texttt{#1}}}}

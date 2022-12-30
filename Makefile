@@ -1,10 +1,18 @@
 .POSIX:
 
-all:
-	xelatex specification.tex
+all: specification.pdf
+
+specification.pdf: specification.ps
+	ps2pdf -dNOSAFER -dALLOWPSTRANSPARENCY specification.ps
+
+specification.ps: specification.dvi
+	dvips specification.dvi
+
+specification.dvi: specification.tex
+	latex specification.tex
 
 clean:
-	rm -f *.pdf *.aux *.toc *.log *.out
+	rm -f *.pdf *.dvi *.ps *.aux *.toc *.log *.out
 
 watch:
 	while inotifywait \
