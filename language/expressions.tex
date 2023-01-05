@@ -689,14 +689,15 @@ The \terminal{size} expression shall compute the \textit{size} of the specified
 
 \specsubsubitem
 The \terminal{len} expression shall compute the \textit{length} of a bounded
-array, or the \code{length} field of a slice object, referred to by
-\nonterminal{expression}. If an unbounded array object is given, the translation
-environment shall print a diagnostic message and abort.
+array, the \code{length} field of a slice object, or the \code{length} field of
+a \terminal{str}, referred to by \nonterminal{expression}. If an unbounded array
+object is given, the translation environment shall print a diagnostic message
+and abort.
 
 \specsubsubitem
-The object used for a length expression selected shall be the array or slice
-object the \nonterminal{expression} refers to, selecting that object indirectly
-via any number of pointer types if appropriate.
+The object used for a length expression shall be the array, slice, or
+\terminal{str} object the \nonterminal{expression} refers to, selecting that
+object indirectly via any number of non-nullable pointer types if appropriate.
 
 \specsubsubitem
 The \terminal{offset} expression shall determine the struct or tuple field
