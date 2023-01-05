@@ -129,9 +129,11 @@ able to represent the value of any \nonterminal{pointer-type} as an integer.
 It shall be unsigned.
 
 \specsubsubitem
-The \terminal{char} type is equivalent to the \terminal{u8} type. However, there
-are limitations on its use, see \subsecref{Arithmetic expressions} and
-\subsecref{Access expressions}.
+The \terminal{char} type has the same representation as the \terminal{u8} type.
+However, it is not a numeric type.
+
+\informative{Values of type \terminal{char} cannot be used in arithmetic
+expressions, since those require their operands to have numeric types.}
 
 \specsubsubitem
 The implementation is not required to provide the \terminal{char} type. If the
