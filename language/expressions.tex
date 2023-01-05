@@ -1453,6 +1453,21 @@ occur before side-effects of the second term.
 \end{grammar}
 
 \specsubsubitem
+An \nonterminal{and-expression} performs a bitwise and operation.
+
+\specsubsubitem
+An \nonterminal{exclusive-or-expression} performs a bitwise exclusive or
+operation.
+
+\specsubsubitem
+An \nonterminal{inclusive-or-expression} performs a bitwise inclusive or
+operation.
+
+\specsubsubitem
+The operands and result type shall be subject to the \secref{Type promotion}
+rules.
+
+\specsubsubitem
 The implementation shall ensure that any side-effects of the first term shall
 occur before side-effects of the second term.
 
