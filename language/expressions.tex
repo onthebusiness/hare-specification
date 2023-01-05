@@ -948,7 +948,7 @@ The second term of an \terminal{insert} expression is the \textit{insert
 values}. In the first form, the insert values shall specify a single value
 whose type is assignable to the member type. In the second form, the expression
 shall have a valid result type which shall be an array or slice whose member
-type is the append expression's member type, or a pointer to a valid result
+type is the insert expression's member type, or a pointer to a valid result
 type.
 
 \specsubsubitem
@@ -981,7 +981,7 @@ the side-effects of the insert values.
 
 \specsubsubitem
 The object selector shall be not be provided a type hint. If \terminal{...} is
-used, the append values shall be given the object type as its type hint; if
+used, the insert values shall be given the object type as its type hint; if
 not, it shall receive the member type as its type hint. The length will receive
 a type hint of \terminal{size} if applicable.
 
