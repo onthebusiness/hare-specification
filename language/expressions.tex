@@ -894,18 +894,19 @@ secondary type of the slice or array type given by
 \specsubsubitem
 An \nonterminal{append-expression} shall append a value, or values, to the
 slice object specified by the first argument. Valid result types for
-\nonterminal{object-selector} shall either be a slice type, or a pointer to a
-valid result type. The selected object shall be mutable and non-const. The
-member type of this slice shall be the expression's \textit{member type}. The
-result of an \terminal{append} shall be \terminal{void}.
+\nonterminal{object-selector} shall either be a slice type, or a non-nullable
+pointer to a valid result type. The selected object shall be mutable and
+non-const. The member type of this slice shall be the expression's
+\textit{member type}. The result of an \terminal{append} shall be
+\terminal{void}.
 
 \specsubsubitem
 The second term of an \terminal{append} expression is the \textit{append
 values}. In the first form, the append values shall specify a single value
 whose type is assignable to the member type. In the second form, the expression
 shall have a valid result type which shall be an array or slice whose member
-type is the append expression's member type, or a pointer to a valid result
-type.
+type is the append expression's member type, or a non-nullable pointer to a
+valid result type.
 
 \specsubsubitem
 The execution environment shall ensure that the capacity of the object is at
@@ -969,8 +970,8 @@ The second term of an \terminal{insert} expression is the \textit{insert
 values}. In the first form, the insert values shall specify a single value
 whose type is assignable to the member type. In the second form, the expression
 shall have a valid result type which shall be an array or slice whose member
-type is the insert expression's member type, or a pointer to a valid result
-type.
+type is the insert expression's member type, or a non-nullable pointer to a
+valid result type.
 
 \specsubsubitem
 The execution environment shall ensure that the capacity of the object is at
