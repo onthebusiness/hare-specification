@@ -1207,7 +1207,8 @@ result shall be \terminal{false}, and vice-versa.
 The \terminal{*} operator shall dereference a pointer, and return the object it
 references.  The type of \nonterminal{unary-expression} shall be a pointer
 type, and the result type shall be the pointer's secondary type. The pointer
-type shall not be \textit{nullable}.
+type shall not be \textit{nullable}, and the pointer's secondary type shall have
+a defined size.
 
 \specsubsubitem
 The \terminal{\&} operator shall take the address of an object. The result type
