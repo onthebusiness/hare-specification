@@ -667,11 +667,15 @@ struct type:
 
 \begin{codesample}
 struct {
-	data: *[*]const u8,
+	data: nullable *[*]const u8,
 	length: size,
 	capacity: size,
 }
 \end{codesample}
+
+\specsubsubitem
+The default value of a string type shall have the length field set to zero and
+the data field set to null.
 
 \specsubsection{Function types}
 
