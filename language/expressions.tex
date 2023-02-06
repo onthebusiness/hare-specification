@@ -105,6 +105,11 @@ If the \nonterminal{floating-suffix} is not provided, the result shall be
 suffix.
 
 \specsubitem
+If the part before the decimal point is equal to zero, it shall be written as a
+single digit number. If the part before the decimal point is not equal to zero,
+it shall not begin with the digit \terminal{0}.
+
+\specsubitem
 If the \nonterminal{exponent} is provided, the value of the
 constant shall be multiplied by 10 to the power of
 \nonterminal{decimal-digits}. If \nonterminal{sign} is provided within the
@@ -201,6 +206,9 @@ shall fail.
 The prefixes \terminal{0x}, \terminal{0o}, and \terminal{0b} shall respectively
 cause the number to be interpreted with a hexadecimal, octal, or binary base.
 If no prefix is used, the number shall be interpreted with a decimal base.
+In decimal base, zero shall be written as a single digit number. Numbers other
+than zero that are given in decimal base shall not begin with the digit
+\terminal{0}.
 
 \specsubitem
 If the \nonterminal{exponent} is provided, the value of the
