@@ -1335,13 +1335,10 @@ and if the resulting pointer equals null, a diagnostic message shall be printed
 and the execution environment shall abort. Otherwise, the result type is
 \nonterminal{type}.
 
-\specsubsubitem
-The fourth form is a \textit{type test}. In this form,
-\nonterminal{cast-expression} shall be of a tagged union type, and
-\nonterminal{type} shall be a constituent type of that tagged union. The result
-type is \terminal{bool}, and shall be \terminal{true} if the selected tag of
-\nonterminal{cast-expression} is \nonterminal{type}, or \terminal{false}
-otherwise.
+\specsubsubitem The fourth form is a \textit{type test}. In this form, The
+result type is \terminal{bool}, and shall be \terminal{true} if and only if the
+type assertion from \nonterminal{cast-expression} to \nonterminal{type} would
+succeed, or \terminal{false} otherwise.
 
 \specsubsection{Multiplicative arithmetic}
 
