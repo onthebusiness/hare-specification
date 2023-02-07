@@ -665,9 +665,13 @@ the call expression is considered to terminate.
 
 \begin{grammar}
 \nonterminaldef{measurement-expression} \\
+	\nonterminal{align-expression} \\
 	\nonterminal{size-expression} \\
 	\nonterminal{length-expression} \\
 	\nonterminal{offset-expression} \\
+
+\nonterminaldef{align-expression} \\
+	\terminal{align} \terminal{(} \nonterminal{type} \terminal{)} \\
 
 \nonterminaldef{size-expression} \\
 	\terminal{size} \terminal{(} \nonterminal{type} \terminal{)} \\
@@ -684,6 +688,12 @@ Forward references: \subsecref{Field access}
 \specsubsubitem
 A \nonterminal{measurement-expression} is used to measure objects. The result
 type shall be \terminal{size}.
+
+\specsubsubitem
+The \terminal{align} expression shall compute the \textit{alignment} of the specified
+\nonterminal{type}. If \nonterminal{type} is a type of undefined alignment of a
+type of size 0, a diagnostic message shall be printed and translation shall
+abort.
 
 \specsubsubitem
 The \terminal{size} expression shall compute the \textit{size} of the specified
