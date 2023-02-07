@@ -1227,8 +1227,12 @@ Operator & Meaning \\
 \nonterminaldef{cast-expression} \\
 	\nonterminal{unary-expression} \\
 	\nonterminal{cast-expression} \terminal{:} \nonterminal{type} \\
-	\nonterminal{cast-expression} \terminal{as} \nonterminal{type} \\
-	\nonterminal{cast-expression} \terminal{is} \nonterminal{type} \\
+	\nonterminal{cast-expression} \terminal{as} \nonterminal{assertion-target} \\
+	\nonterminal{cast-expression} \terminal{is} \nonterminal{assertion-target} \\
+
+\nonterminaldef{assertion-target} \\
+	\nonterminal{type} \\
+	\terminal{null}
 \end{grammar}
 
 \specsubsubitem
@@ -1323,22 +1327,26 @@ The third form is a \textit{type assertion}. In this form,
 \nonterminal{cast-expression} shall be of a tagged union type or a nullable
 pointer type.
 
-In the former case, \nonterminal{type} shall be a constituent
-type of that tagged union. The \nonterminal{cast-expression} shall be computed,
-and if the tag does not match \nonterminal{type}, a diagnostic message shall be
-printed and the execution environment shall abort. Otherwise, the result type
-is \nonterminal{type}.
+In the former case, \nonterminal{assertion-target} shall be \nonterminal{type}
+and shall be one of constituent types of type of that tagged union. The
+\nonterminal{cast-expression} shall be computed, and if the tag does not match
+\nonterminal{type}, a diagnostic message shall be printed and the execution
+environment shall abort. Otherwise, the result type is \nonterminal{type}.
 
-In the latter case \nonterminal{type} shall be a
-non-nullable pointer type. The \nonterminal{cast-expression} shall be computed,
-and if the resulting pointer equals null, a diagnostic message shall be printed
-and the execution environment shall abort. Otherwise, the result type is
-\nonterminal{type}.
+In the latter case \nonterminal{assertion-target} shall either be a
+\nonterminal{type} that is a nullable pointer type or \terminal{null}. If it is
+\terminal{null} and the value of \nonterminal{cast-expression} does not equal
+null, a diagnostic message shall be printed and execution environment shall
+abort. If \nonterminal{assertion-target} is not \terminal{null} and the value
+of \nonterminal{cast-expression} equals null, a diagnostic message shall be
+printed and the execution environment shall abort. The result type of a type
+assertion with \terminal{null} as \nonterminal{assertion-target} shall be null.
+The result type of other type assertions shall be \nonterminal{type}.
 
 \specsubsubitem The fourth form is a \textit{type test}. In this form, The
 result type is \terminal{bool}, and shall be \terminal{true} if and only if the
-type assertion from \nonterminal{cast-expression} to \nonterminal{type} would
-succeed, or \terminal{false} otherwise.
+type assertion from \nonterminal{cast-expression} to
+\nonterminal{assertion-target} would succeed, or \terminal{false} otherwise.
 
 \specsubsection{Multiplicative arithmetic}
 
