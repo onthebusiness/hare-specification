@@ -687,7 +687,8 @@ type shall be \terminal{size}.
 
 \specsubsubitem
 The \terminal{size} expression shall compute the \textit{size} of the specified
-\nonterminal{type}.
+\nonterminal{type}. If \nonterminal{type} is a type of undefined size, a
+diagnostic message shall be printed and translation shall abort.
 
 \specsubsubitem
 The \terminal{len} expression shall compute the \textit{length} of a bounded
