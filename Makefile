@@ -8,8 +8,8 @@ specification.pdf: specification.ps
 specification.ps: specification.dvi
 	dvips specification.dvi
 
-specification.dvi: specification.tex
-	latex specification.tex
+specification.dvi: *.tex language/*.tex
+	while latex specification.tex | tee /dev/fd/2 | grep "Label(s) may have changed"; do true; done
 
 clean:
 	rm -f *.pdf *.dvi *.ps *.aux *.toc *.log *.out
@@ -20,4 +20,4 @@ watch:
 		-e close_write language/; \
 		do make; done
 
-.PHONY: all clean watch
+.PHONY: clean watch
