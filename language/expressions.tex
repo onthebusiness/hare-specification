@@ -210,7 +210,7 @@ message shall be printed and the translation phase shall abort.
 
 \specsubsection{Rune constants}
 \begin{grammar}
-\nonterminaldef{rune-constant} \\
+\nonterminaldef{rune-constant} \exactly \\
 	\terminal{\textquotesingle} \nonterminal{rune} \terminal{\textquotesingle} \\
 
 \nonterminaldef{rune} \\
@@ -282,18 +282,20 @@ Escape sequence & Unicode codepoint & Escape sequence & Unicode codepoint \\
 
 \begin{grammar}
 \nonterminaldef{string-constant} \\
+	\nonterminal{string-section} \optional{\nonterminal{string-constant}} \\
+
+\nonterminaldef{string-section} \exactly \\
 	\terminal{"} \optional{\nonterminal{string-chars}} \terminal{"} \\
 	\terminal{\textasciigrave} \optional{\nonterminal{rawstring-chars}} \terminal{\textasciigrave} \\
-	\nonterminal{string-constant} \nonterminal{string-constant} \\
 
-\nonterminaldef{string-chars} \\
+\nonterminaldef{string-chars} \exactly \\
 	\nonterminal{string-char} \optional{\nonterminal{string-chars}} \\
 
 \nonterminaldef{string-char} \\
 	\norm{Any character other than \terminal{\textbackslash} or \terminal{"}} \\
 	\nonterminal{escape-sequence} \\
 
-\nonterminaldef{rawstring-chars} \\
+\nonterminaldef{rawstring-chars} \exactly \\
 	\nonterminal{rawstring-char} \optional{\nonterminal{rawstring-chars}} \\
 
 \nonterminaldef{rawstring-char} \\
@@ -305,24 +307,24 @@ A \nonterminal{string-constant} expression shall have a result type of
 \terminal{const} \terminal{str}.
 
 \specsubsubitem
-If the first form of \nonterminal{string-constant} is used, the string's
+If the first form of \nonterminal{string-section} is used, the string's
 \textit{data} field shall refer to a \hbox{UTF-8} encoded sequence of Unicode
 codepoints, ascertained by encoding the sequence of \nonterminal{string-char}s
 given in order, after interpreting escape codes per
 \subsubitemref{Rune constants}{17}.
 
 \specsubsubitem
-If the second form of \nonterminal{string-constant} is used, the string's
+If the second form of \nonterminal{string-section} is used, the string's
 \textit{data} field shall refer to a \hbox{UTF-8} encoded sequence of Unicode
 codepoints, ascertained by encoding the sequence of
 \nonterminal{rawstring-char}s given in order.
 
 \specsubsubitem
-If the third form of \nonterminal{string-constant} is used, the string's
-\textit{data} field shall refer to a \hbox{UTF-8} encoded sequence of Unicode
-codepoints, ascertained by concatenating the \textit{data} field of the first
-\nonterminal{string-constant} and the \textit{data} field of the second
-\nonterminal{string-constant}.
+If a \nonterminal{string-constant} consists of more than one
+\nonterminal{string-section}, the string's \textit{data} field shall refer to
+a \hbox{UTF-8} encoded sequence of Unicode codepoints, ascertained by
+concatenating the \textit{data} fields of the \nonterminal{string-section}s
+given in order.
 
 \specsubsubitem
 The \textit{length} and \textit{capacity} fields shall be set to the length in
