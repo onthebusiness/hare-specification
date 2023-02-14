@@ -37,13 +37,12 @@ The \terminal{export} keyword shall not be used with a
 	\nonterminal{global-bindings} \terminal{,} \nonterminal{global-binding} \\
 
 \nonterminaldef{global-binding} \\
-	\optional{\nonterminal{decl-attr}} \nonterminal{identifier} \terminal{:} \nonterminal{type} \\
-	\optional{\nonterminal{decl-attr}} \nonterminal{identifier} \terminal{:} \nonterminal{type} \terminal{=} \nonterminal{expression} \\
-	\optional{\nonterminal{decl-attr}} \nonterminal{identifier} \terminal{=} \nonterminal{expression} \\
+	\optional{\nonterminal{decl-attr}} \optional{\terminal{@threadlocal}} \nonterminal{identifier} \terminal{:} \nonterminal{type} \\
+	\optional{\nonterminal{decl-attr}} \optional{\terminal{@threadlocal}} \nonterminal{identifier} \terminal{:} \nonterminal{type} \terminal{=} \nonterminal{expression} \\
+	\optional{\nonterminal{decl-attr}} \optional{\terminal{@threadlocal}} \nonterminal{identifier} \terminal{=} \nonterminal{expression} \\
 
 \nonterminaldef{decl-attr} \\
 	\terminal{@symbol} \terminal{(} \nonterminal{string-constant} \terminal{)} \\
-	\terminal{@threadlocal}
 \end{grammar}
 
 \specsubsubitem
@@ -76,8 +75,7 @@ implementation-defined.
 symbol name emitted for targets like ELF.}
 
 \specsubsubitem
-The interpretation of the \terminal{@threadlocal} form of
-\nonterminal{decl-attr} is implementation-defined.
+The interpretation of \terminal{@threadlocal} is implementation-defined.
 
 \informative{The purpose of this directive is to store a separate copy of a
 global for each thread, similar to thread\_local in C.}
