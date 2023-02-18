@@ -2081,13 +2081,6 @@ binding, causing any later references to this name to resolve to the newer
 binding.
 
 \specsubsubitem
-If the second form of \nonterminal{binding} is used and the \nonterminal{name}
-is not already in use in this scope, the name shall be bound prior to the
-evaluation of the \nonterminal{expression}, and may be used in the
-\nonterminal{expression} \textit{only} as the object of the unary addressing
-operator (\terminal{\&}).
-
-\specsubsubitem
 The type of the binding shall not use a type which has a zero or undefined size.
 If the type of a binding is a flexible constant type, it shall first be lowered
 to its default type.
