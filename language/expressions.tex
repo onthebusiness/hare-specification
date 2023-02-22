@@ -1699,8 +1699,7 @@ condition evaluates to \terminal{false}.
 	\terminal{switch} \terminal{(} \nonterminal{expression} \terminal{)} \terminal{\{} \nonterminal{switch-cases} \terminal{\}} \\
 
 \nonterminaldef{switch-cases} \\
-	\nonterminal{switch-case} \terminal{;} \\
-	\nonterminal{switch-case} \terminal{;} \nonterminal{switch-cases} \\
+	\nonterminal{switch-case} \optional{\nonterminal{switch-cases}} \\
 
 \nonterminaldef{switch-case} \\
 	\terminal{case} \nonterminal{case-options} \terminal{=>} \nonterminal{expression-list} \\
