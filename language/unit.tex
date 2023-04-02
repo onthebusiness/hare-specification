@@ -92,6 +92,7 @@ global for each thread, similar to thread\_local in C.}
 
 \nonterminaldef{constant-binding} \\
 	\nonterminal{identifier} \terminal{:} \nonterminal{type} \terminal{=} \nonterminal{expression} \\
+	\nonterminal{identifier} \terminal{=} \nonterminal{expression} \\
 \end{grammar}
 
 \specsubsubitem
@@ -105,7 +106,8 @@ with a cast to \nonterminal{type} inserted.
 \specsubsubitem
 A \nonterminal{constant-binding}'s \nonterminal{expression} shall be limited to
 the \secref{Translation compatible expression subset}, and shall be evaluated
-in the translation environment. The type of the value of the
+in the translation environment. If the first form of
+\nonterminal{constant-binding} is given, the type of the value of the
 \nonterminal{expression} shall be assignable to \nonterminal{type}.
 
 \specsubsection{Type declarations}
