@@ -444,6 +444,32 @@ given, its fields shall be interpreted as fields of the parent struct.
 \code{struct \{ a: int = 10, b: int = 20 \}} \\
 \code{struct \{ a: int = 10, struct \{ b: int = 20 \} \}}}
 
+\specsubsection{Tuple literals}
+
+\begin{grammar}
+\nonterminaldef{tuple-literal} \\
+	\terminal{(} \nonterminal{tuple-items} \terminal{)} \\
+
+\nonterminaldef{tuple-items} \\
+	\nonterminal{expression} \terminal{,} \nonterminal{expression} \optional{\terminal{,}} \\
+	\nonterminal{expression} \terminal{,} \nonterminal{tuple-items} \\
+\end{grammar}
+
+\specsubsubitem
+A \nonterminal{tuple-literal} produces a value of a tuple type. The result type
+shall be the tuple type described by the types of its \nonterminal{expression}s
+in the order that they appear.
+
+\specsubsubitem
+If a type hint is available and the hint is a tuple type (or a type alias which
+represents a tuple type), the tuple items shall receive as hints the types of
+the respective tuple sub-types in the order that they appear.
+
+\specsubsubitem
+The \nonterminal{tuple-items} shall be evaluated in the order in which they
+appear in the \nonterminal{tuple-literal}, and the \textit{N}th item shall
+provide the value for the \textit{N}th tuple item.
+
 \specsubsection{Plain expressions}
 
 \begin{grammar}
@@ -452,15 +478,11 @@ given, its fields shall be interpreted as fields of the parent struct.
 	\nonterminal{constant} \\
 	\nonterminal{array-literal} \\
 	\nonterminal{struct-literal} \\
+	\nonterminal{tuple-literal} \\
 
 \nonterminaldef{nested-expression} \\
 	\nonterminal{plain-expression} \\
 	\terminal{(} \nonterminal{expression} \terminal{)} \\
-	\terminal{(} \nonterminal{tuple-items} \terminal{)} \\
-
-\nonterminaldef{tuple-items} \\
-	\nonterminal{expression} \terminal{,} \nonterminal{expression} \optional{\terminal{,}} \\
-	\nonterminal{expression} \terminal{,} \nonterminal{tuple-items} \\
 \end{grammar}
 
 \specsubsubitem
@@ -473,15 +495,6 @@ object.
 \specsubsubitem
 \nonterminal{nested-expression} is an expression class provided to allow the
 programmer to overcome undesirable associativity between operators.
-
-\specsubsubitem
-The \nonterminal{tuple-items} form of \nonterminal{nested-expression} shall
-describe a \textit{tuple expression}, and have a result type which is the tuple
-described by the types of its \nonterminal{expression}s in the order that they
-appear. If a type hint is available, the tuple items may be assigned to the
-types of the respective tuple sub-types in the order that they appear. The
-implementation shall cause the side-effects of each \nonterminal{expression} to
-occur in the order that they appear.
 
 \specsubsection{Allocations}
 
