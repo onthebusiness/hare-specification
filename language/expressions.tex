@@ -2252,7 +2252,15 @@ shall be determined by the \secref{Flexible constant promotion algorithm}.
 \specsubitem
 For expressions involving two integer types, the type of lower precision may be
 promoted to the type of higher precision only if the signedness is the same for
-each operand. A type cannot be promoted to \terminal{uintptr}.
+each operand.
+
+\specsubitem
+Expressions involving \terminal{uintptr} and \terminal{size} promote to
+\terminal{uintptr}, expressions involving \terminal{uintptr} and \terminal{null}
+promote to \terminal{uintptr}, and expressions involving \terminal{uintptr} and
+a pointer type promote to that pointer type. All other expressions involving
+\terminal{uintptr} shall cause the translation environment to print a diagnostic
+message and abort.
 
 \specsubitem
 An integer type may be promoted to an enum type whose storage is the
