@@ -711,7 +711,9 @@ effects (see \subsubitemref{Program execution}{1}).
 \specsubsubitem
 If the \terminal{@noreturn} form of \nonterminal{fntype-attr} is specified in
 the \nonterminal{function-parameters}, the \nonterminal{type} shall be
-\terminal{void} and the specified function shall not return to its caller.
+\terminal{void} and the specified function shall not return to its caller. If
+the end of the function is reached in the execution environment, a diagnostic
+message shall be printed and the execution environment shall abort.
 
 \specsubsubitem
 The attributes of a function type are its \textit{result type} and
