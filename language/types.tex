@@ -126,8 +126,8 @@ The precision in bits shall be a power of two.
 
 \specsubsubitem
 The precision of \nonterminal{uintptr} is implementation-defined. It shall be
-able to represent the value of any \nonterminal{pointer-type} as an integer.
-It shall be unsigned.
+able to represent the value of any \nonterminal{pointer-type} (including
+\textit{null}) as an integer. It shall be unsigned.
 
 \specsubsubitem
 The \terminal{char} type has the same representation as the \terminal{u8} type.

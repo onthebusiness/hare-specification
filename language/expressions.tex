@@ -1321,7 +1321,9 @@ lacks the precision to represent the value, it shall be truncated towards zero.
 
 \specsubsubitem
 Casting a pointer type to \nonterminal{uintptr}, and then back to the pointer
-type, shall yield the same pointer.
+type, shall yield the same pointer. Likewise, casting \nonterminal{null} to a
+\nonterminal{uintptr} and then back to a nullable pointer type shall yield
+\nonterminal{null}.
 
 \informative{However, casting \nonterminal{uintptr} to any other integer type
 and back again may truncate towards the least significant bit and is not
