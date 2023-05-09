@@ -2188,41 +2188,40 @@ the kind of control expression used. If a label is used, it shall select the
 corresponding labelled \nonterminal{compound-expression} from the ancestors of
 the \nonterminal{control-expression}, and the selected expression shall meet the
 requirements for the appropriate control expression type. Otherwise, the first
-qualifying \nonterminal{compound-expression} or body of a \nonterminal{for-loop}
-is used, ordered such that the nearest ancestor is considered first. If no
-suitable \nonterminal{expression} is selected, a diagnostic message will be
-displayed and the translation phase shall terminate.
+qualifying \nonterminal{compound-expression}, body of a \nonterminal{for-loop},
+or body of a \nonterminal{function-declaration} is used, ordered such that the
+nearest ancestor is considered first. If no suitable \nonterminal{expression} is
+selected, a diagnostic message will be displayed and the translation phase shall
+terminate.
 
 \specsubsubitem
 In the \terminal{break} and \terminal{continue} forms, the selected expression
 shall be the body of a \nonterminal{for-loop}. The \terminal{break} form shall
-cause the loop to abort without evaluating the \textit{condition} or the
+cause the loop to end without evaluating the \textit{condition} or the
 \textit{afterthought}. The \terminal{continue} form shall cause the loop to
-repeat immediately, running the \textit{afterthought}, re-testing the
+repeat immediately, running the \textit{afterthought} if present, re-testing the
 \textit{condition}, and repeating the loop if \terminal{true}.
 
 \specsubsubitem
-The \terminal{return} form shall select the \nonterminal{compound-expression}
-which is the body of the \nonterminal{function-declaration} within which it
-appears. The \nonterminal{expression} shall be used as the result value for the
-function, or, if absent, \terminal{void} shall be used. This expression shall
-receive the function's result type as a type hint, and the result shall be
-assignable to that type.
+The \terminal{return} form shall select the body of a
+\nonterminal{function-declaration}. The \nonterminal{expression} shall be used
+as the result value for the function, or, if absent, \terminal{void} shall be
+used. This expression shall receive the function's result type as a type hint,
+and the result shall be assignable to that type.
 
 \specsubsubitem
 The \nonterminal{yield-expression} form shall select any
-\nonterminal{compound-expression} which is not eligible for the other forms;
-that is, any compound expression which is not the body of a function or loop. If
-an expression is provided, it shall not terminate, and shall be used as the
-result value for the \nonterminal{compound-expression}. See the description of
+\nonterminal{compound-expression}. If an expression is provided, it shall not
+terminate, and shall be used as the result value for the
+\nonterminal{compound-expression}. See the description of
 \nonterminal{compound-expression} for details on the type semantics associated
 with a yield expression.
 
 \specsubsubitem
-In any of these cases, the implementation shall ensure that side-effects do not
-occur for any expressions which are lexically situated \textit{after} the
-\nonterminal{control-expression} within the selected
-\nonterminal{compound-expression}.
+In any of these cases, if a \nonterminal{compound-expression} is selected, the
+implementation shall ensure that side-effects do not occur for any expressions
+which are lexically situated \textit{after} the
+\nonterminal{control-expression}.
 
 \specsubsection{High-level expression class}
 
