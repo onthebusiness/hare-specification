@@ -960,7 +960,7 @@ a type hint of \terminal{size} if applicable.
 An \nonterminal{insert-expression} shall insert a value, or values, into the
 slice object specified by the first argument. The
 \nonterminal{indexing-expression} specifies both the slice object and an index
-at which the new values shall be inserted, or the \textit{insertion index}.
+at which the new values shall be inserted (the \textit{insertion index}).
 The selected object shall be mutable and non-const. The member type of this
 slice shall be the expression's \textit{member type}. The result of an
 \terminal{insert} shall be \terminal{void}.
@@ -1584,7 +1584,8 @@ type, and the result type shall be \terminal{bool}.
 
 \specsubsubitem
 \terminal{\&\&} shall compute a logical and operation, and shall be
-\terminal{true} if both terms are \terminal{true}, and false otherwise.
+\terminal{true} if both terms are \terminal{true}, and \terminal{false}
+otherwise.
 
 \specsubsubitem
 \terminal{\textasciicircum\textasciicircum} shall be a logical exclusive or
