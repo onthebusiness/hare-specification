@@ -1283,8 +1283,6 @@ Array types & Any array or slice type \\
 Slice types & Any slice type or any pointer to an array type \\
 Type alias & Any type the underlying type could cast to \\
 Any type & Any type alias with an underlying type it may be cast to \\
-\terminal{u8} & \terminal{char} \\
-\terminal{char} & \terminal{u8} \\
 \terminal{rune} & \terminal{u32} \\
 \terminal{u32} & \terminal{rune} \\
 \terminal{null} & Any pointer type or \terminal{uintptr} \\
@@ -2002,10 +2000,6 @@ contexts throughout the specification, and in these contexts, unless otherwise
 specified, non-const types are assignable to const types. For example, a
 \nonterminal{binding} which specifies a const \nonterminal{type} may use a
 non-const type for its \nonterminal{expression}.}
-
-\specsubsubitem
-For assignment of \terminal{*} \terminal{const} \terminal{char} from
-\terminal{str} types, see the notes on \subsecref{Casts and type assertions}.
 
 \specsubsubitem
 The implementation shall ensure that any side-effects of the first term shall

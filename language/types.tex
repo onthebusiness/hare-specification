@@ -91,7 +91,6 @@ which represents it, for example \terminal{i32}.
 	\terminal{uint}
 	\terminal{size}
 	\terminal{uintptr}
-	\terminal{char}
 \end{grammar}
 
 \specsubsubitem
@@ -128,19 +127,6 @@ The precision in bits shall be a power of two.
 The precision of \nonterminal{uintptr} is implementation-defined. It shall be
 able to represent the value of any \nonterminal{pointer-type} (including
 \textit{null}) as an integer. It shall be unsigned.
-
-\specsubsubitem
-The \terminal{char} type has the same representation as the \terminal{u8} type.
-However, it is not a numeric type.
-
-\informative{Values of type \terminal{char} cannot be used in arithmetic
-expressions, since those require their operands to have numeric types.}
-
-\specsubsubitem
-The implementation is not required to provide the \terminal{char} type. If the
-implementation does not support the \terminal{char} type, it must print a
-diagnostic message and abort the translation phase for programs which attempt
-to utilize it.
 
 \specsubsubitem
 The alignment of integer types shall be equal to their size in octets.
