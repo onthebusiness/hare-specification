@@ -365,10 +365,9 @@ from this array type. The initializer expressions for each value among
 the \nonterminal{array-members} is not specified, a type hint must be provided.
 
 \specsubsubitem
-The execution environment shall evaluate the \nonterminal{array-members},
-ordered such that any side-effects of evaluating the arguments occur in the
-order that the members are listed, such that the \textit{N}th member provides
-the value for the \textit{N}th array member.
+The \nonterminal{array-members} shall be evaluated in the order in which they
+appear in the \nonterminal{array-literal}, and the \textit{N}th item shall
+provide the value for the \textit{N}th array member.
 
 \specsubsubitem
 If the \terminal{...} form is used, the result's array type shall be expandable.
