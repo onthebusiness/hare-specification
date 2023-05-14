@@ -2351,6 +2351,12 @@ Additionally, the implicit pointer type dereference semantics of
 not available.
 
 \specsubitem
+The expression used for a \nonterminal{length-expression} is not required to be
+translation-compatible as long as the result type is either an array type or an
+array type's alias, indirected via any number of non-nullable pointer types or
+their aliases if appropriate.
+
+\specsubitem
 The implementation is not required to use a conformant implementation of the
 storage semantics of types in the translation environment, provided that there
 are not observable side-effects in the execution environment as a result of any
