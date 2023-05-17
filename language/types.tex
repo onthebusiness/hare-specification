@@ -680,6 +680,7 @@ the data field set to null.
 	\nonterminal{parameters} \optional{\terminal{,}} \\
 	\nonterminal{parameters} \terminal{...} \optional{\terminal{,}} \\
 	\nonterminal{parameters} \terminal{,} \terminal{...} \optional{\terminal{,}} \\
+	\terminal{...} \optional{\terminal{,}} \\
 
 \nonterminaldef{parameters} \\
 	\nonterminal{parameter} \\
@@ -710,9 +711,9 @@ be unique.
 
 \specsubsubitem
 If the second form of \nonterminal{parameter-list} is used, the final parameter of
-the function type uses \textit{Hare-style variadism}. If the third form is
-used, the function uses \textit{C-style variadism}. The variadism of a function
-type affects the calling semantics for that function.
+the function type uses \textit{Hare-style variadism}. If the third or fourth
+form is used, the function uses \textit{C-style variadism}. The variadism of a
+function type affects the calling semantics for that function.
 
 \begin{codesample}
 // Hare-style variadism:
