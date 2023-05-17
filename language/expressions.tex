@@ -1283,22 +1283,21 @@ to a given type are given by the following table:
 The \nonterminal{cast-expression} being acted upon must not be a terminating
 expression.
 
-\begin{tabular}{r | l}
-Source type & Casts to \\
+\begin{tabular}{l | l}
+Result & Castable from \\
 \hline
-Floating types & Any numeric type \\
-Integer types & Any numeric type or enum type \\
-\terminal{uintptr} & Any pointer type or \terminal{null} \\
-Any pointer type & Any pointer type, \terminal{uintptr}, or \terminal{null} \\
-Enum types & Any enum type or numeric type \\
-Array types & Any array or slice type \\
-Slice types & Any slice type or any pointer to an array type \\
-Type alias & Any type the underlying type could cast to \\
-Any type & Any type alias with an underlying type it may be cast to \\
-\terminal{rune} & \terminal{u32} \\
+Any numeric type & Floating types \\
+Any numeric type or enum type & Integer and enum types \\
+Any pointer type or \terminal{null} & \terminal{uintptr} \\
+Any pointer type, \terminal{uintptr}, or \terminal{null} & Any pointer type \\
+Any array or slice type & Array types \\
+Any slice type or pointer to an array type & Slice types \\
+Any type the underlying type of the source could cast to & Type aliases \\
+Any type alias with an underlying type the source may be cast to & Any type \\
 \terminal{u32} & \terminal{rune} \\
-\terminal{null} & Any pointer type or \terminal{uintptr} \\
-Tagged unions & See below \\
+\terminal{rune} & \terminal{u32} \\
+Any pointer type or \terminal{uintptr} & \terminal{null} \\
+See below & Tagged unions \\
 \end{tabular}
 
 \specsubsubitem
