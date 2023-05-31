@@ -767,9 +767,14 @@ underlying type. The underlying type is specified at the time it is declared,
 see \secref{Declarations}.}
 
 \specsubsubitem
-A type alias shall have the same storage, alignment, size, default value, and
-semantics as its underlying type. Aliases that represent enum types don't have
-a default value.
+A type alias shall have the same storage, alignment, size, and semantics as its
+underlying type.
+
+\specsubsubitem
+A type alias that represents an enum type shall have a default value of zero
+only if one of the enum values is equal to zero, otherwise its default value is
+undefined. A type alias that doesn't represent an enum type shall have the same
+default value as its underlying type.
 
 \specsubsubitem
 Each type alias (uniquely identified by its \nonterminal{identifier}) shall be
