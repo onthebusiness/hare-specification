@@ -290,7 +290,7 @@ is for internal use only, as the type of the \terminal{null} constant.
 
 \specsubsubitem
 The \terminal{valist} type is provided for compatibility with the C programming
-language as specified by ISO/IEC 9899:2011. Implementation support is optional:
+language as specified by ISO/IEC 9899. Implementation support is optional:
 implementations which do not provide C ABI compatibility must parse this type,
 print a diagnostic message, and abort.
 
@@ -300,9 +300,21 @@ implementation-defined value which shall be at least eight, and shall be
 divisible by eight.
 
 \specsubsubitem
-Copying a \terminal{valist} value via an \subsecref{Assignment} expression
-shall be equivalent to the "va\_copy" macro described by ISO/IEC 9899:2011
-section 7.16.1.2.
+Assigning to a \terminal{valist} object from an \nonterminal{object-selector}
+shall initialize a copy of the \nonterminal{object-selector}, exactly as though
+a new \terminal{valist} were initialized with \terminal{vastart}, followed by
+the same sequence of \terminal{vaarg} uses that had been previously used to
+reach the present state of the \nonterminal{object-selector}.
+
+\informative{If any previously evaluated \terminal{vaarg} expression on the
+\nonterminal{object-selector} violated a runtime constraint, behavior of all
+further \terminal{vaarg} expressions on the newly created object is undefined.}
+
+Forward references: \subsecref{Variadic expressions}
+
+\specsubsubitem
+A \terminal{valist} object shall only be valid within the function it was
+initialized in.
 
 \textbf{The void type}
 

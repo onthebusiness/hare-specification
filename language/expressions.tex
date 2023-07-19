@@ -1137,7 +1137,7 @@ refer to objects, for use in other parts of the grammar.
 
 \specsubsubitem
 Variadic expressions are provided for compatibility with the C programming
-language as specified by ISO/IEC 9899:2011. Implementation support is optional:
+language as specified by ISO/IEC 9899. Implementation support is optional:
 implementations which do not provide C ABI compatibility must parse these
 expressions, print a diagnostic message, and abort.
 
@@ -1147,24 +1147,49 @@ variadism is handled separately.}
 \specsubsubitem
 The \terminal{vastart} expression shall have a result type of
 \terminal{valist}, and may only be used within a function body which uses
-C-style variadism. It will initialize a structure compatible with the
-"va\_list" type defined by ISO/IEC 9899:2011 section 7.16.3 such that the first
-use of "va\_arg" would return the first variadic parameter.
+C-style variadism. It will initialize a \terminal{valist} in an
+implementation-defined manner, such that the first use of \terminal{vaarg} on
+the new object would return the first variadic parameter.
 
 \specsubsubitem
 The \terminal{vaarg} expression accepts an \nonterminal{object-selector} which
 must be of the \terminal{valist} type. The expression shall also be provided a
-type hint. The result of the expression shall be the next variadic parameter
-from the \terminal{valist} object of the type provided by the type hint, and
-the object shall be advanced to the next parameter. This expression shall
-behave in a manner compatible with ISO/IEC 9899:2011 section 7.16.1.1's
-"va\_arg" macro. The result type of this expression is \terminal{void}.
+type hint, which shall have a defined size and alignment.
+
+\specsubsubitem
+When the \terminal{vaarg} expression is evaluated, the following conditions
+(\textit{runtime constraints}) must hold:
+
+\begin{enumerate}
+\item Any previous evaluation of a \terminal{vaarg} expression on the same
+	\nonterminal{object-selector} didn't violate any runtime constraints
+\item There exists a variadic parameter that has yet to be consumed by the
+	\nonterminal{object-selector}
+\item The type of the next variadic parameter and the type hint have the same
+	size and alignment
+\item The type of the next variadic parameter is assignable to the type hint
+	(ignoring type flags), or the type of the next variadic parameter and
+	the type hint are both integer types, or the type of the next variadic
+	parameter is either a pointer type or \terminal{null} and the type hint
+	is a pointer type
+\end{enumerate}
+
+\specsubsubitem
+If no runtime constraints are violated, the result of the \terminal{vaarg}
+expression shall be the next variadic parameter from the \terminal{valist}
+object, and the parameter shall be consumed by the object such that another
+\terminal{vaarg} expression on the same \nonterminal{object-selector} would
+yield the successive variadic parameter, if one exists. If any runtime
+constraint is violated, behavior of the \terminal{vaarg} expression is
+undefined.
 
 \specsubsubitem
 The \terminal{vaend} expression accepts an \nonterminal{object-selector} which
-must be of the \terminal{valist} type. The implementation shall finalize the
-\terminal{valist} object in an implementation-defined manner which is
-compatible with ISO/IEC 9899:2011 section 7.16.1.2. The result type of this
+must be of the \terminal{valist} type. The object must have previously been
+initialized with \terminal{vastart}. The implementation shall finalize the
+\terminal{valist} object in an implementation-defined manner. Any further
+evaluated \terminal{vaarg} expression on the object is invalid, unless the
+object is first re-initialized with \terminal{vastart}. The result type of this
 expression is \terminal{void}.
 
 \specsubsection{Builtin expressions}
