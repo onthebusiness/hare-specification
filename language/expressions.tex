@@ -1090,7 +1090,8 @@ expression.
 \specsubsubitem
 In the \terminal{?} form, if the error test fails (i.e. an error is found), the
 error type shall be assignable to the current function's return type, and that
-value shall be returned from the function.
+value shall be returned from the function. This form shall not be used within
+the expression tree formed by a \nonterminal{defer-expression}.
 
 \specsubsubitem
 In the \terminal{!} form, if the error test fails (i.e. an error is found), the
@@ -2116,10 +2117,6 @@ If the current scope is terminated before a \nonterminal{defer-expression}
 (\informative{but not an expression which was already deferred}) would be
 evaluated, the side-effects of the \nonterminal{expression} shall not occur.
 
-\specsubsubitem
-A \nonterminal{defer-expression} shall not appear as a descendant of the
-expression tree formed by \nonterminal{expression}.
-
 \specsubsection{Compound expressions}
 
 \begin{grammar}
@@ -2229,6 +2226,12 @@ In any of these cases, if a \nonterminal{compound-expression} is selected, the
 implementation shall ensure that side-effects do not occur for any expressions
 which are lexically situated \textit{after} the
 \nonterminal{control-expression}.
+
+\specsubsubitem
+If a \nonterminal{control-expression} is used within the expression tree formed
+by a \nonterminal{defer-expression}, and the selected expression isn't a
+descendent of the same tree, the translation environment shall print a
+diagnostic message and abort.
 
 \specsubsection{High-level expression class}
 
