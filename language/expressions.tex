@@ -1646,7 +1646,6 @@ occur.
 \begin{grammar}
 \nonterminaldef{if-expression} \\
 	\terminal{if} \nonterminal{conditional-branch} \\
-	\terminal{if} \nonterminal{conditional-branch} \terminal{else} \nonterminal{if-expression} \\
 	\terminal{if} \nonterminal{conditional-branch} \terminal{else} \nonterminal{expression} \\
 
 \nonterminaldef{conditional-branch} \\
@@ -1656,38 +1655,36 @@ occur.
 \specsubsubitem
 An \nonterminal{if-expression} chooses which, if any, expression to evaluate
 based on a logical criteria. In \nonterminal{conditional-branch}, the result type of
-the first \nonterminal{expression} shall be \terminal{bool}. If a type hint is provided,
-the second \nonterminal{expression} shall receive it as a type hint.
+the first \nonterminal{expression} shall be \terminal{bool}.
 
 \specsubsubitem
 When executing a \nonterminal{conditional-branch}, the implementation shall
 evaluate the first \nonterminal{expression} (the \textit{condition}), and if
 \terminal{true}, the implementation shall execute the corresponding second
-\nonterminal{expression} (the \textit{branch}), ensuring that all side-effects
-occur. If the condition is \terminal{false}, the branch shall not be executed
-and shall not cause side-effects.
+\nonterminal{expression} (the \textit{true branch}), ensuring that all
+side-effects occur. If the condition is \terminal{false}, the true branch shall
+not be executed and shall not cause side-effects.
 
 \specsubsubitem
-In the second form, the first \nonterminal{conditional-branch} shall be
-executed. If it was \terminal{false}, the second-order
-\nonterminal{if-expression} shall be executed; otherwise not. In the latter
-case, any side-effects of the second condition or branch shall not occur.
+In the second form, the \nonterminal{conditional-branch} shall be executed. If
+the condition is \terminal{false}, the \nonterminal{expression} (the
+\textit{false branch}) shall be executed, ensuring that all side-effects occur.
+If the condition is \terminal{true}, the false branch shall not be executed and
+shall not cause side-effects. The result value shall be selected from the result
+of the branch which is executed. If the \nonterminal{if-expression} is provided
+a type hint, the executed branch shall receive it as a type hint.
 
 \specsubsubitem
-In the third form, the \nonterminal{conditional-branch} shall be executed. If
-it was \terminal{false}, the \nonterminal{expression} shall be executed. The
-result value shall be selected from the result of the branch which is executed.
+The first form shall behave exactly as though the second form were used with
+\terminal{void} as the false branch.
 
 \specsubsubitem
-In the first form, the result type is \terminal{void}. In the second form, the
-result type is \terminal{void} unless the third form is present in the
-$N^{th}$-order sub-branch for any value of $N$. In this case, and in the case of
-the third form used in the first order, if a type hint is provided and all
+If both branches terminate, the result type shall be \terminal{void} and the if
+expression shall terminate. Otherwise, if a type hint is provided and all
 non-terminating branches are assignable to that type, the result type shall be
-the type given by the type hint. If all branches terminate, the result type
-shall be \terminal{void} and the if expression shall terminate. Otherwise, the
-result type shall be the \secref{Result type reduction algorithm} applied to the
-result types of the non-terminating branches.
+the type given by the type hint. Otherwise, the result type shall be the
+\secref{Result type reduction algorithm} applied to the result types of all
+non-terminating branches.
 
 \specsubsection{For loops}
 
