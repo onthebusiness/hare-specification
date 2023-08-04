@@ -2,10 +2,74 @@
 
 \begin{grammar}
 \nonterminaldef{token}\\
+	\nonterminal{comment} \\
 	\nonterminal{constant} \\
 	\nonterminal{identifier} \\
 	\nonterminal{keyword} \\
-	\nonterminal{name}
+	\nonterminal{name} \\
+	\nonterminal{operator}
+
+\nonterminaldef{operator}\oneof \\
+	\terminal{!}
+	\terminal{!=}
+	\terminal{\%}
+	\terminal{\%=}
+	\terminal{\&}
+	\terminal{\&\&}
+	\terminal{\&\&=}
+	\terminal{\&=}
+	\terminal{(}
+	\terminal{)}
+	\terminal{*}
+	\terminal{*=}
+	\terminal{+}
+	\terminal{+=}
+	\terminal{,}
+	\terminal{-}
+	\terminal{-=}
+	\terminal{.}
+	\terminal{..}
+	\terminal{...}
+	\terminal{/}
+	\terminal{/=}
+	\terminal{:}
+	\terminal{::}
+	\terminal{;}
+	\terminal{<}
+	\terminal{<<}
+	\terminal{<<=}
+	\terminal{<=}
+	\terminal{=}
+	\terminal{==}
+	\terminal{=>}
+	\terminal{>}
+	\terminal{>=}
+	\terminal{>>}
+	\terminal{>>=}
+	\terminal{?}
+	\terminal{[}
+	\terminal{]}
+	\terminal{\textasciicircum}
+	\terminal{\textasciicircum=}
+	\terminal{\textasciicircum\textasciicircum}
+	\terminal{\textasciicircum\textasciicircum=}
+	\terminal{\{}
+	\terminal{|}
+	\terminal{|=}
+	\terminal{||}
+	\terminal{||=}
+	\terminal{\}}
+	\terminal{\textasciitilde}
+
+\nonterminaldef{comment}\exactly\\
+	\terminal{//} \nonterminal{comment-chars} \code{U+000A}
+
+\nonterminaldef{comment-chars}\exactly\\
+	\nonterminal{comment-char} \optional{\nonterminal{comment-chars}}
+
+\nonterminaldef{comment-char}\\
+	\norm{Any character other than \code{U+000A}}
+
 \end{grammar}
 
 \specsubitem
@@ -15,10 +79,10 @@ tokens by matching the terminals with the input text.
 
 \specsubitem
 Tokens may be separated by \textit{white-space} characters, which are defined as
-the Unicode code-points \code{U+0009} (horizontal tabulation), \code{U+000A}
-(line feed), and \code{U+0020} (space). Any number of whitespace characters may
+the Unicode codepoints \code{U+0009} (horizontal tabulation), \code{U+000A}
+(line feed), and \code{U+0020} (space). Any number of white-space characters may
 be inserted between tokens, either to disambiguate from subsequent tokens, or
-for aesthetic purposes. This whitespace is discarded during the lexical
+for aesthetic purposes. This white-space is discarded during the lexical
 analysis phase.
 
 % TODO: Define the U+XXXX syntax
@@ -27,17 +91,14 @@ analysis phase.
 \nonterminal{string-literal} token is defined by two quotation marks
 \terminal{"} enclosing any number of literal characters. The enclosed
 characters are considered part of the \nonterminal{string-literal} token and
-any whitespace therein is not discarded.}
+any white-space therein is not discarded.}
 
 \specsubitem
-The lexical analysis process consumes Unicode characters from the source file
-input until it is exhausted, performing the following steps in order. At each
-step, it shall consume and discard white-space characters until a
-non-white-space character is found, then consume the longest sequence of
-characters which constitutes a token and emit it to the token stream.
-
-\specsubitem
-The terminal sequence \terminal{//} is used to mark a comment. When the lexical
-analyzer encounters this terminal sequence, it shall discard it and all
-subsequent characters until a line feed \code{U+000A} is encountered, then
-resume normal processing.
+The lexical analysis process shall repeatedly consume Unicode characters from
+the source file input until there are no more characters to consume. White-space
+characters shall be discarded. When a non-white-space character is encountered,
+it shall mark the beginning of a token: the longest sequence of characters which
+constitutes a token shall then be consumed and emitted to the token stream,
+unless the token is a \nonterminal{comment}, in which case it shall be
+discarded. If no token can be formed, a diagnostic message shall be printed and
+the translation phase shall abort.
