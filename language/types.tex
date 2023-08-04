@@ -569,9 +569,9 @@ are equivalent.}
 
 \specsubsubitem
 An \textit{array type} stores one or more items of a uniform secondary type.
-The number of items stored in an array type is an attribute of the array type
-and is specified during the translation phase. The secondary type shall have a
-definite, non-zero size.
+The number of items stored in an array type (its \textit{length}) is an
+attribute of the array type and is specified during the translation phase. The
+secondary type shall have a definite, non-zero size.
 
 \specsubsubitem
 The \nonterminal{expression} representation is used for array types of a
@@ -581,11 +581,11 @@ integer value, and shall be limited to the \secref{Translation compatible
 expression subset}.
 
 \specsubsubitem
-An array type may be \textit{unbounded}, in which case the number of items is
-not known. The \terminal{*} representation indicates an array of this type.
+An array type may be \textit{unbounded}, in which case the length is not known.
+The \terminal{*} representation indicates an array of this type.
 
 \specsubsubitem
-An array may be bounded, but infer its size from context, using the
+An array may be bounded, but infer its length from context, using the
 \terminal{\_} representation. Such an array is said to be
 \textit{context-defined}.
 
@@ -630,9 +630,9 @@ greater.
 
 \specsubsubitem
 The size of a bounded array type shall be equal to $N \times S$, where N is the
-number of items and S is the size of the underlying type. The size of an
-unbounded array is undefined. The size of a slice type shall be equal to the
-size of the struct type defined by \subsubitemref{Slice and array types}{6}.
+length and S is the size of the underlying type. The size of an unbounded array
+is undefined. The size of a slice type shall be equal to the size of the struct
+type defined by \subsubitemref{Slice and array types}{6}.
 
 \specsubsubitem
 The default value of an array type shall be equal to all of its members set to
