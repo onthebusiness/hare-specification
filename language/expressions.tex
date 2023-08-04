@@ -1324,6 +1324,8 @@ Any type alias with an underlying type the source may be cast to & Any type \\
 \terminal{rune} & \terminal{u32} \\
 Any pointer type or \terminal{uintptr} & \terminal{null} \\
 See below & Tagged unions \\
+Tagged unions & See below \\
+See below & Flexible constant types \\
 \end{tabular}
 
 \specsubsubitem
@@ -1990,6 +1992,7 @@ Floating point types & Any floating point type of equal or lower precision \\
 Nullable pointer types & Non-nullable pointer type of the same secondary type \\
 Nullable pointer types & \terminal{null} \\
 Slice types & Array type of the same secondary type and definite length \\
+Slice types & Pointer to array type of the same secondary type and definite length \\
 Slice types & \terminal{[}\terminal{]}\terminal{void} \\
 Array types of undefined size & Array types of defined size \\
 Tagged union types & See notes \\
@@ -1997,6 +2000,7 @@ Type aliases & Any type assignable to the secondary type \\
 \terminal{void} & Any type \\
 \terminal{*} \terminal{void} & Any non-nullable pointer type \\
 \terminal{nullable} \terminal{*} \terminal{void} & Any pointer type \\
+Pointers to array types & See notes \\
 \end{tabular}
 
 The implementation shall perform any necessary conversion from the source type
