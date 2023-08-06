@@ -108,9 +108,11 @@ freestanding environment.
 \specsubsection{The hosted environment}
 
 \specsubsubitem
-In the hosted environment, the program entry point shall be an exported
-function named \code{main} in the root namespace. It shall have no parameters
-and a result type of \terminal{void}.
+In the hosted environment, the program entry point shall be a function named
+\code{main} in the root namespace. The declaration shall not have any
+attributes. The function shall have no parameters and a result type of
+\terminal{void}. The declaration shall be exported, unless the declaration is a
+prototype, in which case it need not be exported.
 
 \informative{The signature of a conformant entry point follows:}
 
@@ -118,7 +120,30 @@ and a result type of \terminal{void}.
 export fn main() void;
 \end{codesample}
 
-\informative{The program shall provide this function in the root namespace.}
+\informative{The program shall provide this declaration in the root namespace.}
+
+\specsubsubitem
+Alternatively, the entry point may be declared with a different name and/or in a
+different namespace if a recognized form of \terminal{@symbol} is supplied to
+the declaration. The set of recognized forms, if any exist, are
+implementation-defined.
+
+\informative{If an implementation used the symbol "main" for its entry point,
+the following signature would be a valid entry point declaration:}
+
+\begin{codesample}
+export @symbol("main") fn any::other::name() void;
+\end{codesample}
+
+\specsubsubitem
+The identifier \code{main} shall not be used for any root namespace declaration
+which would not be a valid entry point, unless the declaration uses any of
+\terminal{@symbol}, \terminal{@init}, \terminal{@fini}, or \terminal{@test}.
+The implementation-defined set of recognized forms of \terminal{@symbol} shall
+not be used in any namespace for a declaration which would not be a valid entry
+point.
+
+Forward references: \secref{Global declarations}
 
 \specsubsection{Program execution}
 
