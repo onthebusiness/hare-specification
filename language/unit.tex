@@ -65,7 +65,8 @@ of the \nonterminal{expression}.
 \specsubsubitem
 The first form of \nonterminal{global-binding} is a \textit{prototype}. In this
 form, the implementation shall not allocate storage for the global, and the
-programmer must arrange for storage to be provided elsewhere, e.g. during linking.
+programmer must arrange for storage to be provided elsewhere, the manner of
+which is implementation-defined.
 
 \specsubsubitem
 The interpretation of the \terminal{@symbol} form of \nonterminal{decl-attr} is
@@ -213,8 +214,9 @@ diagnostic message shall be printed and the translation phase shall be aborted.
 The first form of \nonterminal{function-declaration} is a \textit{prototype},
 and shall cause the \nonterminal{identifier} to refer to the function type
 described by the \nonterminal{prototype} and the function attributes. The
-implementation of this function shall be provided separately, or the
-translation phase shall fail.
+programmer must arrange for the implementation of this function to be provided
+separately, the manner of which is implementation-defined. \terminal{@init},
+\terminal{@fini}, and \terminal{@test} shall not be used on prototypes.
 
 \specsubsubitem
 The second form of \nonterminal{function-declaration} shall declare a function
