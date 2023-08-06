@@ -70,7 +70,8 @@ which is implementation-defined.
 
 \specsubsubitem
 The interpretation of the \terminal{@symbol} form of \nonterminal{decl-attr} is
-implementation-defined.
+implementation-defined. \terminal{@symbol} shall not be used alongside
+\terminal{@init}, \terminal{@fini}, or \terminal{@test}.
 
 \informative{The purpose of this directive is to allow users to customize the
 symbol name emitted for targets like ELF.}
