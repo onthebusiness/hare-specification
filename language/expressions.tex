@@ -1229,7 +1229,6 @@ expression is \terminal{void}.
 	\nonterminal{unary-operator} \nonterminal{unary-expression} \\
 
 \nonterminaldef{unary-operator} \oneof \\
-	\terminal{+}
 	\terminal{-}
 	\terminal{\textasciitilde}
 	\terminal{!}
@@ -1241,9 +1240,9 @@ expression is \terminal{void}.
 A unary expression applies a \nonterminal{unary-operator} to a single value.
 
 \specsubsubitem
-The \terminal{+} and \terminal{-} operators shall respectively perform unary
-positive and unary negation operations. The result type shall be equivalent to
-the type of \nonterminal{unary-expression}, which shall be of a numeric type.
+The \terminal{-} operator shall perform a unary negation operation. The result
+type shall be equivalent to the type of \nonterminal{unary-expression}, which
+shall be of a numeric type.
 
 \specsubsubitem
 The \terminal{\textasciitilde} operator shall perform a bitwise NOT operation,
@@ -1275,7 +1274,6 @@ the current function.
 \begin{tabular}{r | l }
 Operator & Meaning \\
 \hline
-\terminal{+} & Positive \\
 \terminal{-} & Negation \\
 \terminal{\textasciitilde} & Bitwise NOT \\
 \terminal{!} & Logical NOT \\
