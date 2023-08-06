@@ -2,8 +2,8 @@
 
 \begin{grammar}
 \nonterminaldef{declarations} \\
-	\optional{\terminal{export}} \nonterminal{declaration} \terminal{;} \\
-	\optional{\terminal{export}} \nonterminal{declaration} \terminal{;} \nonterminal{declarations} \\
+	\optional{\terminal{export}} \nonterminal{declaration} \terminal{;} \optional{\nonterminal{declarations}} \\
+	\nonterminal{static-assertion-expression} \terminal{;} \optional{\nonterminal{declarations}} \\
 
 \nonterminaldef{declaration} \\
 	\nonterminal{global-declaration} \\

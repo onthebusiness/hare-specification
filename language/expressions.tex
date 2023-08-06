@@ -576,9 +576,12 @@ case the array referred to by its data field shall be freed.
 
 \begin{grammar}
 \nonterminaldef{assertion-expression} \\
-	\optional{\terminal{static}} \terminal{assert} \terminal{(} \nonterminal{expression} \terminal{)} \\
-	\optional{\terminal{static}} \terminal{assert} \terminal{(} \nonterminal{expression} \terminal{,} \nonterminal{expression} \terminal{)} \\
-	\optional{\terminal{static}} \terminal{abort} \terminal{(} \optional{\nonterminal{expression}} \terminal{)} \\
+	\terminal{assert} \terminal{(} \nonterminal{expression} \terminal{)} \\
+	\terminal{assert} \terminal{(} \nonterminal{expression} \terminal{,} \nonterminal{expression} \terminal{)} \\
+	\terminal{abort} \terminal{(} \optional{\nonterminal{expression}} \terminal{)} \\
+
+\nonterminaldef{static-assertion-expression} \\
+	\terminal{static} \nonterminal{assertion-expression} \\
 \end{grammar}
 
 \specsubsubitem
@@ -604,9 +607,9 @@ In the \terminal{abort} form, if \terminal{static} is omitted, the execution
 environment shall unconditionally print a diagostic message and abort.
 
 \specsubsubitem
-If \terminal{static} is given, behavior is identical to when \terminal{static}
-is omitted, except that the assertion is run in the translation environment
-rather than the execution environment.
+A \nonterminal{static-assertion-expression} is identical to an
+\nonterminal{assertion-expression}, except that the assertion is run in the
+translation environment rather than the execution environment.
 
 \specsubsection{Calls}
 
@@ -1215,6 +1218,7 @@ expression is \terminal{void}.
 	\nonterminal{measurement-expression} \\
 	\nonterminal{slice-mutation-expression} \\
 	\nonterminal{postfix-expression} \\
+	\nonterminal{static-assertion-expression} \\
 	\nonterminal{variadic-expression} \\
 \end{grammar}
 
