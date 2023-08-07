@@ -689,25 +689,21 @@ the call expression is considered to terminate.
 \begin{grammar}
 \nonterminaldef{measurement-expression} \\
 	\nonterminal{align-expression} \\
-	\nonterminal{capacity-expression} \\
+	\nonterminal{size-expression} \\
 	\nonterminal{length-expression} \\
 	\nonterminal{offset-expression} \\
-	\nonterminal{size-expression} \\
 
 \nonterminaldef{align-expression} \\
 	\terminal{align} \terminal{(} \nonterminal{type} \terminal{)} \\
 
-\nonterminaldef{capacity-expression} \\
-	\terminal{cap} \terminal{(} \nonterminal{expression} \terminal{)} \\
+\nonterminaldef{size-expression} \\
+	\terminal{size} \terminal{(} \nonterminal{type} \terminal{)} \\
 
 \nonterminaldef{length-expression} \\
 	\terminal{len} \terminal{(} \nonterminal{expression} \terminal{)} \\
 
 \nonterminaldef{offset-expression} \\
 	\terminal{offset} \terminal{(} \nonterminal{field-access-expression} \terminal{)} \\
-
-\nonterminaldef{size-expression} \\
-	\terminal{size} \terminal{(} \nonterminal{type} \terminal{)} \\
 \end{grammar}
 
 Forward references: \subsecref{Field access}
@@ -718,19 +714,14 @@ type shall be \terminal{size}.
 
 \specsubsubitem
 The \terminal{align} expression shall compute the \textit{alignment} of the specified
-\nonterminal{type}. If \nonterminal{type} is a type of undefined alignment or a
+\nonterminal{type}. If \nonterminal{type} is a type of undefined alignment of a
 type of size 0, a diagnostic message shall be printed and translation shall
 abort.
 
 \specsubsubitem
-The \terminal{cap} expression shall compute the \code{capacity} field of a slice
-object, or the \code{capacity} field of a \terminal{str}, referred to by
-\nonterminal{expression}.
-
-\specsubsubitem
-The object used for a \nonterminal{capacity-expression} shall be the slice or
-\terminal{str} object the \nonterminal{expression} refers to, selecting the
-object indirectly via any number of non-nullable pointer types if appropriate.
+The \terminal{size} expression shall compute the \textit{size} of the specified
+\nonterminal{type}. If \nonterminal{type} is a type of undefined size, a
+diagnostic message shall be printed and translation shall abort.
 
 \specsubsubitem
 The \terminal{len} expression shall compute the \textit{length} of a bounded
@@ -740,19 +731,14 @@ object is given, the translation environment shall print a diagnostic message
 and abort.
 
 \specsubsubitem
-The object used for a \nonterminal{length-expression} shall be the array, slice,
-or \terminal{str} object the \nonterminal{expression} refers to, selecting that
+The object used for a length expression shall be the array, slice, or
+\terminal{str} object the \nonterminal{expression} refers to, selecting that
 object indirectly via any number of non-nullable pointer types if appropriate.
 
 \specsubsubitem
 The \terminal{offset} expression shall determine the struct or tuple field
 which would be accessed by \nonterminal{field-access-expression} and compute
 its \textit{offset}.
-
-\specsubsubitem
-The \terminal{size} expression shall compute the \textit{size} of the specified
-\nonterminal{type}. If \nonterminal{type} is a type of undefined size, a
-diagnostic message shall be printed and translation shall abort.
 
 \specsubsection{Field access}
 
@@ -2374,10 +2360,7 @@ The following expressions are included:
 \item \nonterminal{unary-expression}
 \item \nonterminal{field-access-expression}
 \item \nonterminal{indexing-expression}
-\item \nonterminal{align-expression}
-\item \nonterminal{length-expression}
-\item \nonterminal{offset-expression}
-\item \nonterminal{size-expression}
+\item \nonterminal{measurement-expression}
 \item \nonterminal{nested-expression}
 \item \nonterminal{plain-expression}
 \end{itemize}
