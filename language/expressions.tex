@@ -1874,11 +1874,9 @@ to the selected type and create separate bindings for each name in
 \nonterminal{binding-names}, of the type of the corresponding tuple value, and
 initialize them to that value from the tuple. It shall insert this binding into
 the scope of the implicit \nonterminal{compound-expression} of the selected
-case.
-
-\specsubsubitem
-If any name in \nonterminal{binding-names} is \terminal{\_} (an underscore), a
-binding shall not be created.
+case. If any \nonterminal{binding-name} is \terminal{\_} (an underscore),
+a binding for that name shall not be created, but bindings
+to any \nonterminal{name}s within the tuple shall be created.
 
 \specsubsubitem
 The match cases shall be \textit{exhaustive}, meaning that every possible type
@@ -1968,12 +1966,10 @@ In the fourth form, the \nonterminal{expression} shall be of a tuple type, and
 shall have length equal to the number of \nonterminal{binding-name}s specified.
 The implementation shall assign each value of the \nonterminal{expression}
 to the object given by the respective left-hand term. All left-hand terms shall
-be of a non-\terminal{const} type.
-
-\specsubsubitem
-If any name in \nonterminal{binding-names} is \terminal{\_} (an underscore), a
-binding shall not be created, but any side-effects of the second term shall
-still occur.
+be of a non-\terminal{const} type. If any \nonterminal{binding-name}
+is \terminal{\_} (an underscore), a binding for that name shall not be created,
+but bindings to any \nonterminal{name}s within the tuple shall be created
+and any side-effects of the initializer shall still occur.
 
 \specsubsubitem
 The second term shall be \textit{assignable} to the object. Assignability rules
@@ -2063,8 +2059,12 @@ occur before side-effects of the second term.
 	\terminal{(} \nonterminal{binding-names} \terminal{)} \terminal{:} \nonterminal{type} \terminal{=} \nonterminal{expression} \\
 
 \nonterminaldef{binding-names} \\
-	\nonterminal{name} \terminal{,} \nonterminal{name} \\
-	\nonterminal{name} \terminal{,} \nonterminal{binding-names} \\
+	\nonterminal{binding-name} \terminal{,} \nonterminal{binding-name} \\
+	\nonterminal{binding-name} \terminal{,} \nonterminal{binding-names} \\
+
+\nonterminaldef{binding-name} \\
+	\nonterminal{name} \\
+	\terminal{\_} \\
 \end{grammar}
 
 \specsubsubitem
@@ -2085,13 +2085,12 @@ the type specified is used as a type hint for the \nonterminal{expression}.
 The third and fourth forms of \nonterminal{binding} are the \textit{tuple
 unpacking} form, and in this case, the \nonterminal{type} and
 \nonterminal{expression} shall be of a tuple type with a number of values equal
-to the number of times \nonterminal{name} is given. The implementation shall
+to the number of times \nonterminal{binding-name} is given. The implementation shall
 create separate bindings for each name, of the type of the corresponding tuple
-value, and initialize them to that value from the tuple.
-
-\specsubsubitem
-If any \nonterminal{name} is \terminal{\_} (an underscore), a binding shall not
-be created, but any side-effects of the initializer shall still occur.
+value, and initialize them to that value from the tuple. If any
+\nonterminal{binding-name} is \terminal{\_} (an underscore), a binding for that
+name shall not be created, but bindings to any \nonterminal{name}s within the tuple
+shall be created and any side-effects of the initializer shall still occur.
 
 \specsubsubitem
 If the \terminal{const} form is used, the type of each binding shall be
