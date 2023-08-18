@@ -8,11 +8,15 @@ specification.pdf: specification.ps
 specification.ps: specification.dvi
 	dvips specification.dvi
 
-specification.dvi: *.tex language/*.tex
+specification.dvi: *.tex language/*.tex appendix/syntax.tex
 	while latex specification.tex | tee /dev/fd/2 | grep "Label(s) may have changed"; do true; done
 
+appendix/syntax.tex: language/*.tex gen-syntax.sh
+	mkdir -p appendix
+	sh gen-syntax.sh > $@
+
 clean:
-	rm -f *.pdf *.dvi *.ps *.aux *.toc *.log *.out
+	rm -f *.pdf *.dvi *.ps *.aux *.toc *.log *.out appendix/syntax.tex
 
 watch:
 	while inotifywait \
