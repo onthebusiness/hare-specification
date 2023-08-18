@@ -1988,6 +1988,9 @@ but bindings to any \nonterminal{name}s within the tuple shall be created
 and any side-effects of the initializer shall still occur.
 
 \specsubsubitem
+The type of the object being assigned to shall have definite size and alignment.
+
+\specsubsubitem
 The second term shall be \textit{assignable} to the object. Assignability rules
 are stricter than castability rules. All types are assignable to themselves. The
 set of other types which are assignable to a given type are given by the
