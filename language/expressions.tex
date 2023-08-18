@@ -1750,8 +1750,8 @@ Forward references: \subsecref{Compound expressions}
 \specsubsubitem
 A switch expression evaluates a value (\nonterminal{expression}, the
 \textit{switching expression}), then compares it with a number of
-\nonterminal{switch-cases}, taking whichever branch matches the value. The
-switching expression's result type must either be numeric or be a
+\nonterminal{switch-cases}, taking whichever branch compares equal to the value.
+The switching expression's result type must either be numeric or be a
 \terminal{str}, \terminal{bool}, \terminal{rune}, or a pointer type.
 
 \specsubsubitem
@@ -1784,6 +1784,14 @@ The switch cases shall be \textit{exhaustive}, meaning that every possible
 value of the switching expression is accounted for by a
 \nonterminal{switch-case}. It shall also be precisely exhaustive: no two cases
 shall select for the same value.
+
+\specsubsubitem
+If the value of the switching expression doesn't compare equal to any of the
+\nonterminal{switch-cases}, a diagnostic message shall be printed and the
+execution environment shall abort.
+
+\informative{This isn't possible under normal circumstances, but certain
+operations such as invalid casts can cause this to occur.}
 
 \specsubsubitem
 The implementation shall ensure that side-effects of the switch value
@@ -1883,6 +1891,14 @@ The match cases shall be \textit{exhaustive}, meaning that every possible type
 of the matching expression is accounted for by a \nonterminal{match-case}. It
 shall also be precisely exhaustive: no two cases shall select for the same
 type.
+
+\specsubsubitem
+If the type of the matching expression isn't accounted for by any of the
+\nonterminal{match-cases}, a diagnostic message shall be printed and the
+execution environment shall abort.
+
+\informative{This isn't possible under normal circumstances, but certain
+operations such as invalid casts can cause this to occur.}
 
 \specsubsubitem
 The implementation shall ensure that side-effects of the match value
