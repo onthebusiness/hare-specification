@@ -236,20 +236,16 @@ shall not be made available.
 
 \specsubsubitem
 The \terminal{@fini} form of \nonterminal{fndec-attr} shall cause the
-function to be a finalization function. \terminal{@init} shall cause it to be an
-initialization function. If multiple \nonterminal{fndec-attr}s of the same type
+function to be a \textit{finalization function}. \terminal{@init} shall cause it
+to be an \textit{initialization function}. \terminal{@test} shall cause it to be
+a \textit{test function}. If multiple \nonterminal{fndec-attr}s of the same type
 are specified, the last one shall override all previous ones.
-
-References: \secref{Initialization functions}, \secref{Finalization functions}
 
 \specsubsubitem
 Functions declared with \terminal{@test}, \terminal{@init}, or \terminal{@fini}
 shall accept no parameters, shall return void, shall not be declared with
 \terminal{@noreturn}, shall not appear in \nonterminal{object-selector}s, need
 not have unique names, and shall not be inserted into the unit's scope.
-
-\specsubsubitem
-Other semantics of \terminal{@test} functions are implementation-defined.
 
 \specsection{Units}
 

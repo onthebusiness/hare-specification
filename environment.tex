@@ -79,39 +79,47 @@ the execution environment.
 \specsection{Execution environment}
 
 \specsubitem
-Two execution environments are defined: \textit{hosted} and
-\textit{freestanding}. The implementation must support a freestanding
-environment; support for a hosted environment is optional.
+Three execution environments are defined: \textit{freestanding},
+\textit{hosted}, and \textit{test}. The implementation must support a
+freestanding environment; support for any other environment is optional.
 
 \specsubitem
-During \textit{program startup}, the execution environment shall initialize all
-global declarations to their initial values, call all initialization functions
-in an unspecified order, then transfer control to the program \textit{entry
-point}. The manner of this initialization is implementation-defined.
-
-% TODO: Should the order of initialization functions be defined by the
-% dependency relationship between modules?
+During \textit{program startup}, the execution environment shall first
+initialize all global declarations to their initial values in an
+implementation-defined manner. The next steps are dependent on the execution
+environment.
 
 \specsubitem
-During \textit{program teardown}, the execution environment shall call all
-finalization functions in an unspecified order, then terminate.
-
-Forward references: \secref{Initialization functions}, \secref{Finalization functions}
+Behavior during \textit{program teardown} is dependent on the execution
+environment.
 
 \specsubsection{The freestanding environment}
 
 \specsubsubitem
-The name and signature of the program entry point function is undefined in the
-freestanding environment.
+In the freestanding environment, behavior during program startup after global
+declarations are initialized, behavior during program teardown, as well as
+behavior of initialization and finalization functions, is undefined.
+
+Forward references: \subsecref{Function declarations}
 
 \specsubsection{The hosted environment}
 
 \specsubsubitem
-In the hosted environment, the program entry point shall be a function named
-\code{main} in the root namespace. The declaration shall not have any
-attributes. The function shall have no parameters and a result type of
-\terminal{void}. The declaration shall be exported, unless the declaration is a
-prototype, in which case it need not be exported.
+In the hosted environment, after global declarations are initialized during
+program startup, the execution environment shall call all initialization
+functions in an unspecified order, then transfer control to the program
+\textit{entry point} in an implementation-defined manner.
+
+\specsubsubitem
+Program teardown in the hosted environment shall cause the execution environment
+to call all finalization functions in an unspecified order, then terminate.
+
+\specsubsubitem
+The program entry point shall be a function named \code{main} in the root
+namespace. The declaration shall not have any attributes. The function shall
+have no parameters and a result type of \terminal{void}. The declaration shall
+be exported, unless the declaration is a prototype, in which case it need not be
+exported.
 
 \informative{The signature of a conformant entry point follows:}
 
@@ -142,7 +150,56 @@ The implementation-defined set of recognized forms of \terminal{@symbol} shall
 not be used in any namespace for a declaration which would not be a valid entry
 point.
 
-Forward references: \secref{Global declarations}
+\specsubsubitem
+Returning from the program entry point shall begin the program teardown process.
+
+Forward references: \subsecref{Global declarations}, \subsecref{Function declarations}
+
+\specsubsection{The test environment}
+
+\specsubsubitem
+In the test environment, after global declarations are initialized during
+program startup, the execution environment shall call all initialization
+functions in an unspecified order, then transfer control to the \textit{test
+runner}.
+
+\specsubsubitem
+Program teardown in the hosted environment shall cause the execution environment
+to call all finalization functions in an unspecified order, then terminate.
+
+\specsubsubitem
+The test runner shall call any number of test functions in an unspecified order,
+and then begin the program teardown process.
+
+\informative{The implementation should provide a means for the user to specify
+which tests to run.}
+
+\specsubsubitem
+Prior to calling each test function, as well as after calling the final test
+function, the test runner shall reset the execution environment in an
+implementation-defined manner.
+
+\example{Resetting the execution environment may involve setting the floating
+point rounding mode to the default, clearing all floating point exceptions,
+resetting all signal handlers to their defaults, and routing standard I/O
+streams to known locations.}
+
+\specsubsubitem
+Each test function designates one test, which may either \textit{pass} or
+\textit{fail}. By default, if control returns from a test function, the test
+passes; if the test function aborts (such as from an
+\nonterminal{assertion-expression} or a failed type assertion), the test fails.
+The implementation may declare functions in the runtime library which change the
+pass and fail conditions for the running test. Aborting from a test function
+shall not terminate the program; the next test function shall always be
+executed.
+
+\specsubsubitem
+The test runner shall keep track of which tests pass and which tests fail, and
+print this information in an implementation-defined manner, possibly alongside
+other messages.
+
+Forward references: \subsecref{Function declarations}
 
 \specsubsection{Program execution}
 
