@@ -2335,7 +2335,7 @@ underlying type of type B.
 
 \specsection{Translation compatible expression subset}
 
-The translation-compatible expression subset is a subset of expression types
+The translation compatible expression subset is a subset of expression types
 which the implementation must be able to evaluate during the translation phase.
 
 \specsubitem
@@ -2374,14 +2374,14 @@ included, and all non-terminals and terminals which are descendants of
 
 \specsubitem
 The pointer dereference \nonterminal{unary-expression} (the \terminal{*}
-operator) shall be excluded from the translation-compatible expression subset.
+operator) shall be excluded from the translation compatible expression subset.
 Additionally, the implicit pointer type dereference semantics of
 \nonterminal{field-access-expression} and \nonterminal{indexing-expression} are
 not available.
 
 \specsubitem
 The expression used for a \nonterminal{length-expression} is not required to be
-translation-compatible as long as the result type is either an array type or an
+translation compatible as long as the result type is either an array type or an
 array type's alias, indirected via any number of non-nullable pointer types or
 their aliases if appropriate.
 
