@@ -24,11 +24,11 @@ other modules to use.
 \specsubitem
 A Hare program may be translated incrementally, rather than all at one time.
 However, the composite source files of a single translation unit must be
-compiled together. Once compiled, an opaque representation of their
-\textit{exported interface} (the identifiers and types of their exported
-procedures, data, and types) provides sufficient information to translate other
-units which require the module. The translated modules may be composed into the
-final program at the last step.
+translated together. Once translated, an implementation-defined representation
+of their \textit{exported interface} (the identifiers and types of their
+exported declarations) provides sufficient information to translate other units
+which require the module. The translated modules may be composed into the final
+program at the last step.
 
 \specsubitem
 If the source files for a translation unit are not changed, the translated

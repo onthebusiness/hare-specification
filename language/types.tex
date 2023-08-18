@@ -20,8 +20,9 @@
 	\nonterminal{integer-type} \\
 	\nonterminal{floating-type} \\
 	\nonterminal{pointer-type} \\
-	\terminal{rune} \\
 	\terminal{bool} \\
+	\terminal{opaque} \\
+	\terminal{rune} \\
 	\terminal{valist} \\
 	\terminal{void} \\
 \end{grammar}
@@ -63,13 +64,6 @@ without this attribute are considered mutable by default.
 \specsubitem
 The \terminal{!} terminal, when used in a type specifier, sets the
 error flag for this type.
-
-\specsubitem
-A scalar type, also called a \textit{built-in} or \textit{primitive} type,
-stores one value at a specific, pre-defined precision. Scalar types are the
-most basic unit in the Hare type system. Other types are referred to as
-\textit{aggregate types}, with the exception of alias types, which may be
-either scalar or aggregate.
 
 \specsubitem
 The \textit{type class} of a type is defined for scalar types as the terminal
@@ -249,6 +243,10 @@ A pointer type prefixed with \terminal{nullable} is considered a
 or to a special value called \textit{null}.
 
 \specsubsubitem
+A pointer type's secondary type must have a non-zero size. Its size may be
+undefined.
+
+\specsubsubitem
 The representation of a pointer type shall be implementation-defined, and it
 shall have an implementation-defined length and alignment.
 
@@ -285,6 +283,16 @@ only store a specific, implementation-defined value (the \textit{null} value).
 \specsubsubitem
 There is no grammar for defining a value of type null, or a sub-type of null. It
 is for internal use only, as the type of the \terminal{null} constant.
+
+\textbf{The opaque type}
+
+The \terminal{opaque} type represents an object whose size, alignment, and
+representation are unknown. As such, the opaque type has an undefined size and
+alignment, and can't store any value.
+
+\informative{No value exists whose type is \terminal{opaque}. Rather,
+\terminal{opaque} is intended to be used as the secondary type of a pointer or
+slice type, to exchange data whose representation is generic or unknown.}
 
 \textbf{The valist type}
 
@@ -343,13 +351,13 @@ storage.
 \end{grammar}
 
 \specsubsubitem
-The \textit{struct type} and \textit{union type} are \textit{aggregate types},
-which \textit{collect} multiple types, name them, and assign them
-\textit{offset}s within their storage area. A struct type stores each value at a
-different offset; a union type stores all of its values at the same offset.
-A type defined with the \terminal{struct} terminal is a struct type and uses the
-struct type class; if the \terminal{union} terminal is used the type is a union
-type with the union type class.
+The \textit{struct type} and \textit{union type} \textit{collect} multiple
+types, name them, and assign them \textit{offset}s within their storage area. A
+struct type stores each value at a different offset; a union type stores all of
+its values at the same offset. A type defined with the \terminal{struct}
+terminal is a struct type and uses the struct type class; if the
+\terminal{union} terminal is used the type is a union type with the union type
+class.
 
 \specsubsubitem
 The \nonterminal{struct-union-fields} list denotes, in order, the subvalues
@@ -603,7 +611,8 @@ the equation $N \times S$, where \textit{S} is the size of the secondary type.
 A \textit{slice type} stores a pointer to an unbounded array type, with a given
 \textit{capacity}, and \textit{length}, which respectively refer to the number
 of items that the unbounded array \textbf{may} store without re-allocation, and
-the number of items which are \textbf{currently valid}. The representation with
+the number of items which are \textbf{currently valid}. The secondary type shall
+not have a size of zero, but is otherwise unconstrained. The representation with
 no lexical elements between \terminal{[} and \terminal{]} indicates a slice
 type.
 
@@ -613,14 +622,16 @@ type:
 
 \begin{codesample}
 struct {
-	data: nullable *[*]type,
+	data: nullable *opaque, // See notes
 	length: size,
 	capacity: size,
 }
 \end{codesample}
 
-The type of the \textit{data} field shall be a nullable pointer to an unbounded
-array of the secondary type.
+If the secondary type has a definite size, the type of the \textit{data} field
+shall be a nullable pointer to an unbounded array of the secondary type,
+otherwise, it shall be a nullable pointer to an unbounded array whose secondary
+type is unknown.
 
 \specsubsubitem
 The alignment of an array type shall be equivalent to the alignment of the

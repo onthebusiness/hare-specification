@@ -801,8 +801,9 @@ of the flag's value on the type of the named field.
 An \nonterminal{indexing-expression} shall access a specific value of a slice
 or array type. The \nonterminal{expression} shall have an integer result type.
 The result type of the \nonterminal{postfix-expression} shall be constrained to
-a set which includes all slice and array types, as well as non-nullable pointers
-whose secondary type is included in the set.
+a set which includes all slice and array types whose secondary type has definite
+size, as well as non-nullable pointers whose secondary type is included in the
+set.
 
 \informative{The result type of the \nonterminal{postfix-expression} can be a
 slice or array, a pointer to a slice or array, a pointer to a pointer to a
@@ -2007,13 +2008,13 @@ Nullable pointer types & Non-nullable pointer type of the same secondary type \\
 Nullable pointer types & \terminal{null} \\
 Slice types & Array type of the same secondary type and definite length \\
 Slice types & Pointer to array type of the same secondary type and definite length \\
-Slice types & \terminal{[}\terminal{]}\terminal{void} \\
+\terminal{[}\terminal{]}\terminal{opaque} & Slice types \\
 Array types of undefined size & Array types of defined size \\
 Tagged union types & See notes \\
 Type aliases & Any type assignable to the secondary type \\
 \terminal{void} & Any type \\
-\terminal{*} \terminal{void} & Any non-nullable pointer type \\
-\terminal{nullable} \terminal{*} \terminal{void} & Any pointer type \\
+\terminal{*} \terminal{opaque} & Any non-nullable pointer type \\
+\terminal{nullable} \terminal{*} \terminal{opaque} & Any pointer type \\
 Pointers to array types & See notes \\
 \end{tabular}
 
@@ -2334,7 +2335,7 @@ to \terminal{f64}.
 For expressions involving pointer types, \terminal{null} may be promoted to any
 nullable pointer type, and a non-nullable pointer type may be promoted to
 a nullable pointer type with the same secondary type. Any pointer type may be
-promoted to a void pointer.
+promoted to an \terminal{opaque} pointer.
 
 \specsubitem
 A mutable type may be promoted to a constant type which is otherwise equivalent
