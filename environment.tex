@@ -48,14 +48,13 @@ of \textit{tokens}.
 Forward references: \secref{Lexical analysis}
 
 \specsubitem
-Syntax analysis is conducted on the token stream, mapping the tokens to an
-abstract syntax tree (AST). The Hare grammar defines the relationships between
-tokens necessary to produce a valid AST.
+Syntax analysis is conducted on the token stream, mapping the tokens to a
+\nonterminal{sub-unit}.
 
-Forward references: \chref{Grammar}
+Forward references: \secref{Units}
 
 \specsubitem
-Logical analysis is conducted on the ASTs. In this step, the implementation
+Logical analysis is conducted on the sub-units. In this step, the implementation
 verifies the constraints imposed on the program. The result of this step is a
 \textit{verified program module}.
 
