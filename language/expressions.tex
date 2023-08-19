@@ -924,18 +924,18 @@ type is the append expression's member type, or a non-nullable pointer to a
 valid result type.
 
 \specsubsubitem
+The third form of an \nonterminal{append-expression} shall specify an
+expandable array as its second term, and its third term shall be assignable to
+\terminal{size}. This form shall behave similarly to the second form, except
+that the length of the expandable array is given by the third term.
+
+\specsubsubitem
 The execution environment shall ensure that the capacity of the object is at
 least $N \geq L_1 + L_2$, where $L_1$ is the object length and $L_2$ is the
 length of the append values, reallocating the underlying storage if necessary.
 If sufficient storage cannot be allocated, the execution environment shall
 print a diagnostic message and abort. The length of the object shall be set to
 $L_1 + L_2$.
-
-\specsubsubitem
-The third form of an \nonterminal{append-expression} shall specify an
-expandable array as its second term, and its third term shall be assignable to
-\terminal{size}. This form shall behave similarly to the second form, except
-that the new length and capacity of the object is given by the third term.
 
 \specsubsubitem
 The execution environment shall assign values of the object slice from index
