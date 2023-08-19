@@ -925,11 +925,11 @@ valid result type.
 
 \specsubsubitem
 The execution environment shall ensure that the capacity of the object is at
-least $N \geq L^1 + L^2$, where $L^1$ is the object length and $L^2$ is the
+least $N \geq L_1 + L_2$, where $L_1$ is the object length and $L_2$ is the
 length of the append values, reallocating the underlying storage if necessary.
 If sufficient storage cannot be allocated, the execution environment shall
 print a diagnostic message and abort. The length of the object shall be set to
-$L^1 + L^2$.
+$L_1 + L_2$.
 
 \specsubsubitem
 The third form of an \nonterminal{append-expression} shall specify an
@@ -939,9 +939,9 @@ that the new length and capacity of the object is given by the third term.
 
 \specsubsubitem
 The execution environment shall assign values of the object slice from index
-$N = L^1$ (inclusive) to $N = L^1 + L^2$ (exclusive) from each append values at
-index $N-L^1$. In the third form of \nonterminal{append-expression}, the last
-value of append values shall be assigned for values $N = L^1 + L^2$ (inclusive)
+$N = L_1$ (inclusive) to $N = L_1 + L_2$ (exclusive) from each append values at
+index $N-L_1$. In the third form of \nonterminal{append-expression}, the last
+value of append values shall be assigned for values $N = L_1 + L_2$ (inclusive)
 up to the index given by the third term (exclusive).
 
 \specsubsubitem
@@ -990,21 +990,21 @@ valid result type.
 
 \specsubsubitem
 The execution environment shall ensure that the capacity of the object is at
-least $N \geq L^1 + L^2$, where $L^1$ is the object length and $L^2$ is the
+least $N \geq L_1 + L_2$, where $L_1$ is the object length and $L_2$ is the
 length of the insert values, reallocating the underlying storage if necessary.
 If sufficient storage cannot be allocated, the execution environment shall
 print a diagnostic message and abort. The length of the object shall be set to
-$L^1 + L^2$.
+$L_1 + L_2$.
 
 \specsubsubitem
 After ensuring sufficient space is available for the new items, the execution
 environment shall copy or move each item $N$ such that from $N=I$ (inclusive)
-to $N=I+L^2$ (exclusive), each item is placed at $I+L^2+N-1$, causing the items
+to $N=I+L_2$ (exclusive), each item is placed at $I+L_2+N-1$, causing the items
 to "shift" over to accomodate the insert values.
 
 \specsubsubitem
 The execution environment shall assign values of the object slice from index
-$N = I$ (inclusive) to $N = I+L^2$ (exclusive) from each insert value in order.
+$N = I$ (inclusive) to $N = I+L_2$ (exclusive) from each insert value in order.
 
 \specsubsubitem
 The \terminal{static} forms shall be equivalent to the non-static forms except
@@ -1043,11 +1043,11 @@ of a single value as the \textit{deleted items}. Should a
 the deleted items.
 
 \specsubsubitem
-The execution environment shall set the length of the slice object to $L^1-L^2$,
-where $L^1$ is its previous length and $L^2$ is the number of deleted items.
+The execution environment shall set the length of the slice object to $L_1-L_2$,
+where $L_1$ is its previous length and $L_2$ is the number of deleted items.
 Starting from the first index specified by the
 \nonterminal{indexing-expression} or \nonterminal{slicing-expression}, $I$,
-each item at index $N+L^1$ shall be copied to $N$, "shifting" items over to
+each item at index $N+L_1$ shall be copied to $N$, "shifting" items over to
 reclaim the space previously used by the deleted items.
 
 \specsubsubitem
