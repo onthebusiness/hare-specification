@@ -533,15 +533,16 @@ fields are set to the length of the array.
 
 \specsubsubitem
 The third form is the slice allocation form. In this form, the initializer will
-be assignable to a slice or array type, and the second \nonterminal{expression}
-provides the desired \textit{capacity} for a new slice. The capacity shall be
-assignable to the \nonterminal{size} type. The execution environment shall
-choose a capacity equal to or greater than this term, then provision an array
-of that length and set each $N$th value to the $N$th value of the initializer,
-for each value of $N$ between $0$ (inclusive) and the length of the initializer
-(exclusive). The result of the \nonterminal{allocation-expression} shall be a
-slice whose data field refers to this array, whose length is equal to the
-length of the initializer, and whose capacity is set to the selected capacity.
+provide an object type which is either a slice or array type (or an alias
+thereof), and the second \nonterminal{expression} provides the desired
+\textit{capacity} for a new slice. The capacity shall be assignable to the
+\nonterminal{size} type. The execution environment shall choose a capacity equal
+to or greater than this term, then provision an array of that length and set
+each $N$th value to the $N$th value of the initializer, for each value of $N$
+between $0$ (inclusive) and the length of the initializer (exclusive). The
+result of the \nonterminal{allocation-expression} shall be a slice whose data
+field refers to this array, whose length is equal to the length of the
+initializer, and whose capacity is set to the selected capacity.
 
 \specsubsubitem
 In the slice allocation form, if the array specified by the initializer is
