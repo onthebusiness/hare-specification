@@ -889,6 +889,18 @@ If the length of the object is undefined, the capacity shall be set to $H - L$
 instead.
 
 \specsubsubitem
+The execution environment shall perform a \textit{bounds test} on the values of
+$L$ and $H$ to ensure they fall within the acceptable range of the given slice
+or array type. It shall test that $L < H+1$. If \nonterminal{postfix-expression}
+isn't of an unbounded array type, it shall also test that $H < \code{length}+1$.
+If the bounds test fails, a diagnostic message shall be printed and the
+execution environment shall abort.
+
+The implementation may perform a bounds test in the translation environment if
+it is able, and print a diagnostic message and abort the translation environment
+if it fails.
+
+\specsubsubitem
 The secondary type of the resulting slice type shall be equivalent to the
 secondary type of the slice or array type given by
 \nonterminal{postfix-expression}. The resulting slice type shall inherit the
