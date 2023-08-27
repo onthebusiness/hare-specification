@@ -800,11 +800,11 @@ of the flag's value on the type of the named field.
 
 \specsubsubitem
 An \nonterminal{indexing-expression} shall access a specific value of a slice
-or array type. The \nonterminal{expression} shall have an integer result type.
-The result type of the \nonterminal{postfix-expression} shall be constrained to
-a set which includes all slice and array types whose secondary type has definite
-size, as well as non-nullable pointers whose secondary type is included in the
-set.
+or array type. The \nonterminal{expression} shall have a result type of
+\terminal{size}, which shall be provided to it as a type hint. The result type
+of the \nonterminal{postfix-expression} shall be constrained to a set which
+includes all slice and array types whose secondary type has definite size, as
+well as non-nullable pointers whose secondary type is included in the set.
 
 \informative{The result type of the \nonterminal{postfix-expression} can be a
 slice or array, a pointer to a slice or array, a pointer to a pointer to a
@@ -853,10 +853,11 @@ if it fails.
 \specsubsubitem
 A \nonterminal{slicing-expression} shall have a result type of
 \nonterminal{slice}, which is computed a subset of a slice or array object.
-The optional \nonterminal{expression}s shall have an integer result type. The
-result type of the \nonterminal{postfix-expression} shall be constrained to
-a set which includes all slice and array types, as well as non-nullable pointers
-whose secondary type is included in the set.
+Each optional \nonterminal{expression}s shall, if present, have a result type of
+\terminal{size}, which shall be provided to it as a type hint. The result type
+of the \nonterminal{postfix-expression} shall be constrained to a set which
+includes all slice and array types, as well as non-nullable pointers whose
+secondary type is included in the set.
 
 \informative{The result type of the \nonterminal{postfix-expression} can be a
 slice or array, a pointer to a slice or array, a pointer to a pointer to a
