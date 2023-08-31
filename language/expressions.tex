@@ -369,10 +369,10 @@ If a type hint is available, it shall not be of a context-defined array type.
 \begin{grammar}
 \nonterminaldef{struct-literal} \\
 	\terminal{struct} \terminal{\{} \nonterminal{field-values} \optional{\terminal{,}} \terminal{\}} \\
-	\nonterminal{identifier} \terminal{\{} \nonterminal{struct-initializer} \optional{\terminal{,}} \terminal{\}} \\
+	\nonterminal{identifier} \terminal{\{} \nonterminal{struct-initializer} \terminal{\}} \\
 
 \nonterminaldef{struct-initializer} \\
-	\nonterminal{field-values} \\
+	\nonterminal{field-values} \optional{\terminal{,}} \\
 	\nonterminal{field-values} \terminal{,} \terminal{...} \\
 	\terminal{...} \\
 
