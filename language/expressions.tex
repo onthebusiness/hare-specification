@@ -1765,8 +1765,9 @@ Forward references: \subsecref{Compound expressions}
 A switch expression evaluates a value (\nonterminal{expression}, the
 \textit{switching expression}), then compares it with a number of
 \nonterminal{switch-cases}, taking whichever branch compares equal to the value.
-The switching expression's result type must either be numeric or be a
-\terminal{str}, \terminal{bool}, \terminal{rune}, or a pointer type.
+The switching expression's result type must either be of an integer type or be a
+\terminal{str}, \terminal{bool}, \terminal{rconst}, \terminal{rune}, or a
+pointer type.
 
 \specsubsubitem
 Each of the \nonterminal{case-options} specifies a value to compare with, given
