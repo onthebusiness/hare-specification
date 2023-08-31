@@ -910,59 +910,66 @@ secondary type of the slice or array type given by
 \end{grammar}
 
 \specsubsubitem
-An \nonterminal{append-expression} shall append a value, or values, to the
-slice object specified by the first argument. Valid result types for
-\nonterminal{object-selector} shall either be a slice type, or a non-nullable
-pointer to a valid result type. The selected object shall be mutable and
-non-const. The member type of this slice shall be the expression's
-\textit{member type}. The result of an \terminal{append} shall be
-\terminal{void}.
+An \nonterminal{append-expression} shall append some number of values to the
+slice object specified by the first term, which shall not be provided a type
+hint. Valid result types for \nonterminal{object-selector} shall either be a
+slice type, or a non-nullable pointer to a valid result type. The selected
+object shall be mutable and non-const. The member type of this slice shall be
+the \nonterminal{append-expression}'s \textit{member type}. The result type of
+an \nonterminal{append-expression} shall be \terminal{void}.
 
 \specsubsubitem
-The second term of an \terminal{append} expression is the \textit{append
-values}. In the first form, the append values shall specify a single value
-whose type is assignable to the member type. In the second form, the expression
-shall have a valid result type which shall be an array or slice whose member
-type is the append expression's member type, or a non-nullable pointer to a
-valid result type.
+In the first form, the type of the second term shall be assignable to the member
+type, which shall be provided to it as a type hint.
 
 \specsubsubitem
-The third form of an \nonterminal{append-expression} shall specify an
-expandable array as its second term, and its third term shall be assignable to
-\terminal{size}. This form shall behave similarly to the second form, except
-that the length of the expandable array is given by the third term.
+In the second form, the second term shall have a valid result type which
+shall be a bounded array or slice whose member type is the
+\nonterminal{append-expression}'s member type, or a non-nullable pointer to a
+valid result type. The second term shall be provided the object type as a type
+hint.
 
 \specsubsubitem
-The execution environment shall ensure that the capacity of the object is at
-least $N \geq L_1 + L_2$, where $L_1$ is the object length and $L_2$ is the
-length of the append values, reallocating the underlying storage if necessary.
-If sufficient storage cannot be allocated, the execution environment shall
-print a diagnostic message and abort. The length of the object shall be set to
-$L_1 + L_2$.
+In the third form, the second term shall be an expandable array whose member
+type is the \nonterminal{append-expression}'s member type, and the third term
+shall be assignable to \terminal{size}. The second term shall be provided the
+object type as a type hint, and the third term shall be provided \terminal{size}
+as a type hint. The length of the expandable array shall be given by the third
+term.
 
 \specsubsubitem
-The execution environment shall assign values of the object slice from index
-$N = L_1$ (inclusive) to $N = L_1 + L_2$ (exclusive) from each append values at
-index $N-L_1$. In the third form of \nonterminal{append-expression}, the last
-value of append values shall be assigned for values $N = L_1 + L_2$ (inclusive)
-up to the index given by the third term (exclusive).
+The second term of an \terminal{append} expression is used to obtain the
+\textit{append values}, of which there may be none. In the first form, the
+value of the second term shall be used as the sole append value. In the second
+and third forms, the data of the array or slice given in the second term shall
+be used as the append values.
+
+\specsubsubitem
+The second term shall be evaluated after all other terms. If present, the third
+term shall be evaluated after the \nonterminal{object-selector}.
+
+\specsubsubitem
+The append values shall be obtained after the second term is evaluated. Once
+obtained, the append values shall not change as a result of any side-effects.
+
+\specsubsubitem
+After the append values are obtained, the execution environment shall ensure
+that the capacity of the object is at least $N \geq L_1 + L_2$, where $L_1$ is
+the object length and $L_2$ is the number of append values, reallocating the
+underlying storage if necessary. If sufficient storage cannot be allocated, the
+execution environment shall print a diagnostic message and abort. The
+\code{length} field of the slice object shall be set to $L_1 + L_2$.
+
+\specsubsubitem
+After ensuring sufficient space is available for the new items, the execution
+environment shall assign values of the slice object from index $N = L_1$
+(inclusive) to $N = L_1 + L_2$ (exclusive) from each consecutive append value.
 
 \specsubsubitem
 The \terminal{static} forms shall be equivalent to the non-static forms except
 that they shall never cause the underlying slice to be reallocated. If the
 operation would require more space than the capacity of the slice provides, the
 execution environment shall print a diagnostic message and abort.
-
-\specsubsubitem
-The side-effects shall occur in the following order:
-\nonterminal{object-selector}; then the length term, if present; then the
-append values.
-
-\specsubsubitem
-The object selector shall be not be provided a type hint. If \terminal{...} is
-used, the append values shall be given the object type as its type hint; if
-not, it shall receive the member type as its type hint. The length will receive
-a type hint of \terminal{size} if applicable.
 
 \specsubsection{Inserting}
 
@@ -975,55 +982,68 @@ a type hint of \terminal{size} if applicable.
 % TODO: Do we want/need insert(x[5], [0...], 10)?
 
 \specsubsubitem
-An \nonterminal{insert-expression} shall insert a value, or values, into the
-slice object specified by the first argument. The
-\nonterminal{indexing-expression} specifies both the slice object and an index
-at which the new values shall be inserted (the \textit{insertion index}).
-The selected object shall be mutable and non-const. The member type of this
-slice shall be the expression's \textit{member type}. The result of an
-\terminal{insert} shall be \terminal{void}.
+An \nonterminal{insert-expression} shall insert some number of values into the
+slice object specified by the first term, which shall not be provided a type
+hint. The \nonterminal{indexing-expression} specifies both the slice object and
+an index at which the new values shall be inserted (the \textit{insertion
+index}). The selected object shall be mutable and non-const, and shall not have
+an array type. The member type of this slice shall be the expression's
+\textit{member type}. The result type of an \nonterminal{insert-expression}
+shall be \terminal{void}.
 
 \specsubsubitem
-The second term of an \terminal{insert} expression is the \textit{insert
-values}. In the first form, the insert values shall specify a single value
-whose type is assignable to the member type. In the second form, the expression
-shall have a valid result type which shall be an array or slice whose member
-type is the insert expression's member type, or a non-nullable pointer to a
-valid result type.
+The bounds test described in \subsecref{Indexing} shall be performed on the
+first term, except it shall instead test that $N < Z+1$.
 
 \specsubsubitem
-The execution environment shall ensure that the capacity of the object is at
-least $N \geq L_1 + L_2$, where $L_1$ is the object length and $L_2$ is the
-length of the insert values, reallocating the underlying storage if necessary.
-If sufficient storage cannot be allocated, the execution environment shall
-print a diagnostic message and abort. The length of the object shall be set to
-$L_1 + L_2$.
+In the first form, the type of the second term shall be assignable to the member
+type, which shall be provided to it as a type hint.
+
+\specsubsubitem
+In the second form, the second term shall have a valid result type which
+shall be a bounded array or slice whose member type is the
+\nonterminal{insert-expression}'s member type, or a non-nullable pointer to a
+valid result type. The second term shall be provided the object type as a type
+hint.
+
+\specsubsubitem
+The second term of an \nonterminal{insert-expression} is used to obtain the
+\textit{insert values}, of which there may be none. In the first form, the
+value of the second term shall be used as the sole insert value. In the second
+form, the data of the array or slice given in the second term shall be used as
+the insert values.
+
+\specsubsubitem
+The second term shall be evaluated after the first term.
+
+\specsubsubitem
+The insert values shall be obtained after the second term is evaluated. Once
+obtained, the insert values shall not change as a result of any side-effects.
+
+\specsubsubitem
+After the insert values are obtained, the execution environment shall ensure
+that the capacity of the object is at least $N \geq L_1 + L_2$, where $L_1$ is
+the object length and $L_2$ is the number of insert values, reallocating the
+underlying storage if necessary. If sufficient storage cannot be allocated, the
+execution environment shall print a diagnostic message and abort. The
+\code{length} field of the slice object shall be set to $L_1 + L_2$.
 
 \specsubsubitem
 After ensuring sufficient space is available for the new items, the execution
 environment shall copy or move each item $N$ such that from $N=I$ (inclusive)
-to $N=I+L_2$ (exclusive), each item is placed at $I+L_2+N-1$, causing the items
-to "shift" over to accomodate the insert values.
+to $N=I+L_2$ (exclusive), where $I$ is the insertion index, each item is placed
+at $N+L_2$.
 
 \specsubsubitem
-The execution environment shall assign values of the object slice from index
-$N = I$ (inclusive) to $N = I+L_2$ (exclusive) from each insert value in order.
+The execution environment shall then assign values of the object slice from
+index $N = I$ (inclusive) to $N = I+L_2$ (exclusive) from each consecutive
+insert value.
 
 \specsubsubitem
 The \terminal{static} forms shall be equivalent to the non-static forms except
 that they shall never cause the underlying slice to be reallocated. If the
 operation would require more space than the capacity of the slice provides, the
 execution environment shall print a diagnostic message and abort.
-
-\specsubsubitem
-The side-effects of the \nonterminal{indexing-expression} shall occur before
-the side-effects of the insert values.
-
-\specsubsubitem
-The object selector shall be not be provided a type hint. If \terminal{...} is
-used, the insert values shall be given the object type as its type hint; if
-not, it shall receive the member type as its type hint. The length will receive
-a type hint of \terminal{size} if applicable.
 
 \specsubsection{Deleting}
 
@@ -1034,34 +1054,31 @@ a type hint of \terminal{size} if applicable.
 \end{grammar}
 
 \specsubsubitem
-A \nonterminal{delete-expression} shall remove a value, or values, from the
-slice object specified by the first argument. The selected object shall be
-mutable and non-const. The result of a \terminal{delete} shall be
-\terminal{void}.
+A \nonterminal{delete-expression} shall remove some number of values from the
+specified slice object. The selected object shall be mutable and non-const, and
+shall not have an array type. The result type of a
+\nonterminal{delete-expression} shall be \terminal{void}.
 
 \specsubsubitem
-Should a \nonterminal{indexing-expression} be used, it shall specify the index
-of a single value as the \textit{deleted items}. Should a
-\nonterminal{slicing-expression} be used, it shall specify a range of values as
-the deleted items.
+Should a \nonterminal{indexing-expression} be used, it shall specify both the
+slice object and an index $L$, and $H$ shall be set to $L+1$. Should a
+\nonterminal{slicing-expression} be used, it shall specify both the slice object
+and a range spanning from $L$ to $H$. In either case, the appropriate bounds
+test shall be performed, as described in \subsecref{Indexing} and
+\subsecref{Slicing}.
 
 \specsubsubitem
-The execution environment shall set the length of the slice object to $L_1-L_2$,
-where $L_1$ is its previous length and $L_2$ is the number of deleted items.
-Starting from the first index specified by the
-\nonterminal{indexing-expression} or \nonterminal{slicing-expression}, $I$,
-each item at index $N+L_1$ shall be copied to $N$, "shifting" items over to
-reclaim the space previously used by the deleted items.
+The execution environment shall then copy or move each item $N$ in the slice
+such that from $N=H$ (inclusive) to $N=Z$ (exclusive), where $Z$ is the value of
+the slice object's \code{length} field, each item is placed at $N+L-H$. It shall
+then subtract $H-L$ from the value of the slice object's \code{length} field.
 
 \specsubsubitem
-The execution environment may decrease the slice object's capacity,
-re-allocating its data field if necessary, in order to reclaim unused memory.
-This re-allocation, if performed, shall not fail. The slice object shall be
-updated to reflect the new capacity if necessary.
-
-\specsubsubitem
-The \terminal{static} forms shall be equivalent to the non-static forms except
-that they shall never cause the underlying slice to be reallocated.
+Unless the \terminal{static} form is used, the execution environment may
+decrease the slice object's capacity, re-allocating its data field if necessary,
+in order to reclaim unused memory. This re-allocation, if performed, shall not
+fail. The slice object shall be updated to reflect the new capacity if
+necessary.
 
 \specsubsection{Error propagation}
 
