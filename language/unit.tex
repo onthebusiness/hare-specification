@@ -207,7 +207,6 @@ diagnostic message shall be printed and the translation phase shall be aborted.
 	\terminal{@fini} \\
 	\terminal{@init} \\
 	\terminal{@test} \\
-	\nonterminal{fntype-attr} \\
 	\nonterminal{decl-attr} \\
 \end{grammar}
 
@@ -242,9 +241,8 @@ are specified, the last one shall override all previous ones.
 
 \specsubsubitem
 Functions declared with \terminal{@test}, \terminal{@init}, or \terminal{@fini}
-shall accept no parameters, shall return void, shall not be declared with
-\terminal{@noreturn}, shall not appear in \nonterminal{object-selector}s, need
-not have unique names, and shall not be inserted into the unit's scope.
+shall accept no parameters, shall return void, need not have unique names, and
+shall not be inserted into the unit's scope.
 
 \specsection{Units}
 

@@ -691,13 +691,10 @@ the data field set to null.
 
 \begin{grammar}
 \nonterminaldef{function-type} \\
-	\optional{\nonterminal{fntype-attr}} \terminal{fn} \nonterminal{prototype} \\
+	\terminal{fn} \nonterminal{prototype} \\
 
 \nonterminaldef{prototype} \\
 	\terminal{(} \optional{\nonterminal{parameter-list}} \terminal{)} \nonterminal{type} \\
-
-\nonterminaldef{fntype-attr} \\
-	\terminal{@noreturn} \\
 
 \nonterminaldef{parameter-list} \\
 	\nonterminal{parameters} \optional{\terminal{,}} \\
@@ -718,13 +715,6 @@ the data field set to null.
 Function types represent a procedure which may be completed in the
 \secref{Execution environment} to obtain a result and possibly cause side
 effects (see \subsubitemref{Program execution}{1}).
-
-\specsubsubitem
-If the \terminal{@noreturn} form of \nonterminal{fntype-attr} is specified in
-the \nonterminal{function-parameters}, the \nonterminal{type} shall be
-\terminal{void} and the specified function shall not return to its caller. If
-the end of the function is reached in the execution environment, a diagnostic
-message shall be printed and the execution environment shall abort.
 
 \specsubsubitem
 The attributes of a function type are its \textit{result type} and
@@ -766,9 +756,9 @@ The size, alignment, default value, and storage semantics of function types is
 undefined.
 
 \specsubsubitem
-The function's result type, list of parameter types (in order), its variadism,
-and \terminal{@noreturn} status, are distinct characteristics of the function
-type, for the purpose of determining equivalency.
+The function's result type, list of parameter types (in order), and its
+variadism, are distinct characteristics of the function type, for the purpose of
+determining equivalency.
 
 \specsubsection{Type aliases}
 
@@ -791,6 +781,9 @@ see \secref{Declarations}.}
 \specsubsubitem
 A type alias shall have the same storage, alignment, size, and semantics as its
 underlying type.
+
+\specsubsubitem
+The underlying type of a type alias shall not be \terminal{never}.
 
 \specsubsubitem
 A type alias that represents an enum type shall have a default value of zero

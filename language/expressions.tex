@@ -3,22 +3,13 @@
 \specsubitem
 An expression is a procedure which the implementation may perform to obtain a
 \textit{result}, and possibly cause side-effects (see
-\subsubitemref{Program execution}{1}).
+\subsubitemref{Program execution}{1}). All expressions have a defined
+\textit{result type}.
 
 \specsubitem
 Expression types are organized into a number of classes and subclasses of
 expressions which define the contexts in which each expression type is
 applicable.
-
-\specsubitem
-All expressions have a defined \textit{result type}. It may be \terminal{void}.
-
-\specsubitem
-Some expressions \textit{terminate}. The semantics of terminating expressions
-vary between different expression types, and will be detailed as appropriate.
-If unspecified, expressions described by this expression are presumed to be
-non-terminating. Expression classes inherit their termination qualities from the
-more specific sub-expressions which they classify.
 
 \specsubitem
 Some expressions may provide a \textit{type hint} to other expressions which
@@ -587,15 +578,14 @@ case the array referred to by its data field shall be freed.
 
 \specsubsubitem
 An \nonterminal{assertion-expression} is used to validate an assumption by the
-programmer by \textit{asserting} its truth. The result type of an
-\nonterminal{assertion-expression} is \terminal{void}.
+programmer by \textit{asserting} its truth.
 
 \specsubsubitem
-In the first two forms, if \terminal{static} is omitted, the first
-\nonterminal{expression} shall be evaluated in the execution environment. If the
-expression evalutes to false, a diagnostic message shall be printed and the
-execution phase aborted. The expression shall have type \terminal{bool}, which
-shall be provided to it as a type hint.
+In the first two forms, the first \nonterminal{expression} shall be evaluated in
+the execution environment. If the expression evalutes to false, a diagnostic
+message shall be printed and the execution phase aborted. The expression shall
+have type \terminal{bool}, which shall be provided to it as a type hint. The
+result type of these forms is \terminal{void}.
 
 \specsubsubitem
 In the second \terminal{assert} form, and in the \terminal{abort} form if
@@ -604,13 +594,15 @@ which shall be provided to it as a type hint. The contents of the string shall
 be included in the diagnostic message.
 
 \specsubsubitem
-In the \terminal{abort} form, if \terminal{static} is omitted, the execution
-environment shall unconditionally print a diagostic message and abort.
+In the \terminal{abort} form, the execution environment shall unconditionally
+print a diagnostic message and abort. The result type of this form is
+\terminal{never}.
 
 \specsubsubitem
 A \nonterminal{static-assertion-expression} is identical to an
 \nonterminal{assertion-expression}, except that the assertion is run in the
-translation environment rather than the execution environment.
+translation environment rather than the execution environment, and the result
+type is always \terminal{void}.
 
 \specsubsection{Calls}
 
@@ -680,10 +672,6 @@ execution environment, and by which the arguments are provided to it, is
 implementation-defined.
 
 \informative{This is generally provided by the target's ABI specification.}
-
-\specsubsubitem
-If the invoked function's result type has the \terminal{@noreturn} attribute,
-the call expression is considered to terminate.
 
 \specsubsection{Measurements}
 
@@ -1322,10 +1310,6 @@ that type.
 All types are castable to themselves. The set of other types which are castable
 to a given type are given by the following table:
 
-\specsubsubitem
-The \nonterminal{cast-expression} being acted upon must not be a terminating
-expression.
-
 \begin{tabular}{l | l}
 Result & Castable from \\
 \hline
@@ -1696,12 +1680,10 @@ The first form shall behave exactly as though the second form were used with
 \terminal{void} as the false branch.
 
 \specsubsubitem
-If both branches terminate, the result type shall be \terminal{void} and the if
-expression shall terminate. Otherwise, if a type hint is provided and all
-non-terminating branches are assignable to that type, the result type shall be
-the type given by the type hint. Otherwise, the result type shall be the
-\secref{Result type reduction algorithm} applied to the result types of all
-non-terminating branches.
+If a type hint is provided and all branches are assignable to that type, the
+result type shall be the type given by the type hint. Otherwise, the result type
+shall be the \secref{Result type reduction algorithm} applied to the result
+types of all branches.
 
 \specsubsection{For loops}
 
@@ -1817,12 +1799,10 @@ non-selected cases do not occur.
 If a type hint is provided, each branch shall receive it as a type hint.
 
 \specsubsubitem
-If a type hint is provided and all non-terminating branches are assignable to
-that type, the result type shall be the type given by the type hint. If all
-branches terminate, the result type shall be \terminal{void} and the switch
-expression shall terminate. Otherwise, the result type shall be the
-\secref{Result type reduction algorithm} applied to the result types of the
-non-terminating branches.
+If a type hint is provided and all branches are assignable to that type, the
+result type shall be the type given by the type hint. Otherwise, the result type
+shall be the \secref{Result type reduction algorithm} applied to the result
+types of all branches.
 
 \specsubsection{Match expressions}
 
@@ -1924,13 +1904,10 @@ non-selected cases do not occur.
 If a type hint is provided, each branch shall receive it as a type hint.
 
 \specsubsubitem
-If a type hint is provided and all non-terminating branches are assignable to
-that type, the result type shall be the type given by the type hint. If all
-branches terminate, the result type shall be \terminal{void} and the match
-expression shall terminate. Otherwise, the result type shall be the
-\secref{Result type reduction algorithm} applied to the result types of the
-non-terminating branches.
-
+If a type hint is provided and all branches are assignable to that type, the
+result type shall be the type given by the type hint. Otherwise, the result type
+shall be the \secref{Result type reduction algorithm} applied to the result
+types of all branches.
 
 \specsubsection{Assignment}
 
@@ -2007,8 +1984,8 @@ The type of the object being assigned to shall have definite size and alignment.
 
 \specsubsubitem
 The second term shall be \textit{assignable} to the object. Assignability rules
-are stricter than castability rules. All types are assignable to themselves. The
-set of other types which are assignable to a given type are given by the
+are different than castability rules. All types are assignable to themselves.
+The set of other types which are assignable to a given type are given by the
 following table:
 
 \begin{tabular}{r | l}
@@ -2030,6 +2007,7 @@ Type aliases & Any type assignable to the secondary type \\
 \terminal{*} \terminal{opaque} & Any non-nullable pointer type \\
 \terminal{nullable} \terminal{*} \terminal{opaque} & Any pointer type \\
 Pointers to array types & See notes \\
+Any type & \terminal{never} \\
 \end{tabular}
 
 The implementation shall perform any necessary conversion from the source type
@@ -2152,7 +2130,7 @@ The type of the binding shall not use a type which has a zero or undefined size.
 If the type of a binding is a flexible constant type, it shall first be lowered
 to its default type.
 
-\specsubsection{Deferred expressions}
+\specsubsection{Defer expressions}
 
 \begin{grammar}
 \nonterminaldef{defer-expression} \\
@@ -2161,7 +2139,7 @@ to its default type.
 
 \specsubsubitem
 A \nonterminal{defer-expression} causes another expression to be
-\textit{deferred} until the termination of the current scope. The result type
+\textit{deferred} until the current scope \textit{terminates}. The result type
 is \terminal{void}.
 
 \specsubsubitem
@@ -2194,16 +2172,9 @@ evaluated, the side-effects of the \nonterminal{expression} shall not occur.
 \end{grammar}
 
 \specsubsubitem
-A \nonterminal{compound-expression} evaluates any number of
+A \nonterminal{compound-expression} evaluates a list of
 \nonterminal{expression}s in sequence. If a \nonterminal{label} is present, the
 expression is considered \textit{labelled}.
-
-\specsubsubitem
-The result of a \nonterminal{compound-expression} shall be \terminal{void}
-unless the expression is selected by one or more
-\nonterminal{yield-expression}s. In that case, the result type shall be the
-\secref{Result type reduction algorithm} applied to the result types of the
-yield expressions.
 
 \specsubsubitem
 If a type hint is provided to a \nonterminal{compound-expression}, the hint shall
@@ -2215,12 +2186,29 @@ The expressions shall be evaluated such that the side-effects of each all occur
 in the order that each expression appears.
 
 \specsubsubitem
-If any of the \nonterminal{expression}s terminate, the
-\nonterminal{compound-expression} is considered to terminate, unless the
-expression which would cause the \nonterminal{compound-expression} is a
-\nonterminal{yield-expression} which selects this
-\nonterminal{compound-expression}s scope. There shall be no expressions
-following the first terminating expression in a \nonterminal{compound-expression}.
+Only the final item in the \nonterminal{expression-list} is permitted to have
+the result type \terminal{never}.
+
+\specsubsubitem
+If the final item in the \nonterminal{expression-list} doesn't have the result
+type \terminal{never}, the \nonterminal{compound-expression} shall behave
+exactly as though \code{yield void;} were appended to the end of the
+\nonterminal{expression-list}.
+
+\informative{The implicitly added \nonterminal{yield-expression} guarantees that
+all \nonterminal{compound-expression}s will end with an expression whose result
+type is \terminal{never}.}
+
+\specsubsubitem
+The result type of a \nonterminal{compound-expression} shall be the
+\secref{Result type reduction algorithm} applied to the result types of the
+expressions used in all all \nonterminal{yield-expression}s which select this
+\nonterminal{compound-expression}.
+
+\informative{If no \nonterminal{yield-expression} selects this
+\nonterminal{compound-expression} (and a \nonterminal{yield-expression} wasn't
+implicitly appended to the \nonterminal{expression-list}), the result type is
+\terminal{never}.}
 
 \specsubsubitem
 The \nonterminal{compound-expression} shall establish a new scope whose parent is
@@ -2243,9 +2231,9 @@ the scope in which the \nonterminal{compound-expression} resides.
 \end{grammar}
 
 \specsubsubitem
-A \nonterminal{control-expression} causes a \textit{selected}
-\nonterminal{expression} to terminate in a specific way. All control expressions
-are terminating expressions, and their result type is \terminal{void}.
+A \nonterminal{control-expression} causes control to jump to another part of the
+program, possibly affecting the value and/or result of the \textit{selected}
+expression. The result type is \terminal{never}.
 
 \specsubsubitem
 The rules for selection of an applicable \nonterminal{expression} vary based on
@@ -2275,18 +2263,12 @@ used. This expression shall receive the function's result type as a type hint,
 and the result shall be assignable to that type.
 
 \specsubsubitem
-The \nonterminal{yield-expression} form shall select any
-\nonterminal{compound-expression}. If an expression is provided, it shall not
-terminate, and shall be used as the result value for the
-\nonterminal{compound-expression}. See the description of
-\nonterminal{compound-expression} for details on the type semantics associated
-with a yield expression.
-
-\specsubsubitem
-In any of these cases, if a \nonterminal{compound-expression} is selected, the
-implementation shall ensure that side-effects do not occur for any expressions
-which are lexically situated \textit{after} the
-\nonterminal{control-expression}.
+The \nonterminal{yield-expression} form shall select a
+\nonterminal{compound-expression}. A \nonterminal{yield-expression} that isn't
+provided an \nonterminal{expression} is equivalent to a
+\nonterminal{yield-expression} provided the expression \terminal{void}. The
+provided expression shall be used as the result value for the selected
+\nonterminal{compound-expression}.
 
 \specsubsubitem
 If a \nonterminal{control-expression} is used within the expression tree formed
