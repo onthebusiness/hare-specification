@@ -988,9 +988,8 @@ execution environment shall print a diagnostic message and abort.
 \nonterminaldef{insert-expression} \\
 	\optional{\terminal{static}} \terminal{insert} \terminal{(} \nonterminal{indexing-expression} \terminal{,} \nonterminal{expression} \terminal{)} \\
 	\optional{\terminal{static}} \terminal{insert} \terminal{(} \nonterminal{indexing-expression} \terminal{,} \nonterminal{expression} \terminal{...} \terminal{)} \\
+	\optional{\terminal{static}} \terminal{insert} \terminal{(} \nonterminal{indexing-expression} \terminal{,} \nonterminal{expression} \terminal{,} \nonterminal{expression} \terminal{)} \\
 \end{grammar}
-
-% TODO: Do we want/need insert(x[5], [0...], 10)?
 
 \specsubsubitem
 An \nonterminal{insert-expression} shall insert some number of values into the
@@ -1018,14 +1017,23 @@ valid result type. The second term shall be provided the object type as a type
 hint.
 
 \specsubsubitem
+In the third form, the second term shall be an expandable array whose member
+type is the \nonterminal{insert-expression}'s member type, and the third term
+shall be assignable to \terminal{size}. The second term shall be provided the
+object type as a type hint, and the third term shall be provided \terminal{size}
+as a type hint. The length of the expandable array shall be given by the third
+term.
+
+\specsubsubitem
 The second term of an \nonterminal{insert-expression} is used to obtain the
 \textit{insert values}, of which there may be none. In the first form, the
 value of the second term shall be used as the sole insert value. In the second
-form, the data of the array or slice given in the second term shall be used as
-the insert values.
+and third forms, the data of the array or slice given in the second term shall
+be used as the insert values.
 
 \specsubsubitem
-The second term shall be evaluated after the first term.
+The second term shall be evaluated after all other terms. If present, the third
+term shall be evaluated after the bounds test on the first term is performed.
 
 \specsubsubitem
 The insert values shall be obtained after the second term is evaluated. Once
