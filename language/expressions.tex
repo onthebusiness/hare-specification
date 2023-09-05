@@ -54,8 +54,10 @@ The \terminal{void} keyword represents the \terminal{void} value of the
 
 \begin{grammar}
 \nonterminaldef{floating-constant} \exactly \\
-	\nonterminal{decimal-digits} \terminal{.} \nonterminal{decimal-digits} \optional{\nonterminal{exponent}} \optional{\nonterminal{floating-suffix}} \\
-	\nonterminal{decimal-digits} \optional{\nonterminal{exponent}} \nonterminal{floating-suffix} \\
+	\nonterminal{decimal-digits} \terminal{.} \nonterminal{decimal-digits} \optional{\nonterminal{decimal-exponent}} \optional{\nonterminal{floating-suffix}} \\
+	\nonterminal{decimal-digits} \optional{\nonterminal{decimal-exponent}} \nonterminal{floating-suffix} \\
+	\terminal{0x} \nonterminal{hex-digits} \terminal{.} \nonterminal{hex-digits} \nonterminal{binary-exponent} \optional{\nonterminal{floating-suffix}} \\
+	\terminal{0x} \nonterminal{hex-digits} \nonterminal{binary-exponent} \optional{\nonterminal{floating-suffix}} \\
 
 \nonterminaldef{floating-suffix} \oneof \\
 	\terminal{f32}
@@ -75,47 +77,6 @@ The \terminal{void} keyword represents the \terminal{void} value of the
 	\terminal{7}
 	\terminal{8}
 	\terminal{9} \\
-
-\nonterminaldef{exponent} \exactly \\
-	\nonterminal{exponent-char} \optional{\nonterminal{sign}} \nonterminal{decimal-digits} \\
-
-\nonterminaldef{sign} \oneof \\
-        \terminal{+}
-        \terminal{-} \\
-
-\nonterminaldef{exponent-char} \oneof \\
-        \terminal{e}
-        \terminal{E} \\
-\end{grammar}
-
-Floating constants represent an approximation to a real number.
-
-\specsubitem
-If the \nonterminal{floating-suffix} is not provided, the result shall be
-\terminal{fconst}. Otherwise, the type shall refer to the type named by the
-suffix.
-
-\specsubitem
-If the part before the decimal point is equal to zero, it shall be written as a
-single digit number. If the part before the decimal point is not equal to zero,
-it shall not begin with the digit \terminal{0}.
-
-\specsubitem
-If the \nonterminal{exponent} is provided, the value of the
-constant shall be multiplied by 10 to the power of
-\nonterminal{decimal-digits}. If \nonterminal{sign} is provided within the
-\nonterminal{exponent}, \nonterminal{decimal-digits} shall assume the given
-sign.
-
-\specsubsection{Integer constants}
-
-\begin{grammar}
-\nonterminaldef{integer-constant} \exactly \\
-	\terminal{0x} \nonterminal{hex-digits} \optional{\nonterminal{integer-suffix}} \\
-	\terminal{0o} \nonterminal{octal-digits} \optional{\nonterminal{integer-suffix}} \\
-	\terminal{0b} \nonterminal{binary-digits} \optional{\nonterminal{integer-suffix}} \\
-	\nonterminal{decimal-digits} \optional{\nonterminal{exponent}}
-		\optional{\nonterminal{integer-suffix}} \\
 
 \nonterminaldef{hex-digits} \exactly \\
 	\nonterminal{hex-digit} \optional{\nonterminal{hex-digits}} \\
@@ -143,6 +104,56 @@ sign.
 	\terminal{d}
 	\terminal{e}
 	\terminal{f} \\
+
+\nonterminaldef{decimal-exponent} \exactly \\
+	\nonterminal{decimal-exponent-char} \optional{\nonterminal{sign}} \nonterminal{decimal-digits} \\
+
+\nonterminaldef{binary-exponent} \exactly \\
+	\nonterminal{binary-exponent-char} \optional{\nonterminal{sign}} \nonterminal{decimal-digits} \\
+
+\nonterminaldef{sign} \oneof \\
+        \terminal{+}
+        \terminal{-} \\
+
+\nonterminaldef{decimal-exponent-char} \oneof \\
+        \terminal{e}
+        \terminal{E} \\
+
+\nonterminaldef{binary-exponent-char} \oneof \\
+        \terminal{p}
+        \terminal{P} \\
+\end{grammar}
+
+Floating constants represent an approximation to a real number.
+
+\specsubitem
+If the \nonterminal{floating-suffix} is not provided, the result shall be
+\terminal{fconst}. Otherwise, the type shall refer to the type named by the
+suffix.
+
+\specsubitem
+In the first two forms, if the digits before the decimal point are equal to
+zero, they shall be written as a single digit number, and if the digits before
+the decimal point are not equal to zero, they shall not begin with the digit
+\terminal{0}.
+
+\specsubitem
+In the first two forms, if the \nonterminal{decimal-exponent} is provided, the
+value of the constant shall be multiplied by 10 to the power of
+\nonterminal{decimal-digits}. In the third and fourth forms, the value of the
+constant shall be multiplied by 2 to the power of \nonterminal{decimal-digits}.
+If \nonterminal{sign} is provided within the exponent, it shall assume the given
+sign.
+
+\specsubsection{Integer constants}
+
+\begin{grammar}
+\nonterminaldef{integer-constant} \exactly \\
+	\terminal{0x} \nonterminal{hex-digits} \optional{\nonterminal{integer-suffix}} \\
+	\terminal{0o} \nonterminal{octal-digits} \optional{\nonterminal{integer-suffix}} \\
+	\terminal{0b} \nonterminal{binary-digits} \optional{\nonterminal{integer-suffix}} \\
+	\nonterminal{decimal-digits} \optional{\nonterminal{decimal-exponent}}
+		\optional{\nonterminal{integer-suffix}} \\
 
 \nonterminaldef{octal-digits} \exactly \\
 	\nonterminal{octal-digit} \optional{\nonterminal{octal-digits}} \\
@@ -203,7 +214,7 @@ than zero that are given in decimal base shall not begin with the digit
 case-insensitive manner.
 
 \specsubitem
-If the \nonterminal{exponent} is provided, the value of the
+If the \nonterminal{decimal-exponent} is provided, the value of the
 integer shall be multiplied by 10 to the power of \nonterminal{decimal-digits}.
 If \nonterminal{sign} is provided and is negative (\terminal{-}), a diagnostic
 message shall be printed and the translation phase shall abort.
