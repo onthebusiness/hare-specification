@@ -103,7 +103,10 @@ In a \nonterminal{constant-declaration}, the \nonterminal{identifier}s in the
 environment. No storage shall be allocated for them in the execution
 environment, and they shall not be addressable. References to them shall be
 equivalent to references to the \nonterminal{expression} associated with them,
-with a cast to \nonterminal{type} inserted.
+with a cast to \nonterminal{type} inserted if the first form is used.
+
+\informative{When the second form is used, \nonterminal{expression} may have
+a flexible constant result type.}
 
 \specsubsubitem
 A \nonterminal{constant-binding}'s \nonterminal{expression} shall be limited to
