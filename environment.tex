@@ -107,12 +107,17 @@ Forward references: \subsecref{Function declarations}
 \specsubsubitem
 In the hosted environment, after global declarations are initialized during
 program startup, the execution environment shall call all initialization
-functions in an unspecified order, then transfer control to the program
-\textit{entry point} in an implementation-defined manner.
+functions in an order such that the initialization functions for a given
+module are run before those of any module that depends on it, then transfer
+control to the program \textit{entry point} in an implementation-defined manner.
+The ordering of initialization functions within a module shall be undefined.
 
 \specsubsubitem
 Program teardown in the hosted environment shall cause the execution environment
-to call all finalization functions in an unspecified order, then terminate.
+to call all finalization functions in an order such that the finalization
+functions for a given module are run after those of any module that depends on
+it, then terminate. The ordering of finalization functions within a module shall
+be undefined.
 
 \specsubsubitem
 The program entry point shall be a function named \code{main} in the root
@@ -160,12 +165,17 @@ Forward references: \subsecref{Global declarations}, \subsecref{Function declara
 \specsubsubitem
 In the test environment, after global declarations are initialized during
 program startup, the execution environment shall call all initialization
-functions in an unspecified order, then transfer control to the \textit{test
-runner}.
+functions in an order such that the initialization functions for a given
+module are run before those of any module that depends on it, then transfer
+control to the \textit{test runner}. The ordering of initialization functions
+within a module shall be undefined.
 
 \specsubsubitem
 Program teardown in the hosted environment shall cause the execution environment
-to call all finalization functions in an unspecified order, then terminate.
+to call all finalization functions in an order such that the finalization
+functions for a given module are run after those of any module that depends on
+it, then terminate. The ordering of initialization functions within a module
+shall be undefined.
 
 \specsubsubitem
 The test runner shall call any number of test functions in an unspecified order,
