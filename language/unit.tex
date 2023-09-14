@@ -60,7 +60,8 @@ in the translation environment. If specified, the type of the value of the
 \nonterminal{expression} shall be assignable to \nonterminal{type}. If not
 specified, the type of the \nonterminal{global-binding} shall be the result
 of the \nonterminal{expression}. Bindings whose type has undefined size shall
-not be provided an \nonterminal{expression}.
+not be provided an \nonterminal{expression}. If the type of a binding is a
+flexible constant type, it shall first be lowered to its default type.
 
 \specsubsubitem
 The first form of \nonterminal{global-binding} is a \textit{prototype}. In this
