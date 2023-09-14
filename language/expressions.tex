@@ -1752,13 +1752,13 @@ shall be \terminal{bool}, and this shall be provided as a type hint.
 
 \specsubsubitem
 The implementation shall establish a new scope for the
-\nonterminal{expression}, then, if present, it shall evaluate the
-\nonterminal{binding} in this scope. The implementation shall then evaluate the
-condition. If it is \terminal{true}, the \nonterminal{expression} shall be
-evaluated and all of its side-effects shall occur; this process is an
-\textit{iteration}. When the iteration is complete, the implementation shall
-evaluate the afterthought, if present, and then repeat the process, until the
-condition evaluates to \terminal{false}.
+\nonterminal{expression}, then, if present, it shall evaluate the binding in
+this scope. The implementation shall then evaluate the condition. If it is
+\terminal{true}, the \nonterminal{expression} shall be evaluated and all of its
+side-effects shall occur; this process is an \textit{iteration}. When the
+iteration is complete, the implementation shall evaluate the afterthought, if
+present, and then repeat the process, until the condition evaluates to
+\terminal{false}.
 
 \specsubsection{Switch expressions}
 
