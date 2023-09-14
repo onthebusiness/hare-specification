@@ -1116,10 +1116,10 @@ among its member types.
 \specsubsubitem
 The result type of an error propagation expression shall be the same as the
 type of the \nonterminal{postfix-expression}, without its error cases, or
-\terminal{void} if no non-error types remain. The result is a tagged union
+\terminal{never} if no non-error types remain. The result is a tagged union
 whose member types are the subset of the original type which do not include the
 error flag; or, if there is only one such type, that type without a tagged
-union; or, if there are no such types, \terminal{void}. If the original type is
+union; or, if there are no such types, \terminal{never}. If the original type is
 not a tagged union type, the translation phase shall abort with a diagnostic
 message.
 
