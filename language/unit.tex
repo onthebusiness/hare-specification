@@ -34,7 +34,7 @@ The \terminal{export} keyword shall not be used with a
 
 \nonterminaldef{global-bindings} \\
 	\nonterminal{global-binding} \optional{\terminal{,}} \\
-	\nonterminal{global-bindings} \terminal{,} \nonterminal{global-binding} \\
+	\nonterminal{global-binding} \terminal{,} \nonterminal{global-bindings} \\
 
 \nonterminaldef{global-binding} \\
 	\optional{\nonterminal{decl-attr}} \optional{\terminal{@threadlocal}} \nonterminal{identifier} \terminal{:} \nonterminal{type} \\
@@ -91,7 +91,7 @@ global for each thread, similar to thread\_local in C.}
 
 \nonterminaldef{constant-bindings} \\
 	\nonterminal{constant-binding} \optional{\terminal{,}} \\
-	\nonterminal{constant-bindings} \terminal{,} \nonterminal{constant-binding} \\
+	\nonterminal{constant-binding} \terminal{,} \nonterminal{constant-bindings} \\
 
 \nonterminaldef{constant-binding} \\
 	\nonterminal{identifier} \terminal{:} \nonterminal{type} \terminal{=} \nonterminal{expression} \\
