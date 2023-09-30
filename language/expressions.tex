@@ -2096,6 +2096,7 @@ occur before side-effects of the second term.
 \nonterminaldef{binding-list} \\
 	\optional{\terminal{static}} \terminal{let} \nonterminal{bindings} \\
 	\optional{\terminal{static}} \terminal{const} \nonterminal{bindings} \\
+	\terminal{def} \nonterminal{bindings} \\
 
 \nonterminaldef{bindings} \\
 	\nonterminal{binding} \optional{\terminal{,}} \\
@@ -2146,7 +2147,9 @@ If the \terminal{const} form is used, the type of each binding shall be
 modified to \textit{include} the \terminal{const} flag. If the \terminal{let}
 form is used, the type of each binding which uses the first form of
 \nonterminal{binding} shall be modified to \textit{omit} the \terminal{const}
-flag.
+flag. In either case, the type of each binding shall have a definite non-zero
+size. If the type of a binding which uses the \terminal{const} or \terminal{let}
+form is a flexible constant type, it shall first be lowered to its default type.
 
 \specsubsubitem
 If the \terminal{static} form is used, the variables shall be allocated
@@ -2157,15 +2160,21 @@ calls to the enclosing function. In this case, the initializer must use the
 \secref{Translation compatible expression subset}.
 
 \specsubsubitem
+If the \terminal{def} form is used, the objects shall not have any storage
+allocated for them in the execution environment. References to bindings created
+using this form shall be equivalent to references to the
+\nonterminal{expression} associated with them, with a cast to \nonterminal{type}
+inserted if the second form of \nonterminal{binding} is used. The tuple
+unpacking form of \nonterminal{binding} shall not be used with this form. The
+\nonterminal{expression} associated with each binding shall be limited to
+the \secref{Translation compatible expression subset}, and shall be evaluated in
+the translation environment.
+
+\specsubsubitem
 If a given \nonterminal{name} already refers to an object in the present scope,
 the new binding shall \textit{shadow} the earlier binding, causing any later
 references to this name to resolve to the newer binding, until the new binding's
 scope is terminated.
-
-\specsubsubitem
-The type of the binding shall not use a type which has a zero or undefined size.
-If the type of a binding is a flexible constant type, it shall first be lowered
-to its default type.
 
 \specsubsection{Defer expressions}
 
