@@ -674,8 +674,7 @@ interpret this value as the list of variadic parameters.
 
 \specsubsubitem
 If the invoked function uses C-style variadism, the function may provide zero
-or more arguments following the final parameter. These arguments shall be of a
-type with a non-zero size, but are otherwise unconstrained.
+or more arguments following the final parameter.
 
 \specsubsubitem
 The specific means by which the invoked function assumes control of the
@@ -1214,7 +1213,8 @@ When the \terminal{vaarg} expression is evaluated, the following conditions
 	(ignoring type flags), or the type of the next variadic parameter and
 	the type hint are both integer types, or the type of the next variadic
 	parameter is either a pointer type or \terminal{null} and the type hint
-	is a pointer type
+	is a pointer type, or either the type of the next variadic parameter or
+	the type hint has a size of zero
 \end{enumerate}
 
 \specsubsubitem
@@ -2153,9 +2153,9 @@ If the \terminal{const} form is used, the type of each binding shall be
 modified to \textit{include} the \terminal{const} flag. If the \terminal{let}
 form is used, the type of each binding which uses the first form of
 \nonterminal{binding} shall be modified to \textit{omit} the \terminal{const}
-flag. In either case, the type of each binding shall have a definite non-zero
-size. If the type of a binding which uses the \terminal{const} or \terminal{let}
-form is a flexible constant type, it shall first be lowered to its default type.
+flag. In either case, the type of each binding shall have a definite size. If
+the type of a binding which uses the \terminal{const} or \terminal{let} form is
+a flexible constant type, it shall first be lowered to its default type.
 
 \specsubsubitem
 If the \terminal{static} form is used, the objects shall be allocated

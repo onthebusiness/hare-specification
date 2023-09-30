@@ -386,7 +386,7 @@ diagnostic message and terminate the translation phase, or shall support
 unaligned memory accesses (perhaps at a cost to performance).
 
 \specsubsubitem
-The type of each struct or union field shall have a definite, non-zero size.
+The type of each struct or union field shall have a definite size.
 
 \specsubsubitem
 If given, the \nonterminal{offset-specifier} shall override the computed offset
@@ -472,7 +472,7 @@ The size of a tuple is the sum of the sizes of its value types plus any necessar
 padding. The alignment is the maximum alignment among its value types.
 
 \specsubsubitem
-The type of each tuple value shall have a definite, non-zero size.
+The type of each tuple value shall have a definite size.
 
 \specsubsubitem
 The default value of a tuple type shall be defined such that its values assume
