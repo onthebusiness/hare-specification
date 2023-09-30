@@ -1951,10 +1951,21 @@ types of all branches.
 
 \begin{grammar}
 \nonterminaldef{assignment} \\
-	\nonterminal{object-selector} \nonterminal{assignment-op} \nonterminal{expression} \\
-	\terminal{*} \nonterminal{unary-expression} \nonterminal{assignment-op} \nonterminal{expression} \\
-	\nonterminal{slicing-expression} \terminal{=} \nonterminal{expression} \\
-	\terminal{(} \nonterminal{binding-names} \terminal{)} \terminal{=} \nonterminal{expression} \\
+	\nonterminal{assignment-target} \nonterminal{assignment-op} \nonterminal{expression} \\
+
+\nonterminaldef{assignment-target} \\
+	\nonterminal{object-selector} \\
+	\nonterminal{indirect-assignment-target} \\
+	\nonterminal{slicing-assignment-target}
+	\terminal{(} \nonterminal{binding-names} \terminal{)} \\
+
+\nonterminaldef{indirect-assignment-target} \\
+	\terminal{*} \nonterminal{unary-expression} \\
+	\terminal{(} \nonterminal{indirect-assignment} \terminal{)} \\
+
+\nonterminaldef{slicing-assignment-target} \\
+	\nonterminal{slicing-expression} \\
+	\terminal{(} \nonterminal{slicing-assignment-target} \terminal{)} \\
 
 \nonterminaldef{assignment-op} \oneof \\
 	\terminal{=}
@@ -1976,46 +1987,52 @@ types of all branches.
 Forward references: \subsecref{Variable binding}
 
 \specsubsubitem
-An \nonterminal{assignment} expression shall cause the object given by the
-first term to be assigned a new value based on the value given by the second
-term. The type of the object shall be provided as a type hint to the secondary
-expression. The result type of an assignment shall be \terminal{void}.
+An \nonterminal{assignment} expression shall cause the object given by
+\nonterminal{assignment-target} to be assigned a new value based on the value
+given by the second term. The type of the object shall be provided as a type
+hint to the secondary expression. The result type of an assignment shall be
+\terminal{void}.
 
 \specsubsubitem
-If the \nonterminal{assignment-op} is \terminal{=}, the first term shall be
-assigned the value given by the second term. Otherwise, the assignment
-\code{\nonterminal{e1} \nonterminal{op}\terminal{=} \nonterminal{e1}} shall be
-equivalent to the assignment
-\code{\nonterminal{e1} \terminal{=} \nonterminal{e1} \nonterminal{op} (\nonterminal{e2})},
-but the side-effects of \nonterminal{e1} shall only occur once.
+If the \nonterminal{assignment-op} is \terminal{=}, the
+\nonterminal{assignment-target} shall be assigned the value given by the second
+term. Otherwise, the assignment \code{\nonterminal{e1}
+\nonterminal{op}\terminal{=} \nonterminal{e1}} shall be equivalent to the
+assignment \code{\nonterminal{e1} \terminal{=} \nonterminal{e1} \nonterminal{op}
+(\nonterminal{e2})}, but the side-effects of \nonterminal{e1} shall only occur
+once.
 
 \specsubsubitem
-In the first form, the \nonterminal{object-selector} selects the object to be
-modified. The type of this object shall not be a \terminal{const} type.
+In the \nonterminal{object-selector} form, the \nonterminal{object-selector}
+selects the object to be modified. The type of this object shall not be a
+\terminal{const} type.
 
 \specsubsubitem
-In the second form, the \nonterminal{unary-expression} shall have a result
-of a non-nullable, non-const pointer type, and the object which is assigned
-shall be the secondary object to which the pointer object refers. The second
-term shall be assignable to the pointer's secondary type.
+In the \nonterminal{indirect-assignment-target} form, the
+\nonterminal{unary-expression} shall have a result of a non-nullable, non-const
+pointer type, and the object which is assigned shall be the secondary object to
+which the pointer object refers. The second term shall be assignable to the
+pointer's secondary type.
 
 \specsubsubitem
-In the third form, the \nonterminal{expression} shall be either of a slice
-type and have a length equal to the slice given by \nonterminal{slicing-expression},
-or an expandable array. The first term shall not be of a \terminal{const} type,
-and the lengths of the two slices shall be equal. The contents of the slice or
-expandable array given by the second term shall be copied into the slice given
-by the first term.
+In the \nonterminal{slicing-assignment-target} form, the
+\nonterminal{expression} shall be either of a slice type and have a length equal
+to the slice given by \nonterminal{slicing-expression}, or an expandable array.
+The \nonterminal{assignment-op} shall be \terminal{=}. The first term shall not
+be of a \terminal{const} type, and the lengths of the two slices shall be equal.
+The contents of the slice or expandable array given by the second term shall be
+copied into the slice given by the first term.
 
 \specsubsubitem
-In the fourth form, the \nonterminal{expression} shall be of a tuple type, and
-shall have length equal to the number of \nonterminal{binding-name}s specified.
-The implementation shall assign each value of the \nonterminal{expression}
-to the object given by the respective left-hand term. All left-hand terms shall
-be of a non-\terminal{const} type. If any \nonterminal{binding-name}
-is \terminal{\_} (an underscore), a binding for that name shall not be created,
-but bindings to any \nonterminal{name}s within the tuple shall be created
-and any side-effects of the initializer shall still occur.
+In the fourth form of \nonterminal{assignment-target}, the
+\nonterminal{expression} shall be of a tuple type, and shall have length equal
+to the number of \nonterminal{binding-names} specified. The implementation shall
+assign each value of the \nonterminal{expression} to the object given by the
+respective left-hand term. All left-hand terms shall be of a
+non-\terminal{const} type. If any \nonterminal{binding-name} is \terminal{\_}
+(an underscore), a binding for that name shall not be created, but bindings to
+any \nonterminal{name}s within the tuple shall be created and any side-effects
+of the initializer shall still occur.
 
 \specsubsubitem
 The type of the object being assigned to shall have definite size and alignment.
