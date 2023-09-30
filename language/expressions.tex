@@ -1957,7 +1957,6 @@ types of all branches.
 	\nonterminal{object-selector} \\
 	\nonterminal{indirect-assignment-target} \\
 	\nonterminal{slicing-assignment-target}
-	\terminal{(} \nonterminal{binding-names} \terminal{)} \\
 
 \nonterminaldef{indirect-assignment-target} \\
 	\terminal{*} \nonterminal{unary-expression} \\
@@ -2022,17 +2021,6 @@ The \nonterminal{assignment-op} shall be \terminal{=}. The first term shall not
 be of a \terminal{const} type, and the lengths of the two slices shall be equal.
 The contents of the slice or expandable array given by the second term shall be
 copied into the slice given by the first term.
-
-\specsubsubitem
-In the fourth form of \nonterminal{assignment-target}, the
-\nonterminal{expression} shall be of a tuple type, and shall have length equal
-to the number of \nonterminal{binding-names} specified. The implementation shall
-assign each value of the \nonterminal{expression} to the object given by the
-respective left-hand term. All left-hand terms shall be of a
-non-\terminal{const} type. If any \nonterminal{binding-name} is \terminal{\_}
-(an underscore), a binding for that name shall not be created, but bindings to
-any \nonterminal{name}s within the tuple shall be created and any side-effects
-of the initializer shall still occur.
 
 \specsubsubitem
 The type of the object being assigned to shall have definite size and alignment.
