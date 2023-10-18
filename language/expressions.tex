@@ -1730,7 +1730,6 @@ types of all branches.
 	\nonterminal{expression} \terminal{;} \nonterminal{expression} \\
 	\nonterminal{binding-list} \terminal{;} \nonterminal{expression} \terminal{;} \nonterminal{expression} \\
 \end{grammar}
-% XXX: We may want to narrow the afterthought's expression class
 
 \specsubsubitem
 A \nonterminal{for-loop} executes its \nonterminal{expression}, the
@@ -1746,6 +1745,11 @@ second expression is the \textit{afterthought}. In the fourth form, the
 \nonterminal{binding-list} is the binding, and the two expressions are
 respectively the condition and afterthought. The result type of the condition
 shall be \terminal{bool}, and this shall be provided as a type hint.
+
+\specsubsubitem
+The afterthought shall not have a result type whose error flag is set, nor shall
+it have a tagged union result type which has a type with the error flag set
+among its members.
 
 \specsubsubitem
 The implementation shall establish a new scope for the
@@ -2191,6 +2195,11 @@ A \nonterminal{defer-expression} causes another expression to be
 is \terminal{void}.
 
 \specsubsubitem
+The \nonterminal{expression} shall not have a result type whose error flag is
+set, nor shall it have a tagged union result type which has a type with the
+error flag set among its members.
+
+\specsubsubitem
 The implementation shall cause the \nonterminal{expression} to be evaluated
 upon the termination of the current scope, either due to normal program flow,
 or due to encountering a terminating expression.
@@ -2258,6 +2267,11 @@ selects that \nonterminal{compound-expression}.
 \specsubsubitem
 The expressions shall be evaluated such that the side-effects of each all occur
 in the order that each expression appears.
+
+\specsubsubitem
+None of the items in the \nonterminal{expression-list} shall have a result type
+whose error flag is set, nor shall any of the items have a tagged union result
+type which has a type with the error flag set among its member types.
 
 \specsubsubitem
 Only the final item in the \nonterminal{expression-list} is permitted to have
