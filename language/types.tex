@@ -264,12 +264,14 @@ the same secondary type and nullable status.
 
 \specsubsubitem
 The \terminal{bool} type represents a boolean value, which may have one of two
-states: true or false.
+states: true (represented as one) or false (represented as zero).
 
 \specsubsubitem
 The boolean type representation shall be equivalent to the \terminal{u8} type.
-Any non-zero value shall be interpreted as true, and zero shall be intepreted as
-false.
+
+\specsubsubitem
+If a boolean object has a value which isn't true or false, the interpretation of
+the value is unspecified.
 
 \specsubsubitem
 The default value of a boolean type is false.
