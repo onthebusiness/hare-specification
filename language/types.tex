@@ -614,8 +614,8 @@ A \textit{slice type} stores a pointer to an unbounded array type, with a given
 \textit{capacity}, and \textit{length}, which respectively refer to the number
 of items that the unbounded array \textbf{may} store without re-allocation, and
 the number of items which are \textbf{currently valid}. The secondary type shall
-not have a size of zero, but is otherwise unconstrained. The representation with
-no lexical elements between \terminal{[} and \terminal{]} indicates a slice
+not have a size of zero, and shall not be \terminal{never}. The representation
+with no lexical elements between \terminal{[} and \terminal{]} indicates a slice
 type.
 
 \specsubsubitem
