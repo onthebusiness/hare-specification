@@ -201,7 +201,7 @@ diagnostic message shall be printed and the translation phase shall be aborted.
 \begin{grammar}
 \nonterminaldef{function-declaration} \\
 	\optional{\nonterminal{fndec-attrs}} \terminal{fn} \nonterminal{identifier} \nonterminal{prototype} \\
-	\optional{\nonterminal{fndec-attrs}} \terminal{fn} \nonterminal{name} \nonterminal{prototype} \terminal{=} \nonterminal{expression} \\
+	\optional{\nonterminal{fndec-attrs}} \terminal{fn} \nonterminal{identifier} \nonterminal{prototype} \terminal{=} \nonterminal{expression} \\
 
 \nonterminaldef{fndec-attrs} \\
 	\nonterminal{fndec-attr} \\
@@ -225,9 +225,7 @@ separately, the manner of which is implementation-defined. \terminal{@init},
 \specsubsubitem
 The second form of \nonterminal{function-declaration} shall declare a function
 and its implementation. The result type of the expression shall be assignable
-to the prototype's result type. The function shall be available in the unit
-scope by its \nonterminal{name}, and available to other units by forming a
-fully-qualified identifier from the unit namespace and the \nonterminal{name}.
+to the prototype's result type.
 
 \specsubsubitem
 In the second form of \nonterminal{function-declaration}, each
