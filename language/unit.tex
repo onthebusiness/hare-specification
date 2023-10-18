@@ -255,8 +255,7 @@ shall not be inserted into the unit's scope.
 	\optional{\nonterminal{imports}} \optional{\nonterminal{declarations}}\\
 
 \nonterminaldef{imports}\\
-	\nonterminal{use-statement}\\
-	\nonterminal{use-statement} \nonterminal{imports}\\
+	\nonterminal{use-statement} \optional{\nonterminal{imports}}\\
 
 \nonterminaldef{use-statement}\\
 	\terminal{use} \optional{\nonterminal{import-alias}} \nonterminal{identifier} \terminal{;}\\
