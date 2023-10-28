@@ -378,8 +378,8 @@ The size and alignment of \terminal{void} shall be zero.
 \specsubsubitem
 The \textit{struct type} and \textit{union type} \textit{collect} multiple
 types, name them, and assign them \textit{offset}s within their storage area. A
-struct type stores each value at a different offset; a union type stores all of
-its values at the same offset. A type defined with the \terminal{struct}
+union type stores all of its values at the same offset; a struct type may store
+its values at different offsets. A type defined with the \terminal{struct}
 terminal is a struct type and uses the struct type class; if the
 \terminal{union} terminal is used the type is a union type with the union type
 class.
