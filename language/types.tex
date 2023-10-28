@@ -631,8 +631,9 @@ to be non-expandable unless otherwise specified.
 
 \specsubsubitem
 The representation of an \textit{array type} shall be the items concatenated one
-after another, such that the offset of the \textit{N}th item is determined by
-the equation $N \times S$, where \textit{S} is the size of the secondary type.
+after another, such that the offset of the \textit{N}th item (starting at zero)
+is determined by the equation $N \times S$, where \textit{S} is the size of the
+secondary type.
 
 \specsubsubitem
 A \textit{slice type} stores a pointer to an unbounded array type, with a given
