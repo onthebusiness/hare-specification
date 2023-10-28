@@ -1706,8 +1706,12 @@ of the branch which is executed. If the \nonterminal{if-expression} is provided
 a type hint, the executed branch shall receive it as a type hint.
 
 \specsubsubitem
-The first form shall behave exactly as though the second form were used with
-\terminal{void} as the false branch.
+An \terminal{else} is associated with the inner-most \nonterminal{if-expression}
+which is allowed by the syntax.
+
+\specsubsubitem
+The first form shall behave semantically as though the second form were used
+with \terminal{void} as the false branch.
 
 \specsubsubitem
 If a type hint is provided and all branches are assignable to that type, the
