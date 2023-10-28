@@ -348,8 +348,12 @@ initialized in.
 \textbf{The void type}
 
 \specsubsubitem
-The \terminal{void} type represents a non-existent value, and shall have no
-storage.
+The \terminal{void} type represents an object with no storage. Only one value
+with this type exists (the \textit{void} value); this value is also the default
+value.
+
+\specsubsubitem
+The size and alignment of \terminal{void} shall be zero.
 
 \specsubsection{Struct and union types}
 
