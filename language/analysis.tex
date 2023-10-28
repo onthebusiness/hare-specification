@@ -7,7 +7,8 @@
 	\nonterminal{keyword} \\
 	\nonterminal{name} \\
 	\nonterminal{operator} \\
-	\nonterminal{attribute}
+	\nonterminal{attribute} \\
+	\nonterminal{invalid-attribute}
 
 \nonterminaldef{operator}\oneof \\
 	\terminal{!}
@@ -60,15 +61,6 @@
 	\terminal{||=}
 	\terminal{\}}
 	\terminal{\textasciitilde}
-
-\nonterminaldef{attribute}\oneof \\
-	\terminal{@fini}
-	\terminal{@init}
-	\terminal{@offset}
-	\terminal{@packed}
-	\terminal{@symbol}
-	\terminal{@test}
-	\terminal{@threadlocal}
 
 \nonterminaldef{comment}\exactly\\
 	\terminal{//} \nonterminal{comment-chars}

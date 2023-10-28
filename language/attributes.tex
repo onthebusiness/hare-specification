@@ -1,0 +1,33 @@
+\specsection{Attributes}
+
+\begin{grammar}
+\nonterminaldef{attribute}\oneof \\
+	\terminal{@fini}
+	\terminal{@init}
+	\terminal{@offset}
+	\terminal{@packed}
+	\terminal{@symbol}
+	\terminal{@test}
+	\terminal{@threadlocal}
+
+\nonterminaldef{invalid-attribute}\exactly \\
+	\terminal{@} \nonterminal{name}
+\end{grammar}
+
+\specsubitem
+Attributes are terminals with special meaning. They are case-sensitive.
+
+\specsubitem
+\nonterminal{invalid-attribute} isn't used anywhere in the syntax. If an
+\nonterminal{invalid-attribute} is consumed during lexical analysis, the program
+is invalid, and the translation phase shall print a diagnostic message and
+abort.
+
+\informative{The purpose of \nonterminal{invalid-attribute} is to disallow the
+use of a \nonterminal{keyword} or \nonterminal{name} immediately after an
+\nonterminal{attribute}, unless the tokens are separated by white-space. Thus,
+the following program is invalid:}
+
+\begin{codesample}
+@testfn test() void = void;
+\end{codesample}
