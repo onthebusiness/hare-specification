@@ -396,8 +396,8 @@ field's type and which is greater than the offset of the previous field plus the
 size of the previous field. The implementation shall add \textit{padding} to
 meet the alignment requirements of struct fields. For a union type, the offset
 of all members is zero. Padding shall additionally be added to the end of a
-struct type such that the total size of the struct type modulo its alignment is
-zero.
+struct type whose alignment is non-zero, such that the total size of the struct
+type modulo its alignment is zero.
 
 \specsubsubitem
 For a struct type using the \terminal{@packed} modifier, the offset of each
@@ -490,7 +490,9 @@ The offset of each value is equal to the minimum \textit{aligned} offset which
 would meet the alignment requirements of the value's type and which is greater
 than the offset of the previous value plus the size of the previous value type.
 The implementation shall add \textit{padding} to meet the alignment
-requirements of tuple values.
+requirements of tuple values. Padding shall additionally be added to the end of
+a tuple type whose alignment is non-zero, such that the total size of the tuple
+type modulo its alignment is zero.
 
 \specsubsubitem
 The size of a tuple is the sum of the sizes of its value types plus any necessary
