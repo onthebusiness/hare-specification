@@ -674,9 +674,10 @@ is undefined. The size of a slice type shall be equal to the size of the struct
 type defined by \subsubitemref{Slice and array types}{6}.
 
 \specsubsubitem
-The default value of an array type shall be equal to all of its members set to
-the default value of the underlying type. If the default value of the
-underlying type is undefined, the default value of the array type is undefined.
+The default value of a bounded array type shall be an array whose
+members are all set to the default value of the secondary type. If the array is
+unbounded, or if the default value of the secondary type is undefined, the
+default value of the array type is undefined.
 
 \specsubsubitem
 The default value of a slice type shall have the capacity and length fields set
