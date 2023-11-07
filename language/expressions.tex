@@ -1255,9 +1255,17 @@ expression is \terminal{void}.
 A unary expression applies a \nonterminal{unary-operator} to a single value.
 
 \specsubsubitem
-The \terminal{-} operator shall perform a unary negation operation. The result
-type shall be equivalent to the type of \nonterminal{unary-expression}, which
-shall be of a numeric type.
+\specsubsubitem
+The \terminal{-} operator shall perform a unary negation operation. If the type
+of \nonterminal{unary-expression} is \terminal{iconst}, the result type shall be
+an \terminal{iconst} whose minimum value is the result of negating the operand
+type's maximum value, and whose maximum value is the result of negating the
+operand type's minimum value. If the resulting \terminal{iconst} type isn't
+representable, a diagnostic message shall be printed and the translation
+environment shall abort. Otherwise, if the type of
+\nonterminal{unary-expression} isn't \terminal{iconst}, the result type shall be
+equivalent to the type of \nonterminal{unary-expression}, which shall be of a
+numeric type.
 
 \specsubsubitem
 The \terminal{\textasciitilde} operator shall perform a bitwise NOT operation,
