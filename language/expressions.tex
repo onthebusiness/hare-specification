@@ -927,11 +927,11 @@ In the first form, the type of the second term shall be assignable to the member
 type, which shall be provided to it as a type hint.
 
 \specsubsubitem
-In the second form, the second term shall have a valid result type which
-shall be a bounded array or slice whose member type is the
-\nonterminal{append-expression}'s member type, or a non-nullable pointer to a
-valid result type. The second term shall be provided the object type as a type
-hint.
+In the second form, the type of the second term shall be a non-expandable
+bounded array, a pointer to a non-expandable bounded array, or a slice. In all
+cases, the secondary type of the array or slice type shall be the
+\nonterminal{append-expression}'s member type. The second term shall be provided
+the object type as a type hint.
 
 \specsubsubitem
 In the third form, the second term shall be an expandable array whose member
@@ -1003,11 +1003,11 @@ In the first form, the type of the second term shall be assignable to the member
 type, which shall be provided to it as a type hint.
 
 \specsubsubitem
-In the second form, the second term shall have a valid result type which
-shall be a bounded array or slice whose member type is the
-\nonterminal{insert-expression}'s member type, or a non-nullable pointer to a
-valid result type. The second term shall be provided the object type as a type
-hint.
+In the second form, the type of the second term shall be a non-expandable
+bounded array, a pointer to a non-expandable bounded array, or a slice. In all
+cases, the secondary type of the array or slice type shall be the
+\nonterminal{insert-expression}'s member type. The second term shall be provided
+the object type as a type hint.
 
 \specsubsubitem
 In the third form, the second term shall be an expandable array whose member
