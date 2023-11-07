@@ -917,10 +917,11 @@ secondary type of the slice or array type given by
 An \nonterminal{append-expression} shall append some number of values to the
 slice object specified by the first term, which shall not be provided a type
 hint. Valid result types for \nonterminal{object-selector} shall either be a
-slice type, or a non-nullable pointer to a valid result type. The selected
-object shall be mutable and non-const. The member type of this slice shall be
-the \nonterminal{append-expression}'s \textit{member type}. The result type of
-an \nonterminal{append-expression} shall be \terminal{void}.
+slice type whose secondary type has a definite size, or a non-nullable pointer
+to a valid result type. The selected object shall be mutable and non-const. The
+member type of this slice shall be the \nonterminal{append-expression}'s
+\textit{member type}. The result type of an \nonterminal{append-expression}
+shall be \terminal{void}.
 
 \specsubsubitem
 In the first form, the type of the second term shall be assignable to the member
@@ -990,9 +991,9 @@ slice object specified by the first term, which shall not be provided a type
 hint. The \nonterminal{indexing-expression} specifies both the slice object and
 an index at which the new values shall be inserted (the \textit{insertion
 index}). The selected object shall be mutable and non-const, and shall not have
-an array type. The member type of this slice shall be the expression's
-\textit{member type}. The result type of an \nonterminal{insert-expression}
-shall be \terminal{void}.
+an array type. The secondary type of this slice shall be the expression's
+\textit{member type}. The member type shall have a definite size. The result
+type of an \nonterminal{insert-expression} shall be \terminal{void}.
 
 \specsubsubitem
 The bounds test described in \subsecref{Indexing} shall be performed on the
