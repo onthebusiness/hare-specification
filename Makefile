@@ -9,7 +9,7 @@ specification.ps: specification.dvi
 	dvips specification.dvi
 
 specification.dvi: *.tex language/*.tex appendix/syntax.tex
-	while latex specification.tex | tee /dev/fd/2 | grep "Label(s) may have changed"; do true; done
+	while latex -file-line-error specification.tex | tee /dev/fd/2 | grep "Label(s) may have changed"; do true; done
 
 appendix/syntax.tex: language/*.tex gen-syntax.sh
 	mkdir -p appendix
