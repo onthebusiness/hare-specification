@@ -1614,6 +1614,11 @@ The result of the \terminal{!=} operator shall be \terminal{true} if the first
 operand is not equal to second operand in value, and \terminal{false} otherwise.
 
 \specsubsubitem
+The method in which two floating point values are compared or check for equality
+is implementation-defined. Two floating point values with the same
+representation may compare unequal.
+
+\specsubsubitem
 Two \terminal{str} objects shall be equal if both strings have the same length
 and octets. Otherwise, they shall not be equal.
 
