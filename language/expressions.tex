@@ -2139,8 +2139,16 @@ occur before side-effects of the second term.
 A \nonterminal{binding-list} shall cause one or more objects to become
 available in the present scope. Each object shall be identified by its
 \nonterminal{name}, and shall have its initial value set to the result of the
-\nonterminal{expression}. The result
-type of a binding list expression is \terminal{void}.
+\nonterminal{expression}. The result type of a binding list expression is
+\terminal{void}.
+
+\specsubsubitem
+A binding's \nonterminal{expression} shall be evaluated before any
+\nonterminal{name}s are made available in the present scope.
+
+\informative{Because the binding is only inserted into the scope when the
+\nonterminal{binding-list} is evaluated, it isn't visible to any expressions
+which lexically precede it, even if they reside in the same scope.}
 
 \specsubsubitem
 In the first form of \nonterminal{binding}, the type of the object shall
@@ -2189,10 +2197,11 @@ the \secref{Translation compatible expression subset}, and shall be evaluated in
 the translation environment.
 
 \specsubsubitem
-If a given \nonterminal{name} already refers to an object in the present scope,
-the new binding shall \textit{shadow} the earlier binding, causing any later
-references to this name to resolve to the newer binding, until the new binding's
-scope is terminated.
+If a given \nonterminal{name} already refers to an object visible in the present
+scope, the new binding shall \textit{shadow} the earlier binding, causing any
+references to the \nonterminal{name} which lexically follow this
+\nonterminal{binding-list} within the present scope to resolve to the newly
+bound object.
 
 \specsubsection{Defer expressions}
 
@@ -2217,6 +2226,14 @@ upon the termination of the current scope, either due to normal program flow,
 or due to encountering a terminating expression.
 
 \specsubsubitem
+Names and identifiers within the deferred expression are resolved during
+evaluation of the \nonterminal{defer-expression}.
+
+\informative{Thus, a binding created after a \nonterminal{defer-expression} is
+evaluated can't be referenced within the deferred expression. This is also true
+of shadowed bindings.}
+
+\specsubsubitem
 If several expressions are deferred in a single scope, their side-effects shall
 occur in the reverse of the order that they appear in the program source.
 
@@ -2227,7 +2244,7 @@ evaluated, the side-effects of the \nonterminal{expression} shall not occur.
 
 \specsubsubitem
 Before a scope terminates, all active nested scopes shall also be terminated, in
-order, from inner-most to outer-most.
+order, from smallest region encompassed to largest.
 
 \specsubsubitem
 Before a \nonterminal{control-expression} is evaluated (but after its provided
@@ -2239,14 +2256,14 @@ Forward references: \subsecref{Control expressions}
 \specsubsubitem
 Before a function with a result type of \terminal{never} is called by a
 \nonterminal{call-expression} (but after all arguments have been evaluated), as
-well as before the execution environment aborts for any reason, the inner-most
-function scope is terminated.
+well as before the execution environment aborts for any reason, the active
+function scope most recently made active is terminated.
 
 \specsubsubitem
 As a special case, if a deferred expression is currently being executed, then if
-a scope outside of the inner-most deferred expression would terminate, the
-outer-most scope within the inner-most deferred expression shall terminate
-instead.
+a scope outside of the inner-most deferred expression would terminate, the scope
+within the inner-most deferred expression which encompasses the largest region
+shall terminate instead.
 
 \informative{This is intended to prevent exponential code generation when
 deferred expressions may abort.}
@@ -2277,8 +2294,10 @@ be provided to the expression of any \nonterminal{yield-expression} which
 selects that \nonterminal{compound-expression}.
 
 \specsubsubitem
-The expressions shall be evaluated such that the side-effects of each all occur
-in the order that each expression appears.
+The implementation shall establish a new scope for the
+\nonterminal{compound-expression}. The expressions shall then shall be evaluated
+such that the side-effects of each all occur in the order that each expression
+appears.
 
 \specsubsubitem
 None of the items in the \nonterminal{expression-list} shall have a result type
@@ -2309,10 +2328,6 @@ expressions used in all all \nonterminal{yield-expression}s which select this
 \nonterminal{compound-expression} (and a \nonterminal{yield-expression} wasn't
 implicitly appended to the \nonterminal{expression-list}), the result type is
 \terminal{never}.}
-
-\specsubsubitem
-The \nonterminal{compound-expression} shall establish a new scope whose parent is
-the scope in which the \nonterminal{compound-expression} resides.
 
 \specsubsection{Control expressions}
 

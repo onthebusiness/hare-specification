@@ -12,13 +12,14 @@
 	\nonterminal{function-declaration} \\
 \end{grammar}
 
+\specsubitem
 A \nonterminal{declaration} specifies the interpretation and attributes of a set
 of \nonterminal{identifier}s.
 
 \specsubitem
-The \nonterminal{identifier}s shall be visible anywhere within the current
-translation unit. If the \terminal{export} keyword is used, the
-\nonterminal{identifier}s shall be part of the unit's exported interface.
+If the \terminal{export} keyword is used, the declaration is considered to be
+\textit{exported}, allowing other modules to access it. An exported declaration
+may be visible within the scopes of multiple translation units.
 
 \specsubitem
 The \terminal{export} keyword shall not be used with a
@@ -47,11 +48,18 @@ The \terminal{export} keyword shall not be used with a
 
 \specsubsubitem
 In a \nonterminal{global-declaration}, sufficient space shall be reserved for
-each \nonterminal{identifier} in the \nonterminal{global-bindings} to store
-the type associated with it. That storage shall be initialized to the value of
-the \nonterminal{expression} and shall have alignment greater than or equal to
-the necessary alignment for the type. In the \terminal{const} form, the types
-shall have the constant flag enabled by default.
+each \nonterminal{global-binding} to store the type associated with it. That
+storage shall be initialized to the value of the \nonterminal{expression} and
+shall have alignment greater than or equal to the necessary alignment for the
+type. In the \terminal{const} form, the types shall have the constant flag
+enabled by default.
+
+\specsubsubitem
+The \nonterminal{identifier} of each \nonterminal{global-binding} shall be
+inserted into the current translation unit's scope, for use by any other
+declaration in the translation unit. If the \nonterminal{identifier} already
+refers to an object visible in the translation unit's scope, a diagnostic
+message shall be printed and the translation phase shall be aborted.
 
 \specsubsubitem
 A \nonterminal{global-binding}'s \nonterminal{expression} shall be limited to
@@ -110,6 +118,13 @@ inserted if the first form is used.
 a flexible constant result type.}
 
 \specsubsubitem
+The \nonterminal{identifier} of each \nonterminal{constant-binding} shall be
+inserted into the current translation unit's scope, for use by any other
+declaration in the translation unit. If the \nonterminal{identifier} already
+refers to an object visible in the translation unit's scope, a diagnostic
+message shall be printed and the translation phase shall be aborted.
+
+\specsubsubitem
 A \nonterminal{constant-binding}'s \nonterminal{expression} shall be limited to
 the \secref{Translation compatible expression subset}, and shall be evaluated
 in the translation environment. If the first form of
@@ -156,16 +171,25 @@ underlying type for the \nonterminal{identifier} shall be the
 be \terminal{int}.
 
 \specsubsubitem
-In the second form of \nonterminal{type-binding}, the enum values qualified
-with the binding's \nonterminal{identifier} shall be made available to the
-translation environment. No storage shall be allocated for them in the
-execution environment, and they shall not be addressable.
+The \nonterminal{identifier} of each \nonterminal{type-binding} shall be
+inserted into the current translation unit's scope, for use by any other
+declaration in the translation unit. If the \nonterminal{identifier} already
+refers to an object visible in the translation unit's scope, a diagnostic
+message shall be printed and the translation phase shall be aborted.
 
 \specsubsubitem
-If the \nonterminal{enum-value} does not specify a \nonterminal{expression},
-the value assigned to that \nonterminal{name} is equal to the last value
-assigned to an \nonterminal{enum-value} of this enum type plus one. If no such
-previous value exists, zero is assigned.
+In the second form of \nonterminal{type-binding}, each \nonterminal{enum-value}
+shall be made available to the translation unit's scope, via an identifier
+comprised of the components of the type alias' identifier followed by the
+\nonterminal{enum-value}'s \nonterminal{name}. No storage shall be allocated for
+them in the execution environment. References to them shall be equivalent to
+references to the \nonterminal{enum-value}'s assigned value.
+
+\specsubsubitem
+Each \nonterminal{enum-value} is assigned the value of its
+\nonterminal{expression}, if present. Otherwise, the value assigned to it is
+equal to the value of the nearest lexically preceding \nonterminal{enum-value}
+of this enum type plus one. If no such previous value exists, zero is assigned.
 
 \specsubsubitem
 An implicitly assigned \nonterminal{enum-value} shall not exceed the precision
@@ -181,11 +205,12 @@ assignable to the enum type's underlying integer type (ref
 \subsecref{Assignment}).
 
 \specsubsubitem
-A temporary scope shall be allocated while declaring an enum type, and each value
-name, in order, shall be made available to that scope.
+The implementation shall establish a new scope for the
+\nonterminal{enum-values}, and each \nonterminal{enum-value} name shall be made
+available in the scope.
 
 \informative{This allows the \nonterminal{expression} for each value to refer
-to previously declared values.}
+to other values within the enum.}
 
 \specsubsubitem
 Each \nonterminal{enum-value}'s name shall be unique within the set of all
@@ -215,6 +240,14 @@ diagnostic message shall be printed and the translation phase shall be aborted.
 \end{grammar}
 
 \specsubsubitem
+The \nonterminal{identifier} of each \nonterminal{function-declaration} which
+does not use \terminal{@init}, \terminal{@fini}, or \terminal{@test} shall be
+inserted into the current translation unit's scope, for use by any other
+declaration in the translation unit. If the \nonterminal{identifier} already
+refers to an object visible in the translation unit's scope, a diagnostic
+message shall be printed and the translation phase shall be aborted.
+
+\specsubsubitem
 The first form of \nonterminal{function-declaration} is a \textit{prototype},
 and shall cause the \nonterminal{identifier} to refer to the function type
 described by the \nonterminal{prototype} and the function attributes. The
@@ -225,14 +258,18 @@ separately, the manner of which is implementation-defined. \terminal{@init},
 \specsubsubitem
 The second form of \nonterminal{function-declaration} shall declare a function
 and its implementation. The result type of the expression shall be assignable
-to the prototype's result type.
+to the \nonterminal{prototype}'s result type.
 
 \specsubsubitem
-In the second form of \nonterminal{function-declaration}, each
-\nonterminal{parameter} in the \nonterminal{prototype} which uses the
-\nonterminal{name} form shall be available within the \nonterminal{expression}
-by its \nonterminal{name}. Those which do not use the \nonterminal{name} form
-shall not be made available.
+In the second form of \nonterminal{function-declaration}, the implementation
+shall establish a new scope for the \nonterminal{expression}. For each of the
+\nonterminal{prototype}'s \nonterminal{parameters}, in the order that they
+appear in the program source, the implementation shall resolve the parameter's
+type (within the newly established scope), and then, if the \nonterminal{name}
+form is used, insert the parameter's \nonterminal{name} into the scope. The
+\nonterminal{prototype}'s result type shall be resolved outside of the newly
+established scope. The \nonterminal{expression} shall be translated after all
+named parameters have been made visible.
 
 \specsubsubitem
 The \terminal{@fini} form of \nonterminal{fndec-attr} shall cause the
@@ -243,8 +280,7 @@ are specified, the last one shall override all previous ones.
 
 \specsubsubitem
 Functions declared with \terminal{@test}, \terminal{@init}, or \terminal{@fini}
-shall accept no parameters, shall return void, need not have unique names, and
-shall not be inserted into the unit's scope.
+shall accept no parameters, shall return void, and need not have unique names.
 
 \specsection{Units}
 
@@ -253,9 +289,9 @@ shall not be inserted into the unit's scope.
 	\optional{\nonterminal{imports}} \optional{\nonterminal{declarations}}\\
 
 \nonterminaldef{imports}\\
-	\nonterminal{use-statement} \optional{\nonterminal{imports}}\\
+	\nonterminal{use-directive} \optional{\nonterminal{imports}}\\
 
-\nonterminaldef{use-statement}\\
+\nonterminaldef{use-directive}\\
 	\terminal{use} \nonterminal{identifier} \terminal{;}\\
 	\terminal{use} \nonterminal{name} \terminal{=} \nonterminal{identifier} \terminal{;}\\
 	\terminal{use} \nonterminal{identifier} \terminal{::} \terminal{\{} \nonterminal{member-list} \terminal{\}} \terminal{;}\\
@@ -270,55 +306,73 @@ shall not be inserted into the unit's scope.
 A unit, or translation unit, is composed of several source files as described
 by \secref{Translation steps}. Each source file is a \nonterminal{sub-unit}.
 A specific sub-unit may have no declarations, but the unit shall contain at
-least one declaration among its sub-units.
+least one \nonterminal{declaration} (excluding static assertions) among its
+sub-units.
 
 \specsubitem
-An \nonterminal{import} shall declare a dependency between this translation
-unit and another module of the namespace specified by the
-\nonterminal{use-statement} \nonterminal{identifier}. This shall cause the named
-module to be linked into the final program image as described by
-\secref{Translation steps}.
-
-\specsubitem
-The first form of the \nonterminal{use-statement} shall cause the identifiers
-exported by the target module to become visible to this \nonterminal{sub-unit}
-in their fully-qualified form. Additionally, if the imported module has more
-than one namespace, identifiers of the form "x::y" shall be made available,
-where x is the most-specific namespace, and y is each of the exported members
-of the target module.
-
-\specsubitem
-The second form of the \nonterminal{use-statement} shall cause identifiers of
-the form "x::y" to be made available, where x is the provided
-\nonterminal{name}, and y is each of the exported members of the target module.
-
-\specsubitem
-The third form of the \nonterminal{use-statement} shall cause only the members
-listed in the \nonterminal{member-list}, qualified in the context of the target
-namespace to become visible in their un-qualified form to this
-\nonterminal{sub-unit}.
-
-\informative{In the use statement \code{use bar::baz::\{bat\}}, identifier
-\code{bar::baz::bat} may be referred to by its unqualified name \code{bat} in
-the scope of this \nonterminal{sub-unit}.}
-
-\specsubitem
-The fourth form of the \nonterminal{use-statement} shall cause all identifiers
-qualified in the context of the target namespace to become visible in their
-un-qualified form to this \nonterminal{sub-unit}.
-
-\informative{In the use statement \code{use foo = bar::baz;}, identifiers in
-the namespace \code{bar::baz} will be visible under the namespace \code{foo}.
-For example, if the fully-qualified identifier \code{bar::baz::bat} exists, this
-\nonterminal{sub-unit} may refer to it as \code{foo::bat}.}
-
-\specsubitem
-The translation unit shall establish a scope into which all
-unit-local declarations are inserted. Each sub-unit shall establish another
-scope as the parent scope of the unit scope, and in this sub-unit
-scope, each of the imports used by that sub-unit shall be made available.
+Each translation unit shall establish a scope into which all of the unit's
+declarations are inserted. Each sub-unit shall also establish a scope, into
+which any \nonterminal{imports} shall make declarations from other modules
+available.
 
 \informative{
 In other words, declarations made in a sub-unit are visible to other members of
 that unit, but imports in a sub-unit are not visible to other sub-units.}
 
+\specsubitem
+A \nonterminal{use-directive} shall declare a dependency between this module and
+another module (the \textit{target module}) whose namespace is specified by the
+\nonterminal{use-directive}'s identifier. This shall cause the named module to
+be included in the final program, as described by \secref{Translation steps}.
+All dependencies of the target module also become dependencies of this module.
+
+\specsubitem
+If a \nonterminal{name} or \nonterminal{identifier} which would be inserted into
+this sub-unit's scope by a \nonterminal{use-directive} already refers to an
+object visible in the scope, a diagnostic message shall be printed and the
+translation phase shall be aborted.
+
+\specsubitem
+If a \nonterminal{use-directive} would cause a module to depend on itself, a
+diagnostic message shall be printed and the translation phase shall be aborted.
+
+\specsubitem
+The first form of \nonterminal{use-directive} shall cause all declarations
+exported by the target module to be made available to this
+\nonterminal{sub-unit}'s scope, via an identifier comprised of the last
+component of the namespace identifier followed by the components of the
+declaration's identifier.
+
+\example{In the use directive \code{use bar::baz;}, identifiers in the module
+whose namespace is \code{bar::baz} will be made visible as identifiers whose
+first component is \code{baz}. For example, if \code{bar::baz} exports a
+declaration named \code{bat}, it is made visible to this \nonterminal{sub-unit}
+as \code{baz::bat}.}
+
+\specsubitem
+The second form of \nonterminal{use-directive} shall cause all declarations
+exported by the target module to be made available to this
+\nonterminal{sub-unit}'s scope, via an identifier comprised of the given
+\nonterminal{name} followed by the components of the declaration's identifier.
+
+\example{In the use directive \code{use foo = bar::baz;}, identifiers in the
+module whose namespace is \code{bar::baz} will be made visible as identifiers
+whose first component is \code{foo}. For example, if \code{bar::baz} exports a
+declaration named \code{bat}, it is made visible to this \nonterminal{sub-unit}
+as \code{foo::bat}.}
+
+\specsubitem
+The third form of \nonterminal{use-directive} shall cause only the declarations
+named in the \nonterminal{member-list}, each of which shall name a declaration
+exported by the target module, to be inserted into this \nonterminal{sub-unit}'s
+scope (with the same name they were initially declared with).
+
+\example{If \code{bar::baz} exports a declaration named \code{bat}, the use
+directive \code{use bar::baz::\{bat\}}, will cause the name
+\code{bat} in this \nonterminal{sub-unit}'s scope to refer to said declaration.}
+
+\specsubitem
+The fourth form of \nonterminal{use-directive} shall cause all declarations
+exported by the target module to be made available to this
+\nonterminal{sub-unit}'s scope, with the same names they were initially declared
+with.

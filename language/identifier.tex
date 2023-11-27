@@ -33,45 +33,29 @@
 \nonterminal{nondigit} \\
 \end{grammar}
 
-% TODO: The role of the namespace part could be described better
-
 \specsubitem
-An \textit{identifier} is a user-defined name which denotes a module, object,
-function, type alias, struct or union member, or enumeration member.
+An \textit{identifier} is a user-defined sequence of \terminal{name} components
+which denote a namespace, object, function, type alias, or enumeration value.
 
 \specsubitem
 An identifier is only meaningful within a specific \textit{scope} of the
-program. The scope is defined by the region of the program in which the
-identifier is applicable; it may be a translation unit, a sub-unit, a function,
-a \nonterminal{for-loop}, or an \nonterminal{expression-list}. The identifier is
-considered \textit{visible} within the region that defines its scope.
+program. The scope is defined by the region of the program it encompasses: it
+may be a translation unit, a sub-unit, a function, \nonterminal{enum-values}, a
+\nonterminal{for-loop}, or an \nonterminal{expression-list}. After an identifier
+is \textit{inserted} into a scope, it is considered \textit{visible} within the
+region that defines its scope.
 
 \specsubitem
-A translation unit is assigned a unique \textit{namespace} within the program.
-These namespaces may be nested recursively; that is to say that a translation
-unit may have a \textit{parent} which is another translation unit. One
-translation unit may be assigned to the \textit{root namespace}, which has no
-name.
+Scopes may overlap one another. For any two overlapping scopes, one scope will
+encompass a region which is contained entirely within the region encompassed by
+the other scope.
 
 \specsubitem
-Identifiers declared within a translation unit scope are assigned the namespace
-of the translation unit. The double-colon terminal \terminal{::} is used to
-denote the namespace of an identifier, ordered from least to most specific.
-
-\specsubitem
-An identifier is either \textit{fully-qualified} or \textit{unqualified}.
-Unqualified identifiers require the context of their enclosing scope to be
-interpreted unambiguously. Fully-qualified identifiers are used for
-\textit{exported} identifiers, and include the namespace in which they reside.
-
-\example{The fully-qualified identifier \code{sys::start::start\_ha} qualifies
-the un-qualified identifier \code{start\_ha} with the start namespace, which is
-itself a member of the sys namespace.}
-
-\specsubitem
-An identifier without the namespace qualification may be fully-qualified
-regardless, if it exists in the root namespace.
+Every module in a program, except for one, is assigned a unique identifier; this
+is the module's \textit{namespace}. The exempt module may also be assigned an
+identifier, or it may instead be assigned the \textit{root namespace}. Unless
+otherwise specified, identifiers within a program don't designate namespaces.
 
 \specsubitem
 The implementation may define the maximum length of an \nonterminal{identifier}
-or \nonterminal{name}.
+and/or \nonterminal{name}.

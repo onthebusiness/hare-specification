@@ -16,30 +16,18 @@ the \hbox{UTF-8} format.
 
 \specsubitem
 Each \textit{source file} is a member of exactly one \textit{module}, and the
-collective source files for a module form a \textit{translation unit}. Each
-module may define its own private types, data, procedures, and so on, for the
-purpose of accomplishing its tasks. It may also \textit{export} these types for
-other modules to use.
+collective source files for a module form a \textit{translation unit}. Every
+module contains one or more \textit{declarations}, any number of which may be
+\textit{exported} for use by other modules.
 
-\specsubitem
-A Hare program may be translated incrementally, rather than all at one time.
-However, the composite source files of a single translation unit must be
-translated together. Once translated, an implementation-defined representation
-of their \textit{exported interface} (the identifiers and types of their
-exported declarations) provides sufficient information to translate other units
-which require the module. The translated modules may be composed into the final
-program at the last step.
-
-\specsubitem
-If the source files for a translation unit are not changed, the translated
-module may be used repeatedly without repeating the translation step.
+Forward references: \secref{Units}
 
 \specsection{Translation steps}
 
 \specsubitem
-The list of source files constituting the translation unit are identified. Steps
-\subitemref{Translation steps}{2} and \subitemref{Translation steps}{3} are
-repeated for each source file.
+The list of source files constituting the translation unit are identified in an
+implementation-defined manner. Steps \subitemref{Translation steps}{2} and
+\subitemref{Translation steps}{3} are repeated for each source file.
 
 \specsubitem
 Lexical analysis is conducted on the source file, translating it into a stream
@@ -72,9 +60,9 @@ execution environment prevent successful completion.
 a failure in the remainder of the translation process.}
 
 \specsubitem
-The verified program module is combined with any applicable external modules and
-translated into a single program image which is suitable for interpretation by
-the execution environment.
+The verified program module is combined with any dependencies and translated
+into a single program image which is suitable for interpretation by the
+execution environment.
 
 \specsection{Execution environment}
 
