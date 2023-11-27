@@ -555,10 +555,13 @@ sufficient storage cannot be provided.
 
 \specsubsubitem
 The \terminal{free} form shall discard resources previously allocated with a
-\terminal{alloc} expression, freeing them for future use. The
-\nonterminal{expression} shall evaluate to a pointer type, in which case the
-object referred to by the pointer shall be freed, or a slice type, in which
-case the array referred to by its data field shall be freed.
+\terminal{alloc} expression, freeing them for future use. If the
+\nonterminal{expression}'s result type is a pointer type, and the result value
+compares unequal to \terminal{null}, then the object referred to by the pointer
+shall be freed. If the \nonterminal{expression}'s result type is a slice type or
+\terminal{str}, then the array object referred to by its \code{data} field shall
+be freed. Otherwise, the \nonterminal{expression}'s result value shall be
+\terminal{null}, and no additional side-effects shall occur.
 
 \specsubsection{Assertions}
 
