@@ -1740,7 +1740,6 @@ types of all branches.
 \specsubsubitem
 A \nonterminal{for-loop} executes its \nonterminal{expression}, the
 \textit{body} of the loop, zero or more times, so long as a condition is true.
-Its result type is \terminal{void}.
 
 \specsubsubitem
 In the first form, \nonterminal{for-predicate} specifies the \textit{condition}
@@ -1751,6 +1750,13 @@ second expression is the \textit{afterthought}. In the fourth form, the
 \nonterminal{binding-list} is the binding, and the two expressions are
 respectively the condition and afterthought. The result type of the condition
 shall be \terminal{bool}, and this shall be provided as a type hint.
+
+\specsubsubitem
+If the condition uses the \secref{Translation compatible expression subset}, and
+its result value is \terminal{true}, and the scope of the \nonterminal{for-loop}
+is never terminated as a side-effect of a \terminal{break} or \terminal{yield}
+expression, the result type of the \nonterminal{for-loop} shall be
+\terminal{never}, otherwise, the result type shall be \terminal{void}.
 
 \specsubsubitem
 The afterthought shall not have a result type whose error flag is set, nor shall
