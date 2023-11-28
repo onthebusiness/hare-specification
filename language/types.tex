@@ -186,19 +186,22 @@ types shall be undefined. \terminal{iconst} and \terminal{fconst} are considered
 numeric types.
 
 \specsubsubitem
-An \terminal{iconst} shall have maximum and minimum values associated with it,
-which shall be represented as signed integers with sufficient width to store
-an \terminal{i64}. The minimum value shall represent the smallest integer
-constant which has this result type, and the maximum value shall represent the
-largest. The minimum shall always be less than or equal to the maximum, and the
-type shall be considered unsigned if and only if the minimum is greater than or
-equal to 0.
+An \terminal{iconst} shall have a maximum and minimum value associated with it,
+each of which may assume any value in the inclusive range -9223372036854775808
+to 18446744073709551615. The minimum value shall represent the smallest integer
+constant which may have this result type, and the maximum value shall represent
+the largest. The minimum value shall always be less than or equal to the
+maximum, and the type shall be considered unsigned if and only if the minimum
+value is greater than or equal to zero.
 
 \specsubsubitem
 The \textit{default type} for \terminal{fconst} shall be \terminal{f64}. The
-default type for iconst shall be \terminal{int} if the maximum and minimum are
-within \terminal{int}'s range, and \terminal{i64} otherwise. The default type
-for \terminal{rconst} shall be \terminal{rune}.
+default type for \terminal{rconst} shall be \terminal{rune}. The default type
+for \terminal{iconst} shall be \terminal{int} if the maximum and minimum values
+are representable as \terminal{int}, otherwise \terminal{i64} if the maximum and
+minimum values are representable as \terminal{i64}, otherwise \terminal{u64} if
+the maximum and minimum values are representable as \terminal{u64}, otherwise
+the translation environment shall print a diagnostic message and abort.
 
 \specsubsubitem
 A flexible constant type may be \textit{lowered} to a different type by the
