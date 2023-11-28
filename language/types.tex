@@ -107,6 +107,10 @@ octets are represented is implementation-defined, provided that the significance
 strictly either increases or decreases as the memory address increases.
 
 \specsubsubitem
+If an operation on an integer type would cause the result to overflow, it is
+truncated towards the least significant bit.
+
+\specsubsubitem
 The precision of \nonterminal{i8}, \nonterminal{i16}, \nonterminal{i32},
 \nonterminal{i64}, \nonterminal{u8}, \nonterminal{u16}, \nonterminal{u32}, and
 \nonterminal{u64} are specified by the numeric suffix, which represents their
@@ -173,6 +177,10 @@ The bit layout of floating point types shall be implementation-defined.
 
 \specsubsubitem
 The alignment of floating point types shall be equal to their size in octets.
+
+\specsubsubitem
+If an operation on a floating point type would cause the result to overflow or
+underflow, it is truncated towards zero.
 
 \specsubsubitem
 The default value of a floating point type shall be zero.

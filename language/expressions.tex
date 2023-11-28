@@ -1456,12 +1456,6 @@ A modulus (\terminal{\%}) operation shall be performed with operands of integer
 types only.
 
 \specsubsubitem
-If an operation would cause the result to overflow the result type, it is
-truncated towards the least significant bits in the case of integer types, and
-towards zero in the case of float types. Integer divisions which would produce
-a fractional part are rounded towards zero.
-
-\specsubsubitem
 The implementation shall ensure that any side-effects of the first term shall
 occur before side-effects of the second term.
 
@@ -1483,12 +1477,6 @@ promotion} rules.
 \specsubsubitem
 In the case of subtraction, the first term is the minuend, and the second term
 is the subtrahend.
-
-\specsubsubitem
-If an operation would cause the result to overflow or underflow the result
-type, it is truncated towards the least significant bits in the case of integer
-types, and towards zero in the case of float types. In the case of signed
-types, this truncation will cause the sign bit to change.
 
 \specsubsubitem
 The implementation shall ensure that any side-effects of the first term shall
