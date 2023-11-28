@@ -95,7 +95,11 @@ either \textit{signed} or \textit{unsigned}; which respectively \textbf{are} and
 considered \textit{numeric types}.
 
 \specsubsubitem
-Signed integer types shall be represented in two's complement form.
+Signed integer types shall be represented in two's complement form, such that
+arithmetic on signed operands behaves identically to arithmetic on unsigned
+operands. The most significant bit of a signed integer shall determine the sign
+of the value: the value shall be positive if the most significant bit is unset,
+otherwise it shall be negative. Zero shall be positive.
 
 \specsubsubitem
 The endianness (byte order) of integer types shall be implementation-defined.
