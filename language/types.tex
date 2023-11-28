@@ -175,6 +175,10 @@ point types are considered \textit{numeric types}.
 The bit layout of floating point types shall be implementation-defined.
 
 \specsubsubitem
+\terminal{f32} shall have a \textit{width} of 32 and a size and alignment of 4.
+\terminal{f64} shall have a width of 64 and a size and alignment of 8.
+
+\specsubsubitem
 The alignment of floating point types shall be equal to their size in octets.
 
 \specsubsubitem
@@ -182,7 +186,7 @@ If an operation on a floating point type would cause the result to overflow or
 underflow, it is truncated towards zero.
 
 \specsubsubitem
-The default value of a floating point type shall be zero.
+The default value of a floating point type shall be positive zero.
 
 \specsubsection{Rune types}
 

@@ -1387,8 +1387,8 @@ type has insufficient width to represent the resulting integer, it shall be
 truncated towards the least significant bit.
 
 \specsubsubitem
-When casting an integer to a floating point type, if the destination type
-lacks the precision to represent the value, it shall be truncated towards zero.
+When casting an integer to a floating point type, if the destination type has
+insufficient width to represent the value, it shall be truncated towards zero.
 
 \specsubsubitem
 Casting a pointer type to \nonterminal{uintptr}, and then back to the pointer
@@ -2037,7 +2037,7 @@ Object type & May be assigned from \\
 Mutable type & Constant types assignable to the object type \\
 Signed integer types & Signed integer types of equal or lower width \\
 Unsigned integer types & Unsigned integer types of equal or lower width \\
-Floating point types & Any floating point type of equal or lower precision \\
+Floating point types & Any floating point type of equal or lower width \\
 Nullable pointer types & Non-nullable pointer type of the same secondary type \\
 Nullable pointer types & \terminal{null} \\
 Slice types & Array type of the same secondary type and definite length \\
