@@ -89,10 +89,10 @@ which represents it, for example \terminal{i32}.
 \end{grammar}
 
 \specsubsubitem
-Integer types represent an integer value at a specific precision. These values
-are either \textit{signed} or \textit{unsigned}; which respectively
-\textbf{are} and \textbf{are not} able to represent negative integers. Zero is
-not negative. Integer types are considered \textit{numeric types}.
+Integer types represent an integer value at a specific width. These values are
+either \textit{signed} or \textit{unsigned}; which respectively \textbf{are} and
+\textbf{are not} able to represent negative integers. Integer types are
+considered \textit{numeric types}.
 
 \specsubsubitem
 Signed integer types shall be represented in two's complement form.
@@ -104,24 +104,24 @@ The endianness (byte order) of integer types shall be implementation-defined.
 The precision of \nonterminal{i8}, \nonterminal{i16}, \nonterminal{i32},
 \nonterminal{i64}, \nonterminal{u8}, \nonterminal{u16}, \nonterminal{u32}, and
 \nonterminal{u64} are specified by the numeric suffix, which represents their
-precision in bits. Of those, types prefixed with \terminal{u} are unsigned, and
+width in bits. Of those, types prefixed with \terminal{u} are unsigned, and
 those prefixed with \terminal{i} are signed.
 
 \specsubsubitem
-The precision of \nonterminal{int} and \nonterminal{uint} are
+The width of \nonterminal{int} and \nonterminal{uint} are
 implementation-defined. \nonterminal{int} shall be signed, and
-\nonterminal{uint} shall be unsigned. Both types shall be at least 32-bits in
-precision. The precision in bits shall be a power of two.
+\nonterminal{uint} shall be unsigned. Both types shall have the same width,
+which, in bits, shall be a power of two no smaller than 32.
 
 \specsubsubitem
-The precision of \nonterminal{size} is implementation-defined. It shall be
-unsigned and shall be able to represent the maximum length of an array type.
-The precision in bits shall be a power of two.
+The width of \nonterminal{size} is implementation-defined. It shall be unsigned
+and shall be able to represent the maximum length of an array type. The width in
+bits shall be a power of two.
 
 \specsubsubitem
-The precision of \nonterminal{uintptr} is implementation-defined. It shall be
-able to represent the value of any \nonterminal{pointer-type} (including
-\textit{null}) as an integer. It shall be unsigned.
+The width of \nonterminal{uintptr} is implementation-defined. It shall be able
+to represent the value of any \nonterminal{pointer-type} (including
+\textit{null}). It shall be unsigned.
 
 \specsubsubitem
 The alignment of integer types shall be equal to their size in octets.
@@ -132,7 +132,7 @@ The default value of an integer type shall be zero.
 \informative{The following table is informative.}
 
 \begin{tabular}{r | l l l}
-Type & Size in bits & Minimum value & Maximum value \\
+Type & Width in bits & Minimum value & Maximum value \\
 \hline
 \nonterminal{i8} & 8 & -128 & 127 \\
 \nonterminal{i16} & 16 & -32768 & 32767 \\
@@ -187,7 +187,7 @@ numeric types.
 
 \specsubsubitem
 An \terminal{iconst} shall have maximum and minimum values associated with it,
-which shall be represented as signed integers with sufficient precision to store
+which shall be represented as signed integers with sufficient width to store
 an \terminal{i64}. The minimum value shall represent the smallest integer
 constant which has this result type, and the maximum value shall represent the
 largest. The minimum shall always be less than or equal to the maximum, and the

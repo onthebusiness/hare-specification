@@ -192,9 +192,9 @@ equal to the value of the nearest lexically preceding \nonterminal{enum-value}
 of this enum type plus one. If no such previous value exists, zero is assigned.
 
 \specsubsubitem
-An implicitly assigned \nonterminal{enum-value} shall not exceed the precision
-of the underlying integer type; if it were to, a diagnostic message shall be
-shown instead per \secref{Diagnostics}.
+If an implicitly assigned \nonterminal{enum-value} would not be representable in
+the underlying integer type, a diagnostic message shall be shown as per
+\secref{Diagnostics}.
 
 \specsubsubitem
 \nonterminal{expression}, if specified, shall be evaluated in the translation

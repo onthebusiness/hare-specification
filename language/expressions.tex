@@ -181,7 +181,7 @@ sign.
 	\terminal{u64} \\
 \end{grammar}
 
-Integer constants represent an integer value at a specific precision.
+Integer constants represent an integer value.
 
 \specsubitem
 If the \nonterminal{integer-suffix} is provided, the type is specified by the
@@ -192,9 +192,9 @@ the type shall be \terminal{iconst} with both maximum and minimum set to the
 number provided.
 
 \specsubitem
-If the number provided is not within the limits of the precision of the
-constant type, a diagnostic message shall be printed and the translation phase
-shall fail.
+If the number provided is not representable within the type, or if the number
+is not representable as an \terminal{iconst}, a diagnostic message shall be
+printed and the translation phase shall fail.
 
 \specsubitem
 \nonterminal{octal-digits} shall be interpreted as base 8.
@@ -1373,7 +1373,7 @@ the flexible constant shall be castable to the other type if the promotion
 succeeds.
 
 \specsubsubitem
-When an integer type is cast to an integer of less precision, it shall be
+When an integer type is cast to an integer with a smaller width, it shall be
 truncated towards the least significant bit.
 
 \specsubsubitem
@@ -1383,7 +1383,7 @@ the most significant bit of the unsigned type, and vice versa.
 \specsubsubitem
 When a floating type is cast to an integer, the resulting value shall be equal
 to the nearest integer with smaller or equal absolute value. If the destination
-type has insufficient precision to represent the resulting integer, it shall be
+type has insufficient width to represent the resulting integer, it shall be
 truncated towards the least significant bit.
 
 \specsubsubitem
@@ -2047,8 +2047,8 @@ following table:
 Object type & May be assigned from \\
 \hline
 Mutable type & Constant types assignable to the object type \\
-Signed integer types & Signed integer types of equal or lower precision \\
-Unsigned integer types & Unsigned integer types of equal or lower precision \\
+Signed integer types & Signed integer types of equal or lower width \\
+Unsigned integer types & Unsigned integer types of equal or lower width \\
 Floating point types & Any floating point type of equal or lower precision \\
 Nullable pointer types & Non-nullable pointer type of the same secondary type \\
 Nullable pointer types & \terminal{null} \\
@@ -2406,24 +2406,24 @@ diagnostic message and abort.
 
 \specsubitem
 The operands of some arithmetic expressions are subject to \textit{type
-promotion}, to allow for arithmetic between disjoint types. The operand of
-lower precision may be \textit{promoted}, or implicitly cast, to the precision
-of the more precise operand. Unless explicitly covered by the following cases,
-operands shall not be promoted, and the translation environment shall print a
-diagnostic message and abort for incompatible combinations of operand types.
+promotion}, to allow for arithmetic between disjoint types. The operand with the
+smaller width may be \textit{promoted}, or implicitly cast, to the width of the
+other operand. Unless explicitly covered by the following cases, operands shall
+not be promoted, and the translation environment shall print a diagnostic
+message and abort for incompatible combinations of operand types.
 
 \specsubitem
 For expressions where the result type is determined by type promotion, the
-result type shall be equivalent to the type of the operand which has the
-highest precision.
+result type shall be equivalent to the type of the operand which has the largest
+width.
 
 \specsubitem
 For expressions involving at least one flexible constant type, the result type
 shall be determined by the \secref{Flexible constant promotion algorithm}.
 
 \specsubitem
-For expressions involving two integer types, the type of lower precision may be
-promoted to the type of higher precision only if the signedness is the same for
+For expressions involving two integer types, the type with smaller width may be
+promoted to the type with larger width only if the signedness is the same for
 each operand.
 
 \specsubitem
