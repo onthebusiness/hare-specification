@@ -102,7 +102,9 @@ of the value: the value shall be positive if the most significant bit is unset,
 otherwise it shall be negative. Zero shall be positive.
 
 \specsubsubitem
-The endianness (byte order) of integer types shall be implementation-defined.
+For integer types whose size is greater than one octet, the order in which its
+octets are represented is implementation-defined, provided that the significance
+strictly either increases or decreases as the memory address increases.
 
 \specsubsubitem
 The precision of \nonterminal{i8}, \nonterminal{i16}, \nonterminal{i32},
