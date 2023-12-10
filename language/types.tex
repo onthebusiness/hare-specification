@@ -253,7 +253,8 @@ The \terminal{bool} type represents a boolean value, which may have one of two
 states: true (represented as one) or false (represented as zero).
 
 \specsubsubitem
-The boolean type representation shall be equivalent to the \terminal{u8} type.
+The boolean type shall have the same representation, size, and alignment as
+\terminal{u8}.
 
 \specsubsubitem
 If a boolean object has a value which isn't true or false, the interpretation of
@@ -309,9 +310,8 @@ implementations which do not provide C ABI compatibility must parse this type,
 print a diagnostic message, and abort.
 
 \specsubsubitem
-The size and alignment of the \terminal{valist} shall be an
-implementation-defined value which shall be at least eight, and shall be
-divisible by eight.
+The size and alignment of \terminal{valist} shall be an implementation-defined
+non-zero multiple of eight.
 
 \specsubsubitem
 Assigning to a \terminal{valist} object from an \nonterminal{object-selector}
@@ -824,8 +824,8 @@ underlying type. The underlying type is specified at the time it is declared,
 see \secref{Declarations}.}
 
 \specsubsubitem
-A type alias shall have the same storage, alignment, size, and semantics as its
-underlying type.
+A type alias shall have the same storage, alignment, size, and default value as
+its underlying type.
 
 \specsubsubitem
 The underlying type of a type alias shall not be \terminal{never}.
