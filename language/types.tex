@@ -6,7 +6,8 @@
 	\optional{\terminal{const}} \optional{\terminal{!}} \nonterminal{storage-class} \\
 
 \nonterminaldef{storage-class} \\
-	\nonterminal{scalar-type} \\
+	\nonterminal{primitive-type} \\
+	\nonterminal{pointer-type} \\
 	\nonterminal{struct-union-type} \\
 	\nonterminal{tuple-type} \\
 	\nonterminal{tagged-union-type} \\
@@ -14,16 +15,15 @@
 	\nonterminal{function-type} \\
 	\nonterminal{alias-type} \\
 	\nonterminal{unwrapped-alias} \\
-	\nonterminal{string-type} \\
 
-\nonterminaldef{scalar-type} \\
+\nonterminaldef{primitive-type} \\
 	\nonterminal{integer-type} \\
 	\nonterminal{floating-type} \\
-	\nonterminal{pointer-type} \\
 	\terminal{bool} \\
 	\terminal{never} \\
 	\terminal{opaque} \\
 	\terminal{rune} \\
+	\terminal{str} \\
 	\terminal{valist} \\
 	\terminal{void} \\
 \end{grammar}
@@ -67,7 +67,7 @@ The \terminal{!} terminal, when used in a type specifier, sets the
 error flag for this type.
 
 \specsubitem
-The \textit{type class} of a type is defined for scalar types as the terminal
+The \textit{type class} of a type is defined for primitive types as the terminal
 which represents it, for example \terminal{i32}.
 
 \specsubsection{Integer types}
@@ -244,40 +244,6 @@ its default type.
 type's ID, size, and alignment from changing partway through the translation
 phase.}
 
-\specsubsection{Pointer types}
-
-\begin{grammar}
-\nonterminaldef{pointer-type} \\
-	\terminal{*} \nonterminal{type} \\
-	\terminal{nullable} \terminal{*} \nonterminal{type} \\
-\end{grammar}
-
-\specsubsubitem
-A pointer type is an indirect reference to an object of a secondary type. The
-notation of a pointer type is a \terminal{*} prefix before the secondary type.
-
-\specsubsubitem
-A normal pointer type shall \textbf{always} refer to a valid secondary object.
-A pointer type prefixed with \terminal{nullable} is considered a
-\textit{nullable pointer type}, and shall refer to either a valid secondary object
-or to a special value called \textit{null}.
-
-\specsubsubitem
-A pointer type's secondary type must have a non-zero size. Its size may be
-undefined. The secondary type shall not be \terminal{never}.
-
-\specsubsubitem
-The representation of a pointer type shall be implementation-defined, and it
-shall have an implementation-defined size and alignment.
-
-\specsubsubitem
-The default value of a nullable pointer type is null. The default value of a
-non-nullable pointer type is undefined.
-
-\specsubsubitem
-A pointer type shall be equivalent to another pointer type only if they share
-the same secondary type and nullable status.
-
 \specsubsection{Other primitive types}
 
 \textbf{The bool type}
@@ -373,6 +339,40 @@ value.
 
 \specsubsubitem
 The size and alignment of \terminal{void} shall be zero.
+
+\specsubsection{Pointer types}
+
+\begin{grammar}
+\nonterminaldef{pointer-type} \\
+	\terminal{*} \nonterminal{type} \\
+	\terminal{nullable} \terminal{*} \nonterminal{type} \\
+\end{grammar}
+
+\specsubsubitem
+A pointer type is an indirect reference to an object of a secondary type. The
+notation of a pointer type is a \terminal{*} prefix before the secondary type.
+
+\specsubsubitem
+A normal pointer type shall \textbf{always} refer to a valid secondary object.
+A pointer type prefixed with \terminal{nullable} is considered a
+\textit{nullable pointer type}, and shall refer to either a valid secondary object
+or to a special value called \textit{null}.
+
+\specsubsubitem
+A pointer type's secondary type must have a non-zero size. Its size may be
+undefined. The secondary type shall not be \terminal{never}.
+
+\specsubsubitem
+The representation of a pointer type shall be implementation-defined, and it
+shall have an implementation-defined size and alignment.
+
+\specsubsubitem
+The default value of a nullable pointer type is null. The default value of a
+non-nullable pointer type is undefined.
+
+\specsubsubitem
+A pointer type shall be equivalent to another pointer type only if they share
+the same secondary type and nullable status.
 
 \specsubsection{Struct and union types}
 
@@ -709,15 +709,11 @@ slice type with the same secondary type.
 
 \specsubsection{String types}
 
-\begin{grammar}
-\nonterminaldef{string-type} \\
-	\terminal{str} \\
-\end{grammar}
-
 \specsubsubitem
-A string stores a reference to a sequence of Unicode codepoints, encoded as
-\hbox{UTF-8}, along with its \textit{length} and \textit{capacity}. The length
-and capacity are measured in octets, rather than codepoints.
+The \terminal{str} type (or \textit{string type}) stores a reference to a
+sequence of Unicode codepoints, encoded as \hbox{UTF-8}, along with its
+\textit{length} and \textit{capacity}. The length and capacity are measured in
+octets, rather than codepoints.
 
 \specsubsubitem
 The representation of the string type shall be equivalent to the following
