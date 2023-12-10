@@ -41,14 +41,19 @@ which denote a namespace, object, function, type alias, or enumeration value.
 An identifier is only meaningful within a specific \textit{scope} of the
 program. The scope is defined by the region of the program it encompasses: it
 may be a translation unit, a sub-unit, a function, \nonterminal{enum-values}, a
-\nonterminal{for-loop}, or an \nonterminal{expression-list}. After an identifier
-is \textit{inserted} into a scope, it is considered \textit{visible} within the
-region that defines its scope.
+\nonterminal{for-loop}, or a \nonterminal{compound-expression}. After an
+identifier is \textit{inserted} into a scope, it is considered \textit{visible}
+within the region that defines its scope.
 
 \specsubitem
 Scopes may overlap one another. For any two overlapping scopes, one scope will
 encompass a region which is contained entirely within the region encompassed by
 the other scope.
+
+\specsubitem
+Scopes which encompass a \nonterminal{for-loop} or
+\nonterminal{compound-expression} may be \textit{labelled}. A labelled scope has
+a \nonterminal{name} associated with it; the name need not be unique.
 
 \specsubitem
 Every module in a program, except for one, is assigned a unique identifier; this

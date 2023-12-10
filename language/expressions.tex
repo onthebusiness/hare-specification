@@ -1712,13 +1712,16 @@ types of all branches.
 
 \begin{grammar}
 \nonterminaldef{for-loop} \\
-	\terminal{for} \terminal{(} \nonterminal{for-predicate} \terminal{)} \nonterminal{expression} \\
+	\terminal{for} \optional{\nonterminal{label}} \terminal{(} \nonterminal{for-predicate} \terminal{)} \nonterminal{expression} \\
 
 \nonterminaldef{for-predicate} \\
 	\nonterminal{expression} \\
 	\nonterminal{binding-list} \terminal{;} \nonterminal{expression} \\
 	\nonterminal{expression} \terminal{;} \nonterminal{expression} \\
 	\nonterminal{binding-list} \terminal{;} \nonterminal{expression} \terminal{;} \nonterminal{expression} \\
+
+\nonterminaldef{label} \\
+	\terminal{:} \nonterminal{name} \\
 \end{grammar}
 
 \specsubsubitem
@@ -1757,11 +1760,15 @@ iteration completes, the implementation shall evaluate the afterthought, if
 present, and then re-evaluate the condition and perform another iteration if it
 is \terminal{true}.
 
+\specsubsubitem
+If a \nonterminal{label} is present, the established scope shall be labelled
+with its \nonterminal{name}.
+
 \specsubsection{Switch expressions}
 
 \begin{grammar}
 \nonterminaldef{switch-expression} \\
-	\terminal{switch} \terminal{(} \nonterminal{expression} \terminal{)} \terminal{\{} \nonterminal{switch-cases} \terminal{\}} \\
+	\terminal{switch} \optional{\nonterminal{label}} \terminal{(} \nonterminal{expression} \terminal{)} \terminal{\{} \nonterminal{switch-cases} \terminal{\}} \\
 
 \nonterminaldef{switch-cases} \\
 	\nonterminal{switch-case} \optional{\nonterminal{switch-cases}} \\
@@ -1806,6 +1813,11 @@ expression is with a \nonterminal{yield-expression}. The semantics of
 implicated.}
 
 \specsubsubitem
+If the \nonterminal{switch-expression} has a \nonterminal{label}, its
+\nonterminal{name} shall be used to label the scope of each case's implicitly
+introduced \nonterminal{compound-expression}.
+
+\specsubsubitem
 The form of \nonterminal{switch-case} without \nonterminal{case-options}
 indicates any case which is not selected by the other cases. Only one case of
 this form shall appear in the switch expression.
@@ -1842,7 +1854,7 @@ types of all branches.
 
 \begin{grammar}
 \nonterminaldef{match-expression} \\
-	\terminal{match} \terminal{(} \nonterminal{expression} \terminal{)} \terminal{\{} \nonterminal{match-cases} \terminal{\}} \\
+	\terminal{match} \optional{\nonterminal{label}} \terminal{(} \nonterminal{expression} \terminal{)} \terminal{\{} \nonterminal{match-cases} \terminal{\}} \\
 
 \nonterminaldef{match-cases} \\
 	\nonterminal{match-case} \optional{\nonterminal{match-cases}} \\
@@ -1890,6 +1902,11 @@ the overall match expression to the result of the selected
 expression is with a \nonterminal{yield-expression}. The semantics of
 \nonterminal{defer-expression}, \nonterminal{bindings}, and so on, are also
 implicated.}
+
+\specsubsubitem
+If the \nonterminal{match-expression} has a \nonterminal{label}, its
+\nonterminal{name} shall be used to label the scope of each case's implicitly
+introduced \nonterminal{compound-expression}.
 
 \specsubsubitem
 The form of \nonterminal{match-case} without a \nonterminal{type} indicates any
@@ -2262,15 +2279,11 @@ deferred expressions may abort.}
 
 \nonterminaldef{compound-expression} \\
 	\optional{\nonterminal{label}} \terminal{\{} \nonterminal{expression-list} \terminal{\}} \\
-
-\nonterminaldef{label} \\
-	\terminal{:} \nonterminal{name} \\
 \end{grammar}
 
 \specsubsubitem
 A \nonterminal{compound-expression} evaluates a list of
-\nonterminal{expression}s in sequence. If a \nonterminal{label} is present, the
-expression is considered \textit{labelled}.
+\nonterminal{expression}s in sequence.
 
 \specsubsubitem
 If a type hint is provided to a \nonterminal{compound-expression}, the hint shall
@@ -2282,6 +2295,10 @@ The implementation shall establish a new scope for the
 \nonterminal{compound-expression}. The expressions shall then shall be evaluated
 such that the side-effects of each all occur in the order that each expression
 appears.
+
+\specsubsubitem
+If a \nonterminal{label} is present, the established scope shall be labelled
+with its \nonterminal{name}.
 
 \specsubsubitem
 None of the items in the \nonterminal{expression-list} shall have a result type
@@ -2332,42 +2349,56 @@ implicitly appended to the \nonterminal{expression-list}), the result type is
 \specsubsubitem
 A \nonterminal{control-expression} causes control to jump to another part of the
 program, possibly affecting the value and/or result of the \textit{selected}
-expression. The result type is \terminal{never}.
+expression or function. The result type is \terminal{never}.
 
 \specsubsubitem
-The rules for selection of an applicable \nonterminal{expression} vary based on
-the kind of control expression used. If a label is used, it shall select the
-corresponding labelled \nonterminal{compound-expression} from the ancestors of
-the \nonterminal{control-expression}, and the selected expression shall meet the
-requirements for the appropriate control expression type. Otherwise, the first
-qualifying \nonterminal{compound-expression}, body of a \nonterminal{for-loop},
-or body of a \nonterminal{function-declaration} is used, ordered such that the
-nearest ancestor is considered first. If no suitable \nonterminal{expression} is
-selected, a diagnostic message will be displayed and the translation phase shall
-terminate.
+The selected expression or function shall be selected from a pool which contains
+the current function, as well as all expressions within the current function
+with an associated scope which is active. Furthermore, if a \nonterminal{label}
+is provided, all expressions whose associated scope is unlabelled or whose
+associated scope's label doesn't match the provided \nonterminal{label} shall be
+excluded from the pool. The means by which an expression or function is selected
+from this pool varies based on the form of \nonterminal{control-expression}
+used. If no suitable expression or function can be selected, a diagnostic
+message shall be printed and the translation phase shall abort.
 
 \specsubsubitem
-In the \terminal{break} and \terminal{continue} forms, the selected expression
-shall be the body of a \nonterminal{for-loop}. The \terminal{break} form shall
-cause the loop to end without evaluating the \textit{condition} or the
-\textit{afterthought}. The \terminal{continue} form shall cause the loop to
-repeat immediately, running the \textit{afterthought} if present, re-testing the
-\textit{condition}, and repeating the loop if \terminal{true}.
+In the \terminal{break} and \terminal{continue} forms, if a \nonterminal{label}
+isn't provided, the selected expression shall be the \nonterminal{for-loop}
+whose associated scope encompasses the smallest region. If a \nonterminal{label}
+is provided, the selected expression shall be the expression whose scope
+encompasses the smallest region, and if this expression isn't a
+\nonterminal{for-loop}, a diagnostic message shall be printed and the
+translation phase shall abort. The \terminal{break} form shall cause the loop to
+end without evaluating the \textit{condition} or the \textit{afterthought}. The
+\terminal{continue} form shall cause the loop to repeat immediately, running the
+\textit{afterthought} if present, re-testing the \textit{condition}, and
+repeating the loop if \terminal{true}.
 
 \specsubsubitem
-The \terminal{return} form shall select the body of a
-\nonterminal{function-declaration}. The \nonterminal{expression} shall be used
-as the result value for the function, or, if absent, \terminal{void} shall be
-used. This expression shall receive the function's result type as a type hint,
-and the result shall be assignable to that type.
+The \terminal{return} form shall select the current function. If an
+\nonterminal{expression} is given, its result shall be used as the result of the
+function, otherwise, \terminal{void} shall be used. The result type shall be
+assignable to the function's result type, which shall be provided to the
+\nonterminal{expression} as a type hint, if the \nonterminal{expression} is
+present.
 
 \specsubsubitem
-The \nonterminal{yield-expression} form shall select a
-\nonterminal{compound-expression}. A \nonterminal{yield-expression} that isn't
+In the \nonterminal{yield-expression} form, if a \nonterminal{label} isn't
+provided, the selected expression shall be the \nonterminal{compound-expression}
+whose associated scope encompasses the smallest region. If a \nonterminal{label}
+is provided, the selected expression shall be the expression whose scope
+encompasses the smallest region, and if this expression isn't a
+\nonterminal{compound-expression}, a diagnostic message shall be printed and the
+translation phase shall abort. A \nonterminal{yield-expression} that isn't
 provided an \nonterminal{expression} is equivalent to a
 \nonterminal{yield-expression} provided the expression \terminal{void}. The
 provided expression shall be used as the result value for the selected
 \nonterminal{compound-expression}.
+
+\informative{A \nonterminal{yield-expression} may select the implicit
+\nonterminal{compound-expression} introduced by a
+\nonterminal{switch-expression} or \nonterminal{match-expression}.}
 
 \specsubsubitem
 If a \nonterminal{control-expression} is used within the expression tree formed
