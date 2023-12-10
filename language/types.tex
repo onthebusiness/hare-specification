@@ -469,8 +469,8 @@ own. The offset of each field within the child type shall be the sum of the
 offset within the child type and the offset the child type occupies within the
 parent struct. The \nonterminal{identifier} form shall be interpreted in the same
 manner as a \nonterminal{struct-union-type} if it refers to a type alias of a
-struct or union type, otherwise a diagnostic message shall be printed and the
-translation phase shall abort.
+struct or union type, or an alias thereof, otherwise a diagnostic message shall
+be printed and the translation phase shall abort.
 
 Forward references: \subsecref{Type aliases}
 
