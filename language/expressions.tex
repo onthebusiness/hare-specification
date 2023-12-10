@@ -16,14 +16,14 @@ Some expressions may provide a \textit{type hint} to other expressions which
 appear in their grammar, which those expressions may take advantage of to
 refine their behavior.
 
-\specsubsection{Constants}
+\specsubsection{Literals}
 
 \begin{grammar}
-\nonterminaldef{constant} \\
-	\nonterminal{integer-constant} \\
-	\nonterminal{floating-constant} \\
-	\nonterminal{rune-constant} \\
-	\nonterminal{string-constant} \\
+\nonterminaldef{literal} \\
+	\nonterminal{integer-literal} \\
+	\nonterminal{floating-literal} \\
+	\nonterminal{rune-literal} \\
+	\nonterminal{string-literal} \\
 	\terminal{true} \\
 	\terminal{false} \\
 	\terminal{null} \\
@@ -31,12 +31,12 @@ refine their behavior.
 \end{grammar}
 
 \specsubsubitem
-Constants (also known as literals) describe a specific value of an unambiguous
-type. The result of the expression is the constant value.
+Literals describe a specific value of an unambiguous type (which may be a
+flexible type).
 
 \specsubsubitem
 The keywords \terminal{true} and \terminal{false} respectively represent
-the constants of the \terminal{bool} type.
+the values of the \terminal{bool} type.
 
 \specsubsubitem
 The \terminal{null} keyword represents the value of the \terminal{null} type.
@@ -44,10 +44,10 @@ The \terminal{null} keyword represents the value of the \terminal{null} type.
 \specsubsubitem
 The \terminal{void} keyword represents the value of the \terminal{void} type.
 
-\specsubsection{Floating constants}
+\specsubsection{Floating literals}
 
 \begin{grammar}
-\nonterminaldef{floating-constant} \exactly \\
+\nonterminaldef{floating-literal} \exactly \\
 	\nonterminal{nonzero-decimal-digits} \terminal{.} \nonterminal{decimal-digits} \optional{\nonterminal{decimal-exponent}} \optional{\nonterminal{floating-suffix}} \\
 	\nonterminal{nonzero-decimal-digits} \optional{\nonterminal{decimal-exponent}} \nonterminal{floating-suffix} \\
 	\terminal{0x} \nonterminal{hex-digits} \terminal{.} \nonterminal{hex-digits} \nonterminal{binary-exponent} \optional{\nonterminal{floating-suffix}} \\
@@ -114,12 +114,11 @@ The \terminal{void} keyword represents the value of the \terminal{void} type.
         \terminal{P} \\
 \end{grammar}
 
-Floating constants represent an approximation to a real number.
+Floating literals represent an approximation to a real number.
 
 \specsubitem
-If the \nonterminal{floating-suffix} is not provided, the result shall be
-\terminal{fconst}. Otherwise, the type shall refer to the type named by the
-suffix.
+If the \nonterminal{floating-suffix} is not provided, the result shall be a
+flexible float. Otherwise, the type shall refer to the type named by the suffix.
 
 \specsubitem
 \nonterminal{decimal-digits} shall be interpreted as base 10.
@@ -128,16 +127,16 @@ manner.
 
 \specsubitem
 In the first two forms, if the \nonterminal{decimal-exponent} is provided, the
-value of the constant shall be multiplied by 10 to the power of
+value of the literal shall be multiplied by 10 to the power of
 \nonterminal{decimal-digits}. In the third and fourth forms, the value of the
-constant shall be multiplied by 2 to the power of \nonterminal{decimal-digits}.
+literal shall be multiplied by 2 to the power of \nonterminal{decimal-digits}.
 If \nonterminal{sign} is provided within the exponent, it shall assume the given
 sign.
 
-\specsubsection{Integer constants}
+\specsubsection{Integer literals}
 
 \begin{grammar}
-\nonterminaldef{integer-constant} \exactly \\
+\nonterminaldef{integer-literal} \exactly \\
 	\terminal{0x} \nonterminal{hex-digits} \optional{\nonterminal{integer-suffix}} \\
 	\terminal{0o} \nonterminal{octal-digits} \optional{\nonterminal{integer-suffix}} \\
 	\terminal{0b} \nonterminal{binary-digits} \optional{\nonterminal{integer-suffix}} \\
@@ -181,19 +180,19 @@ sign.
 	\terminal{u64} \\
 \end{grammar}
 
-Integer constants represent an integer value.
+Integer literals represent an integer value.
 
 \specsubitem
 If the \nonterminal{integer-suffix} is provided, the type is specified by the
 suffix. Suffixes \terminal{i}, \terminal{u},  and \terminal{z} shall
 respectively refer to the \terminal{int}, \terminal{uint}, and \terminal{size}
 types; the remainder shall refer to the type named by the suffix. Otherwise,
-the type shall be \terminal{iconst} with both the maximum value and minimum
+the type shall be a flexible integer with both the maximum value and minimum
 value set to the number provided.
 
 \specsubitem
 If the number provided is not representable within the type, or if the number
-is not representable as an \terminal{iconst}, a diagnostic message shall be
+is not representable as a flexible integer, a diagnostic message shall be
 printed and the translation phase shall fail.
 
 \specsubitem
@@ -204,9 +203,9 @@ printed and the translation phase shall fail.
 If the \nonterminal{decimal-exponent} is provided, the value of the
 integer shall be multiplied by 10 to the power of \nonterminal{decimal-digits}.
 
-\specsubsection{Rune constants}
+\specsubsection{Rune literals}
 \begin{grammar}
-\nonterminaldef{rune-constant} \exactly \\
+\nonterminaldef{rune-literal} \exactly \\
 	\terminal{\textquotesingle} \nonterminal{rune} \terminal{\textquotesingle} \\
 
 \nonterminaldef{rune} \\
@@ -241,21 +240,21 @@ integer shall be multiplied by 10 to the power of \nonterminal{decimal-digits}.
 \end{grammar}
 
 \specsubsubitem
-A \nonterminal{rune-constant} shall have a result type of \terminal{rconst}.
+The result type of a \nonterminal{rune-literal} shall be a flexible rune type.
 
 \specsubsubitem
-If the \nonterminal{rune-constant} is not an \nonterminal{escape-sequence}, the
+If the \nonterminal{rune-literal} is not an \nonterminal{escape-sequence}, the
 value of the rune shall be the Unicode codepoint representing
 \nonterminal{rune}.
 
 \specsubsubitem
-A \nonterminal{rune-constant} beginning with \terminal{\textbackslash{}x},
-\terminal{\textbackslash{}u}, or \terminal{\textbackslash{}U} shall interpet
-its value as a Unicode codepoint specified in its hexadecimal representation by
+A \nonterminal{rune-literal} beginning with \terminal{\textbackslash{}x},
+\terminal{\textbackslash{}u}, or \terminal{\textbackslash{}U} shall interpet its
+value as a Unicode codepoint specified in its hexadecimal representation by
 \nonterminal{hex-digit}s.
 
 \specsubsubitem
-A \nonterminal{rune-constant} containing a \nonterminal{named-escape} shall have
+A \nonterminal{rune-literal} containing a \nonterminal{named-escape} shall have
 a value based on the following chart:
 
 \begin{tabular}{r | l | r | l}
@@ -274,11 +273,11 @@ Escape sequence & Unicode codepoint & Escape sequence & Unicode codepoint \\
 \terminal{\textbackslash"} & \code{U+0022} \\
 \end{tabular}
 
-\specsubsection{String constants}
+\specsubsection{String literals}
 
 \begin{grammar}
-\nonterminaldef{string-constant} \\
-	\nonterminal{string-section} \optional{\nonterminal{string-constant}} \\
+\nonterminaldef{string-literal} \\
+	\nonterminal{string-section} \optional{\nonterminal{string-literal}} \\
 
 \nonterminaldef{string-section} \exactly \\
 	\terminal{"} \optional{\nonterminal{string-chars}} \terminal{"} \\
@@ -299,7 +298,7 @@ Escape sequence & Unicode codepoint & Escape sequence & Unicode codepoint \\
 \end{grammar}
 
 \specsubsubitem
-A \nonterminal{string-constant} expression shall have a result type of
+A \nonterminal{string-literal} expression shall have a result type of
 \terminal{const} \terminal{str}.
 
 \specsubsubitem
@@ -307,7 +306,7 @@ If the first form of \nonterminal{string-section} is used, the string's
 \textit{data} field shall refer to a \hbox{UTF-8} encoded sequence of Unicode
 codepoints, ascertained by encoding the sequence of \nonterminal{string-char}s
 given in order, after interpreting escape codes per
-\subsubitemref{Rune constants}{17}.
+\subsubitemref{Rune literals}{17}.
 
 \specsubsubitem
 If the second form of \nonterminal{string-section} is used, the string's
@@ -316,7 +315,7 @@ codepoints, ascertained by encoding the sequence of
 \nonterminal{rawstring-char}s given in order.
 
 \specsubsubitem
-If a \nonterminal{string-constant} consists of more than one
+If a \nonterminal{string-literal} consists of more than one
 \nonterminal{string-section}, the string's \textit{data} field shall refer to
 a \hbox{UTF-8} encoded sequence of Unicode codepoints, ascertained by
 concatenating the \textit{data} fields of the \nonterminal{string-section}s
@@ -461,7 +460,7 @@ provide the value for the \textit{N}th tuple item.
 \begin{grammar}
 \nonterminaldef{plain-expression} \\
 	\nonterminal{identifier} \\
-	\nonterminal{constant} \\
+	\nonterminal{literal} \\
 	\nonterminal{array-literal} \\
 	\nonterminal{struct-literal} \\
 	\nonterminal{tuple-literal} \\
@@ -473,10 +472,8 @@ provide the value for the \textit{N}th tuple item.
 
 \specsubsubitem
 \nonterminal{plain-expression} is an expression class which represents its
-result value "plainly". In the case of constants and literals, the value is
-represented by the result of those expressions. In the case of an
-\nonterminal{identifier}, the expression produces the value of the identified
-object.
+result value "plainly". In the case of an \nonterminal{identifier}, the
+expression produces the value of the identified object.
 
 \specsubsubitem
 \nonterminal{nested-expression} is an expression class provided to allow the
@@ -731,7 +728,7 @@ its \textit{offset}.
 \begin{grammar}
 \nonterminaldef{field-access-expression} \\
 	\nonterminal{postfix-expression} \terminal{.} \nonterminal{name} \\
-	\nonterminal{postfix-expression} \terminal{.} \nonterminal{integer-constant} \\
+	\nonterminal{postfix-expression} \terminal{.} \nonterminal{integer-literal} \\
 \end{grammar}
 
 \specsubsubitem
@@ -1260,14 +1257,14 @@ A unary expression applies a \nonterminal{unary-operator} to a single value.
 \specsubsubitem
 \specsubsubitem
 The \terminal{-} operator shall perform a unary negation operation. If the type
-of \nonterminal{unary-expression} is \terminal{iconst}, the result type shall be
-an \terminal{iconst} whose minimum value is the result of negating the operand
+of \nonterminal{unary-expression} is a flexible integer, the result type shall
+be a flexible integer whose minimum value is the result of negating the operand
 type's maximum value, and whose maximum value is the result of negating the
-operand type's minimum value. If the resulting \terminal{iconst} type isn't
+operand type's minimum value. If the resulting flexible integer type isn't
 representable, a diagnostic message shall be printed and the translation
 environment shall abort. Otherwise, if the type of
-\nonterminal{unary-expression} isn't \terminal{iconst}, the result type shall be
-equivalent to the type of \nonterminal{unary-expression}, which shall be of a
+\nonterminal{unary-expression} isn't a flexible integer, the result type shall
+be equivalent to the type of \nonterminal{unary-expression}, which shall be of a
 numeric type.
 
 \specsubsubitem
@@ -1359,7 +1356,7 @@ Any integer type & \terminal{rune} \\
 Any pointer type or \terminal{uintptr} & \terminal{null} \\
 See below & Tagged unions \\
 Tagged unions & See below \\
-See below & Flexible constant types \\
+See below & Flexible types \\
 \end{tabular}
 
 \specsubsubitem
@@ -1367,10 +1364,9 @@ Tagged union types are mutually castable with any type which is found among its
 members, including otherwise non-castable types and other tagged union types.
 
 \specsubsubitem
-When a flexible constant type is cast to another type, the
-\secref{Flexible constant promotion algorithm} shall be applied to them, and
-the flexible constant shall be castable to the other type if the promotion
-succeeds.
+When a flexible type is cast to another type, the
+\secref{Flexible type promotion algorithm} shall be applied to them, and the
+flexible type shall be castable to the other type if the promotion succeeds.
 
 \specsubsubitem
 When an integer type is cast to an integer with a smaller width, it shall be
@@ -1786,7 +1782,7 @@ A switch expression evaluates a value (\nonterminal{expression}, the
 \textit{switching expression}), then compares it with a number of
 \nonterminal{switch-cases}, taking whichever branch compares equal to the value.
 The switching expression's result type must either be of an integer type or be a
-\terminal{str}, \terminal{bool}, \terminal{rconst}, \terminal{rune}, or a
+\terminal{str}, \terminal{bool}, \terminal{rune}, a flexible rune type, or a
 pointer type.
 
 \specsubsubitem
@@ -2080,8 +2076,8 @@ non-const type. Types with the error flag set have the same assignability rules
 as the equivalent type with the flag unset.
 
 \specsubsubitem
-If at least one of the types is a flexible constant, the
-\secref{Flexible constant promotion algorithm} shall be applied to them, and
+If at least one of the types is flexible, the
+\secref{Flexible type promotion algorithm} shall be applied to them, and
 they shall be considered mutually assignable if the promotion succeeds.
 
 \informative{In the context of an assignment expression,
@@ -2163,7 +2159,7 @@ form is used, the type of each binding which uses the first form of
 \nonterminal{binding} shall be modified to \textit{omit} the \terminal{const}
 flag. In either case, the type of each binding shall have a definite size. If
 the type of a binding which uses the \terminal{const} or \terminal{let} form is
-a flexible constant type, it shall first be lowered to its default type.
+a flexible type, it shall first be lowered to its default type.
 
 \specsubsubitem
 If the \terminal{static} form is used, the objects shall be allocated
@@ -2406,8 +2402,8 @@ result type shall be equivalent to the type of the operand which has the largest
 width.
 
 \specsubitem
-For expressions involving at least one flexible constant type, the result type
-shall be determined by the \secref{Flexible constant promotion algorithm}.
+For expressions involving at least one flexible type, the result type shall be
+determined by the \secref{Flexible type promotion algorithm}.
 
 \specsubitem
 For expressions involving two integer types, the type with smaller width may be
@@ -2540,52 +2536,53 @@ If exactly one type remains, it shall be the result of the result type reduction
 algorithm. If more than one type remains, the result of the result type
 reduction algorithm shall be a tagged union containing the remaining types.
 
-\specsection{Flexible constant promotion algorithm}
+\specsection{Flexible type promotion algorithm}
 
 \specsubitem
-The flexible constant promotion algorithm shall operate on two types, at least
-one of which shall be a flexible constant type.
+The flexible type promotion algorithm shall operate on two types, at least one
+of which shall be a flexible type.
 
 \specsubitem
-If both operands are \terminal{iconst}, they shall both be lowered to
-\terminal{iconst} with the minimum value set to the smaller of their
-minimum values and the maximum value set to the larger of their maximum values,
-and that type shall be the result.
+If both operands are flexible integers, they shall both be lowered to a flexible
+integer with the minimum value set to the smaller of their minimum values and
+the maximum value set to the larger of their maximum values, and that type shall
+be the result.
 
 \specsubitem
-Otherwise, if both operands are \terminal{fconst} or both are \terminal{rconst},
-they shall both be lowered to a new \terminal{fconst} or \terminal{rconst}
+Otherwise, if both operands are flexible floats or both are flexible runes,
+they shall both be lowered to a new flexible float or flexible rune
 respectively, and that type shall be the result. If both operands are flexible
-constant types with different storages, the promotion shall fail.
+types with different storages, the promotion shall fail.
 
 \specsubitem
 If one operand is a tagged union type and promotion between exactly one of its
-members and the flexible constant type succeeds, the side-effects of that
-promotion shall occur and that member shall be the result of the promotion.
-Otherwise, if the constant's default type is a member of the tagged union, the
-constant shall be lowered to its default type and the promotion shall succeed.
-Otherwise, the promotion shall fail.
+members and the flexible type succeeds, the side-effects of that promotion shall
+occur and that member shall be the result of the promotion. Otherwise, if the
+flexible type's default type is a member of the tagged union, the flexible type
+shall be lowered to its default type and the promotion shall succeed. Otherwise,
+the promotion shall fail.
 
 \specsubitem
-If one operand is \terminal{fconst} and the other is a floating type, the
-\terminal{fconst} shall be lowered to the floating type, which shall be the
-result of the promotion. Otherwise, the promotion shall fail.
+If one operand is a flexible float and the other is a non-flexible floating
+type, the flexible float shall be lowered to the other floating type, which
+shall be the result of the promotion. Otherwise, the promotion shall fail.
 
 % XXX: Should prevent eg. promoting -1337 to u8
 
 \specsubitem
-If one operand is \terminal{iconst} and the other is a signed integer type, the
-promotion shall succeed if both the minimum and maximum values fields of the
-\terminal{iconst} are within the limits of the other type. If one operand is
-\terminal{iconst} and the other is an unsigned integer type, the promotion shall
-succeed if the maximum value of the iconst is within the limits of the other
-type. If the promotion succeeds, the \terminal{iconst} shall be lowered to the
-other type, which shall be the result of the promotion.
+If one operand is a flexible integer and the other is a non-flexible signed
+integer type, the promotion shall succeed if both the minimum and maximum value
+fields of the flexible integer are within the limits of the other type. If one
+operand is a flexible integer and the other is a non-flexible unsigned integer
+type, the promotion shall succeed if the maximum value of the flexible integer
+is within the limits of the other type. If the promotion succeeds, the flexible
+integer shall be lowered to the other type, which shall be the result of the
+promotion.
 
 \specsubitem
-If one operand is \terminal{rconst} and the other is \terminal{rune}, the
-\terminal{rconst} shall be lowered into a \terminal{rune}. If one operand is
-\terminal{rconst} and the other is an integer type, the promotion shall succeed
-if the \terminal{rconst} value can be represented as the specified integer type
-without any data loss.
+If one operand is a flexible rune and the other is \terminal{rune}, the flexible
+rune shall be lowered into a \terminal{rune}. If one operand is a flexible rune
+and the other is an integer type, the promotion shall succeed if the flexible
+rune value can be represented as the specified integer type without any data
+loss.
 

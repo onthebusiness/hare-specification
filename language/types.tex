@@ -194,50 +194,51 @@ The default value of a floating point type shall be positive zero.
 The \terminal{rune} type represents a Unicode codepoint, encoded as a
 \nonterminal{u32}.
 
-\specsubsection{Flexible constant types}
+\specsubsection{Flexible types}
 
 \specsubsubitem
-Flexible constant types represent floating, integer, or rune constants whose
-result type has not been determined. The size and alignment of flexible constant
-types shall be undefined. \terminal{iconst} and \terminal{fconst} are considered
-numeric types.
+Flexible types are used during the translation phase as the result types of
+literals whose final result types have not yet been determined. The three
+classes of flexible type are flexible integers, flexible floats, and flexible
+runes. The size and alignment of flexible types shall be undefined. Flexible
+integers and flexible floats are considered numeric types.
 
 \specsubsubitem
-An \terminal{iconst} shall have a maximum and minimum value associated with it,
+A flexible integer shall have a maximum and minimum value associated with it,
 each of which may assume any value in the inclusive range -9223372036854775808
-to 18446744073709551615. The minimum value shall represent the smallest integer
-constant which may have this result type, and the maximum value shall represent
-the largest. The minimum value shall always be less than or equal to the
-maximum, and the type shall be considered unsigned if and only if the minimum
-value is greater than or equal to zero.
+to 18446744073709551615. The minimum value shall represent the value of the
+smallest integer literal which may have this result type, and the maximum value
+shall represent the largest. The minimum value shall always be less than or
+equal to the maximum, and the type shall be considered unsigned if and only if
+the minimum value is greater than or equal to zero.
 
 \specsubsubitem
-The \textit{default type} for \terminal{fconst} shall be \terminal{f64}. The
-default type for \terminal{rconst} shall be \terminal{rune}. The default type
-for \terminal{iconst} shall be \terminal{int} if the maximum and minimum values
-are representable as \terminal{int}, otherwise \terminal{i64} if the maximum and
+The \textit{default type} for a flexible float shall be \terminal{f64}. The
+default type for a flexible rune shall be \terminal{rune}. The default type for
+a flexible integer shall be \terminal{int} if the maximum and minimum values are
+representable as \terminal{int}, otherwise \terminal{i64} if the maximum and
 minimum values are representable as \terminal{i64}, otherwise \terminal{u64} if
 the maximum and minimum values are representable as \terminal{u64}, otherwise
 the translation environment shall print a diagnostic message and abort.
 
 \specsubsubitem
-A flexible constant type may be \textit{lowered} to a different type by the
-\secref{Flexible constant promotion algorithm}, causing all instances of that
+A flexible type may be \textit{lowered} to a different type by the
+\secref{Flexible type promotion algorithm}, causing all instances of that
 type within the translation environment to be replaced by the new type. If a
-flexible constant type hasn't been lowered by the end of the translation phase,
-it shall be lowered to its default type.
+flexible type hasn't been lowered by the end of the translation phase, it shall
+be lowered to its default type.
 
 \specsubsubitem
-There is no grammar for defining flexible constant types. They are for internal
-use only, as the result type of \nonterminal{integer-constant},
-\nonterminal{floating-constant}, and \nonterminal{rune-constant}.
+There is no grammar for defining flexible types. They are for internal use only,
+as the result type of \nonterminal{integer-literal},
+\nonterminal{floating-literal}, and \nonterminal{rune-literal}.
 
 \specsubsubitem
-Each constant with a flexible result shall have a distinct type.
+Each literal with a flexible result shall have a distinct type.
 
 \specsubsubitem
-If a flexible constant type is embedded within another type, it shall first be
-lowered to its default type.
+If a flexible type is embedded within another type, it shall first be lowered to
+its default type.
 
 \informative{This is intended to ease implementation, in order to prevent a
 type's ID, size, and alignment from changing partway through the translation
@@ -321,7 +322,7 @@ only store a specific, implementation-defined value (the \textit{null} value).
 
 \specsubsubitem
 There is no grammar for defining a value of type null, or a sub-type of null. It
-is for internal use only, as the type of the \terminal{null} constant.
+is for internal use only, as the result type of the \terminal{null} expression.
 
 \textbf{The opaque type}
 
