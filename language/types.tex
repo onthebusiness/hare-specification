@@ -841,9 +841,8 @@ Each type alias (uniquely identified by its \nonterminal{identifier}) shall be
 a unique type, even if it shares its underlying type with another type alias.
 
 \specsubsubitem
-The \terminal{...} operator shall \textit{unwrap} the type alias, and shall
-cause the statement to refer to the underlying type rather than the type alias
-itself.
+An \nonterminal{unwrapped-alias} shall refer to the underlying type of the given
+type alias, rather than the type alias itself.
 
 \informative{This notably affects the relationship between type aliases and
 tagged unions. In the following example, union\_a and union\_b have different
