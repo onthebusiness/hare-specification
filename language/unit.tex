@@ -365,7 +365,9 @@ as \code{foo::bat}.}
 The third form of \nonterminal{use-directive} shall cause only the declarations
 named in the \nonterminal{member-list}, each of which shall name a declaration
 exported by the target module, to be inserted into this \nonterminal{sub-unit}'s
-scope (with the same name they were initially declared with).
+scope (with the same name they were initially declared with). For each enum type
+alias inserted into the scope, all of the enum's members shall also be inserted,
+each with the same name that they have in the unit scope of the target module.
 
 \example{If \code{bar::baz} exports a declaration named \code{bat}, the use
 directive \code{use bar::baz::\{bat\}}, will cause the name
