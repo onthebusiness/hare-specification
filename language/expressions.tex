@@ -42,7 +42,7 @@ The keywords \terminal{true} and \terminal{false} respectively represent
 the values of the \terminal{bool} type.
 
 \specsubsubitem
-The \terminal{null} keyword represents the value of the \terminal{null} type.
+The \terminal{null} keyword represents the value of the null type.
 
 \specsubsubitem
 The \terminal{void} keyword represents the value of the \terminal{void} type.
@@ -1197,9 +1197,9 @@ When the \terminal{vaarg} expression is evaluated, the following conditions
 \item The type of the next variadic parameter is assignable to the type hint
 	(ignoring type flags), or the type of the next variadic parameter and
 	the type hint are both integer types, or the type of the next variadic
-	parameter is either a pointer type or \terminal{null} and the type hint
-	is a pointer type, or either the type of the next variadic parameter or
-	the type hint has a size of zero
+	parameter is either a pointer type or the null type and the type hint is
+	a pointer type, or either the type of the next variadic parameter or the
+	type hint has a size of zero
 \end{enumerate}
 
 \specsubsubitem
@@ -1345,15 +1345,15 @@ Result & Castable from \\
 \hline
 Any numeric type & Floating types \\
 Any numeric type or enum type & Integer and enum types \\
-Any pointer type or \terminal{null} & \terminal{uintptr} \\
-Any pointer type, \terminal{uintptr}, or \terminal{null} & Any pointer type \\
+Any pointer type or the null type & \terminal{uintptr} \\
+Any pointer type, \terminal{uintptr}, or the null type & Any pointer type \\
 Any array or slice type & Array types \\
 Any slice type or pointer to an array type & Slice types \\
 Any type the underlying type of the source could cast to & Type aliases \\
 Any type alias with an underlying type the source may be cast to & Any type \\
 Any integer type & \terminal{rune} \\
 \terminal{rune} & Any integer type \\
-Any pointer type or \terminal{uintptr} & \terminal{null} \\
+Any pointer type or \terminal{uintptr} & the null type \\
 See below & Tagged unions \\
 Tagged unions & See below \\
 See below & Flexible types \\
@@ -1388,7 +1388,7 @@ insufficient width to represent the value, it shall be truncated towards zero.
 
 \specsubsubitem
 Casting a pointer type to \terminal{uintptr}, and then back to the pointer
-type, shall yield the same pointer. Likewise, casting \terminal{null} to a
+type, shall yield the same pointer. Likewise, casting the null type to a
 \terminal{uintptr} and then back to a nullable pointer type shall yield
 \terminal{null}.
 
@@ -1418,8 +1418,8 @@ null, a diagnostic message shall be printed and execution environment shall
 abort. If \nonterminal{assertion-target} is not \terminal{null} and the value
 of \nonterminal{cast-expression} equals null, a diagnostic message shall be
 printed and the execution environment shall abort. The result type of a type
-assertion with \terminal{null} as \nonterminal{assertion-target} shall be null.
-The result type of other type assertions shall be \nonterminal{type}.
+assertion with \terminal{null} as \nonterminal{assertion-target} shall be the
+null type. The result type of other type assertions shall be \nonterminal{type}.
 
 \specsubsubitem The fourth form is a \textit{type test}. In this form, The
 result type is \terminal{bool}, and shall be \terminal{true} if and only if the
@@ -2035,7 +2035,7 @@ Signed integer types & Signed integer types of equal or lower width \\
 Unsigned integer types & Unsigned integer types of equal or lower width \\
 Floating point types & Any floating point type of equal or lower width \\
 Nullable pointer types & Non-nullable pointer type of the same secondary type \\
-Nullable pointer types & \terminal{null} \\
+Nullable pointer types & the null type \\
 Slice types & Array type of the same secondary type and definite length \\
 Slice types & Pointer to array type of the same secondary type and definite length \\
 \terminal{[}\terminal{]}\terminal{opaque} & Slice types \\
@@ -2412,7 +2412,7 @@ each operand.
 
 \specsubitem
 Expressions involving \terminal{uintptr} and \terminal{size} promote to
-\terminal{uintptr}, expressions involving \terminal{uintptr} and \terminal{null}
+\terminal{uintptr}, expressions involving \terminal{uintptr} and the null type
 promote to \terminal{uintptr}, and expressions involving \terminal{uintptr} and
 a pointer type promote to that pointer type. All other expressions involving
 \terminal{uintptr} shall cause the translation environment to print a diagnostic
@@ -2427,7 +2427,7 @@ For expressions involving floating point types, \terminal{f32} may be promoted
 to \terminal{f64}.
 
 \specsubitem
-For expressions involving pointer types, \terminal{null} may be promoted to any
+For expressions involving pointer types, the null type may be promoted to any
 nullable pointer type, and a non-nullable pointer type may be promoted to
 a nullable pointer type with the same secondary type. Any pointer type may be
 promoted to an \terminal{opaque} pointer.
@@ -2523,13 +2523,13 @@ perform the following reductions in order:
 \item Remove all pointer types such that an equivalent nullable pointer type
 	exists
 \item Remove all mutable types such that an equivalent constant type exists
-\item If \terminal{null} and exactly one pointer type remain, replace both with
-	an equivalent nullable pointer type
+\item If the null type and exactly one pointer type remain, replace both with an
+	equivalent nullable pointer type
 \end{enumerate}
 
 \specsubitem
-If \terminal{null} and at least one other type remain after these reductions,
-the translation phase shall print a diagnostic message and abort.
+If the null type and at least one other type remain after these reductions, the
+translation phase shall print a diagnostic message and abort.
 
 \specsubitem
 If exactly one type remains, it shall be the result of the result type reduction
