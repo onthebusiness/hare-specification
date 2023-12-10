@@ -111,26 +111,26 @@ If an operation on an integer type would cause the result to overflow, it is
 truncated towards the least significant bit.
 
 \specsubsubitem
-The width in bits of \nonterminal{i8}, \nonterminal{i16}, \nonterminal{i32},
-\nonterminal{i64}, \nonterminal{u8}, \nonterminal{u16}, \nonterminal{u32}, and
-\nonterminal{u64} are specified by the numeric suffix. Of those, types prefixed
-with \terminal{u} are unsigned, and those prefixed with \terminal{i} are signed.
+The width in bits of \terminal{i8}, \terminal{i16}, \terminal{i32},
+\terminal{i64}, \terminal{u8}, \terminal{u16}, \terminal{u32}, and
+\terminal{u64} are specified by the numeric suffix. Of those, types prefixed
+with \code{u} are unsigned, and those prefixed with \code{i} are signed.
 
 \specsubsubitem
-The width of \nonterminal{int} and \nonterminal{uint} are
-implementation-defined. \nonterminal{int} shall be signed, and
-\nonterminal{uint} shall be unsigned. Both types shall have the same width,
-which, in bits, shall be a power of two no smaller than 32.
+The width of \terminal{int} and \terminal{uint} are implementation-defined.
+\terminal{int} shall be signed, and \terminal{uint} shall be unsigned. Both
+types shall have the same width, which, in bits, shall be a power of two no
+smaller than 32.
 
 \specsubsubitem
-The width of \nonterminal{size} is implementation-defined. It shall be unsigned
-and shall be able to represent the maximum length of an array type. The width in
+The width of \terminal{size} is implementation-defined. It shall be unsigned and
+shall be able to represent the maximum length of an array type. The width in
 bits shall be a power of two.
 
 \specsubsubitem
-The width of \nonterminal{uintptr} is implementation-defined. It shall be able
-to represent the value of any \nonterminal{pointer-type} (including
-\textit{null}). It shall be unsigned.
+The width of \terminal{uintptr} is implementation-defined. It shall be able to
+represent the value of any \nonterminal{pointer-type} (including \textit{null}).
+It shall be unsigned.
 
 \specsubsubitem
 The alignment of integer types shall be equal to their size in octets.
@@ -143,18 +143,18 @@ The default value of an integer type shall be zero.
 \begin{tabular}{r | l l l}
 Type & Width in bits & Minimum value & Maximum value \\
 \hline
-\nonterminal{i8} & 8 & -128 & 127 \\
-\nonterminal{i16} & 16 & -32768 & 32767 \\
-\nonterminal{i32} & 32 & -2147483648 & 2147483647 \\
-\nonterminal{i64} & 64 & -9223372036854775808 & 9223372036854775807 \\
-\nonterminal{u8} & 8 & 0 & 255 \\
-\nonterminal{u16} & 16 & 0 & 65535 \\
-\nonterminal{u32} & 32 & 0 & 4294967295 \\
-\nonterminal{u64} & 64 & 0 & 18446744073709551615 \\
-\nonterminal{int} & $\ge32$ & $\leq-2147483648$ & $\geq2147483647$ \\
-\nonterminal{uint} & $\ge32$ & 0 & $\geq4294967295$ \\
-\nonterminal{size} & $\ast$ & 0 & $\ast$ \\
-\nonterminal{uintptr} & $\ast$ & 0 & $\ast$ \\
+\terminal{i8} & 8 & -128 & 127 \\
+\terminal{i16} & 16 & -32768 & 32767 \\
+\terminal{i32} & 32 & -2147483648 & 2147483647 \\
+\terminal{i64} & 64 & -9223372036854775808 & 9223372036854775807 \\
+\terminal{u8} & 8 & 0 & 255 \\
+\terminal{u16} & 16 & 0 & 65535 \\
+\terminal{u32} & 32 & 0 & 4294967295 \\
+\terminal{u64} & 64 & 0 & 18446744073709551615 \\
+\terminal{int} & $\ge32$ & $\leq-2147483648$ & $\geq2147483647$ \\
+\terminal{uint} & $\ge32$ & 0 & $\geq4294967295$ \\
+\terminal{size} & $\ast$ & 0 & $\ast$ \\
+\terminal{uintptr} & $\ast$ & 0 & $\ast$ \\
 \end{tabular}
 
 $\ast$ implementation-defined
