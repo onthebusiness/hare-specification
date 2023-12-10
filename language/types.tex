@@ -762,8 +762,10 @@ effects (see \subsubitemref{Program execution}{1}).
 
 \specsubsubitem
 The attributes of a function type are its \textit{result type} and
-\textit{input parameters}. A function type must have one result type, and zero
-or more parameters. Each \nonterminal{name} shall be unique.
+\textit{parameters}. A function type must have one result type, and zero or more
+parameters. Within a list of \nonterminal{parameters}, no two parameters which
+use the \nonterminal{name} form may have the same name. The type of every
+parameter shall have a definite size.
 
 \specsubsubitem
 If the second form of \nonterminal{parameter-list} is used, the final parameter of
