@@ -455,12 +455,12 @@ is the sum of $S$ for $S = O+Z$ among its fields, where $O$ is that
 field's offset and $Z$ is that field's size.
 
 \specsubsubitem
-The default value of a struct or union type shall be defined as a value whose
-fields assume the default values of their respective types. If two or more
-fields have overlapping storage (as defined by the bounds of their offsets and
-size), and any of their types does not have a default value, the default value
-of all of these fields shall be undefined. If any field's default value is
-undefined, the struct or union type's default value shall also be undefined.
+The default value of a struct type shall be defined as a value whose fields
+assume the default values of their respective types. If any field's default
+value is undefined, the struct type's default value shall also be undefined.
+
+\specsubsubitem
+The default value of a union type shall be undefined.
 
 \specsubsubitem
 If the \nonterminal{struct-union-type} form of \nonterminal{struct-union-field}
