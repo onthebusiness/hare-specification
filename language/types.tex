@@ -415,8 +415,9 @@ field's type and which is greater than the offset of the previous field plus the
 size of the previous field. The implementation shall add \textit{padding} to
 meet the alignment requirements of struct fields. For a union type, the offset
 of all members is zero. Padding shall additionally be added to the end of a
-struct type whose alignment is non-zero, such that the total size of the struct
-type modulo its alignment is zero.
+struct or union type whose alignment is non-zero, such that the total size of
+the struct or union type modulo its alignment is zero. A struct or union type's
+alignment is the maximum alignment among its fields.
 
 \specsubsubitem
 For a struct type using the \terminal{@packed} modifier, the offset of each
@@ -448,11 +449,6 @@ shall have an integer type and a positive or zero value.
 \specsubsubitem
 The \nonterminal{offset-specifier} shall not be given for a \terminal{union}
 type.
-
-\specsubsubitem
-A union type's size is the maximum size among its fields. A struct type's size
-is the sum of $S$ for $S = O+Z$ among its fields, where $O$ is that
-field's offset and $Z$ is that field's size.
 
 \specsubsubitem
 The default value of a struct type shall be defined as a value whose fields
