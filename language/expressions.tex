@@ -1077,11 +1077,15 @@ the slice object's \code{length} field, each item is placed at $N+L-H$. It shall
 then subtract $H-L$ from the value of the slice object's \code{length} field.
 
 \specsubsubitem
-Unless the \terminal{static} form is used, the execution environment may
-decrease the slice object's capacity, re-allocating its data field if necessary,
-in order to reclaim unused memory. This re-allocation, if performed, shall not
-fail. The slice object shall be updated to reflect the new capacity if
-necessary.
+If the \terminal{static} form is used, the slice object's capacity shall not be
+modified, and its data shall not be reallocated. Otherwise, the execution
+environment may decrease the slice object's capacity, re-allocating its data if
+necessary. This re-allocation, if performed, shall not fail. The slice object
+shall be updated to reflect the new capacity if necessary. If a
+non-\terminal{static} \nonterminal{delete-expression} sets the value of the
+slice object's \code{length} field to zero, the \code{capacity} field's value
+shall also be set to zero, and the array object referred to by its \code{data}
+field shall be freed.
 
 \specsubsection{Error propagation}
 
